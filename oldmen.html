@@ -1,9 +1,10 @@
+
 <!DOCTYPE html>
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Хороший, плохой, злой | Онлайн кинотеатр</title>
+<title>Онлайн кинотеатр</title>
 
 <style>
 body{
@@ -11,6 +12,7 @@ margin:0;
 background:#0a0000;
 color:#eee;
 font-family:Arial;
+overflow-x:hidden;
 }
 
 .wrapper{
@@ -18,25 +20,73 @@ width:60%;
 margin:0 auto;
 }
 
-/* Кадры сверху /
-.gallery{
-display:flex;
-gap:10px;
-margin-top:20px;
+/* ===== СЛАЙДЕР ===== /
+
+.slider{
+position:relative;
+margin-top:30px;
+overflow:hidden;
+border-radius:10px;
 }
 
-.gallery img{
-width:32%;
-border-radius:8px;
-box-shadow:0 0 15px #900;
+.slides{
+display:flex;
+transition:0.5s;
+}
+
+.slides img{
+width:100%;
+cursor:pointer;
 transition:0.3s;
 }
 
-.gallery img:hover{
+.slides img:hover{
 transform:scale(1.05);
 }
 
-/ Верх /
+.prev, .next{
+position:absolute;
+top:50%;
+transform:translateY(-50%);
+background:#330000;
+border:none;
+color:white;
+font-size:20px;
+padding:10px;
+cursor:pointer;
+}
+
+.prev{ left:10px; }
+.next{ right:10px; }
+
+/ ===== FULLSCREEN VIEW ===== /
+
+.lightbox{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,0.95);
+display:none;
+justify-content:center;
+align-items:center;
+z-index:999;
+}
+
+.lightbox img{
+max-width:90%;
+max-height:90%;
+animation:zoom 0.4s ease;
+}
+
+@keyframes zoom{
+from{ transform:scale(0.7); opacity:0; }
+to{ transform:scale(1); opacity:1; }
+}
+
+/ ===== ИНФО ===== /
+
 .top{
 display:flex;
 gap:30px;
@@ -49,12 +99,6 @@ border-radius:10px;
 box-shadow:0 0 20px #900;
 }
 
-.description{
-margin-top:30px;
-line-height:1.6;
-}
-
-/ Видео /
 iframe{
 width:100%;
 height:500px;
@@ -63,7 +107,8 @@ border-radius:10px;
 box-shadow:0 0 25px #900;
 }
 
-/ Комментарии */
+/ ===== КОММЕНТАРИИ ===== /
+
 .comments{
 margin-top:50px;
 }
@@ -83,6 +128,7 @@ border:1px solid #aa0000;
 padding:5px 10px;
 cursor:pointer;
 border-radius:4px;
+margin-top:5px;
 }
 
 button:hover{
@@ -90,12 +136,13 @@ background:#660000;
 }
 
 input{
-padding:5px;
+padding:6px;
 margin:5px 0;
 background:#1a0000;
 color:white;
 border:1px solid #900;
 border-radius:4px;
+width:100%;
 }
 </style>
 </head>
@@ -104,16 +151,29 @@ border-radius:4px;
 
 <div class="wrapper">
 
-<!-- КРУТЫЕ МОМЕНТЫ -->
-<div class="gallery">
-<img src="https://i.imgur.com/3ZQ3ZQn.jpg">
-<img src="https://i.imgur.com/6b7Z4Zg.jpg">
-<img src="https://i.imgur.com/Lx3K8rY.jpg">
+<!-- ===== СЛАЙДЕР КАДРОВ ===== -->
+
+<div class="slider">
+<div class="slides" id="slides">
+<img src="images/shot1.jpg" onclick="openLightbox(this.src)">
+<img src="images/shot2.jpg" onclick="openLightbox(this.src)">
+<img src="images/shot3.jpg" onclick="openLightbox(this.src)">
 </div>
+<button class="prev" onclick="moveSlide(-1)">❮</button>
+<button class="next" onclick="moveSlide(1)">❯</button>
+</div>
+
+<!-- ===== LIGHTBOX ===== -->
+
+<div class="lightbox" id="lightbox" onclick="closeLightbox()">
+<img id="lightboxImg">
+</div>
+
+<!-- ===== ИНФО ===== -->
 
 <div class="top">
 <div class="poster">
-<img src="https://upload.wikimedia.org/wikipedia/en/4/45/Good_the_bad_and_the_ugly_poster.jpg">
+<img src="images/poster.jpg">
 </div>
 
 <div>
@@ -121,30 +181,20 @@ border-radius:4px;
 <p><b>Год:</b> 1966</p>
 <p><b>Страна:</b> Италия, Испания</p>
 <p><b>Режиссёр:</b> Серджо Леоне</p>
-<p><b>Актёры:</b> Клинт Иствуд, Ли Ван Клиф, Илай Уоллак</p>
 <p><b>IMDb:</b> 8.8</p>
-<p><b>КиноПоиск:</b> 8.6</p>
 </div>
 </div>
 
-<div class="description">
-Во времена Гражданской войны трое стрелков охотятся за кладом.
-Каждый из них — воплощение своей философии выживания.
-Фильм стал вершиной спагетти-вестерна, а финальная дуэль —
-одной из величайших сцен в истории кино.
-</div>
+<!-- ===== ФИЛЬМ ===== -->
 
-<!-- ВСТРОЕННЫЙ ФИЛЬМ -->
-<iframe 
-src="https://www.youtube.com/embed/0Bwxz16-T04" 
-allowfullscreen>
-</iframe>
+<iframe src="https://www.youtube.com/embed/0Bwxz16-T04" allowfullscreen></iframe>
 
-<!-- КОММЕНТАРИИ -->
+<!-- ===== КОММЕНТАРИИ ===== -->
+
 <div class="comments">
 <h3>Комментарии</h3>
 
-<input type="text" id="username" placeholder="Ваше имя"><br>
+<input type="text" id="username" placeholder="Ваше имя">
 <input type="text" id="commentInput" placeholder="Ваш комментарий">
 <button onclick="addComment()">Отправить</button>
 
@@ -154,8 +204,35 @@ allowfullscreen>
 </div>
 
 <script>
+
+/ ===== СЛАЙДЕР ===== /
+
+let index=0;
+
+function moveSlide(step){
+let slides=document.getElementById("slides");
+let total=slides.children.length;
+index+=step;
+if(index<0) index=total-1;
+if(index>=total) index=0;
+slides.style.transform="translateX(-"+index*100+"%)";
+}
+
+/ ===== LIGHTBOX ===== /
+
+function openLightbox(src){
+document.getElementById("lightboxImg").src=src;
+document.getElementById("lightbox").style.display="flex";
+}
+
+function closeLightbox(){
+document.getElementById("lightbox").style.display="none";
+}
+
+/ ===== КОММЕНТАРИИ ===== */
+
 function loadComments(){
-let comments = JSON.parse(localStorage.getItem("comments2")) || [];
+let comments=JSON.parse(localStorage.getItem("cinemaComments"))||[];
 comments.forEach(renderComment);
 }
 
@@ -164,10 +241,10 @@ let name=document.getElementById("username").value.trim();
 let text=document.getElementById("commentInput").value.trim();
 if(!name||!text)return;
 
-let comment={name,text,likes:0,dislikes:0,replies:[]};
-let comments=JSON.parse(localStorage.getItem("comments2"))||[];
+let comment={name,text,likes:0,dislikes:0};
+let comments=JSON.parse(localStorage.getItem("cinemaComments"))||[];
 comments.push(comment);
-localStorage.setItem("comments2",JSON.stringify(comments));
+localStorage.setItem("cinemaComments",JSON.stringify(comments));
 renderComment(comment);
 document.getElementById("commentInput").value="";
 }
@@ -175,25 +252,21 @@ document.getElementById("commentInput").value="";
 function renderComment(c){
 let div=document.createElement("div");
 div.className="comment";
-
 div.innerHTML=`
 <b>${c.name}</b>: ${c.text}<br>
 <button onclick="like(this)">👍 ${c.likes}</button>
 <button onclick="dislike(this)">👎 ${c.dislikes}</button>
 `;
-
 document.getElementById("commentList").appendChild(div);
 }
 
 function like(btn){
-let num=parseInt(btn.innerText.split(" ")[1]);
-num++;
+let num=parseInt(btn.innerText.split(" ")[1])+1;
 btn.innerText="👍 "+num;
 }
 
 function dislike(btn){
-let num=parseInt(btn.innerText.split(" ")[1]);
-num++;
+let num=parseInt(btn.innerText.split(" ")[1])+1;
 btn.innerText="👎 "+num;
 }
 
