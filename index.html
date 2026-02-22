@@ -1,189 +1,46 @@
-<<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Хороший, плохой, злой (1966) | Ковбойский мини-Netflix</title>
+<title>Хороший, плохой, злой (1966) | Ковбойский кинотеатр</title>
 
 <style>
-body{
-    margin:0;
-    font-family:'Arial Black', sans-serif;
-    background:#000000;
-    color:#E32636;
-    overflow-x:hidden;
-}
-
-/* ===== Обертка ===== /
-.wrapper{
-    width:65%;
-    margin:0 auto;
-    padding-bottom:50px;
-}
-
-}
-.slides{
-    display:flex;
-    transition:0.5s;
-    height:100%;
-}
-.slides img{
-    width:32%;
-    margin-right:2%;
-    border-radius:5px;
-    cursor:pointer;
-    transition:0.3s;
-    border:2px solid #550000;
-}
-.slides img:hover{
-    transform:scale(1.05);
-    border-color:#ff6600;
-}
-.prev, .next{
-    position:absolute;
-    top:50%;
-    transform:translateY(-50%);
-    background:#330000;
-    border:none;
-    color:white;
-    font-size:20px;
-    padding:8px;
-    cursor:pointer;
-    border-radius:5px;
-}
-.prev{ left:5px; }
-.next{ right:5px; }
-
-/ ===== Fullscreen Lightbox ===== /
-.lightbox{
-    position:fixed;
-    top:0;
-    left:0;
-    width:100%;
-    height:100%;
-    background:rgba(0,0,0,0.95);
-    display:none;
-    justify-content:center;
-    align-items:center;
-    z-index:999;
-}
-.lightbox img{
-    max-width:90%;
-    max-height:90%;
-    animation:zoom 0.4s ease;
-}
-@keyframes zoom{
-    from{ transform:scale(0.7); opacity:0; }
-    to{ transform:scale(1); opacity:1; }
-}
-
-/ ===== Информация о фильме ===== /
-.top{
-    display:flex;
-    gap:30px;
-    margin-top:30px;
-}
-.poster img{
-    width:250px;
-    border-radius:10px;
-    box-shadow:0 0 20px #900;
-}
-
-/ ===== Описание ===== /
-.description{
-    margin-top:30px;
-    line-height:1.6;
-    padding:10px;
-    background:#220000;
-    border-radius:10px;
-    box-shadow:0 0 15px #900;
-}
-
-/ ===== Видео ===== /
-.video-container{
-    position:relative;
-    margin-top:30px;
-}
-.video-container iframe{
-    width:100%;
-    max-height:500px;
-    border-radius:10px;
-    box-shadow:0 0 25px #900;
-}
-
-/ ===== Контролы ===== /
-.controls{
-    display:flex;
-    gap:10px;
-    margin-top:10px;
-    flex-wrap:wrap;
-}
-button, select{
-    padding:8px 12px;
-    background:#330000;
-    color:white;
-    border:1px solid #aa0000;
-    border-radius:5px;
-    cursor:pointer;
-}
-button:hover, select:hover{
-    background:#660000;
-}
-input[type="range"]{
-    accent-color:#aa0000;
-}
-
-/ ===== Комментарии ===== /
-.comments{
-    margin-top:50px;
-}
-.comment{
-    background:#140000;
-    padding:10px;
-    margin-top:15px;
-    border-left:4px solid #aa0000;
-    border-radius:5px;
-}
-.comment .avatar{
-    width:30px;
-    height:30px;
-    vertical-align:middle;
-    border-radius:3px;
-    margin-right:5px;
-}
-
-/ ===== Голосование звезд ===== /
-.stars{
-    margin-top:10px;
-}
-.star{
-    font-size:20px;
-    color:#550000;
-    cursor:pointer;
-}
-.star.selected{
-    color:gold;
-}
-
-/ ===== Ковбойские элементы ===== /
-.cowboy-decor{
-    position:absolute;
-    top:10px;
-    right:10px;
-    width:50px;
-    animation:spin 5s linear infinite;
-}
-@keyframes spin{
-    from{transform:rotate(0deg);}
-    to{transform:rotate(360deg);}
-}
+body{margin:0;font-family:'Arial Black',sans-serif;background:#1b0000;color:#eee;overflow-x:hidden;}
+.wrapper{width:65%;margin:0 auto;padding-bottom:50px;position:relative;}
+.slider{position:relative;margin-top:20px;overflow:hidden;border-radius:10px;height:180px;background:#220000;padding:10px;box-shadow:0 0 15px #900;}
+.slides{display:flex;transition:0.5s;height:100%;}
+.slides img{width:32%;margin-right:2%;border-radius:5px;cursor:pointer;transition:0.3s;border:2px solid #550000;}
+.slides img:hover{transform:scale(1.05);border-color:#ff6600;}
+.prev,.next{position:absolute;top:50%;transform:translateY(-50%);background:#330000;border:none;color:white;font-size:20px;padding:8px;cursor:pointer;border-radius:5px;}
+.prev{left:5px;} .next{right:5px;}
+.lightbox{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.95);display:none;justify-content:center;align-items:center;z-index:999;}
+.lightbox img{max-width:90%;max-height:90%;animation:zoom 0.4s ease;}
+@keyframes zoom{from{transform:scale(0.7);opacity:0;} to{transform:scale(1);opacity:1;}}
+.top{display:flex;gap:30px;margin-top:30px;}
+.poster img{width:250px;border-radius:10px;box-shadow:0 0 20px #900;}
+.description{margin-top:30px;line-height:1.6;padding:10px;background:#220000;border-radius:10px;box-shadow:0 0 15px #900;}
+.video-container{position:relative;margin-top:30px;}
+.video-container iframe{width:100%;max-height:500px;border-radius:10px;box-shadow:0 0 25px #900;}
+.controls{display:flex;gap:10px;margin-top:10px;flex-wrap:wrap;}
+button, select{padding:8px 12px;background:#330000;color:white;border:1px solid #aa0000;border-radius:5px;cursor:pointer;}
+button:hover, select:hover{background:#660000;}
+input[type="range"]{accent-color:#aa0000;}
+.comments{margin-top:50px;}
+.comment{background:#140000;padding:10px;margin-top:15px;border-left:4px solid #aa0000;border-radius:5px;}
+.comment .avatar{width:30px;height:30px;vertical-align:middle;border-radius:3px;margin-right:5px;}
+.stars{margin-top:10px;}
+.star{font-size:20px;color:#550000;cursor:pointer;}
+.star.selected{color:gold;}
+.cowboy-decor{position:absolute;top:10px;right:10px;width:50px;animation:spin 5s linear infinite;}
+@keyframes spin{from{transform:rotate(0deg);} to{transform:rotate(360deg);}}
 </style>
 </head>
 
 <body>
 <div class="wrapper">
 
-<!-- ===== Слайдер кадров ===== -->
+<!-- Слайдер -->
 <div class="slider">
 <div class="slides" id="slides">
 <img src="images/shot1.jpg" onclick="openLightbox(this.src)">
@@ -198,11 +55,10 @@ input[type="range"]{
 <img id="lightboxImg">
 </div>
 
-<!-- ===== Постер и инфо ===== -->
+<!-- Постер и инфо -->
 <div class="top">
-<div class="хороший
-    ">
-<img src="images/хороший.jpg">
+<div class="poster">
+<img src="images/poster.jpg">
 </div>
 <div>
 <h2>Хороший, плохой, злой (1966)</h2>
@@ -217,55 +73,55 @@ input[type="range"]{
 </div>
 
 <div class="description">
-Фильм рассказывает историю трёх охотников за сокровищами во времена Гражданской войны в США. Каждый персонаж — воплощение своей философии выживания: один честный, другой безжалостный, третий хитроумный. Фильм стал вершиной спагетти-вестерна, а финальная дуэль — одной из величайших сцен в истории кино. Длительность фильма — 2 часа 58 минут. Главные герои: Блонди (Хороший), Ангустио (Плохой), Туко (Злой). Смотреть онлайн «Хороший, плохой, злой (1966)» в хорошем качестве.
+Фильм рассказывает историю трёх охотников за сокровищами во времена Гражданской войны в США. Каждый персонаж — воплощение своей философии выживания: один честный, другой безжалостный, третий хитроумный. Длительность фильма — 2 часа 58 минут. Главные герои: Блонди (Хороший), Ангустио (Плохой), Туко (Злой). Смотреть онлайн в хорошем качестве.
 </div>
 
-<!-- ===== Фильм через iframe ===== -->
+<!-- Видео -->
 <div class="video-container">
-<iframe src="https://www.youtube.com/embed/0Bwxz16-T04" allowfullscreen></iframe>
+<iframe id="movie" src="https://www.youtube.com/embed/0Bwxz16-T04" allowfullscreen></iframe>
 </div>
 
-<!-- ===== Контролы ===== -->
+<!-- Контролы -->
 <div class="controls">
-<button onclick="alert('Пауза')">⏸ Пауза</button>
-<button onclick="alert('Открыть/Закрыть окно')">🖥 Открыть/Закрыть</button>
-<select>
-<option>360p</option>
-<option>480p</option>
-<option selected>720p</option>
-<option>1080p</option>
+<button onclick="pauseMovie()">⏸ Пауза</button>
+<button onclick="toggleMovie()">🖥 Открыть/Закрыть</button>
+<select id="qualitySelect" onchange="changeQuality()">
+<option value="360">360p</option>
+<option value="480">480p</option>
+<option value="720" selected>720p</option>
+<option value="1080">1080p</option>
 </select>
-<button>Русские субтитры</button>
-<input type="range" min="0" max="1" step="0.1" value="1">
+<button onclick="alert('Русские субтитры пока нет')">Русские субтитры</button>
+<input type="range" min="0" max="1" step="0.1" value="1" onchange="changeVolume(this.value)">
 </div>
 
-<!-- ===== Голосование и просмотры ===== -->
+<!-- Голосование -->
 <div class="stars">
-<span class="star" onclick="rate(1)">★</span>
-<span class="star" onclick="rate(2)">★</span>
-<span class="star" onclick="rate(3)">★</span>
-<span class="star" onclick="rate(4)">★</span>
-<span class="star" onclick="rate(5)">★</span>
-<span id="votes"> (0 голосов) </span>
+<span class="star" data-value="1">★</span>
+<span class="star" data-value="2">★</span>
+<span class="star" data-value="3">★</span>
+<span class="star" data-value="4">★</span>
+<span class="star" data-value="5">★</span>
+<span id="votes">(0 звезд)</span>
 </div>
 <p>Просмотры: <span id="views">0</span></p>
 
-<!-- ===== Комментарии ===== -->
+<!-- Комментарии -->
 <div class="comments">
 <h3>Комментарии</h3>
 <input type="text" id="username" placeholder="Ваше имя"><br>
 <input type="text" id="commentInput" placeholder="Ваш комментарий">
 <button onclick="addComment()">Отправить</button>
-
 <div id="commentList"></div>
 </div>
 
-<!-- ===== Ковбойская декорация ===== -->
+<!-- Ковбойская декорация -->
 <img class="cowboy-decor" src="https://i.imgur.com/3sX4T3E.png" alt="Ковбой">
 
 </div>
+
 <script>
-/* ===== Слайдер ===== */
+// ===== Слайдер =====
 let index=0;
 function moveSlide(step){
   let slides=document.getElementById("slides");
@@ -275,85 +131,67 @@ function moveSlide(step){
   if(index>=total) index=0;
   slides.style.transform="translateX(-"+index*100+"%)";
 }
-
-/* ===== Lightbox ===== */
 function openLightbox(src){
   document.getElementById("lightboxImg").src=src;
   document.getElementById("lightbox").style.display="flex";
 }
-function closeLightbox(){
-  document.getElementById("lightbox").style.display="none";
-}
+function closeLightbox(){document.getElementById("lightbox").style.display="none";}
 
-/* ===== Голосование 5★ с сохранением ===== */
-let stars = document.querySelectorAll('.star');
-
-function loadRating(){
-  let rating = localStorage.getItem('movieRating');
-  if(rating){
-    stars.forEach((star,i)=>{
-      star.classList.toggle('selected', i < parseInt(rating));
-    });
-    document.getElementById('votes').innerText = `(${rating} звезд)`;
-  }
-}
-
-stars.forEach((star,i)=>{
-  star.addEventListener('click', ()=>{
-    localStorage.setItem('movieRating', i+1);
-    loadRating();
-  });
-});
-
-loadRating();
-
-/* ===== Просмотры ===== */
+// ===== Просмотры =====
 let views=localStorage.getItem("views")||0;
 views=parseInt(views)+1;
 document.getElementById("views").innerText=views;
 localStorage.setItem("views",views);
 
-/* ===== Комментарии ===== */
-let comments = JSON.parse(localStorage.getItem("cinemaComments")) || [];
+// ===== Голосование =====
+let stars = document.querySelectorAll('.star');
+function loadRating(){
+  let rating = localStorage.getItem('movieRating');
+  stars.forEach((star,i)=>{star.classList.toggle('selected', i < (rating||0));});
+  document.getElementById('votes').innerText = `(${rating||0} звезд)`;
+}
+stars.forEach((star)=>{
+  star.addEventListener('click',()=>{
+    let val = star.getAttribute('data-value');
+    localStorage.setItem('movieRating', val);
+    loadRating();
+  });
+});
+loadRating();
 
+// ===== Комментарии =====
+let comments = JSON.parse(localStorage.getItem("cinemaComments"))||[];
 function renderComments(){
   const container = document.getElementById('commentList');
   container.innerHTML = '';
   comments.forEach((c,index)=>{
     let div = document.createElement('div');
-    div.className = "comment";
-    div.innerHTML = `
-      <img class="avatar" src="https://i.imgur.com/7y9E9Hl.png">
-      <b>${c.name}</b>: ${c.text}<br>
-      <button onclick="like(${index})">👍 ${c.likes}</button>
-      <button onclick="dislike(${index})">👎 ${c.dislikes}</button>
-    `;
+    div.className="comment";
+    div.innerHTML=`<img class="avatar" src="https://i.imgur.com/7y9E9Hl.png"><b>${c.name}</b>: ${c.text}<br>
+    <button onclick="like(${index})">👍 ${c.likes}</button>
+    <button onclick="dislike(${index})">👎 ${c.dislikes}</button>`;
     container.appendChild(div);
   });
 }
-
 function addComment(){
-  let name = document.getElementById("username").value.trim();
-  let text = document.getElementById("commentInput").value.trim();
-  if(!name||!text) return;
+  let name=document.getElementById("username").value.trim();
+  let text=document.getElementById("commentInput").value.trim();
+  if(!name||!text)return;
   comments.push({name,text,likes:0,dislikes:0});
-  localStorage.setItem("cinemaComments", JSON.stringify(comments));
+  localStorage.setItem("cinemaComments",JSON.stringify(comments));
   renderComments();
   document.getElementById("commentInput").value='';
 }
-
-function like(index){
-  comments[index].likes++;
-  localStorage.setItem("cinemaComments", JSON.stringify(comments));
-  renderComments();
-}
-
-function dislike(index){
-  comments[index].dislikes++;
-  localStorage.setItem("cinemaComments", JSON.stringify(comments));
-  renderComments();
-}
-
-/* ===== Загрузка при старте ===== */
+function like(index){comments[index].likes++;localStorage.setItem("cinemaComments",JSON.stringify(comments));renderComments();}
+function dislike(index){comments[index].dislikes++;localStorage.setItem("cinemaComments",JSON.stringify(comments));renderComments();}
 renderComments();
+
+// ===== Управление iframe =====
+function pauseMovie(){let iframe=document.getElementById('movie');iframe.contentWindow.postMessage('{"event":"command","func":"pauseVideo","args":""}','*');}
+function toggleMovie(){let iframe=document.getElementById('movie');iframe.style.display=(iframe.style.display==='none')?'block':'none';}
+function changeVolume(v){let iframe=document.getElementById('movie');iframe.contentWindow.postMessage(`{"event":"command","func":"setVolume","args":[${v*100}]}`,'*');}
+function changeQuality(){alert('Изменение качества работает через YouTube плеер автоматически');}
 </script>
+
+</body>
+</html>
