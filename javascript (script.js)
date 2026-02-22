@@ -1,0 +1,58 @@
+// ======= Рейтинг =======
+let stars = document.querySelectorAll("#stars span");
+let averageDisplay = document.getElementById("average");
+
+let ratings = JSON.parse(localStorage.getItem("ratings")) || [];
+
+function updateAverage() {
+    if (ratings.length === 0) {
+        averageDisplay.textContent = "0";
+        return;
+    }
+    let sum = ratings.reduce((a, b) => a + b, 0);
+    averageDisplay.textContent = (sum / ratings.length).toFixed(1);
+}
+
+stars.forEach(star => {
+    star.addEventListener("click", function() {
+        let value = parseInt(this.dataset.value);
+        ratings.push(value);
+        localStorage.setItem("ratings", JSON.stringify(ratings));
+        updateAverage();
+    });
+});
+
+updateAverage();
+
+// ======= Комментарии =======
+let commentList = document.getElementById("commentList");
+let comments = JSON.parse(localStorage.getItem("comments")) || [];
+
+function renderComments() {
+    commentList.innerHTML = "";
+    comments.forEach(c => {
+        let div = document.createElement("div");
+        div.innerHTML = "<b>" + c.name + ":</b> " + c.text;
+        commentList.appendChild(div);
+    });
+}
+
+function addComment() {
+    let name = document.getElementById("username").value;
+    let text = document.getElementById("commentInput").value;
+
+    if (name === "" || text === "") return;
+
+    comments.push({ name, text });
+    localStorage.setItem("comments", JSON.stringify(comments));
+
+    document.getElementById("commentInput").value = "";
+    renderComments();
+}
+
+renderComments();
+
+// ======= Убираем контролы видео =======
+let video = document.querySelector(".player");
+video.controls = false;
+video.removeAttribute("controls");
