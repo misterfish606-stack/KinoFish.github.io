@@ -43,9 +43,9 @@ input[type="range"]{accent-color:#aa0000;}
 <!-- Слайдер -->
 <div class="slider">
 <div class="slides" id="slides">
-<img src="images/злой.jpg" onclick="openLightbox(this.src)">
-<img src="images/хороший.jpg" onclick="openLightbox(this.src)">
-<img src="images/плохой.jpg" onclick="openLightbox(this.src)">
+<img src="images/shot1.jpg" onclick="openLightbox(this.src)">
+<img src="images/shot2.jpg" onclick="openLightbox(this.src)">
+<img src="images/shot3.jpg" onclick="openLightbox(this.src)">
 </div>
 <button class="prev" onclick="moveSlide(-1)">❮</button>
 <button class="next" onclick="moveSlide(1)">❯</button>
@@ -121,69 +121,77 @@ input[type="range"]{accent-color:#aa0000;}
 </div>
 
 <script>
-// ===== Комментарии с ответами =====
-let comments = JSON.parse(localStorage.getItem("cinemaComments")) || [];
+// ===== Слайдер =====
+let index=0;
+function moveSlide(step){
+  let slides=document.getElementById("slides");
+  let total=slides.children.length;
+  index+=step;
+  if(index<0) index=total-1;
+  if(index>=total) index=0;
+  slides.style.transform="translateX(-"+index*100+"%)";
+}
+function openLightbox(src){
+  document.getElementById("lightboxImg").src=src;
+  document.getElementById("lightbox").style.display="flex";
+}
+function closeLightbox(){document.getElementById("lightbox").style.display="none";}
 
-function renderComments() {
+// ===== Просмотры =====
+let views=localStorage.getItem("views")||0;
+views=parseInt(views)+1;
+document.getElementById("views").innerText=views;
+localStorage.setItem("views",views);
+
+// ===== Голосование =====
+let stars = document.querySelectorAll('.star');
+function loadRating(){
+  let rating = localStorage.getItem('movieRating');
+  stars.forEach((star,i)=>{star.classList.toggle('selected', i < (rating||0));});
+  document.getElementById('votes').innerText = `(${rating||0} звезд)`;
+}
+stars.forEach((star)=>{
+  star.addEventListener('click',()=>{
+    let val = star.getAttribute('data-value');
+    localStorage.setItem('movieRating', val);
+    loadRating();
+  });
+});
+loadRating();
+
+// ===== Комментарии =====
+let comments = JSON.parse(localStorage.getItem("cinemaComments"))||[];
+function renderComments(){
   const container = document.getElementById('commentList');
   container.innerHTML = '';
   comments.forEach((c,index)=>{
     let div = document.createElement('div');
-    div.className = "comment";
-    div.innerHTML = `
-      <img class="avatar" src="https://i.imgur.com/7y9E9Hl.png">
-      <b>${c.name}</b>: ${c.text}<br>
-      <button onclick="like(${index})">👍 ${c.likes}</button>
-      <button onclick="dislike(${index})">👎 ${c.dislikes}</button>
-      <button onclick="reply(${index})">💬 Ответить</button>
-      <div class="replies" id="replies-${index}" style="margin-left:20px;"></div>
-    `;
+    div.className="comment";
+    div.innerHTML=`<img class="avatar" src="https://i.imgur.com/7y9E9Hl.png"><b>${c.name}</b>: ${c.text}<br>
+    <button onclick="like(${index})">👍 ${c.likes}</button>
+    <button onclick="dislike(${index})">👎 ${c.dislikes}</button>`;
     container.appendChild(div);
-
-    // Рендерим ответы
-    if(c.replies){
-      c.replies.forEach((r,ri)=>{
-        let rdiv = document.createElement('div');
-        rdiv.className="comment";
-        rdiv.style.background="#220000";
-        rdiv.style.marginTop="5px";
-        rdiv.innerHTML=`<img class="avatar" src="https://i.imgur.com/7y9E9Hl.png"><b>${r.name}</b>: ${r.text}`;
-        document.getElementById(`replies-${index}`).appendChild(rdiv);
-      });
-    }
   });
 }
-
 function addComment(){
-  let name = document.getElementById("username").value.trim();
-  let text = document.getElementById("commentInput").value.trim();
-  if(!name || !text) return;
-  comments.push({name,text,likes:0,dislikes:0,replies:[]});
+  let name=document.getElementById("username").value.trim();
+  let text=document.getElementById("commentInput").value.trim();
+  if(!name||!text)return;
+  comments.push({name,text,likes:0,dislikes:0});
   localStorage.setItem("cinemaComments",JSON.stringify(comments));
   renderComments();
   document.getElementById("commentInput").value='';
 }
-
-// Лайки/дизлайки
-function like(index){comments[index].likes++; saveAndRender();}
-function dislike(index){comments[index].dislikes++; saveAndRender();}
-
-// Сохранение и перерендер
-function saveAndRender(){
-  localStorage.setItem("cinemaComments",JSON.stringify(comments));
-  renderComments();
-}
-
-// Ответ на комментарий
-function reply(index){
-  let replyText = prompt("Ваш ответ:");
-  let replyName = prompt("Ваше имя:");
-  if(!replyText || !replyName) return;
-  if(!comments[index].replies) comments[index].replies=[];
-  comments[index].replies.push({name:replyName,text:replyText});
-  saveAndRender();
-}
-
-// Инициализация
+function like(index){comments[index].likes++;localStorage.setItem("cinemaComments",JSON.stringify(comments));renderComments();}
+function dislike(index){comments[index].dislikes++;localStorage.setItem("cinemaComments",JSON.stringify(comments));renderComments();}
 renderComments();
+
+// ===== Управление iframe =====
+function pauseMovie(){let iframe=document.getElementById('movie');iframe.contentWindow.postMessage('{"event":"command","func":"pauseVideo","args":""}','*');}
+function toggleMovie(){let iframe=document.getElementById('movie');iframe.style.display=(iframe.style.display==='none')?'block':'none';}
+function changeVolume(v){let iframe=document.getElementById('movie');iframe.contentWindow.postMessage(`{"event":"command","func":"setVolume","args":[${v*100}]}`,'*');}
+function changeQuality(){alert('Изменение качества работает через YouTube плеер автоматически');}
 </script>
+
+</body>
+</html>
