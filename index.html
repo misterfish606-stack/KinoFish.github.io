@@ -6,39 +6,9 @@
 <title>Хороший, плохой, злой (1966) | Ковбойский кинотеатр</title>
 
 <style>
-bodybody::after {
-  content:"";
-  position:fixed;
-  top:0; left:0;
-  width:100%; height:100%;
-  pointer-events:none;
-  background:url('https://i.imgur.com/0aRkZsF.png') repeat; /* рабочая пыль */
-  opacity:0.15; /* чуть ярче для видимости */
-  z-index:50;
-  animation:moveDust 20s linear infinite;
-}
-
-@keyframes moveDust {
-  0% { background-position:0 0; }
-  100% { background-position:1000px 1000px; }
-}
-<img class="cowboy-decor" src="https://i.imgur.com/1p8rG6J.png" alt="Ковбойская шляпа">
-  .cowboy-decor {
-  position:fixed;      /* фиксируем в углу */
-  top:20px; 
-  right:20px;
-  width:60px;
-  z-index:1000;        /* поверх всего */
-  animation:spin 6s linear infinite;
-}
-
-@keyframes spin {
-  from { transform: rotate(0deg); }
-  to   { transform: rotate(360deg); }
-}
-
-  {margin:0;font-family:'Arial Black',sans-serif;background:#1b0000;color:#eee;overflow-x:hidden;}
+body{margin:0;font-family:'Arial Black',sans-serif;background:#1b0000;color:#eee;overflow-x:hidden;}
 .wrapper{width:65%;margin:0 auto;padding-bottom:50px;position:relative;}
+/* ===== Слайдер ===== */
 .slider{position:relative;margin-top:20px;overflow:hidden;border-radius:10px;height:180px;background:#220000;padding:10px;box-shadow:0 0 15px #900;}
 .slides{display:flex;transition:0.5s;height:100%;}
 .slides img{width:32%;margin-right:2%;border-radius:5px;cursor:pointer;transition:0.3s;border:2px solid #550000;}
@@ -48,15 +18,21 @@ bodybody::after {
 .lightbox{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.95);display:none;justify-content:center;align-items:center;z-index:999;}
 .lightbox img{max-width:90%;max-height:90%;animation:zoom 0.4s ease;}
 @keyframes zoom{from{transform:scale(0.7);opacity:0;} to{transform:scale(1);opacity:1;}}
+
+/* ===== Постер и описание ===== */
 .top{display:flex;gap:30px;margin-top:30px;}
 .poster img{width:250px;border-radius:10px;box-shadow:0 0 20px #900;}
 .description{margin-top:30px;line-height:1.6;padding:10px;background:#220000;border-radius:10px;box-shadow:0 0 15px #900;}
 .video-container{position:relative;margin-top:30px;}
 .video-container iframe{width:100%;max-height:500px;border-radius:10px;box-shadow:0 0 25px #900;}
+
+/* ===== Контролы ===== */
 .controls{display:flex;gap:10px;margin-top:10px;flex-wrap:wrap;}
 button, select{padding:8px 12px;background:#330000;color:white;border:1px solid #aa0000;border-radius:5px;cursor:pointer;}
 button:hover, select:hover{background:#660000;}
 input[type="range"]{accent-color:#aa0000;}
+
+/* ===== Комментарии ===== */
 .comments{margin-top:50px;}
 .comment{background:#140000;padding:10px;margin-top:15px;border-left:4px solid #aa0000;border-radius:5px;opacity:0;transform:translateY(10px);animation:fadeIn 0.5s forwards;}
 .comment .avatar{width:30px;height:30px;vertical-align:middle;border-radius:3px;margin-right:5px;}
@@ -66,9 +42,21 @@ input[type="range"]{accent-color:#aa0000;}
 .star{font-size:20px;color:#550000;cursor:pointer;}
 .star.selected{color:gold;}
 #avgRating{font-size:18px;color:gold;margin-bottom:10px;}
-body::after{content:"";position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;background:url('https://i.imgur.com/5b5v0xz.png') repeat;opacity:0.1;animation:moveDust 20s linear infinite;}
+
+/* ===== Пыль и шляпа ===== */
+body::after{
+  content:"";
+  position:fixed;top:0;left:0;width:100%;height:100%;
+  pointer-events:none;
+  background:url('https://i.imgur.com/0aRkZsF.png') repeat;
+  opacity:0.15;z-index:50;
+  animation:moveDust 20s linear infinite;
+}
 @keyframes moveDust{0%{background-position:0 0;}100%{background-position:1000px 1000px;}}
-.cowboy-decor{position:absolute;top:10px;right:10px;width:50px;animation:spin 5s linear infinite;}
+.cowboy-decor{
+  position:fixed;top:20px;right:20px;width:60px;z-index:1000;
+  animation:spin 6s linear infinite;
+}
 @keyframes spin{from{transform:rotate(0deg);} to{transform:rotate(360deg);}}
 </style>
 </head>
@@ -78,34 +66,34 @@ body::after{content:"";position:fixed;top:0;left:0;width:100%;height:100%;pointe
 
 <!-- Слайдер -->
 <div class="slider">
-<div class="slides" id="slides">
-<img src="images/злой.jpg" onclick="openLightbox(this.src)">
-<img src="images/хороший.jpg" onclick="openLightbox(this.src)">
-<img src="images/плохой.jpg" onclick="openLightbox(this.src)">
-</div>
-<button class="prev" onclick="moveSlide(-1)">❮</button>
-<button class="next" onclick="moveSlide(1)">❯</button>
+  <div class="slides" id="slides">
+    <img src="https://i.imgur.com/7y9E9Hl.png" onclick="openLightbox(this.src)">
+    <img src="https://i.imgur.com/3sX4T3E.png" onclick="openLightbox(this.src)">
+    <img src="https://i.imgur.com/5b5v0xz.png" onclick="openLightbox(this.src)">
+  </div>
+  <button class="prev" onclick="moveSlide(-1)">❮</button>
+  <button class="next" onclick="moveSlide(1)">❯</button>
 </div>
 
 <div class="lightbox" id="lightbox" onclick="closeLightbox()">
-<img id="lightboxImg">
+  <img id="lightboxImg">
 </div>
 
 <!-- Постер и инфо -->
 <div class="top">
-<div class="poster">
-<img src="images/poster.jpg">
-</div>
-<div>
-<h2>Хороший, плохой, злой (1966)</h2>
-<p><b>Зарубежное название:</b> The Good, the Bad and the Ugly</p>
-<p><b>Страны:</b> Италия, Испания</p>
-<p><b>Жанр:</b> Вестерн / Экшн</p>
-<p><b>Рейтинг КиноПоиск:</b> 8.6</p>
-<p><b>Рейтинг IMDb:</b> 8.8</p>
-<p><b>Режиссёр:</b> Серджо Леоне</p>
-<p><b>Актёры:</b> Клинт Иствуд, Ли Ван Клиф, Илай Уоллак</p>
-</div>
+  <div class="poster">
+    <img src="https://i.imgur.com/XKxOxxg.jpg"> <!-- твой постер -->
+  </div>
+  <div>
+    <h2>Хороший, плохой, злой (1966)</h2>
+    <p><b>Зарубежное название:</b> The Good, the Bad and the Ugly</p>
+    <p><b>Страны:</b> Италия, Испания</p>
+    <p><b>Жанр:</b> Вестерн / Экшн</p>
+    <p><b>Рейтинг КиноПоиск:</b> 8.6</p>
+    <p><b>Рейтинг IMDb:</b> 8.8</p>
+    <p><b>Режиссёр:</b> Серджо Леоне</p>
+    <p><b>Актёры:</b> Клинт Иствуд, Ли Ван Клиф, Илай Уоллак</p>
+  </div>
 </div>
 
 <div class="description">
@@ -114,45 +102,46 @@ body::after{content:"";position:fixed;top:0;left:0;width:100%;height:100%;pointe
 
 <!-- Видео -->
 <div class="video-container">
-<iframe id="movie" src="https://www.youtube.com/embed/0Bwxz16-T04?enablejsapi=1" allowfullscreen></iframe>
+  <iframe id="movie" src="https://www.youtube.com/embed/0Bwxz16-T04?enablejsapi=1" allowfullscreen></iframe>
 </div>
 
 <!-- Контролы -->
 <div class="controls">
-<button onclick="pauseMovie()">⏸ Пауза</button>
-<button onclick="toggleMovie()">🖥 Открыть/Закрыть</button>
-<select id="qualitySelect" onchange="changeQuality()">
-<option value="360">360p</option>
-<option value="480">480p</option>
-<option value="720" selected>720p</option>
-<option value="1080">1080p</option>
-</select>
-<button onclick="alert('Русские субтитры пока нет')">Русские субтитры</button>
-<input type="range" min="0" max="1" step="0.1" value="1" onchange="changeVolume(this.value)">
+  <button onclick="pauseMovie()">⏸ Пауза</button>
+  <button onclick="toggleMovie()">🖥 Открыть/Закрыть</button>
+  <select id="qualitySelect" onchange="changeQuality()">
+    <option value="360">360p</option>
+    <option value="480">480p</option>
+    <option value="720" selected>720p</option>
+    <option value="1080">1080p</option>
+  </select>
+  <button onclick="alert('Русские субтитры пока нет')">Русские субтитры</button>
+  <input type="range" min="0" max="1" step="0.1" value="1" onchange="changeVolume(this.value)">
 </div>
 
 <!-- Голосование -->
 <div id="avgRating">Средний рейтинг: ⭐0.0</div>
 <div class="stars">
-<span class="star" data-value="1">★</span>
-<span class="star" data-value="2">★</span>
-<span class="star" data-value="3">★</span>
-<span class="star" data-value="4">★</span>
-<span class="star" data-value="5">★</span>
-<span id="votes">(0 звезд)</span>
+  <span class="star" data-value="1">★</span>
+  <span class="star" data-value="2">★</span>
+  <span class="star" data-value="3">★</span>
+  <span class="star" data-value="4">★</span>
+  <span class="star" data-value="5">★</span>
+  <span id="votes">(0 звезд)</span>
 </div>
 <p>Просмотры: <span id="views">0</span></p>
 
 <!-- Комментарии -->
 <div class="comments">
-<h3>Комментарии</h3>
-<input type="text" id="username" placeholder="Ваше имя"><br>
-<input type="text" id="commentInput" placeholder="Ваш комментарий">
-<button onclick="addComment()">Отправить</button>
-<div id="commentList"></div>
+  <h3>Комментарии</h3>
+  <input type="text" id="username" placeholder="Ваше имя"><br>
+  <input type="text" id="commentInput" placeholder="Ваш комментарий">
+  <button onclick="addComment()">Отправить</button>
+  <div id="commentList"></div>
 </div>
 
-<img class="cowboy-decor" src="https://i.imgur.com/3sX4T3E.png" alt="Ковбой">
+<!-- Ковбойская шляпа -->
+<img class="cowboy-decor" src="https://i.imgur.com/1p8rG6J.png" alt="Ковбойская шляпа">
 
 <script>
 // ===== Слайдер =====
