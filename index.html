@@ -1,39 +1,276 @@
-<!-- === Информационный блок фильма === -->
-<div class="movie-info">
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Онлайн кинотеатр</title>
 
-    <!-- Постер слева -->
-    <div class="poster-block">
-        <img src="images/poster.jpg" alt="Постер фильма" class="poster">
-    </div>
+<style>
+body{
+margin:0;
+background:#0a0000;
+color:#eee;
+font-family:Arial;
+overflow-x:hidden;
+}
 
-    <!-- Информация справа -->
-    <div class="info-block">
-        <h1>Хороший, Плохой, Злой</h1>
-        <p><b>Оригинальное название:</b> Il buono, il brutto, il cattivo</p>
-        <p><b>Год выпуска:</b> 1966</p>
-        <p><b>Страна:</b> Италия, Испания, Германия, США</p>
-        <p><b>Жанр:</b> Вестерн, Приключения</p>
-        <p><b>Режиссёр:</b> Серджио Леоне</p>
-        <p><b>Рейтинг IMDb:</b> 8.8/10</p>
-        <p><b>Рейтинг Кинопоиск:</b> 8.5/10</p>
+.wrapper{
+width:60%;
+margin:0 auto;
+}
 
-        <h2>Главные персонажи</h2>
-        <ul>
-            <li>Клинт Иствуд — “Хороший” (Blondie / Блондинчик)</li>
-            <li>Ли Ван Клиф — “Плохой” (Angel Eyes / Ангельские глаза)</li>
-            <li>Эли Уоллах — “Злой” (Tuco / Туко)</li>
-        </ul>
+/* ===== СЛАЙДЕР ===== /
 
-        <div class="description">
-            <p>
-                Фильм рассказывает о троих наёмниках — “хорошем”, “плохом” и “злом” — которые во времена Гражданской войны в США ищут спрятанное золото конфедератов. Их пути пересекаются, они меняют альянсы и предают друг друга, но цель у всех одна — найти клад посреди войны и хаоса.
-            </p>
-        </div>
-    </div>
+.slider{
+position:relative;
+margin-top:30px;
+overflow:hidden;
+border-radius:10px;
+}
+
+.slides{
+display:flex;
+transition:0.5s;
+}
+
+.slides img{
+width:100%;
+cursor:pointer;
+transition:0.3s;
+}
+
+.slides img:hover{
+transform:scale(1.05);
+}
+
+.prev, .next{
+position:absolute;
+top:50%;
+transform:translateY(-50%);
+background:#330000;
+border:none;
+color:white;
+font-size:20px;
+padding:10px;
+cursor:pointer;
+}
+
+.prev{ left:10px; }
+.next{ right:10px; }
+
+/ ===== FULLSCREEN VIEW ===== /
+
+.lightbox{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,0.95);
+display:none;
+justify-content:center;
+align-items:center;
+z-index:999;
+}
+
+.lightbox img{
+max-width:90%;
+max-height:90%;
+animation:zoom 0.4s ease;
+}
+
+@keyframes zoom{
+from{ transform:scale(0.7); opacity:0; }
+to{ transform:scale(1); opacity:1; }
+}
+
+/ ===== ИНФО ===== /
+
+.top{
+display:flex;
+gap:30px;
+margin-top:30px;
+}
+
+.poster img{
+width:250px;
+border-radius:10px;
+box-shadow:0 0 20px #900;
+}
+
+iframe{
+width:100%;
+height:500px;
+margin-top:40px;
+border-radius:10px;
+box-shadow:0 0 25px #900;
+}
+
+/ ===== КОММЕНТАРИИ ===== /
+
+.comments{
+margin-top:50px;
+}
+
+.comment{
+background:#140000;
+padding:10px;
+margin-top:15px;
+border-left:4px solid #aa0000;
+border-radius:5px;
+}
+
+button{
+background:#330000;
+color:white;
+border:1px solid #aa0000;
+padding:5px 10px;
+cursor:pointer;
+border-radius:4px;
+margin-top:5px;
+}
+
+button:hover{
+background:#660000;
+}
+
+input{
+padding:6px;
+margin:5px 0;
+background:#1a0000;
+color:white;
+border:1px solid #900;
+border-radius:4px;
+width:100%;
+}
+</style>
+</head>
+
+<body>
+
+<div class="wrapper">
+
+<!-- ===== СЛАЙДЕР КАДРОВ ===== -->
+
+<div class="slider">
+<div class="slides" id="slides">
+<img src="images/shot1.jpg" onclick="openLightbox(this.src)">
+<img src="images/shot2.jpg" onclick="openLightbox(this.src)">
+<img src="images/shot3.jpg" onclick="openLightbox(this.src)">
+</div>
+<button class="prev" onclick="moveSlide(-1)">❮</button>
+<button class="next" onclick="moveSlide(1)">❯</button>
+</div>
+
+<!-- ===== LIGHTBOX ===== -->
+
+<div class="lightbox" id="lightbox" onclick="closeLightbox()">
+<img id="lightboxImg">
+</div>
+
+<!-- ===== ИНФО ===== -->
+
+<div class="top">
+<div class="poster">
+<img src="images/poster.jpg">
+</div>
+
+<div>
+<h2>Хороший, плохой, злой</h2>
+<p><b>Год:</b> 1966</p>
+<p><b>Страна:</b> Италия, Испания</p>
+<p><b>Режиссёр:</b> Серджо Леоне</p>
+<p><b>IMDb:</b> 8.8</p>
+</div>
+</div>
+
+<!-- ===== ФИЛЬМ ===== -->
+
+<iframe src="https://www.youtube.com/embed/0Bwxz16-T04" allowfullscreen></iframe>
+
+<!-- ===== КОММЕНТАРИИ ===== -->
+
+<div class="comments">
+<h3>Комментарии</h3>
+
+<input type="text" id="username" placeholder="Ваше имя">
+<input type="text" id="commentInput" placeholder="Ваш комментарий">
+<button onclick="addComment()">Отправить</button>
+
+<div id="commentList"></div>
+</div>
 
 </div>
 
-<!-- === Видео с iframe под описанием === -->
-<div class="video-block">
-    <iframe src="ВАША_ССЫЛКА_НА_ФИЛЬМ" width="100%" height="500" frameborder="0" allowfullscreen></iframe>
-</div>
+<script>
+
+/ ===== СЛАЙДЕР ===== /
+
+let index=0;
+
+function moveSlide(step){
+let slides=document.getElementById("slides");
+let total=slides.children.length;
+index+=step;
+if(index<0) index=total-1;
+if(index>=total) index=0;
+slides.style.transform="translateX(-"+index*100+"%)";
+}
+
+/ ===== LIGHTBOX ===== /
+
+function openLightbox(src){
+document.getElementById("lightboxImg").src=src;
+document.getElementById("lightbox").style.display="flex";
+}
+
+function closeLightbox(){
+document.getElementById("lightbox").style.display="none";
+}
+
+/ ===== КОММЕНТАРИИ ===== */
+
+function loadComments(){
+let comments=JSON.parse(localStorage.getItem("cinemaComments"))||[];
+comments.forEach(renderComment);
+}
+
+function addComment(){
+let name=document.getElementById("username").value.trim();
+let text=document.getElementById("commentInput").value.trim();
+if(!name||!text)return;
+
+let comment={name,text,likes:0,dislikes:0};
+let comments=JSON.parse(localStorage.getItem("cinemaComments"))||[];
+comments.push(comment);
+localStorage.setItem("cinemaComments",JSON.stringify(comments));
+renderComment(comment);
+document.getElementById("commentInput").value="";
+}
+
+function renderComment(c){
+let div=document.createElement("div");
+div.className="comment";
+div.innerHTML=`
+<b>${c.name}</b>: ${c.text}<br>
+<button onclick="like(this)">👍 ${c.likes}</button>
+<button onclick="dislike(this)">👎 ${c.dislikes}</button>
+`;
+document.getElementById("commentList").appendChild(div);
+}
+
+function like(btn){
+let num=parseInt(btn.innerText.split(" ")[1])+1;
+btn.innerText="👍 "+num;
+}
+
+function dislike(btn){
+let num=parseInt(btn.innerText.split(" ")[1])+1;
+btn.innerText="👎 "+num;
+}
+
+loadComments();
+</script>
+
+</body>
+</html>
