@@ -139,14 +139,6 @@ color:gold;
 margin-top:20px;
 }
 
-/* Комментарии */
-.comment{
-background:#140000;
-padding:10px;
-margin-top:15px;
-border-left:4px solid #aa0000;
-border-radius:5px;
-}
 </style>
 </head>
 
@@ -210,11 +202,94 @@ allowfullscreen></iframe>
 <button onclick="login()">Войти</button>
 <p id="currentUser"></p>
 
+<!-- Firebase App (обязательно сверху) -->
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+
+<script>
+  const firebaseConfig = {
+    apiKey: "ТВОЙ_API_KEY",
+    authDomain: "ТВОЙ_AUTH_DOMAIN",
+    projectId: "ТВОЙ_PROJECT_ID",
+    storageBucket: "ТВОЙ_STORAGE_BUCKET",
+    messagingSenderId: "ТВОЙ_SENDER_ID",
+    appId: "ТВОЙ_APP_ID"
+  };
+
+  firebase.initializeApp(firebaseConfig);
+  const db = firebase.firestore();
+</script>
+
 <!-- Комментарии -->
 <h3>Комментарии</h3>
 <input type="text" id="commentInput" placeholder="Ваш комментарий">
 <button onclick="addComment()">Отправить</button>
 <div id="commentList"></div>
+
+<script>
+let currentUser = localStorage.getItem("currentUser") || null;
+
+// Слушаем комментарии в реальном времени
+db.collection("comments")
+  .orderBy("likes", "desc")
+  .onSnapshot(snapshot => {
+    renderComments(snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })));
+  });
+
+// Рендер
+function renderComments(comments) {
+  const container = document.getElementById("commentList");
+  container.innerHTML = "";
+  comments.forEach(c => {
+    let score = c.likes - c.dislikes;
+    let badge = score >= 5 ? " 🏆" : "";
+    let div = document.createElement("div");
+    div.className = "comment";
+    div.innerHTML = `
+      <b>${c.name}</b>${badge}: ${c.text}<br>
+      <button onclick="like('${c.id}')">👍 ${c.likes}</button>
+      <button onclick="dislike('${c.id}')">👎 ${c.dislikes}</button>
+    `;
+    container.appendChild(div);
+  });
+}
+
+// Добавление комментария
+function addComment() {
+  if (!currentUser) { alert("Сначала войдите!"); return; }
+  let text = document.getElementById("commentInput").value.trim();
+  if (!text) return;
+
+  db.collection("comments").add({
+    name: currentUser,
+    text: text,
+    likes: 0,
+    dislikes: 0
+  });
+
+  document.getElementById("commentInput").value = "";
+}
+
+// Лайк
+function like(id) {
+  let docRef = db.collection("comments").doc(id);
+  db.runTransaction(async (transaction) => {
+    const doc = await transaction.get(docRef);
+    if (!doc.exists) return;
+    transaction.update(docRef, { likes: (doc.data().likes || 0) + 1 });
+  });
+}
+
+// Дизлайк
+function dislike(id) {
+  let docRef = db.collection("comments").doc(id);
+  db.runTransaction(async (transaction) => {
+    const doc = await transaction.get(docRef);
+    if (!doc.exists) return;
+    transaction.update(docRef, { dislikes: (doc.data().dislikes || 0) + 1 });
+  });
+}
+</script>
 
 </div>
 
@@ -269,51 +344,6 @@ loadRating();
 });
 });
 loadRating();
-/* Комментарии */
-let comments=JSON.parse(localStorage.getItem("cinemaComments"))||[];
-
-function renderComments(){
-comments.sort((a,b)=>(b.likes-b.dislikes)-(a.likes-a.dislikes));
-const container=document.getElementById("commentList");
-container.innerHTML="";
-comments.forEach((c,i)=>{
-let score=c.likes-c.dislikes;
-let badge=score>=5?" 🏆":"";
-let div=document.createElement("div");
-div.className="comment";
-div.innerHTML=`
-<b>${c.name}</b>${badge}: ${c.text}<br>
-<button onclick="like(${i})">👍 ${c.likes}</button>
-<button onclick="dislike(${i})">👎 ${c.dislikes}</button>
-`;
-container.appendChild(div);
-});
-}
-
-function like(id){
-let key="liked_"+id;
-if(localStorage.getItem(key)) return;
-
-let comment = comments.find(c => c.id === id);
-if(!comment) return;
-
-comment.likes++;
-localStorage.setItem(key,true);
-saveAndRender();
-}
-
-function dislike(id){
-let key="disliked_"+id;
-if(localStorage.getItem(key)) return;
-
-let comment = comments.find(c => c.id === id);
-if(!comment) return;
-
-comment.dislikes++;
-localStorage.setItem(key,true);
-saveAndRender();
-}
-
 
 function addComment(){
 if(!currentUser){alert("Сначала войдите!");return;}
