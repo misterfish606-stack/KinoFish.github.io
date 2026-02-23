@@ -345,49 +345,6 @@ loadRating();
 });
 loadRating();
 
-function addComment(){
-if(!currentUser){alert("Сначала войдите!");return;}
-
-let text=document.getElementById("commentInput").value.trim();
-if(!text)return;
-
-comments.push({
-id: Date.now(),
-name:currentUser,
-text,
-likes:0,
-dislikes:0
-});
-
-saveAndRender();
-document.getElementById("commentInput").value="";
-}
-
-
-function like(i){
-let key="liked_"+i;
-if(localStorage.getItem(key)) return;
-comments[i].likes++;
-localStorage.setItem(key,true);
-saveAndRender();
-}
-
-function dislike(i){
-let key="disliked_"+i;
-if(localStorage.getItem(key)) return;
-comments[i].dislikes++;
-localStorage.setItem(key,true);
-saveAndRender();
-}
-
-function saveAndRender(){<button onclick="like(${c.id})">
-<button onclick="dislike(${c.id})">
-
-localStorage.setItem("cinemaComments",JSON.stringify(comments));
-renderComments();
-}
-renderComments();
-
 </script>
 </body>
 </html>
