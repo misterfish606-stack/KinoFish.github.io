@@ -6,14 +6,26 @@
 <title>Хороший, плохой, злой (1966)</title>
 
 <style>
-body{margin:0;font-family:'Arial Black',sans-serif;background:#1b0000;color:#eee;overflow-x:hidden;}
-.wrapper{width:70%;margin:0 auto;padding-bottom:50px;position:relative;}
+body{
+margin:0;
+font-family:'Arial Black',sans-serif;
+background:#1b0000;
+color:#eee;
+overflow-x:hidden;
+}
 
-/* ПЫЛЬ БЕЗ КАРТИНОК */
+.wrapper{
+width:70%;
+margin:0 auto;
+padding-bottom:60px;
+}
+
+/* Пыль без картинок */
 body::after{
 content:"";
 position:fixed;
-top:0;left:0;width:100%;height:100%;
+top:0;left:0;
+width:100%;height:100%;
 pointer-events:none;
 z-index:50;
 background:
@@ -23,23 +35,110 @@ radial-gradient(circle at 40% 80%, rgba(255,200,150,0.08) 1px, transparent 2px);
 background-size:200px 200px;
 animation:dustMove 15s linear infinite;
 }
-@keyframes dustMove{from{transform:translateY(0);}to{transform:translateY(-200px);}}
+@keyframes dustMove{
+from{transform:translateY(0);}
+to{transform:translateY(-200px);}
+}
 
-/* СЛАЙДЕР */
-.slider{position:relative;margin-top:20px;overflow:hidden;border-radius:10px;height:200px;background:#220000;padding:10px;box-shadow:0 0 15px #900;}
+/* Слайдер */
+.slider{
+position:relative;
+margin-top:20px;
+overflow:hidden;
+border-radius:10px;
+height:200px;
+background:#220000;
+padding:10px;
+box-shadow:0 0 15px #900;
+}
 .slides{display:flex;transition:0.5s;}
-.slides img{width:300px;margin-right:15px;border-radius:5px;cursor:pointer;transition:0.3s;}
+.slides img{
+width:300px;
+margin-right:15px;
+border-radius:5px;
+cursor:pointer;
+transition:0.3s;
+}
 .slides img:hover{transform:scale(1.05);}
-.prev,.next{position:absolute;top:50%;transform:translateY(-50%);background:#330000;border:none;color:white;font-size:20px;padding:8px;cursor:pointer;border-radius:5px;}
-.prev{left:5px;} .next{right:5px;}
+.prev,.next{
+position:absolute;
+top:50%;
+transform:translateY(-50%);
+background:#330000;
+border:none;
+color:white;
+font-size:20px;
+padding:8px;
+cursor:pointer;
+border-radius:5px;
+}
+.prev{left:5px;}
+.next{right:5px;}
 
-/* КОММЕНТЫ */
-.comment{background:#140000;padding:10px;margin-top:15px;border-left:4px solid #aa0000;border-radius:5px;}
-button{padding:6px 10px;background:#330000;color:white;border:1px solid #aa0000;border-radius:5px;cursor:pointer;margin-top:5px;}
+/* Инфо */
+.top{
+display:flex;
+gap:30px;
+margin-top:30px;
+}
+.poster img{
+width:250px;
+border-radius:10px;
+box-shadow:0 0 20px #900;
+}
+.description{
+margin-top:30px;
+line-height:1.6;
+padding:15px;
+background:#220000;
+border-radius:10px;
+box-shadow:0 0 15px #900;
+}
+
+/* Видео */
+.video-container{
+margin-top:30px;
+}
+.video-container iframe{
+width:100%;
+height:500px;
+border-radius:10px;
+box-shadow:0 0 25px #900;
+}
+
+/* Кнопки */
+button{
+padding:6px 10px;
+background:#330000;
+color:white;
+border:1px solid #aa0000;
+border-radius:5px;
+cursor:pointer;
+margin-top:5px;
+}
 button:hover{background:#660000;}
-.star{font-size:22px;color:#550000;cursor:pointer;}
+
+/* Рейтинг */
+.star{
+font-size:24px;
+color:#550000;
+cursor:pointer;
+}
 .star.selected{color:gold;}
-#avgRating{font-size:18px;color:gold;margin-top:20px;}
+#avgRating{
+font-size:18px;
+color:gold;
+margin-top:20px;
+}
+
+/* Комментарии */
+.comment{
+background:#140000;
+padding:10px;
+margin-top:15px;
+border-left:4px solid #aa0000;
+border-radius:5px;
+}
 </style>
 </head>
 
@@ -48,7 +147,7 @@ button:hover{background:#660000;}
 
 <h2>Хороший, плохой, злой (1966)</h2>
 
-<!-- СЛАЙДЕР -->
+<!-- Слайдер -->
 <div class="slider">
 <div class="slides" id="slides">
 <img src="https://i.imgur.com/XKxOxxg.jpg">
@@ -59,7 +158,34 @@ button:hover{background:#660000;}
 <button class="next" onclick="moveSlide(1)">❯</button>
 </div>
 
-<!-- РЕЙТИНГ -->
+<!-- Инфо -->
+<div class="top">
+<div class="poster">
+<img src="https://i.imgur.com/XKxOxxg.jpg">
+</div>
+<div>
+<p><b>Оригинальное название:</b> The Good, the Bad and the Ugly</p>
+<p><b>Страны:</b> Италия, Испания</p>
+<p><b>Жанр:</b> Вестерн / Экшн</p>
+<p><b>Рейтинг КиноПоиск:</b> 8.6</p>
+<p><b>Рейтинг IMDb:</b> 8.8</p>
+<p><b>Режиссёр:</b> Серджо Леоне</p>
+<p><b>Актёры:</b> Клинт Иствуд, Ли Ван Клиф, Илай Уоллак</p>
+</div>
+</div>
+
+<div class="description">
+История трёх охотников за сокровищами во времена Гражданской войны в США.
+</div>
+
+<!-- Видео -->
+<div class="video-container">
+<iframe id="movie"
+src="https://www.youtube.com/embed/0Bwxz16-T04?enablejsapi=1"
+allowfullscreen></iframe>
+</div>
+
+<!-- Рейтинг -->
 <div id="avgRating">Средний рейтинг: ⭐0.0</div>
 <div>
 <span class="star" data-value="1">★</span>
@@ -70,13 +196,13 @@ button:hover{background:#660000;}
 <span id="votes">(0 голосов)</span>
 </div>
 
-<!-- АВТОРИЗАЦИЯ -->
+<!-- Авторизация -->
 <h3>Вход</h3>
 <input type="text" id="loginName" placeholder="Введите имя">
 <button onclick="login()">Войти</button>
 <p id="currentUser"></p>
 
-<!-- КОММЕНТАРИИ -->
+<!-- Комментарии -->
 <h3>Комментарии</h3>
 <input type="text" id="commentInput" placeholder="Ваш комментарий">
 <button onclick="addComment()">Отправить</button>
@@ -85,7 +211,8 @@ button:hover{background:#660000;}
 </div>
 
 <script>
-/* СЛАЙДЕР */
+
+/* Слайдер */
 let index=0;
 function moveSlide(step){
 let slides=document.getElementById("slides");
@@ -97,7 +224,7 @@ if(index>=total) index=0;
 slides.style.transform="translateX(-"+index*slideWidth+"px)";
 }
 
-/* АВТОРИЗАЦИЯ */
+/* Авторизация */
 let currentUser=localStorage.getItem("currentUser")||null;
 function login(){
 let name=document.getElementById("loginName").value.trim();
@@ -110,7 +237,7 @@ if(currentUser){
 document.getElementById("currentUser").innerText="Вы вошли как: "+currentUser;
 }
 
-/* РЕЙТИНГ */
+/* Рейтинг */
 let stars=document.querySelectorAll('.star');
 function loadRating(){
 let totalVotes=parseInt(localStorage.getItem('totalVotes'))||0;
@@ -135,7 +262,7 @@ loadRating();
 });
 loadRating();
 
-/* КОММЕНТАРИИ */
+/* Комментарии */
 let comments=JSON.parse(localStorage.getItem("cinemaComments"))||[];
 
 function renderComments(){
@@ -186,8 +313,7 @@ localStorage.setItem("cinemaComments",JSON.stringify(comments));
 renderComments();
 }
 renderComments();
-</script>
 
+</script>
 </body>
 </html>
-
