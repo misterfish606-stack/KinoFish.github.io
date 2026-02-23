@@ -269,6 +269,26 @@ loadRating();
 });
 });
 loadRating();
+/* Комментарии */
+let comments=JSON.parse(localStorage.getItem("cinemaComments"))||[];
+
+function renderComments(){
+comments.sort((a,b)=>(b.likes-b.dislikes)-(a.likes-a.dislikes));
+const container=document.getElementById("commentList");
+container.innerHTML="";
+comments.forEach((c,i)=>{
+let score=c.likes-c.dislikes;
+let badge=score>=5?" 🏆":"";
+let div=document.createElement("div");
+div.className="comment";
+div.innerHTML=`
+<b>${c.name}</b>${badge}: ${c.text}<br>
+<button onclick="like(${i})">👍 ${c.likes}</button>
+<button onclick="dislike(${i})">👎 ${c.dislikes}</button>
+`;
+container.appendChild(div);
+});
+}
 
 function like(id){
 let key="liked_"+id;
