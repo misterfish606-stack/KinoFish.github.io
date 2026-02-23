@@ -330,7 +330,9 @@ localStorage.setItem(key,true);
 saveAndRender();
 }
 
-function saveAndRender(){
+function saveAndRender(){<button onclick="like(${c.id})">
+<button onclick="dislike(${c.id})">
+
 localStorage.setItem("cinemaComments",JSON.stringify(comments));
 renderComments();
 }
