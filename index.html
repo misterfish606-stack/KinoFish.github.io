@@ -3,237 +3,191 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Хороший, плохой, злой (1966) | Ковбойский кинотеатр</title>
+<title>Хороший, плохой, злой (1966)</title>
 
 <style>
 body{margin:0;font-family:'Arial Black',sans-serif;background:#1b0000;color:#eee;overflow-x:hidden;}
-.wrapper{width:65%;margin:0 auto;padding-bottom:50px;position:relative;}
-/* ===== Слайдер ===== */
-.slider{position:relative;margin-top:20px;overflow:hidden;border-radius:10px;height:180px;background:#220000;padding:10px;box-shadow:0 0 15px #900;}
-.slides{display:flex;transition:0.5s;height:100%;}
-.slides img{width:32%;margin-right:2%;border-radius:5px;cursor:pointer;transition:0.3s;border:2px solid #550000;}
-.slides img:hover{transform:scale(1.05);border-color:#ff6600;}
+.wrapper{width:70%;margin:0 auto;padding-bottom:50px;position:relative;}
+
+/* ПЫЛЬ БЕЗ КАРТИНОК */
+body::after{
+content:"";
+position:fixed;
+top:0;left:0;width:100%;height:100%;
+pointer-events:none;
+z-index:50;
+background:
+radial-gradient(circle at 20% 30%, rgba(255,200,150,0.08) 1px, transparent 2px),
+radial-gradient(circle at 70% 60%, rgba(255,200,150,0.08) 1px, transparent 2px),
+radial-gradient(circle at 40% 80%, rgba(255,200,150,0.08) 1px, transparent 2px);
+background-size:200px 200px;
+animation:dustMove 15s linear infinite;
+}
+@keyframes dustMove{from{transform:translateY(0);}to{transform:translateY(-200px);}}
+
+/* СЛАЙДЕР */
+.slider{position:relative;margin-top:20px;overflow:hidden;border-radius:10px;height:200px;background:#220000;padding:10px;box-shadow:0 0 15px #900;}
+.slides{display:flex;transition:0.5s;}
+.slides img{width:300px;margin-right:15px;border-radius:5px;cursor:pointer;transition:0.3s;}
+.slides img:hover{transform:scale(1.05);}
 .prev,.next{position:absolute;top:50%;transform:translateY(-50%);background:#330000;border:none;color:white;font-size:20px;padding:8px;cursor:pointer;border-radius:5px;}
 .prev{left:5px;} .next{right:5px;}
-.lightbox{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.95);display:none;justify-content:center;align-items:center;z-index:999;}
-.lightbox img{max-width:90%;max-height:90%;animation:zoom 0.4s ease;}
-@keyframes zoom{from{transform:scale(0.7);opacity:0;} to{transform:scale(1);opacity:1;}}
 
-/* ===== Постер и описание ===== */
-.top{display:flex;gap:30px;margin-top:30px;}
-.poster img{width:250px;border-radius:10px;box-shadow:0 0 20px #900;}
-.description{margin-top:30px;line-height:1.6;padding:10px;background:#220000;border-radius:10px;box-shadow:0 0 15px #900;}
-.video-container{position:relative;margin-top:30px;}
-.video-container iframe{width:100%;max-height:500px;border-radius:10px;box-shadow:0 0 25px #900;}
-
-/* ===== Контролы ===== */
-.controls{display:flex;gap:10px;margin-top:10px;flex-wrap:wrap;}
-button, select{padding:8px 12px;background:#330000;color:white;border:1px solid #aa0000;border-radius:5px;cursor:pointer;}
-button:hover, select:hover{background:#660000;}
-input[type="range"]{accent-color:#aa0000;}
-
-/* ===== Комментарии ===== */
-.comments{margin-top:50px;}
-.comment{background:#140000;padding:10px;margin-top:15px;border-left:4px solid #aa0000;border-radius:5px;opacity:0;transform:translateY(10px);animation:fadeIn 0.5s forwards;}
-.comment .avatar{width:30px;height:30px;vertical-align:middle;border-radius:3px;margin-right:5px;}
-.replies .comment{background:#220000;margin-top:5px;}
-@keyframes fadeIn{to{opacity:1;transform:translateY(0);}}
-.stars{margin-top:10px;}
-.star{font-size:20px;color:#550000;cursor:pointer;}
+/* КОММЕНТЫ */
+.comment{background:#140000;padding:10px;margin-top:15px;border-left:4px solid #aa0000;border-radius:5px;}
+button{padding:6px 10px;background:#330000;color:white;border:1px solid #aa0000;border-radius:5px;cursor:pointer;margin-top:5px;}
+button:hover{background:#660000;}
+.star{font-size:22px;color:#550000;cursor:pointer;}
 .star.selected{color:gold;}
-#avgRating{font-size:18px;color:gold;margin-bottom:10px;}
-
-/* ===== Пыль и шляпа ===== */
-body::after{
-  content:"";
-  position:fixed;top:0;left:0;width:100%;height:100%;
-  pointer-events:none;
-  background:url('https://i.imgur.com/0aRkZsF.png') repeat;
-  opacity:0.15;z-index:50;
-  animation:moveDust 20s linear infinite;
-}
-@keyframes moveDust{0%{background-position:0 0;}100%{background-position:1000px 1000px;}}
-.cowboy-decor{
-  position:fixed;top:20px;right:20px;width:60px;z-index:1000;
-  animation:spin 6s linear infinite;
-}
-@keyframes spin{from{transform:rotate(0deg);} to{transform:rotate(360deg);}}
+#avgRating{font-size:18px;color:gold;margin-top:20px;}
 </style>
 </head>
 
 <body>
 <div class="wrapper">
 
-<!-- Слайдер -->
+<h2>Хороший, плохой, злой (1966)</h2>
+
+<!-- СЛАЙДЕР -->
 <div class="slider">
-  <div class="slides" id="slides">
-    <img src="https://i.imgur.com/7y9E9Hl.png" onclick="openLightbox(this.src)">
-    <img src="https://i.imgur.com/3sX4T3E.png" onclick="openLightbox(this.src)">
-    <img src="https://i.imgur.com/5b5v0xz.png" onclick="openLightbox(this.src)">
-  </div>
-  <button class="prev" onclick="moveSlide(-1)">❮</button>
-  <button class="next" onclick="moveSlide(1)">❯</button>
+<div class="slides" id="slides">
+<img src="https://i.imgur.com/XKxOxxg.jpg">
+<img src="https://i.imgur.com/XKxOxxg.jpg">
+<img src="https://i.imgur.com/XKxOxxg.jpg">
+</div>
+<button class="prev" onclick="moveSlide(-1)">❮</button>
+<button class="next" onclick="moveSlide(1)">❯</button>
 </div>
 
-<div class="lightbox" id="lightbox" onclick="closeLightbox()">
-  <img id="lightboxImg">
-</div>
-
-<!-- Постер и инфо -->
-<div class="top">
-  <div class="poster">
-    <img src="https://i.imgur.com/XKxOxxg.jpg"> <!-- хороший -->
-  </div>
-  <div>
-    <h2>Хороший, плохой, злой (1966)</h2>
-    <p><b>Зарубежное название:</b> The Good, the Bad and the Ugly</p>
-    <p><b>Страны:</b> Италия, Испания</p>
-    <p><b>Жанр:</b> Вестерн / Экшн</p>
-    <p><b>Рейтинг КиноПоиск:</b> 8.6</p>
-    <p><b>Рейтинг IMDb:</b> 8.8</p>
-    <p><b>Режиссёр:</b> Серджо Леоне</p>
-    <p><b>Актёры:</b> Клинт Иствуд, Ли Ван Клиф, Илай Уоллак</p>
-  </div>
-</div>
-
-<div class="description">
-Фильм рассказывает историю трёх охотников за сокровищами во времена Гражданской войны в США. Каждый персонаж — воплощение своей философии выживания: один честный, другой безжалостный, третий хитроумный. Длительность фильма — 2 часа 58 минут. Главные герои: Блонди (Хороший), Ангустио (Плохой), Туко (Злой). Смотреть онлайн в хорошем качестве.
-</div>
-
-<!-- Видео -->
-<div class="video-container">
-  <iframe id="movie" src="https://www.youtube.com/embed/0Bwxz16-T04?enablejsapi=1" allowfullscreen></iframe>
-</div>
-
-<!-- Контролы -->
-<div class="controls">
-  <button onclick="pauseMovie()">⏸ Пауза</button>
-  <button onclick="toggleMovie()">🖥 Открыть/Закрыть</button>
-  <select id="qualitySelect" onchange="changeQuality()">
-    <option value="360">360p</option>
-    <option value="480">480p</option>
-    <option value="720" selected>720p</option>
-    <option value="1080">1080p</option>
-  </select>
-  <button onclick="alert('Русские субтитры пока нет')">Русские субтитры</button>
-  <input type="range" min="0" max="1" step="0.1" value="1" onchange="changeVolume(this.value)">
-</div>
-
-<!-- Голосование -->
+<!-- РЕЙТИНГ -->
 <div id="avgRating">Средний рейтинг: ⭐0.0</div>
-<div class="stars">
-  <span class="star" data-value="1">★</span>
-  <span class="star" data-value="2">★</span>
-  <span class="star" data-value="3">★</span>
-  <span class="star" data-value="4">★</span>
-  <span class="star" data-value="5">★</span>
-  <span id="votes">(0 звезд)</span>
-</div>
-<p>Просмотры: <span id="views">0</span></p>
-
-<!-- Комментарии -->
-<div class="comments">
-  <h3>Комментарии</h3>
-  <input type="text" id="username" placeholder="Ваше имя"><br>
-  <input type="text" id="commentInput" placeholder="Ваш комментарий">
-  <button onclick="addComment()">Отправить</button>
-  <div id="commentList"></div>
+<div>
+<span class="star" data-value="1">★</span>
+<span class="star" data-value="2">★</span>
+<span class="star" data-value="3">★</span>
+<span class="star" data-value="4">★</span>
+<span class="star" data-value="5">★</span>
+<span id="votes">(0 голосов)</span>
 </div>
 
-<!-- Ковбойская шляпа -->
-<img class="cowboy-decor" src="https://i.imgur.com/1p8rG6J.png" alt="Ковбойская шляпа">
+<!-- АВТОРИЗАЦИЯ -->
+<h3>Вход</h3>
+<input type="text" id="loginName" placeholder="Введите имя">
+<button onclick="login()">Войти</button>
+<p id="currentUser"></p>
+
+<!-- КОММЕНТАРИИ -->
+<h3>Комментарии</h3>
+<input type="text" id="commentInput" placeholder="Ваш комментарий">
+<button onclick="addComment()">Отправить</button>
+<div id="commentList"></div>
+
+</div>
 
 <script>
-// ===== Слайдер =====
+/* СЛАЙДЕР */
 let index=0;
 function moveSlide(step){
-  let slides=document.getElementById("slides");
-  let total=slides.children.length;
-  index+=step;
-  if(index<0) index=total-1;
-  if(index>=total) index=0;
-  slides.style.transform="translateX(-"+index*100+"%)";
+let slides=document.getElementById("slides");
+let total=slides.children.length;
+let slideWidth=slides.children[0].offsetWidth+15;
+index+=step;
+if(index<0) index=total-1;
+if(index>=total) index=0;
+slides.style.transform="translateX(-"+index*slideWidth+"px)";
 }
-function openLightbox(src){document.getElementById("lightboxImg").src=src;document.getElementById("lightbox").style.display="flex";}
-function closeLightbox(){document.getElementById("lightbox").style.display="none";}
 
-// ===== Просмотры =====
-let views=localStorage.getItem("views")||0;
-views=parseInt(views)+1;
-document.getElementById("views").innerText=views;
-localStorage.setItem("views",views);
+/* АВТОРИЗАЦИЯ */
+let currentUser=localStorage.getItem("currentUser")||null;
+function login(){
+let name=document.getElementById("loginName").value.trim();
+if(!name)return;
+localStorage.setItem("currentUser",name);
+currentUser=name;
+document.getElementById("currentUser").innerText="Вы вошли как: "+name;
+}
+if(currentUser){
+document.getElementById("currentUser").innerText="Вы вошли как: "+currentUser;
+}
 
-// ===== Голосование =====
-let stars = document.querySelectorAll('.star');
+/* РЕЙТИНГ */
+let stars=document.querySelectorAll('.star');
 function loadRating(){
-  let rating = parseInt(localStorage.getItem('movieRating')) || 0;
-  stars.forEach((star,i)=>{star.classList.toggle('selected', i < rating);});
-  document.getElementById('votes').innerText = `(${rating} звезд)`;
-  document.getElementById('avgRating').innerText = `Средний рейтинг: ⭐${rating}.0`;
+let totalVotes=parseInt(localStorage.getItem('totalVotes'))||0;
+let totalScore=parseInt(localStorage.getItem('totalScore'))||0;
+let avg=totalVotes?(totalScore/totalVotes).toFixed(1):"0.0";
+document.getElementById('votes').innerText=`(${totalVotes} голосов)`;
+document.getElementById('avgRating').innerText=`Средний рейтинг: ⭐${avg}`;
 }
-stars.forEach((star)=>{star.addEventListener('click',()=>{
-  let val = parseInt(star.getAttribute('data-value'));
-  localStorage.setItem('movieRating', val);
-  loadRating();
-});});
+stars.forEach((star)=>{
+star.addEventListener('click',()=>{
+if(localStorage.getItem("voted")) return;
+let val=parseInt(star.getAttribute('data-value'));
+let totalVotes=parseInt(localStorage.getItem('totalVotes'))||0;
+let totalScore=parseInt(localStorage.getItem('totalScore'))||0;
+totalVotes++;
+totalScore+=val;
+localStorage.setItem('totalVotes',totalVotes);
+localStorage.setItem('totalScore',totalScore);
+localStorage.setItem('voted',true);
+loadRating();
+});
+});
 loadRating();
 
-// ===== Комментарии с ответами =====
-let comments = JSON.parse(localStorage.getItem("cinemaComments"))||[];
-function renderComments(){
-  const container=document.getElementById('commentList');
-  container.innerHTML='';
-  comments.forEach((c,index)=>{
-    let div=document.createElement('div');
-    div.className="comment";
-    div.innerHTML=`
-      <img class="avatar" src="https://i.imgur.com/7y9E9Hl.png">
-      <b>${c.name}</b>: ${c.text}<br>
-      <button onclick="like(${index})">👍 ${c.likes}</button>
-      <button onclick="dislike(${index})">👎 ${c.dislikes}</button>
-      <button onclick="reply(${index})">💬 Ответить</button>
-      <div class="replies" id="replies-${index}" style="margin-left:20px;"></div>
-    `;
-    container.appendChild(div);
-    if(c.replies){
-      c.replies.forEach(r=>{
-        let rdiv=document.createElement('div');
-        rdiv.className="comment";
-        rdiv.style.background="#220000";
-        rdiv.style.marginTop="5px";
-        rdiv.innerHTML=`<img class="avatar" src="https://i.imgur.com/7y9E9Hl.png"><b>${r.name}</b>: ${r.text}`;
-        document.getElementById(`replies-${index}`).appendChild(rdiv);
-      });
-    }
-  });
-}
-function addComment(){
-  let name=document.getElementById("username").value.trim();
-  let text=document.getElementById("commentInput").value.trim();
-  if(!name||!text)return;
-  comments.push({name,text,likes:0,dislikes:0,replies:[]});
-  saveAndRender();
-  document.getElementById("commentInput").value='';
-}
-function like(i){comments[i].likes++; saveAndRender();}
-function dislike(i){comments[i].dislikes++; saveAndRender();}
-function reply(i){
-  let replyText=prompt("Ваш ответ:");
-  let replyName=prompt("Ваше имя:");
-  if(!replyText||!replyName)return;
-  if(!comments[i].replies) comments[i].replies=[];
-  comments[i].replies.push({name:replyName,text:replyText});
-  saveAndRender();
-}
-function saveAndRender(){localStorage.setItem("cinemaComments",JSON.stringify(comments));renderComments();}
-renderComments();
+/* КОММЕНТАРИИ */
+let comments=JSON.parse(localStorage.getItem("cinemaComments"))||[];
 
-// ===== Управление iframe =====
-function pauseMovie(){document.getElementById('movie').contentWindow.postMessage('{"event":"command","func":"pauseVideo","args":""}','*');}
-function toggleMovie(){let iframe=document.getElementById('movie');iframe.style.display=(iframe.style.display==='none')?'block':'none';}
-function changeVolume(v){document.getElementById('movie').contentWindow.postMessage(`{"event":"command","func":"setVolume","args":[${v*100}]}`,'*');}
-function changeQuality(){alert('Качество изменяется через YouTube автоматически');}
+function renderComments(){
+comments.sort((a,b)=>(b.likes-b.dislikes)-(a.likes-a.dislikes));
+const container=document.getElementById("commentList");
+container.innerHTML="";
+comments.forEach((c,i)=>{
+let score=c.likes-c.dislikes;
+let badge=score>=5?" 🏆":"";
+let div=document.createElement("div");
+div.className="comment";
+div.innerHTML=`
+<b>${c.name}</b>${badge}: ${c.text}<br>
+<button onclick="like(${i})">👍 ${c.likes}</button>
+<button onclick="dislike(${i})">👎 ${c.dislikes}</button>
+`;
+container.appendChild(div);
+});
+}
+
+function addComment(){
+if(!currentUser){alert("Сначала войдите!");return;}
+let text=document.getElementById("commentInput").value.trim();
+if(!text)return;
+comments.push({name:currentUser,text,likes:0,dislikes:0});
+saveAndRender();
+document.getElementById("commentInput").value="";
+}
+
+function like(i){
+let key="liked_"+i;
+if(localStorage.getItem(key)) return;
+comments[i].likes++;
+localStorage.setItem(key,true);
+saveAndRender();
+}
+
+function dislike(i){
+let key="disliked_"+i;
+if(localStorage.getItem(key)) return;
+comments[i].dislikes++;
+localStorage.setItem(key,true);
+saveAndRender();
+}
+
+function saveAndRender(){
+localStorage.setItem("cinemaComments",JSON.stringify(comments));
+renderComments();
+}
+renderComments();
 </script>
 
 </body>
 </html>
+
