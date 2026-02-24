@@ -304,7 +304,7 @@ async function dislikeComment(id){
     });
   });
 }
-</script> 
+</script>
 
   
 // Авторизация
@@ -356,35 +356,7 @@ stars.forEach((star)=>{
 });
 loadRating();
 
-// Firebase Комментарии
-// HTML блок
-document.write(`
-<h3>Комментарии</h3>
-<input type="text" id="commentInput" placeholder="Ваш комментарий">
-<button onclick="addComment()">Отправить</button>
-<div id="commentList"></div>
-`);
 
-db.collection("comments")
-  .orderBy("likes","desc")
-  .onSnapshot(snapshot=>{
-    renderComments(snapshot.docs.map(doc=>({id:doc.id,...doc.data()})));
-  });
-
-function renderComments(comments){
-  const container=document.getElementById("commentList");
-  container.innerHTML="";
-  comments.forEach(c=>{
-    let score=c.likes-c.dislikes;
-    let badge=score>=5?" 🏆":"";
-    let div=document.createElement("div");
-    div.className="comment";
-    div.innerHTML=`<b>${c.name}</b>${badge}: ${c.text}<br>
-      <button onclick="like('${c.id}')">👍 ${c.likes}</button>
-      <button onclick="dislike('${c.id}')">👎 ${c.dislikes}</button>`;
-    container.appendChild(div);
-  });
-}
 
 function addComment(){
   if(!currentUser){alert("Сначала войдите!"); return;}
