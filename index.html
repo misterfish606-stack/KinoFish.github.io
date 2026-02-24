@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="ru">
-<head> <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+<head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Хороший, плохой, злой (1966)</title>
@@ -14,13 +13,11 @@ body{
   color:#eee;
   overflow-x:hidden;
 }
-
 .wrapper{
   width:70%;
   margin:0 auto;
   padding-bottom:60px;
 }
-
 /* Пыль */
 body::after{
   content:"";
@@ -40,121 +37,37 @@ body::after{
   background-size:400px 400px;
   animation:dust 20s linear infinite;
 }
-@keyframes dust{
-  from{transform:translateY(0);}
-  to{transform:translateY(-400px);}
-}
-
+@keyframes dust{from{transform:translateY(0);}to{transform:translateY(-400px);}}
 /* Слайдер */
-.slider{
-  position:relative;
-  margin-top:20px;
-  overflow:hidden;
-  border-radius:10px;
-  height:200px;
-  background:#220000;
-  padding:10px;
-  box-shadow:0 0 15px #900;
-}
+.slider{position:relative;margin-top:20px;overflow:hidden;border-radius:10px;height:200px;background:#220000;padding:10px;box-shadow:0 0 15px #900;}
 .slides{display:flex;transition:0.5s;}
-.slides img{
-  width:300px;
-  margin-right:15px;
-  border-radius:5px;
-  cursor:pointer;
-  transition:0.3s;
-}
+.slides img{width:300px;margin-right:15px;border-radius:5px;cursor:pointer;transition:0.3s;}
 .slides img:hover{transform:scale(1.05);}
-.prev,.next{
-  position:absolute;
-  top:50%;
-  transform:translateY(-50%);
-  background:#330000;
-  border:none;
-  color:white;
-  font-size:20px;
-  padding:8px;
-  cursor:pointer;
-  border-radius:5px;
-}
+.prev,.next{position:absolute;top:50%;transform:translateY(-50%);background:#330000;border:none;color:white;font-size:20px;padding:8px;cursor:pointer;border-radius:5px;}
 .prev{left:5px;}
 .next{right:5px;}
-
 /* Инфо */
-.top{
-  display:flex;
-  gap:30px;
-  margin-top:30px;
-}
-.poster img{
-  width:250px;
-  border-radius:10px;
-  box-shadow:0 0 20px #900;
-}
-.info-block{
-  display:flex;
-  flex-direction:column;
-  justify-content:flex-start;
-}
-.description{
-  margin-top:30px;
-  line-height:1.6;
-  padding:15px;
-  background:#220000;
-  border-radius:10px;
-  box-shadow:0 0 15px #900;
-}
-
+.top{display:flex;gap:30px;margin-top:30px;}
+.poster img{width:250px;border-radius:10px;box-shadow:0 0 20px #900;}
+.info-block{display:flex;flex-direction:column;justify-content:flex-start;}
+.description{margin-top:30px;line-height:1.6;padding:15px;background:#220000;border-radius:10px;box-shadow:0 0 15px #900;}
 /* Видео */
-.video-container{
-  margin-top:30px;
-}
-.video-container iframe{
-  width:100%;
-  height:500px;
-  border-radius:10px;
-  box-shadow:0 0 25px #900;
-}
-
+.video-container{margin-top:30px;}
+.video-container iframe{width:100%;height:500px;border-radius:10px;box-shadow:0 0 25px #900;}
 /* Кнопки */
-button{
-  padding:6px 10px;
-  background:#330000;
-  color:white;
-  border:1px solid #aa0000;
-  border-radius:5px;
-  cursor:pointer;
-  margin-top:5px;
-}
+button{padding:6px 10px;background:#330000;color:white;border:1px solid #aa0000;border-radius:5px;cursor:pointer;margin-top:5px;}
 button:hover{background:#660000;}
-
 /* Рейтинг */
-.star{
-  font-size:24px;
-  color:#550000;
-  cursor:pointer;
-}
+.star{font-size:24px;color:#550000;cursor:pointer;}
 .star.selected{color:gold;}
-#avgRating{
-  font-size:18px;
-  color:gold;
-  margin-top:10px;
-}
-
+#avgRating{font-size:18px;color:gold;margin-top:10px;}
 /* Комментарии */
-.comment{
-  background:#140000;
-  padding:10px;
-  margin-top:10px;
-  border-left:4px solid #aa0000;
-  border-radius:5px;
-}
+.comment{background:#140000;padding:10px;margin-top:10px;border-left:4px solid #aa0000;border-radius:5px;}
 </style>
 </head>
 
 <body>
 <div class="wrapper">
-
 <h2>Хороший, плохой, злой (1966)</h2>
 
 <!-- Слайдер -->
@@ -182,6 +95,8 @@ button:hover{background:#660000;}
     <p><b>Режиссёр:</b> Серджо Леоне</p>
     <p><b>Актёры:</b> Клинт Иствуд, Ли Ван Клиф, Илай Уоллак</p>
     <p id="viewCount"><b>Просмотры:</b> 0</p>
+
+    <!-- Рейтинг -->
     <div id="avgRating">Средний рейтинг: ⭐0.0</div>
     <div>
       <span class="star" data-value="1">★</span>
@@ -216,11 +131,12 @@ button:hover{background:#660000;}
 <button id="sendComment">Отправить</button>
 <div id="commentList"></div>
 
+<!-- Firebase -->
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
 
 <script>
-// ===================== Firebase =====================
+// ====== Firebase Config ======
 const firebaseConfig = {
   apiKey: "AIzaSyCTr1vgcuSEn_2Ebh2vC3k7sNYzvMoYlBo",
   authDomain: "kino-project-bf21c.firebaseapp.com",
@@ -229,12 +145,10 @@ const firebaseConfig = {
   messagingSenderId: "603398460201",
   appId: "1:603398460201:web:42612fab9d600222985d38"
 };
-
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
 
-
-// ===================== Авторизация =====================
+// ====== Авторизация ======
 let currentUser = localStorage.getItem("currentUser") || null;
 function login(){
   const name = document.getElementById("loginName").value.trim();
@@ -247,7 +161,7 @@ if(currentUser){
   document.getElementById("currentUser").innerText = "Вы вошли как: " + currentUser;
 }
 
-// ===================== Комментарии =====================
+// ====== Комментарии ======
 document.getElementById("sendComment").addEventListener("click", async ()=>{
   if(!currentUser){ alert("Сначала войдите!"); return; }
   const text = document.getElementById("commentInput").value.trim();
@@ -295,57 +209,53 @@ async function dislikeComment(id){
   });
 }
 
+// ====== Рейтинг ======
 document.addEventListener("DOMContentLoaded", function() {
-
-  let stars=document.querySelectorAll('.star');
+  let stars = document.querySelectorAll('.star');
 
   function loadRating(){
-    let totalVotes=parseInt(localStorage.getItem('totalVotes'))||0;
-    let totalScore=parseInt(localStorage.getItem('totalScore'))||0;
-    let avg=totalVotes?(totalScore/totalVotes).toFixed(1):"0.0";
-    document.getElementById('votes').innerText=`(${totalVotes} голосов)`;
-    document.getElementById('avgRating').innerText=`Средний рейтинг: ⭐${avg}`;
+    let totalVotes = parseInt(localStorage.getItem('totalVotes'))||0;
+    let totalScore = parseInt(localStorage.getItem('totalScore'))||0;
+    let avg = totalVotes ? (totalScore/totalVotes).toFixed(1) : "0.0";
+    document.getElementById('votes').innerText = `(${totalVotes} голосов)`;
+    document.getElementById('avgRating').innerText = `Средний рейтинг: ⭐${avg}`;
   }
 
-  stars.forEach((star)=>{
-    star.addEventListener('click',()=>{
+  stars.forEach(star=>{
+    star.addEventListener('click', ()=>{
       if(localStorage.getItem("voted")) return;
-      let val=parseInt(star.getAttribute('data-value'));
-      let totalVotes=parseInt(localStorage.getItem('totalVotes'))||0;
-      let totalScore=parseInt(localStorage.getItem('totalScore'))||0;
+      let val = parseInt(star.getAttribute('data-value'));
+      let totalVotes = parseInt(localStorage.getItem('totalVotes'))||0;
+      let totalScore = parseInt(localStorage.getItem('totalScore'))||0;
       totalVotes++;
-      totalScore+=val;
-      localStorage.setItem('totalVotes',totalVotes);
-      localStorage.setItem('totalScore',totalScore);
-      localStorage.setItem('voted',true);
-     loadRating();
-
+      totalScore += val;
+      localStorage.setItem('totalVotes', totalVotes);
+      localStorage.setItem('totalScore', totalScore);
+      localStorage.setItem('voted', true);
+      loadRating();
     });
   });
+  loadRating();
 
-// ===================== Слайдер =====================
-let index=0;
-function moveSlide(step){
-  const slides = document.getElementById("slides");
-  const total = slides.children.length;
-  const width = slides.children[0].offsetWidth + 15;
-  index += step;
-  if(index<0) index=total-1;
-  if(index>=total) index=0;
-  slides.style.transform = "translateX(-"+index*width+"px)";
-}
+  // ====== Слайдер ======
+  let index=0;
+  window.moveSlide = function(step){
+    const slides = document.getElementById("slides");
+    const total = slides.children.length;
+    const width = slides.children[0].offsetWidth + 15;
+    index += step;
+    if(index<0) index=total-1;
+    if(index>=total) index=0;
+    slides.style.transform = "translateX(-"+index*width+"px)";
+  };
 
-// ===================== Просмотры =====================
-let views = parseInt(localStorage.getItem("views")) || 0;
-views++;
-localStorage.setItem("views", views);
-document.getElementById("viewCount").innerHTML = "<b>Просмотры:</b> " + views; 
-}); 
-
+  // ====== Просмотры ======
+  let views = parseInt(localStorage.getItem("views")) || 0;
+  views++;
+  localStorage.setItem("views", views);
+  document.getElementById("viewCount").innerHTML = "<b>Просмотры:</b> " + views; 
+});
 </script>
-
-
-
 </div>
 </body>
 </html>
