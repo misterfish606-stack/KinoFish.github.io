@@ -154,9 +154,10 @@ button:hover{background:#660000;}
 <!-- Слайдер -->
 <div class="slider">
   <div class="slides" id="slides">
-    <img src="https://i.imgur.com/XKxOxxg.jpg">
-    <img src="https://i.imgur.com/XKxOxxg.jpg">
-    <img src="https://i.imgur.com/XKxOxxg.jpg">
+    <img src="https://upload.wikimedia.org/wikipedia/en/4/45/Good_the_bad_and_the_ugly_poster.jpg">
+<img src="https://m.media-amazon.com/images/I/91z+4nW6zRL._AC_SL1500_.jpg">
+<img src="https://upload.wikimedia.org/wikipedia/commons/2/22/The_Good_the_Bad_and_the_Ugly.jpg">
+
   </div>
   <button class="prev" onclick="moveSlide(-1)">❮</button>
   <button class="next" onclick="moveSlide(1)">❯</button>
@@ -206,9 +207,10 @@ button:hover{background:#660000;}
 <button onclick="login()">Войти</button>
 <p id="currentUser"></p>
 
-<!-- Firebase -->
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+  <h3>Комментарии</h3>
+<input type="text" id="commentInput" placeholder="Ваш комментарий">
+<button id="sendComment">Отправить</button>
+<div id="commentList"></div>
 
 <script>
 const firebaseConfig = {
@@ -219,9 +221,93 @@ const firebaseConfig = {
   messagingSenderId: "ТВОЙ_SENDER_ID",
   appId: "ТВОЙ_APP_ID"
 };
+
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
+
 let currentUser = localStorage.getItem("currentUser") || null;
+
+// Авторизация
+function login(){
+  const name = document.getElementById("loginName").value.trim();
+  if(!name) return;
+  localStorage.setItem("currentUser", name);
+  currentUser = name;
+  document.getElementById("currentUser").innerText = "Вы вошли как: " + name;
+}
+
+if(currentUser){
+  document.getElementById("currentUser").innerText = "Вы вошли как: " + currentUser;
+}
+
+// Добавление комментария
+document.getElementById("sendComment").addEventListener("click", async () => {
+  if(!currentUser){
+    alert("Сначала войдите!");
+    return;
+  }
+
+  const text = document.getElementById("commentInput").value.trim();
+  if(!text) return;
+
+  await db.collection("comments").add({
+    name: currentUser,
+    text: text,
+    likes: 0,
+    dislikes: 0,
+    timestamp: firebase.firestore.FieldValue.serverTimestamp()
+  });
+
+  document.getElementById("commentInput").value = "";
+});
+
+// Слушаем комментарии (новые сверху)
+db.collection("comments")
+  .orderBy("timestamp", "desc")
+  .onSnapshot(snapshot => {
+    const container = document.getElementById("commentList");
+    container.innerHTML = "";
+
+    snapshot.forEach(doc => {
+      const c = doc.data();
+      const div = document.createElement("div");
+      div.className = "comment";
+
+      div.innerHTML = `
+        <b>${c.name}</b>: ${c.text}<br>
+        <button onclick="likeComment('${doc.id}')">👍 ${c.likes || 0}</button>
+        <button onclick="dislikeComment('${doc.id}')">👎 ${c.dislikes || 0}</button>
+      `;
+
+      container.appendChild(div);
+    });
+  });
+
+// Лайк
+async function likeComment(id){
+  const ref = db.collection("comments").doc(id);
+  await db.runTransaction(async (transaction) => {
+    const doc = await transaction.get(ref);
+    if(!doc.exists) return;
+    transaction.update(ref, {
+      likes: (doc.data().likes || 0) + 1
+    });
+  });
+}
+
+// Дизлайк
+async function dislikeComment(id){
+  const ref = db.collection("comments").doc(id);
+  await db.runTransaction(async (transaction) => {
+    const doc = await transaction.get(ref);
+    if(!doc.exists) return;
+    transaction.update(ref, {
+      dislikes: (doc.data().dislikes || 0) + 1
+    });
+  });
+}
+</script>
+
 
 // Авторизация
 function login(){
