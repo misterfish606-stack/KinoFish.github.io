@@ -304,7 +304,15 @@ async function dislikeComment(id){
     });
   });
 }
-</script>
+
+// Просмотры
+let views = localStorage.getItem("views") || 0;
+views++;
+localStorage.setItem("views", views);
+
+let viewBlock = document.createElement("p");
+viewBlock.innerHTML = "<b>Просмотры:</b> " + views;
+document.querySelector(".top div").appendChild(viewBlock);
 
 
 </script>
