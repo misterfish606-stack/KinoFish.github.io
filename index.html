@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="ru">
-<head>
+<head> <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Хороший, плохой, злой (1966)</title>
@@ -221,10 +222,14 @@ button:hover{background:#660000;}
 <script>
 // ===================== Firebase =====================
 const firebaseConfig = {
-  apiKey: "AIzaSy....",
-  authDomain: "project.firebaseapp.com",
-  projectId: "project-id"
+  apiKey: "AIzaSyA5PmAp1DIsu9cKNv1QGRrooiKvcR8GjXc",
+  authDomain: "kino-project-319e7.firebaseapp.com",
+  projectId: "kino-project-319e7",
+  storageBucket: "kino-project-319e7.firebasestorage.app",
+  messagingSenderId: "29098965023",
+  appId: "1:29098965023:web:f8725f258f25bca357bd2a"
 };
+
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
 
@@ -312,7 +317,8 @@ document.addEventListener("DOMContentLoaded", function() {
       localStorage.setItem('totalVotes',totalVotes);
       localStorage.setItem('totalScore',totalScore);
       localStorage.setItem('voted',true);
-      loadRating();
+     loadRating();
+
     });
   });
 
@@ -332,8 +338,12 @@ function moveSlide(step){
 let views = parseInt(localStorage.getItem("views")) || 0;
 views++;
 localStorage.setItem("views", views);
-document.getElementById("viewCount").innerHTML = "<b>Просмотры:</b> " + views;
+document.getElementById("viewCount").innerHTML = "<b>Просмотры:</b> " + views; 
+}); 
+
 </script>
+
+
 
 </div>
 </body>
