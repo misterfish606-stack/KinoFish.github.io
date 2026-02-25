@@ -75,137 +75,150 @@ button:hover{background:#660000;}
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
 <script>
-
-const firebaseConfig = {
-  apiKey: "AIzaSyCTr1vgcuSEn_2Ebh2vC3k7sNYzvMoYlBo",
-  authDomain: "kino-project-bf21c.firebaseapp.com",
-  projectId: "kino-project-bf21c",
-};
-firebase.initializeApp(firebaseConfig);
-const db = firebase.firestore();
-
-let currentUser = localStorage.getItem("currentUser") || null;
-function login(){
-  const name = document.getElementById("loginName").value.trim();
-  if(!name) return;
-  currentUser = name;
-  localStorage.setItem("currentUser", name);
-  document.getElementById("currentUser").innerText = "Вы вошли как: " + name;
+// ===== ПРОСМОТРЫ (сброшены до 0 и не накручиваются повторно) =====
+const viewKey = "film_view_count";
+if(!localStorage.getItem(viewKey)){
+  localStorage.setItem(viewKey, "0");
 }
-if(currentUser){ document.getElementById("currentUser").innerText = "Вы вошли как: " + currentUser; }
+document.getElementById("views").innerText = localStorage.getItem(viewKey);
 
-// просмотры = 0
-document.getElementById("viewCount").innerText = 0;
+// ===== КОММЕНТАРИИ =====
+let comments = JSON.parse(localStorage.getItem("comments") || "[]");
 
-// добавить комментарий
- document.getElementById("sendComment").addEventListener("click", async ()=>{
-  if(!currentUser) return alert("Войдите!");
-  const text = document.getElementById("commentInput").value.trim();
-  if(!text) return;
-  await db.collection("comments").add({
-    name: currentUser,
-    text: text,
-    likes:0,
-    dislikes:0,
-    timestamp: firebase.firestore.FieldValue.serverTimestamp()
-  });
-  document.getElementById("commentInput").value="";
-});
-
-// лайк универсальный
-async function addLike(ref){
-  await db.runTransaction(async t=>{
-    const doc = await t.get(ref);
-    if(!doc.exists) return;
-    t.update(ref,{likes:(doc.data().likes||0)+1});
-  });
-}
-async function addDislike(ref){
-  await db.runTransaction(async t=>{
-    const doc = await t.get(ref);
-    if(!doc.exists) return;
-    t.update(ref,{dislikes:(doc.data().dislikes||0)+1});
-  });
+function saveComments(){
+  localStorage.setItem("comments", JSON.stringify(comments));
 }
 
-// загрузка
- db.collection("comments").orderBy("timestamp","desc").onSnapshot(snapshot=>{
+function renderComments(){
   const container = document.getElementById("commentList");
-  container.innerHTML="";
+  container.innerHTML = "";
+  comments.forEach(c => container.appendChild(createCommentElement(c)));
+}
 
-  snapshot.forEach(doc=>{
-    renderComment(doc, container, 0);
-  });
-});
-
-function renderComment(doc, parentEl, level){
-  const data = doc.data();
+function createCommentElement(comment, level = 0){
   const div = document.createElement("div");
-  div.className = "comment" + (level==1?" reply":"") + (level==2?" reply-level-2":"");
-  div.id = doc.id;
+  div.className = "comment";
+  div.style.marginLeft = (level * 30) + "px";
 
-  let buttonsHTML='';
-  if(data.name===currentUser){
-    buttonsHTML=`<div class="comment-buttons"><button onclick="deleteComment('${doc.ref.path}')">Удалить</button></div>`;
+  div.innerHTML = `
+    <div class="comment-header">
+      <strong>${comment.author}</strong>
+      <div class="menu">
+        <button onclick="toggleMenu('${comment.id}')">⋮</button>
+        <div class="menu-content" id="menu-${comment.id}"></div>
+      </div>
+    </div>
+    <p>${comment.text}</p>
+    <div class="actions">
+      <button onclick="like('${comment.id}')">👍 <span>${comment.likes}</span></button>
+      <button onclick="dislike('${comment.id}')">👎 <span>${comment.dislikes}</span></button>
+    </div>
+    <div class="replies" id="replies-${comment.id}"></div>
+  `;
+
+  const repliesContainer = div.querySelector(`#replies-${comment.id}`);
+  if(comment.replies){
+    comment.replies.forEach(r => repliesContainer.appendChild(createCommentElement(r, level + 1)));
+  }
+
+  return div;
+}
+
+function toggleMenu(id){
+  document.querySelectorAll(".menu-content").forEach(m => m.innerHTML = "");
+  const menu = document.getElementById("menu-" + id);
+  const comment = findComment(id);
+
+  if(comment.author === "You"){
+    menu.innerHTML = `<button onclick="deleteComment('${id}')">Удалить</button>`;
   } else {
-    buttonsHTML=`<div class="comment-buttons"><button onclick="reply('${doc.ref.path}','${data.name}',${level})">Ответить</button></div>`;
-  }
-
-  div.innerHTML=`<b>${data.name}</b>: ${data.text}<br>
-    <button onclick="addLike(db.doc('${doc.ref.path}'))">👍 ${data.likes||0}</button>
-    <button onclick="addDislike(db.doc('${doc.ref.path}'))">👎 ${data.dislikes||0}</button>
-    ${buttonsHTML}
-    <div class="children"></div>`;
-
-  parentEl.appendChild(div);
-
-  if(level < 2){
-    doc.ref.collection("replies").orderBy("timestamp").onSnapshot(snap=>{
-      const childrenDiv = div.querySelector(".children");
-      childrenDiv.innerHTML="";
-      snap.forEach(child=>{
-        renderComment(child, childrenDiv, level+1);
-      });
-    });
+    menu.innerHTML = `<button onclick="replyTo('${id}')">Ответить</button>`;
   }
 }
 
-function reply(path,name,level){
-  if(!currentUser) return;
-  const text = prompt(`Ответ для ${name}:`);
+function findComment(id, list = comments){
+  for(let c of list){
+    if(c.id === id) return c;
+    if(c.replies){
+      const found = findComment(id, c.replies);
+      if(found) return found;
+    }
+  }
+  return null;
+}
+
+function like(id){
+  const c = findComment(id);
+  c.likes++;
+  saveComments();
+  renderComments();
+}
+
+function dislike(id){
+  const c = findComment(id);
+  c.dislikes++;
+  saveComments();
+  renderComments();
+}
+
+function replyTo(id){
+  const text = prompt("Введите ответ:");
   if(!text) return;
+  const parent = findComment(id);
+  const reply = {
+    id: Date.now().toString(),
+    author: "You",
+    text,
+    likes: 0,
+    dislikes: 0,
+    replies: []
+  };
+  parent.replies = parent.replies || [];
+  parent.replies.push(reply);
+  saveComments();
+  renderComments();
 
-  db.doc(path).collection("replies").add({
-    name: currentUser,
-    text: text,
-    likes:0,
-    dislikes:0,
-    timestamp: firebase.firestore.FieldValue.serverTimestamp()
-  });
+  setTimeout(() => {
+    const el = document.getElementById(`replies-${id}`);
+    if(el) el.scrollIntoView({behavior:"smooth"});
+  }, 100);
 }
 
-async function deleteComment(path){
-  const ref = db.doc(path);
-  const replies = await ref.collection("replies").get();
-  for(const r of replies.docs){
-    await deleteComment(r.ref.path);
+function deleteComment(id, list = comments){
+  for(let i = 0; i < list.length; i++){
+    if(list[i].id === id){
+      list.splice(i,1);
+      saveComments();
+      renderComments();
+      return true;
+    }
+    if(list[i].replies && deleteComment(id, list[i].replies)){
+      return true;
+    }
   }
-  await ref.delete();
+  return false;
 }
 
-let index=0;
-function moveSlide(step){
-  const slides = document.getElementById("slides");
-  const total = slides.children.length;
-  const width = slides.children[0].offsetWidth + 15;
-  index += step;
-  if(index<0) index=total-1;
-  if(index>=total) index=0;
-  slides.style.transform = "translateX(-"+index*width+"px)";
+function addComment(){
+  const input = document.getElementById("commentInput");
+  if(!input.value.trim()) return;
+  comments.push({
+    id: Date.now().toString(),
+    author: "You",
+    text: input.value,
+    likes: 0,
+    dislikes: 0,
+    replies: []
+  });
+  input.value = "";
+  saveComments();
+  renderComments();
 }
 
+renderComments();
 </script>
 </div>
 </body>
 </html>
+
 
