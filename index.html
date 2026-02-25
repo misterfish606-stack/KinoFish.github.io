@@ -134,14 +134,18 @@ if(currentUser){
 }
 
 // ===================== Просмотры =====================
-let viewed = localStorage.getItem('viewed');
+let viewed = localStorage.getItem("viewedMovie1");
+
 if(!viewed){
-  let views = parseInt(localStorage.getItem("views")) || 0;
+  let views = parseInt(localStorage.getItem("viewsMovie1")) || 0;
   views++;
-  localStorage.setItem("views", views);
-  localStorage.setItem('viewed', true);
+  localStorage.setItem("viewsMovie1", views);
+  localStorage.setItem("viewedMovie1", "true");
 }
-document.getElementById("viewCount").innerText = "<b>Просмотры:</b> " + localStorage.getItem("views");
+
+document.getElementById("viewCount").innerHTML =
+"<b>Просмотры:</b> " + (localStorage.getItem("viewsMovie1") || 0);
+
 
 // ===================== Рейтинг =====================
 const stars = document.querySelectorAll('.star');
@@ -265,26 +269,45 @@ function createComment(c, level){
 }
 
 
-// Лайк
 async function likeComment(id){
+  if(!currentUser) return alert("Сначала войдите!");
+
   const ref = db.collection("comments").doc(id);
+
   await db.runTransaction(async t=>{
     const doc = await t.get(ref);
     if(!doc.exists) return;
-    t.update(ref,{likes:(doc.data().likes || 0)+1});
+
+    let likedBy = doc.data().likedBy || [];
+
+    if(likedBy.includes(currentUser)) return;
+
+    t.update(ref,{
+      likes:(doc.data().likes || 0)+1,
+      likedBy:[...likedBy, currentUser]
+    });
   });
 }
 
-// Дизлайк
 async function dislikeComment(id){
+  if(!currentUser) return alert("Сначала войдите!");
+
   const ref = db.collection("comments").doc(id);
+
   await db.runTransaction(async t=>{
     const doc = await t.get(ref);
     if(!doc.exists) return;
-    t.update(ref,{dislikes:(doc.data().dislikes || 0)+1});
+
+    let dislikedBy = doc.data().dislikedBy || [];
+
+    if(dislikedBy.includes(currentUser)) return;
+
+    t.update(ref,{
+      dislikes:(doc.data().dislikes || 0)+1,
+      dislikedBy:[...dislikedBy, currentUser]
+    });
   });
 }
-
 
 // Ответ
 function replyComment(parentId,name){
