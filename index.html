@@ -41,7 +41,18 @@ button:hover{background:#660000;}
 .comment-buttons{position:absolute;top:5px;right:5px;}
 .comment-buttons button{margin-left:5px;padding:2px 5px;font-size:12px;}
 </style>
-</head>
+</head> 
+  <div id="replyModal" class="reply-modal">
+  <div class="reply-box">
+    <h3>Ваш ответ</h3>
+    <textarea id="replyText" placeholder="Введите ответ..."></textarea>
+    <div class="reply-buttons">
+      <button onclick="sendReply()">Отправить</button>
+      <button onclick="closeReply()">Закрыть</button>
+    </div>
+  </div>
+</div>
+
 <body>
 <div class="wrapper">
 
