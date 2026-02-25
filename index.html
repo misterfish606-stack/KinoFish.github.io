@@ -185,63 +185,144 @@ function moveSlide(step){
 }
 
 // ===================== Комментарии =====================
+
+// Отправка нового комментария
 document.getElementById("sendComment").addEventListener("click", async ()=>{
   if(!currentUser){ alert("Сначала войдите!"); return; }
+
   const text = document.getElementById("commentInput").value.trim();
   if(!text) return;
+
   await db.collection("comments").add({
     name: currentUser,
     text: text,
-    likes:0,
-    dislikes:0,
+    likes: 0,
+    dislikes: 0,
+    parentId: null,
     timestamp: firebase.firestore.FieldValue.serverTimestamp()
   });
+
   document.getElementById("commentInput").value="";
 });
 
-db.collection("comments").orderBy("timestamp","desc")
+
+// Слушаем изменения
+db.collection("comments").orderBy("timestamp","asc")
 .onSnapshot(snapshot=>{
   const container = document.getElementById("commentList");
   container.innerHTML="";
+
+  const all = {};
   snapshot.forEach(doc=>{
-    const c = doc.data();
-    const div = document.createElement("div");
-    div.className="comment";
-    let buttonsHTML='';
-    if(c.name===currentUser){
-      buttonsHTML=`<div class="comment-buttons"><button onclick="deleteComment('${doc.id}')">Удалить</button></div>`;
-    } else {
-      buttonsHTML=`<div class="comment-buttons"><button onclick="replyComment('${doc.id}','${c.name}')">Ответить</button></div>`;
-    }
-    div.innerHTML=`<b>${c.name}</b>: ${c.text}<br>
-      <button onclick="likeComment('${doc.id}')">👍 ${c.likes||0}</button>
-      <button onclick="dislikeComment('${doc.id}')">👎 ${c.dislikes||0}</button>
-      ${buttonsHTML}`;
-    container.appendChild(div);
+    all[doc.id] = {
+      id: doc.id,
+      ...doc.data(),
+      replies:[]
+    };
   });
+
+  // строим дерево
+  Object.values(all).forEach(c=>{
+    if(c.parentId){
+      if(all[c.parentId]){
+        all[c.parentId].replies.push(c);
+      }
+    }
+  });
+
+  // выводим только корневые
+  Object.values(all)
+    .filter(c=>!c.parentId)
+    .forEach(c=>{
+      container.appendChild(createComment(c,0));
+    });
 });
 
-// Лайки/дизлайки
+
+// Создание элемента комментария
+function createComment(c, level){
+  const div = document.createElement("div");
+  div.className="comment";
+  div.style.marginLeft = (level*25)+"px";
+  div.id="comment-"+c.id;
+
+  div.innerHTML = `
+    <b>${c.name}</b>: ${c.text}<br>
+    <button onclick="likeComment('${c.id}')">👍 ${c.likes || 0}</button>
+    <button onclick="dislikeComment('${c.id}')">👎 ${c.dislikes || 0}</button>
+    <button onclick="replyComment('${c.id}','${c.name}')">Ответить</button>
+    ${c.name === currentUser ? `<button onclick="deleteComment('${c.id}')">Удалить</button>` : ``}
+  `;
+
+  // 👇 ВАЖНО: ответы идут СНИЗУ
+  if(c.replies.length){
+    c.replies.forEach(r=>{
+      div.appendChild(createComment(r, level+1));
+    });
+  }
+
+  return div;
+}
+
+
+// Лайк
 async function likeComment(id){
   const ref = db.collection("comments").doc(id);
   await db.runTransaction(async t=>{
     const doc = await t.get(ref);
     if(!doc.exists) return;
-    t.update(ref,{likes:(doc.data().likes||0)+1});
+    t.update(ref,{likes:(doc.data().likes || 0)+1});
   });
 }
+
+// Дизлайк
 async function dislikeComment(id){
   const ref = db.collection("comments").doc(id);
   await db.runTransaction(async t=>{
     const doc = await t.get(ref);
     if(!doc.exists) return;
-    t.update(ref,{dislikes:(doc.data().dislikes||0)+1});
+    t.update(ref,{dislikes:(doc.data().dislikes || 0)+1});
   });
 }
 
-// Удаление и ответы
-function deleteComment(id){ db.collection("comments").doc(id).delete(); }
-function replyComment(id,name){ const text=prompt(`Ответ ${name}:`); if(text) db.collection("comments").add({name:currentUser,text:"Ответ к "+name+": "+text,likes:0,dislikes:0,timestamp:firebase.firestore.FieldValue.serverTimestamp()}); }
+
+// Ответ
+function replyComment(parentId,name){
+  if(!currentUser){ alert("Сначала войдите!"); return; }
+
+  const text = prompt("Ответ для " + name + ":");
+  if(!text) return;
+
+  db.collection("comments").add({
+    name: currentUser,
+    text: text,
+    likes: 0,
+    dislikes: 0,
+    parentId: parentId,
+    timestamp: firebase.firestore.FieldValue.serverTimestamp()
+  });
+
+  setTimeout(()=>{
+    const el = document.getElementById("comment-"+parentId);
+    if(el) el.scrollIntoView({behavior:"smooth", block:"center"});
+  },300);
+}
+
+
+// Удаление с деревом
+async function deleteComment(id){
+
+  // удалить все дочерние
+  const snapshot = await db.collection("comments")
+      .where("parentId","==",id)
+      .get();
+
+  for(const doc of snapshot.docs){
+    await deleteComment(doc.id);
+  }
+
+  await db.collection("comments").doc(id).delete();
+}
 
 </script>
 </div>
