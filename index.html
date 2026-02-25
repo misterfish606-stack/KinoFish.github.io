@@ -8,12 +8,39 @@
 <style>
 body{margin:0;font-family:'Arial Black',sans-serif;background:#1b0000;color:#eee;overflow-x:hidden;}
 .wrapper{width:70%;margin:0 auto;padding-bottom:60px;}
+
+/* Слайдер */
+.slider{position:relative;margin-top:20px;overflow:hidden;border-radius:10px;height:200px;background:#220000;padding:10px;box-shadow:0 0 15px #900;}
+.slides{display:flex;transition:0.5s;}
+.slides img{width:300px;margin-right:15px;border-radius:5px;cursor:pointer;transition:0.3s;}
+.slides img:hover{transform:scale(1.05);}
+.prev,.next{position:absolute;top:50%;transform:translateY(-50%);background:#330000;border:none;color:white;font-size:20px;padding:8px;cursor:pointer;border-radius:5px;}
+.prev{left:5px;} .next{right:5px;}
+
+/* Инфо */
+.top{display:flex;gap:30px;margin-top:30px;}
+.poster img{width:250px;border-radius:10px;box-shadow:0 0 20px #900;}
+.info-block{display:flex;flex-direction:column;justify-content:flex-start;}
+.description{margin-top:30px;line-height:1.6;padding:15px;background:#220000;border-radius:10px;box-shadow:0 0 15px #900;}
+
+/* Видео */
+.video-container{margin-top:30px;}
+.video-container iframe{width:100%;height:500px;border-radius:10px;box-shadow:0 0 25px #900;}
+
+/* Кнопки */
+button{padding:6px 10px;background:#330000;color:white;border:1px solid #aa0000;border-radius:5px;cursor:pointer;margin-top:5px;}
+button:hover{background:#660000;}
+
+/* Рейтинг */
+.star{font-size:24px;color:#550000;cursor:pointer;}
+.star.selected{color:gold;}
+#avgRating{font-size:18px;color:gold;margin-top:10px;}
+
+/* Комментарии */
 .comment{background:#140000;padding:10px;margin-top:10px;border-left:4px solid #aa0000;border-radius:5px;position:relative;}
 .reply{margin-left:40px;background:#1f0000;border-left:4px solid #ff4444;}
 .comment-buttons{position:absolute;top:5px;right:5px;}
-button{padding:5px 8px;background:#330000;color:white;border:1px solid #aa0000;border-radius:5px;cursor:pointer;margin-top:5px;font-size:12px;}
-button:hover{background:#660000;}
-.video-container iframe{width:100%;height:500px;border-radius:10px;box-shadow:0 0 25px #900;margin-top:20px;}
+.comment-buttons button{margin-left:5px;padding:2px 5px;font-size:12px;}
 </style>
 </head>
 <body>
@@ -21,12 +48,53 @@ button:hover{background:#660000;}
 
 <h2>Хороший, плохой, злой (1966)</h2>
 
+<!-- Слайдер -->
+<div class="slider">
+  <div class="slides" id="slides">
+    <img src="https://upload.wikimedia.org/wikipedia/en/4/45/Good_the_bad_and_the_ugly_poster.jpg">
+    <img src="https://m.media-amazon.com/images/I/91z+4nW6zRL._AC_SL1500_.jpg">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/2/22/The_Good_the_Bad_and_the_Ugly.jpg">
+  </div>
+  <button class="prev" onclick="moveSlide(-1)">❮</button>
+  <button class="next" onclick="moveSlide(1)">❯</button>
+</div>
+
+<!-- Инфо -->
+<div class="top">
+  <div class="poster">
+    <img src="https://i.imgur.com/XKxOxxg.jpg">
+  </div>
+  <div class="info-block">
+    <p><b>Оригинальное название:</b> The Good, the Bad and the Ugly</p>
+    <p><b>Страны:</b> Италия, Испания</p>
+    <p><b>Жанр:</b> Вестерн / Экшн</p>
+    <p><b>Рейтинг КиноПоиск:</b> 8.6</p>
+    <p><b>Рейтинг IMDb:</b> 8.8</p>
+    <p><b>Режиссёр:</b> Серджо Леоне</p>
+    <p><b>Актёры:</b> Клинт Иствуд, Ли Ван Клиф, Илай Уоллак</p>
+    <p id="viewCount"><b>Просмотры:</b> 0</p>
+    <div id="avgRating">Средний рейтинг: ⭐0.0</div>
+    <div>
+      <span class="star" data-value="1">★</span>
+      <span class="star" data-value="2">★</span>
+      <span class="star" data-value="3">★</span>
+      <span class="star" data-value="4">★</span>
+      <span class="star" data-value="5">★</span>
+      <span id="votes">(0 голосов)</span>
+    </div>
+  </div>
+</div>
+
+<div class="description">
+История трёх охотников за сокровищами во времена Гражданской войны в США.
+</div>
+
+<!-- Видео -->
 <div class="video-container">
   <iframe src="https://www.youtube.com/embed/0Bwxz16-T04" allowfullscreen></iframe>
 </div>
 
-<p id="viewCount"><b>Просмотры:</b> 0</p>
-
+<!-- Авторизация -->
 <h3>Вход</h3>
 <input type="text" id="loginName" placeholder="Введите имя">
 <button onclick="login()">Войти</button>
@@ -41,7 +109,7 @@ button:hover{background:#660000;}
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
 
 <script>
-// Firebase
+// ===================== Firebase =====================
 const firebaseConfig = {
   apiKey: "AIzaSyCTr1vgcuSEn_2Ebh2vC3k7sNYzvMoYlBo",
   authDomain: "kino-project-bf21c.firebaseapp.com",
@@ -50,7 +118,7 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
 
-// Авторизация
+// ===================== Авторизация =====================
 let currentUser = localStorage.getItem("currentUser") || null;
 function login(){
   const name = document.getElementById("loginName").value.trim();
@@ -63,11 +131,55 @@ if(currentUser){
   document.getElementById("currentUser").innerText = "Вы вошли как: " + currentUser;
 }
 
-// ===================== Просмотры (сбиты до 0) =====================
-localStorage.setItem("views", 0);
-document.getElementById("viewCount").innerHTML = "<b>Просмотры:</b> 0";
+// ===================== Просмотры (1 пользователь = 1 просмотр) =====================
+if(!localStorage.getItem("hasVisited")){
+  localStorage.setItem("hasVisited", "true");
+  localStorage.setItem("views", "0");
+}
+document.getElementById("viewCount").innerHTML = "<b>Просмотры:</b> " + (localStorage.getItem("views") || 0);
 
-// ===================== Добавление комментария =====================
+// ===================== Рейтинг =====================
+const stars = document.querySelectorAll('.star');
+function loadRating(){
+  db.collection('rating').doc('movie1').get().then(doc=>{
+    if(doc.exists){
+      const data = doc.data();
+      const avg = data.totalVotes ? (data.totalScore/data.totalVotes).toFixed(1) : "0.0";
+      document.getElementById('votes').innerText = `(${data.totalVotes || 0} голосов)`;
+      document.getElementById('avgRating').innerText = `Средний рейтинг: ⭐${avg}`;
+    }
+  });
+}
+stars.forEach(star=>{
+  star.addEventListener('click', ()=>{
+    if(localStorage.getItem("rated")) return;
+    const val = parseInt(star.getAttribute('data-value'));
+    const ref = db.collection('rating').doc('movie1');
+    db.runTransaction(async t=>{
+      const doc = await t.get(ref);
+      if(!doc.exists) t.set(ref,{totalVotes:1,totalScore:val});
+      else t.update(ref,{
+        totalVotes: (doc.data().totalVotes || 0)+1,
+        totalScore: (doc.data().totalScore || 0)+val
+      });
+    }).then(()=>{localStorage.setItem('rated',true); loadRating();});
+  });
+});
+loadRating();
+
+// ===================== Слайдер =====================
+let index=0;
+function moveSlide(step){
+  const slides = document.getElementById("slides");
+  const total = slides.children.length;
+  const width = slides.children[0].offsetWidth + 15;
+  index += step;
+  if(index<0) index=total-1;
+  if(index>=total) index=0;
+  slides.style.transform = "translateX(-"+index*width+"px)";
+}
+
+// ===================== Комментарии =====================
 document.getElementById("sendComment").addEventListener("click", async ()=>{
   if(!currentUser){ alert("Сначала войдите!"); return; }
   const text = document.getElementById("commentInput").value.trim();
@@ -82,8 +194,8 @@ document.getElementById("sendComment").addEventListener("click", async ()=>{
   document.getElementById("commentInput").value="";
 });
 
-// ===================== Загрузка комментариев =====================
-db.collection("comments").orderBy("timestamp","desc")
+// Загрузка комментариев и ответов
+ db.collection("comments").orderBy("timestamp","desc")
 .onSnapshot(snapshot=>{
   const container = document.getElementById("commentList");
   container.innerHTML="";
@@ -92,6 +204,7 @@ db.collection("comments").orderBy("timestamp","desc")
     const c = doc.data();
     const div = document.createElement("div");
     div.className="comment";
+    div.id="comment-"+doc.id;
 
     let buttonsHTML='';
     if(c.name===currentUser){
@@ -108,7 +221,6 @@ db.collection("comments").orderBy("timestamp","desc")
 
     container.appendChild(div);
 
-    // Загружаем ответы
     db.collection("comments").doc(doc.id).collection("replies")
     .orderBy("timestamp")
     .onSnapshot(replySnap=>{
@@ -125,7 +237,7 @@ db.collection("comments").orderBy("timestamp","desc")
   });
 });
 
-// ===================== Ответ =====================
+// Ответ
 function replyToComment(id,name){
   const text = prompt(`Ответ для ${name}:`);
   if(!text || !currentUser) return;
@@ -134,22 +246,21 @@ function replyToComment(id,name){
     name: currentUser,
     text: text,
     timestamp: firebase.firestore.FieldValue.serverTimestamp()
+  }).then(()=>{
+    document.getElementById("comment-"+id).scrollIntoView({behavior:"smooth"});
   });
-
-  // Прокрутка к родительскому комменту
-  document.querySelector(`[onclick*="${id}"]`).scrollIntoView({behavior:"smooth"});
 }
 
-// ===================== Удаление комментария вместе с ответами =====================
+// Удаление комментария вместе с ответами
 async function deleteComment(id){
   const replies = await db.collection("comments").doc(id).collection("replies").get();
-  replies.forEach(async r=>{
+  for(const r of replies.docs){
     await r.ref.delete();
-  });
+  }
   await db.collection("comments").doc(id).delete();
 }
 
-// ===================== Лайки =====================
+// Лайки
 async function likeComment(id){
   const ref = db.collection("comments").doc(id);
   await db.runTransaction(async t=>{
