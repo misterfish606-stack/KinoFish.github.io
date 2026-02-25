@@ -25,7 +25,7 @@ background-repeat:repeat;background-size:400px 400px;animation:dust 20s linear i
 .info-block{display:flex;flex-direction:column;justify-content:flex-start;}
 .description{margin-top:30px;line-height:1.6;padding:15px;background:#220000;border-radius:10px;box-shadow:0 0 15px #900;}
 .video-container{margin-top:30px;}
-.video-container video{width:100%;height:500px;border-radius:10px;box-shadow:0 0 25px #900;}
+video{width:100%;height:500px;border-radius:10px;box-shadow:0 0 25px #900;}
 button{padding:6px 10px;background:#330000;color:white;border:1px solid #aa0000;border-radius:5px;cursor:pointer;margin-top:5px;}
 button:hover{background:#660000;}
 .star{font-size:24px;color:#550000;cursor:pointer;}
@@ -36,6 +36,7 @@ button:hover{background:#660000;}
 </head>
 <body>
 <div class="wrapper">
+
 <h2>Хороший, плохой, злой (1966)</h2>
 
 <!-- Слайдер -->
@@ -81,7 +82,10 @@ button:hover{background:#660000;}
 
 <!-- Видео -->
 <div class="video-container">
-  <video id="movie" controls></video>
+  <video controls>
+    <source src="https://example.com/movie.mp4" type="video/mp4">
+    Ваш браузер не поддерживает видео.
+  </video>
 </div>
 
 <!-- Авторизация -->
@@ -97,10 +101,9 @@ button:hover{background:#660000;}
 
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-storage-compat.js"></script>
 
 <script>
-// ===== Firebase =====
+// ===================== Firebase =====================
 const firebaseConfig = {
   apiKey: "AIzaSyCTr1vgcuSEn_2Ebh2vC3k7sNYzvMoYlBo",
   authDomain: "kino-project-bf21c.firebaseapp.com",
@@ -111,9 +114,8 @@ const firebaseConfig = {
 };
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
-const storage = firebase.storage();
 
-// ===== Авторизация =====
+// ===================== Авторизация =====================
 let currentUser = localStorage.getItem("currentUser") || null;
 function login(){
   const name = document.getElementById("loginName").value.trim();
@@ -126,47 +128,7 @@ if(currentUser){
   document.getElementById("currentUser").innerText = "Вы вошли как: " + currentUser;
 }
 
-// ===== Просмотры =====
-const viewsRef = db.collection("movies").doc("good_bad_ugly");
-viewsRef.get().then(doc=>{
-  if(!doc.exists) viewsRef.set({views:0, totalScore:0, totalVotes:0, votedUsers:[]});
-  viewsRef.update({views: firebase.firestore.FieldValue.increment(1)});
-  viewsRef.get().then(d=>{
-    document.getElementById("viewCount").innerHTML = "<b>Просмотры:</b> "+d.data().views;
-  });
-});
-
-// ===== Рейтинг =====
-const stars = document.querySelectorAll('.star');
-function loadRating(){
-  viewsRef.get().then(doc=>{
-    const data = doc.data();
-    const avg = data.totalVotes ? (data.totalScore/data.totalVotes).toFixed(1) : "0.0";
-    document.getElementById('votes').innerText=`(${data.totalVotes} голосов)`;
-    document.getElementById('avgRating').innerText=`Средний рейтинг: ⭐${avg}`;
-    stars.forEach(s=>s.classList.remove('selected'));
-  });
-}
-stars.forEach(star=>{
-  star.addEventListener('click', async ()=>{
-    if(!currentUser){ alert("Войдите!"); return; }
-    await db.runTransaction(async t=>{
-      const doc = await t.get(viewsRef);
-      const data = doc.data();
-      if(data.votedUsers.includes(currentUser)) return;
-      const val = parseInt(star.getAttribute('data-value'));
-      t.update(viewsRef,{
-        totalScore: firebase.firestore.FieldValue.increment(val),
-        totalVotes: firebase.firestore.FieldValue.increment(1),
-        votedUsers: [...data.votedUsers, currentUser]
-      });
-    });
-    loadRating();
-  });
-});
-loadRating();
-
-// ===== Комментарии =====
+// ===================== Комментарии =====================
 document.getElementById("sendComment").addEventListener("click", async ()=>{
   if(!currentUser){ alert("Сначала войдите!"); return; }
   const text = document.getElementById("commentInput").value.trim();
@@ -176,63 +138,80 @@ document.getElementById("sendComment").addEventListener("click", async ()=>{
     text: text,
     likes:0,
     dislikes:0,
-    likedBy:[],
-    dislikedBy:[],
     timestamp: firebase.firestore.FieldValue.serverTimestamp()
   });
   document.getElementById("commentInput").value="";
 });
 
 // Отображение комментариев
-db.collection("comments").orderBy("timestamp","desc").onSnapshot(snapshot=>{
+db.collection("comments").orderBy("timestamp","desc")
+.onSnapshot(snapshot=>{
   const container = document.getElementById("commentList");
   container.innerHTML = "";
   snapshot.forEach(doc=>{
     const c = doc.data();
     const div = document.createElement("div");
-    div.className="comment";
+    div.className = "comment";
+    let liked = JSON.parse(localStorage.getItem(`liked_${doc.id}`)) || false;
+    let disliked = JSON.parse(localStorage.getItem(`disliked_${doc.id}`)) || false;
     div.innerHTML = `<b>${c.name}</b>: ${c.text}<br>
-      <button onclick="likeComment('${doc.id}')">👍 ${c.likes||0}</button>
-      <button onclick="dislikeComment('${doc.id}')">👎 ${c.dislikes||0}</button>`;
+      <button onclick="likeComment('${doc.id}',this)" ${liked?"disabled":""}>👍 ${c.likes||0}</button>
+      <button onclick="dislikeComment('${doc.id}',this)" ${disliked?"disabled":""}>👎 ${c.dislikes||0}</button>`;
     container.appendChild(div);
   });
 });
 
-// Лайк/Дизлайк с ограничением
-async function likeComment(id){
-  if(!currentUser){ alert("Войдите!"); return; }
+async function likeComment(id, btn){
+  if(JSON.parse(localStorage.getItem(`liked_${id}`))) return;
   const ref = db.collection("comments").doc(id);
   await db.runTransaction(async t=>{
     const doc = await t.get(ref);
-    const data = doc.data();
-    if(data.likedBy.includes(currentUser)) return;
-    t.update(ref,{
-      likes: firebase.firestore.FieldValue.increment(1),
-      likedBy: [...data.likedBy, currentUser]
-    });
+    if(!doc.exists) return;
+    t.update(ref,{likes:(doc.data().likes||0)+1});
   });
-}
-async function dislikeComment(id){
-  if(!currentUser){ alert("Войдите!"); return; }
-  const ref = db.collection("comments").doc(id);
-  await db.runTransaction(async t=>{
-    const doc = await t.get(ref);
-    const data = doc.data();
-    if(data.dislikedBy.includes(currentUser)) return;
-    t.update(ref,{
-      dislikes: firebase.firestore.FieldValue.increment(1),
-      dislikedBy: [...data.dislikedBy, currentUser]
-    });
-  });
+  localStorage.setItem(`liked_${id}`, true);
+  btn.disabled = true;
 }
 
-// ===== Видео с Firebase Storage =====
-const movieRef = storage.ref('films/good_bad_ugly.mp4');
-movieRef.getDownloadURL().then(url=>{
-  document.getElementById("movie").src = url;
+async function dislikeComment(id, btn){
+  if(JSON.parse(localStorage.getItem(`disliked_${id}`))) return;
+  const ref = db.collection("comments").doc(id);
+  await db.runTransaction(async t=>{
+    const doc = await t.get(ref);
+    if(!doc.exists) return;
+    t.update(ref,{dislikes:(doc.data().dislikes||0)+1});
+  });
+  localStorage.setItem(`disliked_${id}`, true);
+  btn.disabled = true;
+}
+
+// ===================== Рейтинг =====================
+document.addEventListener("DOMContentLoaded", function() {
+  const stars = document.querySelectorAll('.star');
+  function loadRating(){
+    let totalVotes = parseInt(localStorage.getItem('totalVotes'))||0;
+    let totalScore = parseInt(localStorage.getItem('totalScore'))||0;
+    let avg = totalVotes?(totalScore/totalVotes).toFixed(1):"0.0";
+    document.getElementById('votes').innerText=`(${totalVotes} голосов)`;
+    document.getElementById('avgRating').innerText=`Средний рейтинг: ⭐${avg}`;
+  }
+  stars.forEach(star=>{
+    star.addEventListener('click',()=>{
+      if(localStorage.getItem("voted")) return;
+      let val = parseInt(star.getAttribute('data-value'));
+      let totalVotes = parseInt(localStorage.getItem('totalVotes'))||0;
+      let totalScore = parseInt(localStorage.getItem('totalScore'))||0;
+      totalVotes++; totalScore+=val;
+      localStorage.setItem('totalVotes',totalVotes);
+      localStorage.setItem('totalScore',totalScore);
+      localStorage.setItem('voted',true);
+      loadRating();
+    });
+  });
+  loadRating();
 });
 
-// ===== Слайдер =====
+// ===================== Слайдер =====================
 let index=0;
 function moveSlide(step){
   const slides = document.getElementById("slides");
@@ -243,8 +222,16 @@ function moveSlide(step){
   if(index>=total) index=0;
   slides.style.transform = "translateX(-"+index*width+"px)";
 }
+
+// ===================== Просмотры =====================
+let views = parseInt(localStorage.getItem("views")) || 0;
+views++;
+localStorage.setItem("views", views);
+document.getElementById("viewCount").innerHTML = "<b>Просмотры:</b> " + views; 
+
 </script>
 </div>
 </body>
 </html>
+
 
