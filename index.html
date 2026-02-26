@@ -156,117 +156,151 @@ button:hover{background:#660000;}
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
 <script>
-const firebaseConfig = {
-  apiKey: "AIzaSyCTr1vgcuSEn_2Ebh2vC3k7sNYzvMoYlBo",
-  authDomain: "kino-project-bf21c.firebaseapp.com",
-  projectId: "kino-project-bf21c",
-  storageBucket: "kino-project-bf21c.firebasestorage.app",
-  messagingSenderId: "603398460201",
-  appId: "1:603398460201:web:42612fab9d600222985d38"
-};
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
 
+const movieId = "goodbadugly";
+
 let currentUser = localStorage.getItem("currentUser") || null;
-function login(){
+let replyParentId = null;
+
+// ====================== УНИКАЛЬНОЕ ИМЯ ======================
+async function login(){
   const name = document.getElementById("loginName").value.trim();
   if(!name) return;
+
+  const userRef = db.collection("users").doc(name);
+  const doc = await userRef.get();
+
+  if(doc.exists){
+    document.getElementById("currentUser").innerHTML =
+      "<span style='color:red'>Имя уже занято</span>";
+    return;
+  }
+
+  await userRef.set({created: Date.now()});
+
   currentUser = name;
   localStorage.setItem("currentUser", name);
-  document.getElementById("currentUser").innerText = "Вы вошли как: " + name;
+  document.getElementById("currentUser").innerText =
+    "Вы вошли как: " + name;
 }
-if(currentUser){document.getElementById("currentUser").innerText = "Вы вошли как: " + currentUser;}
 
-// ===================== Комментарии =====================
+if(currentUser){
+  document.getElementById("currentUser").innerText =
+    "Вы вошли как: " + currentUser;
+}
 
-// Отправка нового комментария
-document.getElementById("sendComment").addEventListener("click", async ()=>{
-  if(!currentUser){ alert("Сначала войдите!"); return; }
+// ====================== ПРОСМОТРЫ (Firebase) ======================
+async function addView(){
+  if(localStorage.getItem("viewed_"+movieId)) return;
+
+  const ref = db.collection("movies").doc(movieId);
+
+  await db.runTransaction(async t=>{
+    const doc = await t.get(ref);
+    const views = doc.exists ? (doc.data().views || 0) : 0;
+    t.set(ref,{views: views+1},{merge:true});
+  });
+
+  localStorage.setItem("viewed_"+movieId,"1");
+}
+
+db.collection("movies").doc(movieId)
+.onSnapshot(doc=>{
+  const views = doc.exists ? (doc.data().views || 0) : 0;
+  document.getElementById("viewCount").innerHTML =
+    "<b>Просмотры:</b> " + views;
+});
+
+addView();
+
+// ====================== РЕЙТИНГ ======================
+document.querySelectorAll(".star").forEach(star=>{
+  star.addEventListener("click", async ()=>{
+    if(!currentUser) return alert("Войдите!");
+
+    const voteRef = db.collection("ratings")
+      .doc(movieId+"_"+currentUser);
+
+    const voteDoc = await voteRef.get();
+    if(voteDoc.exists) return alert("Вы уже голосовали");
+
+    const value = parseInt(star.dataset.value);
+
+    await voteRef.set({value:value});
+
+    const movieRef = db.collection("movies").doc(movieId);
+
+    await db.runTransaction(async t=>{
+      const doc = await t.get(movieRef);
+      const data = doc.exists ? doc.data() : {};
+      const total = data.totalRating || 0;
+      const count = data.ratingCount || 0;
+
+      t.set(movieRef,{
+        totalRating: total + value,
+        ratingCount: count + 1
+      },{merge:true});
+    });
+  });
+});
+
+db.collection("movies").doc(movieId)
+.onSnapshot(doc=>{
+  if(!doc.exists) return;
+
+  const total = doc.data().totalRating || 0;
+  const count = doc.data().ratingCount || 0;
+  const avg = count ? (total/count).toFixed(1) : "0.0";
+
+  document.getElementById("avgRating").innerText =
+    "Средний рейтинг: ⭐" + avg;
+  document.getElementById("votes").innerText =
+    "(" + count + " голосов)";
+});
+
+// ====================== КОММЕНТАРИИ ======================
+document.getElementById("sendComment")
+.addEventListener("click", async ()=>{
+  if(!currentUser) return alert("Войдите!");
 
   const text = document.getElementById("commentInput").value.trim();
   if(!text) return;
 
   await db.collection("comments").add({
+    movieId,
     name: currentUser,
-    text: text,
-    likes: 0,
-    dislikes: 0,
+    text,
     parentId: null,
-    timestamp: firebase.firestore.FieldValue.serverTimestamp()
+    likes:0,
+    dislikes:0,
+    likedBy:[],
+    dislikedBy:[],
+    created: Date.now()
   });
 
   document.getElementById("commentInput").value="";
 });
 
-
-// Слушаем изменения
-db.collection("comments").orderBy("timestamp","asc")
+db.collection("comments")
+.where("movieId","==",movieId)
+.orderBy("created")
 .onSnapshot(snapshot=>{
   const container = document.getElementById("commentList");
   container.innerHTML="";
 
-let replyParentId = null;
+  const all={};
 
-function replyComment(parentId,name){
-  if(!currentUser){ alert("Сначала войдите!"); return; }
-
-  replyParentId = parentId;
-  document.getElementById("replyModal").style.display="flex";
-
-  setTimeout(()=>{
-    document.getElementById("replyModal")
-      .scrollIntoView({behavior:"smooth",block:"center"});
-  },200);
-}
-
-function closeReply(){
-  document.getElementById("replyModal").style.display="none";
-  document.getElementById("replyText").value="";
-  replyParentId=null;
-}
-
-async function sendReply(){
-  const text = document.getElementById("replyText").value.trim();
-  if(!text) return;
-
-  await db.collection("comments").add({
-    name: currentUser,
-    text: text,
-    likes:0,
-    dislikes:0,
-    likedBy:[],
-    dislikedBy:[],
-    parentId: replyParentId,
-    timestamp: firebase.firestore.FieldValue.serverTimestamp()
-  });
-
-  closeReply();
-
-  setTimeout(()=>{
-    const el = document.getElementById("comment-"+replyParentId);
-    if(el) el.scrollIntoView({behavior:"smooth", block:"center"});
-  },300);
-}
-
-  const all = {};
   snapshot.forEach(doc=>{
-    all[doc.id] = {
-      id: doc.id,
-      ...doc.data(),
-      replies:[]
-    };
+    all[doc.id]={id:doc.id,...doc.data(),replies:[]};
   });
 
-  // строим дерево
   Object.values(all).forEach(c=>{
-    if(c.parentId){
-      if(all[c.parentId]){
-        all[c.parentId].replies.push(c);
-      }
-    }
+    if(c.parentId && all[c.parentId])
+      all[c.parentId].replies.push(c);
   });
 
-  // выводим только корневые
   Object.values(all)
     .filter(c=>!c.parentId)
     .forEach(c=>{
@@ -274,123 +308,118 @@ async function sendReply(){
     });
 });
 
-
-// Создание элемента комментария
-function createComment(c, level){
-  const div = document.createElement("div");
+function createComment(c,level){
+  const div=document.createElement("div");
   div.className="comment";
-  div.style.marginLeft = (level*25)+"px";
-  div.id="comment-"+c.id;
+  div.style.marginLeft=(level*20)+"px";
 
-  div.innerHTML = `
+  let owner="";
+  if(c.name===currentUser){
+    owner=`
+      <div style="position:absolute;top:5px;right:5px">
+        <button onclick="editComment('${c.id}')">✏</button>
+        <button style="background:red"
+        onclick="deleteComment('${c.id}')">Удалить</button>
+      </div>`;
+  }
+
+  div.innerHTML=`
+    ${owner}
     <b>${c.name}</b>: ${c.text}<br>
-    <button onclick="likeComment('${c.id}')">👍 ${c.likes || 0}</button>
-    <button onclick="dislikeComment('${c.id}')">👎 ${c.dislikes || 0}</button>
-    <button onclick="replyComment('${c.id}','${c.name}')">Ответить</button>
-    ${c.name === currentUser ? `<button onclick="deleteComment('${c.id}')">Удалить</button>` : ``}
+    <button onclick="likeComment('${c.id}')">👍 ${c.likes}</button>
+    <button onclick="dislikeComment('${c.id}')">👎 ${c.dislikes}</button>
+    <button onclick="openReply('${c.id}')">Ответить</button>
   `;
 
-  // 👇 ВАЖНО: ответы идут СНИЗУ
-  if(c.replies.length){
-    c.replies.forEach(r=>{
-      div.appendChild(createComment(r, level+1));
-    });
-  }
+  c.replies.forEach(r=>{
+    div.appendChild(createComment(r,level+1));
+  });
 
   return div;
 }
 
-
+// ====================== ЛАЙК ======================
 async function likeComment(id){
-  if(!currentUser) return alert("Сначала войдите!");
-
-  const ref = db.collection("comments").doc(id);
+  if(!currentUser) return alert("Войдите!");
+  const ref=db.collection("comments").doc(id);
 
   await db.runTransaction(async t=>{
-    const doc = await t.get(ref);
-    if(!doc.exists) return;
-
-    let likedBy = doc.data().likedBy || [];
-
-    if(likedBy.includes(currentUser)) return;
+    const doc=await t.get(ref);
+    let liked=doc.data().likedBy||[];
+    if(liked.includes(currentUser)) return;
 
     t.update(ref,{
-      likes:(doc.data().likes || 0)+1,
-      likedBy:[...likedBy, currentUser]
+      likes:(doc.data().likes||0)+1,
+      likedBy:[...liked,currentUser]
     });
   });
 }
 
 async function dislikeComment(id){
-  if(!currentUser) return alert("Сначала войдите!");
-
-  const ref = db.collection("comments").doc(id);
+  if(!currentUser) return alert("Войдите!");
+  const ref=db.collection("comments").doc(id);
 
   await db.runTransaction(async t=>{
-    const doc = await t.get(ref);
-    if(!doc.exists) return;
-
-    let dislikedBy = doc.data().dislikedBy || [];
-
-    if(dislikedBy.includes(currentUser)) return;
+    const doc=await t.get(ref);
+    let arr=doc.data().dislikedBy||[];
+    if(arr.includes(currentUser)) return;
 
     t.update(ref,{
-      dislikes:(doc.data().dislikes || 0)+1,
-      dislikedBy:[...dislikedBy, currentUser]
+      dislikes:(doc.data().dislikes||0)+1,
+      dislikedBy:[...arr,currentUser]
     });
   });
 }
 
-// Ответ
-function replyComment(parentId,name){
-  if(!currentUser){ alert("Сначала войдите!"); return; }
-
-  const text = prompt("Ответ для " + name + ":");
-  if(!text) return;
-
-  db.collection("comments").add({
-    name: currentUser,
-    text: text,
-    likes: 0,
-    dislikes: 0,
-    parentId: parentId,
-    timestamp: firebase.firestore.FieldValue.serverTimestamp()
-  });
-
-  setTimeout(()=>{
-    const el = document.getElementById("comment-"+parentId);
-    if(el) el.scrollIntoView({behavior:"smooth", block:"center"});
-  },300);
+// ====================== ОТВЕТ ======================
+function openReply(id){
+  if(!currentUser) return alert("Войдите!");
+  replyParentId=id;
+  document.getElementById("replyModal").style.display="flex";
 }
 
+function closeReply(){
+  document.getElementById("replyModal").style.display="none";
+  document.getElementById("replyText").value="";
+}
 
-// Удаление с деревом
+async function sendReply(){
+  const text=document.getElementById("replyText").value.trim();
+  if(!text) return;
+
+  await db.collection("comments").add({
+    movieId,
+    name:currentUser,
+    text,
+    parentId:replyParentId,
+    likes:0,
+    dislikes:0,
+    likedBy:[],
+    dislikedBy:[],
+    created:Date.now()
+  });
+
+  closeReply();
+}
+
+// ====================== УДАЛЕНИЕ ======================
 async function deleteComment(id){
+  const snap=await db.collection("comments")
+    .where("parentId","==",id).get();
 
-  // удалить все дочерние
-  const snapshot = await db.collection("comments")
-      .where("parentId","==",id)
-      .get();
-
-  for(const doc of snapshot.docs){
-    await deleteComment(doc.id);
+  for(const d of snap.docs){
+    await deleteComment(d.id);
   }
 
   await db.collection("comments").doc(id).delete();
 }
-// ===================== Просмотры =====================
-let viewed = localStorage.getItem("viewedMovie1");
 
-if(!viewed){
-  let views = parseInt(localStorage.getItem("viewsMovie1")) || 0;
-  views++;
-  localStorage.setItem("viewsMovie1", views);
-  localStorage.setItem("viewedMovie1", "true");
+async function editComment(id){
+  const text=prompt("Изменить комментарий:");
+  if(!text) return;
+  await db.collection("comments").doc(id)
+    .update({text});
 }
-
-document.getElementById("viewCount").innerHTML =
-"<b>Просмотры:</b> " + (localStorage.getItem("viewsMovie1") || 0);
-
 </script>
 
 </script>
