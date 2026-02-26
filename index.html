@@ -103,6 +103,8 @@ button:hover{background:#660000;}
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
 
 <script>
+<!-- HTML оставляем тот же, меняем только JS -->
+<script>
 // ===================== Firebase =====================
 const firebaseConfig = {
   apiKey: "AIzaSyCTr1vgcuSEn_2Ebh2vC3k7sNYzvMoYlBo",
@@ -143,7 +145,6 @@ document.getElementById("sendComment").addEventListener("click", async ()=>{
   document.getElementById("commentInput").value="";
 });
 
-// Отображение комментариев
 db.collection("comments").orderBy("timestamp","desc")
 .onSnapshot(snapshot=>{
   const container = document.getElementById("commentList");
@@ -185,29 +186,63 @@ async function dislikeComment(id, btn){
   btn.disabled = true;
 }
 
-// ===================== Рейтинг =====================
+// ===================== Просмотры в Firebase =====================
+const viewDoc = db.collection("movies").doc("good_bad_ugly");
+
+async function updateViews(){
+  await db.runTransaction(async t=>{
+    const doc = await t.get(viewDoc);
+    if(!doc.exists){
+      t.set(viewDoc, {views:1, totalVotes:0, totalScore:0});
+    } else {
+      const views = doc.data().views || 0;
+      t.update(viewDoc,{views:views+1});
+    }
+  });
+}
+
+// Обновляем при загрузке
+updateViews();
+viewDoc.onSnapshot(doc=>{
+  const data = doc.data();
+  if(data) document.getElementById("viewCount").innerHTML = "<b>Просмотры:</b> " + (data.views || 0);
+});
+
+// ===================== Рейтинг в Firebase =====================
 document.addEventListener("DOMContentLoaded", function() {
   const stars = document.querySelectorAll('.star');
-  function loadRating(){
-    let totalVotes = parseInt(localStorage.getItem('totalVotes'))||0;
-    let totalScore = parseInt(localStorage.getItem('totalScore'))||0;
-    let avg = totalVotes?(totalScore/totalVotes).toFixed(1):"0.0";
-    document.getElementById('votes').innerText=`(${totalVotes} голосов)`;
-    document.getElementById('avgRating').innerText=`Средний рейтинг: ⭐${avg}`;
+
+  async function loadRating(){
+    const doc = await viewDoc.get();
+    if(doc.exists){
+      const data = doc.data();
+      const avg = (data.totalVotes ? (data.totalScore / data.totalVotes).toFixed(1) : "0.0");
+      document.getElementById('votes').innerText = `(${data.totalVotes || 0} голосов)`;
+      document.getElementById('avgRating').innerText = `Средний рейтинг: ⭐${avg}`;
+    }
   }
+
   stars.forEach(star=>{
-    star.addEventListener('click',()=>{
+    star.addEventListener('click', async ()=>{
       if(localStorage.getItem("voted")) return;
-      let val = parseInt(star.getAttribute('data-value'));
-      let totalVotes = parseInt(localStorage.getItem('totalVotes'))||0;
-      let totalScore = parseInt(localStorage.getItem('totalScore'))||0;
-      totalVotes++; totalScore+=val;
-      localStorage.setItem('totalVotes',totalVotes);
-      localStorage.setItem('totalScore',totalScore);
+      const val = parseInt(star.getAttribute('data-value'));
+      await db.runTransaction(async t=>{
+        const doc = await t.get(viewDoc);
+        if(!doc.exists){
+          t.set(viewDoc,{views:0, totalVotes:1, totalScore:val});
+        } else {
+          const data = doc.data();
+          t.update(viewDoc,{
+            totalVotes:(data.totalVotes||0)+1,
+            totalScore:(data.totalScore||0)+val
+          });
+        }
+      });
       localStorage.setItem('voted',true);
       loadRating();
     });
   });
+
   loadRating();
 });
 
@@ -222,12 +257,9 @@ function moveSlide(step){
   if(index>=total) index=0;
   slides.style.transform = "translateX(-"+index*width+"px)";
 }
+</script>
 
-// ===================== Просмотры =====================
-let views = parseInt(localStorage.getItem("views")) || 0;
-views++;
-localStorage.setItem("views", views);
-document.getElementById("viewCount").innerHTML = "<b>Просмотры:</b> " + views; 
+
 
 </script>
 </div>
