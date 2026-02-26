@@ -253,73 +253,9 @@ async function deleteComment(id){
 }
 
 
-// ===================== Отображение комментариев с ответами и удалением =====================
-db.collection("comments").orderBy("timestamp","desc").onSnapshot(snapshot=>{
-  const container = document.getElementById("commentList");
-  container.innerHTML = "";
-  snapshot.forEach(doc=>{
-    const c = doc.data();
-    const div = document.createElement("div");
-    div.className = "comment";
-    div.innerHTML = `<div class='menu' onclick='deleteComment("${doc.id}")'>⋮</div><b>${c.name}</b>: ${c.text}<br><input class='reply-input' placeholder='Ответ...' id='reply-${doc.id}'><button onclick='replyComment("${doc.id}")'>Ответить</button><div class='replies' id='replies-${doc.id}'></div>`;
-    container.appendChild(div);
-  });
-});
 
-async function deleteComment(id){
-  const doc = await db.collection("comments").doc(id).get();
-  if(doc.exists && doc.data().name===currentUser){
-    await db.collection("comments").doc(id).delete();
-  }else{alert('Удалить можно только свой комментарий!');}
-}
-
-async function replyComment(id){
-  const replyText = document.getElementById(`reply-${id}`).value.trim();
-  if(!replyText || !currentUser) return;
-  await db.collection("comments").doc(id).collection('replies').add({name:currentUser,text:replyText,timestamp:firebase.firestore.FieldValue.serverTimestamp()});
-  document.getElementById(`reply-${id}`).value="";
-}
 </script>
 
-<script>
-// ===================== Рейтинг =====================
-document.addEventListener("DOMContentLoaded", function(){
-  let stars=document.querySelectorAll('.star');
-  function loadRating(){
-    let totalVotes=parseInt(localStorage.getItem('totalVotes'))||0;
-    let totalScore=parseInt(localStorage.getItem('totalScore'))||0;
-    let avg=totalVotes?(totalScore/totalVotes).toFixed(1):"0.0";
-    document.getElementById('votes').innerText=`(${totalVotes} голосов)`;
-    document.getElementById('avgRating').innerText=`Средний рейтинг: ⭐${avg}`;
-  }
-  stars.forEach((star)=>{star.addEventListener('click',()=>{
-    if(localStorage.getItem("voted")) return;
-    let val=parseInt(star.getAttribute('data-value'));
-    let totalVotes=parseInt(localStorage.getItem('totalVotes'))||0;
-    let totalScore=parseInt(localStorage.getItem('totalScore'))||0;
-    totalVotes++;totalScore+=val;
-    localStorage.setItem('totalVotes',totalVotes);
-    localStorage.setItem('totalScore',totalScore);
-    localStorage.setItem('voted',true);
-    loadRating();
-  });});
-  loadRating();
-
-  // ===================== Слайдер =====================
-  let index=0;
-  window.moveSlide=function(step){
-    const slides = document.getElementById("slides");
-    const total = slides.children.length;
-    const width = slides.children[0].offsetWidth + 15;
-    index += step;if(index<0) index=total-1;if(index>=total) index=0;
-    slides.style.transform = "translateX(-"+index*width+"px)";
-  }
-
-  // ===================== Просмотры =====================
-  let views = parseInt(localStorage.getItem("views")) || 0;
-  views++; localStorage.setItem("views", views);
-  document.getElementById("viewCount").innerHTML = "<b>Просмотры:</b> " + views;
-});
 </script>
 </div>
 </body>
