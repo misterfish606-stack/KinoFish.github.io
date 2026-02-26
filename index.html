@@ -32,6 +32,17 @@ button:hover{background:#660000;}
 .reply-input{margin-top:5px;width:80%;}
 </style>
 </head>
+  <div id="replyModal" class="reply-modal">
+  <div class="reply-box">
+    <h3>Ваш ответ</h3>
+    <textarea id="replyText" placeholder="Введите ответ..."></textarea>
+    <div class="reply-buttons">
+      <button onclick="sendReply()">Отправить</button>
+      <button onclick="closeReply()">Закрыть</button>
+    </div>
+  </div>
+</div>
+
 <body>
 <div class="wrapper">
 
