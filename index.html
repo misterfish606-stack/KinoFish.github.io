@@ -198,6 +198,28 @@ function moveSlide(step){
   if(index>=total) index=0;
   slides.style.transform="translateX(-"+index*width+"px)";
 }
+  // Рейтинг
+ratingRef.get().then(doc=>{
+  if(!doc.exists){
+    ratingRef.set({totalScore:0, totalVotes:0, votedUsers:[]});
+  }
+});
+
+// Голосование
+star.addEventListener("click", async ()=>{
+  if(!currentUser){ alert("Войдите!"); return; }
+  await db.runTransaction(async t=>{
+    const doc = await t.get(ratingRef);
+    if(!doc.exists) return;
+    const data = doc.data();
+    if(data.votedUsers.includes(currentUser)) return; // Уже голосовал
+    t.update(ratingRef,{
+      totalScore: firebase.firestore.FieldValue.increment(val),
+      totalVotes: firebase.firestore.FieldValue.increment(1),
+      votedUsers: [...data.votedUsers, currentUser]
+    });
+  });
+});
 </script>
 </div>
 </body>
