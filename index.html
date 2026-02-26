@@ -251,8 +251,18 @@ async function deleteComment(id){
 
   await db.collection("comments").doc(id).delete();
 }
+// ===================== Просмотры =====================
+let viewed = localStorage.getItem("viewedMovie1");
 
+if(!viewed){
+  let views = parseInt(localStorage.getItem("viewsMovie1")) || 0;
+  views++;
+  localStorage.setItem("viewsMovie1", views);
+  localStorage.setItem("viewedMovie1", "true");
+}
 
+document.getElementById("viewCount").innerHTML =
+"<b>Просмотры:</b> " + (localStorage.getItem("viewsMovie1") || 0);
 
 </script>
 
