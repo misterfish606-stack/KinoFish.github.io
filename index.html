@@ -1,155 +1,261 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Хороший, плохой, злой (1966)</title>
+
+<style>
+  .reply-modal{
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  background:rgba(0,0,0,0.7);
+  display:none;
+  justify-content:center;
+  align-items:center;
+  z-index:999;
+}
+
+.reply-box{
+  background:#220000;
+  padding:20px;
+  width:400px;
+  border-radius:10px;
+  box-shadow:0 0 25px #aa0000;
+  display:flex;
+  flex-direction:column;
+}
+
+.reply-box h3{
+  text-align:center;
+  margin-bottom:15px;
+}
+
+.reply-box textarea{
+  resize:none;
+  height:100px;
+  margin-bottom:15px;
+  padding:10px;
+  border-radius:5px;
+  border:none;
+}
+
+.reply-buttons{
+  display:flex;
+  justify-content:flex-start;
+  gap:10px;
+}
+
+body{margin:0;font-family:'Arial Black',sans-serif;background:#1b0000;color:#eee;overflow-x:hidden;}
+.wrapper{width:70%;margin:0 auto;padding-bottom:60px;}
+body::after{content:"";position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:999;background-image:radial-gradient(2px 2px at 20px 30px, rgba(255,220,180,0.4), transparent),radial-gradient(2px 2px at 100px 80px, rgba(255,220,180,0.4), transparent),radial-gradient(2px 2px at 200px 150px, rgba(255,220,180,0.4), transparent),radial-gradient(2px 2px at 300px 50px, rgba(255,220,180,0.4), transparent);background-repeat:repeat;background-size:400px 400px;animation:dust 20s linear infinite;}
+@keyframes dust{from{transform:translateY(0);}to{transform:translateY(-400px);}}
+.slider{position:relative;margin-top:20px;overflow:hidden;border-radius:10px;height:200px;background:#220000;padding:10px;box-shadow:0 0 15px #900;}
+.slides{display:flex;transition:0.5s;}
+.slides img{width:300px;margin-right:15px;border-radius:5px;cursor:pointer;transition:0.3s;}
+.slides img:hover{transform:scale(1.05);}
+.prev,.next{position:absolute;top:50%;transform:translateY(-50%);background:#330000;border:none;color:white;font-size:20px;padding:8px;cursor:pointer;border-radius:5px;}
+.prev{left:5px;}
+.next{right:5px;}
+.top{display:flex;gap:30px;margin-top:30px;}
+.poster img{width:250px;border-radius:10px;box-shadow:0 0 20px #900;}
+.info-block{display:flex;flex-direction:column;justify-content:flex-start;}
+.description{margin-top:30px;line-height:1.6;padding:15px;background:#220000;border-radius:10px;box-shadow:0 0 15px #900;}
+.video-container{margin-top:30px;}
+.video-container iframe{width:100%;height:500px;border-radius:10px;box-shadow:0 0 25px #900;}
+button{padding:6px 10px;background:#330000;color:white;border:1px solid #aa0000;border-radius:5px;cursor:pointer;margin-top:5px;}
+button:hover{background:#660000;}
+.star{font-size:24px;color:#550000;cursor:pointer;}.star.selected{color:gold;}#avgRating{font-size:18px;color:gold;margin-top:10px;}
+.comment{background:#140000;padding:10px;margin-top:10px;border-left:4px solid #aa0000;border-radius:5px;position:relative;}
+.comment .menu{position:absolute;top:5px;right:5px;cursor:pointer;font-weight:bold;}
+.comment .replies{margin-left:20px;margin-top:5px;}
+.reply-input{margin-top:5px;width:80%;}
+</style>
+</head>
+  <div id="replyModal" class="reply-modal">
+  <div class="reply-box">
+    <h3>Ваш ответ</h3>
+    <textarea id="replyText" placeholder="Введите ответ..."></textarea>
+    <div class="reply-buttons">
+      <button onclick="sendReply()">Отправить</button>
+      <button onclick="closeReply()">Закрыть</button>
+    </div>
+  </div>
+</div>
+
+<body>
+<div class="wrapper">
+
+<h2>Хороший, плохой, злой (1966)</h2>
+
+<div class="slider">
+  <div class="slides" id="slides">
+    <img src="https://upload.wikimedia.org/wikipedia/en/4/45/Good_the_bad_and_the_ugly_poster.jpg">
+    <img src="https://m.media-amazon.com/images/I/91z+4nW6zRL._AC_SL1500_.jpg">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/2/22/The_Good_the_Bad_and_the_Ugly.jpg">
+  </div>
+  <button class="prev" onclick="moveSlide(-1)">❮</button>
+  <button class="next" onclick="moveSlide(1)">❯</button>
+</div>
+
+<div class="top">
+  <div class="poster">
+    <img src="https://i.imgur.com/XKxOxxg.jpg">
+  </div>
+  <div class="info-block">
+    <p><b>Оригинальное название:</b> The Good, the Bad and the Ugly</p>
+    <p><b>Страны:</b> Италия, Испания</p>
+    <p><b>Жанр:</b> Вестерн / Экшн</p>
+    <p><b>Рейтинг КиноПоиск:</b> 8.6</p>
+    <p><b>Рейтинг IMDb:</b> 8.8</p>
+    <p><b>Режиссёр:</b> Серджо Леоне</p>
+    <p><b>Актёры:</b> Клинт Иствуд, Ли Ван Клиф, Илай Уоллак</p>
+    <p id="viewCount"><b>Просмотры:</b> 0</p>
+    <div id="avgRating">Средний рейтинг: ⭐0.0</div>
+    <div>
+      <span class="star" data-value="1">★</span>
+      <span class="star" data-value="2">★</span>
+      <span class="star" data-value="3">★</span>
+      <span class="star" data-value="4">★</span>
+      <span class="star" data-value="5">★</span>
+      <span id="votes">(0 голосов)</span>
+    </div>
+  </div>
+</div>
+
+<div class="description">История трёх охотников за сокровищами во времена Гражданской войны в США.</div>
+
+<div class="video-container">
+  <iframe src="https://www.youtube.com/embed/0Bwxz16-T04?enablejsapi=1" allowfullscreen></iframe>
+</div>
+
+<h3>Вход</h3>
+<input type="text" id="loginName" placeholder="Введите имя">
+<button onclick="login()">Войти</button>
+<p id="currentUser"></p>
+
+<h3>Комментарии</h3>
+<input type="text" id="commentInput" placeholder="Ваш комментарий">
+<button id="sendComment">Отправить</button>
+<div id="commentList"></div>
+
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
 <script>
 const firebaseConfig = {
-  apiKey: "YOUR_KEY",
-  authDomain: "YOUR_DOMAIN",
-  projectId: "YOUR_PROJECT_ID"
+  apiKey: "AIzaSyCTr1vgcuSEn_2Ebh2vC3k7sNYzvMoYlBo",
+  authDomain: "kino-project-bf21c.firebaseapp.com",
+  projectId: "kino-project-bf21c",
+  storageBucket: "kino-project-bf21c.firebasestorage.app",
+  messagingSenderId: "603398460201",
+  appId: "1:603398460201:web:42612fab9d600222985d38"
 };
-
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
 
-const movieId = "goodbadugly";
-
 let currentUser = localStorage.getItem("currentUser") || null;
-let replyParentId = null;
-
-// ====================== УНИКАЛЬНОЕ ИМЯ ======================
-async function login(){
+function login(){
   const name = document.getElementById("loginName").value.trim();
   if(!name) return;
-
-  const userRef = db.collection("users").doc(name);
-  const doc = await userRef.get();
-
-  if(doc.exists){
-    document.getElementById("currentUser").innerHTML =
-      "<span style='color:red'>Имя уже занято</span>";
-    return;
-  }
-
-  await userRef.set({created: Date.now()});
-
   currentUser = name;
   localStorage.setItem("currentUser", name);
-  document.getElementById("currentUser").innerText =
-    "Вы вошли как: " + name;
+  document.getElementById("currentUser").innerText = "Вы вошли как: " + name;
 }
+if(currentUser){document.getElementById("currentUser").innerText = "Вы вошли как: " + currentUser;}
 
-if(currentUser){
-  document.getElementById("currentUser").innerText =
-    "Вы вошли как: " + currentUser;
-}
+// ===================== Комментарии =====================
 
-// ====================== ПРОСМОТРЫ ======================
-async function addView(){
-  if(localStorage.getItem("viewed_"+movieId)) return;
-
-  const ref = db.collection("movies").doc(movieId);
-
-  await db.runTransaction(async t=>{
-    const doc = await t.get(ref);
-    const views = doc.exists ? (doc.data().views || 0) : 0;
-    t.set(ref,{views: views+1},{merge:true});
-  });
-
-  localStorage.setItem("viewed_"+movieId,"1");
-}
-
-db.collection("movies").doc(movieId)
-.onSnapshot(doc=>{
-  const views = doc.exists ? (doc.data().views || 0) : 0;
-  document.getElementById("viewCount").innerHTML =
-    "<b>Просмотры:</b> " + views;
-});
-
-addView();
-
-// ====================== РЕЙТИНГ ======================
-document.querySelectorAll(".star").forEach(star=>{
-  star.addEventListener("click", async ()=>{
-    if(!currentUser) return alert("Войдите!");
-
-    const voteRef = db.collection("ratings")
-      .doc(movieId+"_"+currentUser);
-
-    const voteDoc = await voteRef.get();
-    if(voteDoc.exists) return alert("Вы уже голосовали");
-
-    const value = parseInt(star.dataset.value);
-
-    await voteRef.set({value:value});
-
-    const movieRef = db.collection("movies").doc(movieId);
-
-    await db.runTransaction(async t=>{
-      const doc = await t.get(movieRef);
-      const data = doc.exists ? doc.data() : {};
-      const total = data.totalRating || 0;
-      const count = data.ratingCount || 0;
-
-      t.set(movieRef,{
-        totalRating: total + value,
-        ratingCount: count + 1
-      },{merge:true});
-    });
-  });
-});
-
-db.collection("movies").doc(movieId)
-.onSnapshot(doc=>{
-  if(!doc.exists) return;
-
-  const total = doc.data().totalRating || 0;
-  const count = doc.data().ratingCount || 0;
-  const avg = count ? (total/count).toFixed(1) : "0.0";
-
-  document.getElementById("avgRating").innerText =
-    "Средний рейтинг: ⭐" + avg;
-  document.getElementById("votes").innerText =
-    "(" + count + " голосов)";
-});
-
-// ====================== КОММЕНТАРИИ ======================
-document.getElementById("sendComment")
-.addEventListener("click", async ()=>{
-  if(!currentUser) return alert("Войдите!");
+// Отправка нового комментария
+document.getElementById("sendComment").addEventListener("click", async ()=>{
+  if(!currentUser){ alert("Сначала войдите!"); return; }
 
   const text = document.getElementById("commentInput").value.trim();
   if(!text) return;
 
   await db.collection("comments").add({
-    movieId,
     name: currentUser,
-    text,
+    text: text,
+    likes: 0,
+    dislikes: 0,
     parentId: null,
-    likes:0,
-    dislikes:0,
-    likedBy:[],
-    dislikedBy:[],
-    created: Date.now()
+    timestamp: firebase.firestore.FieldValue.serverTimestamp()
   });
 
   document.getElementById("commentInput").value="";
 });
 
-db.collection("comments")
-.where("movieId","==",movieId)
-.orderBy("created")
+
+// Слушаем изменения
+db.collection("comments").orderBy("timestamp","asc")
 .onSnapshot(snapshot=>{
   const container = document.getElementById("commentList");
   container.innerHTML="";
 
-  const all={};
+let replyParentId = null;
 
+function replyComment(parentId,name){
+  if(!currentUser){ alert("Сначала войдите!"); return; }
+
+  replyParentId = parentId;
+  document.getElementById("replyModal").style.display="flex";
+
+  setTimeout(()=>{
+    document.getElementById("replyModal")
+      .scrollIntoView({behavior:"smooth",block:"center"});
+  },200);
+}
+
+function closeReply(){
+  document.getElementById("replyModal").style.display="none";
+  document.getElementById("replyText").value="";
+  replyParentId=null;
+}
+
+async function sendReply(){
+  const text = document.getElementById("replyText").value.trim();
+  if(!text) return;
+
+  await db.collection("comments").add({
+    name: currentUser,
+    text: text,
+    likes:0,
+    dislikes:0,
+    likedBy:[],
+    dislikedBy:[],
+    parentId: replyParentId,
+    timestamp: firebase.firestore.FieldValue.serverTimestamp()
+  });
+
+  closeReply();
+
+  setTimeout(()=>{
+    const el = document.getElementById("comment-"+replyParentId);
+    if(el) el.scrollIntoView({behavior:"smooth", block:"center"});
+  },300);
+}
+
+  const all = {};
   snapshot.forEach(doc=>{
-    all[doc.id]={id:doc.id,...doc.data(),replies:[]};
+    all[doc.id] = {
+      id: doc.id,
+      ...doc.data(),
+      replies:[]
+    };
   });
 
+  // строим дерево
   Object.values(all).forEach(c=>{
-    if(c.parentId && all[c.parentId])
-      all[c.parentId].replies.push(c);
+    if(c.parentId){
+      if(all[c.parentId]){
+        all[c.parentId].replies.push(c);
+      }
+    }
   });
 
+  // выводим только корневые
   Object.values(all)
     .filter(c=>!c.parentId)
     .forEach(c=>{
@@ -157,116 +263,126 @@ db.collection("comments")
     });
 });
 
-function createComment(c,level){
-  const div=document.createElement("div");
+
+// Создание элемента комментария
+function createComment(c, level){
+  const div = document.createElement("div");
   div.className="comment";
-  div.style.marginLeft=(level*20)+"px";
+  div.style.marginLeft = (level*25)+"px";
+  div.id="comment-"+c.id;
 
-  let ownerButtons="";
-  if(c.name===currentUser){
-    ownerButtons=`
-      <div style="position:absolute;top:5px;right:5px">
-        <button onclick="editComment('${c.id}')">✏</button>
-        <button style="background:red"
-        onclick="deleteComment('${c.id}')">Удалить</button>
-      </div>`;
-  }
-
-  div.innerHTML=`
-    ${ownerButtons}
+  div.innerHTML = `
     <b>${c.name}</b>: ${c.text}<br>
-    <button onclick="like('${c.id}')">👍 ${c.likes}</button>
-    <button onclick="dislike('${c.id}')">👎 ${c.dislikes}</button>
-    <button onclick="openReply('${c.id}')">Ответить</button>
+    <button onclick="likeComment('${c.id}')">👍 ${c.likes || 0}</button>
+    <button onclick="dislikeComment('${c.id}')">👎 ${c.dislikes || 0}</button>
+    <button onclick="replyComment('${c.id}','${c.name}')">Ответить</button>
+    ${c.name === currentUser ? `<button onclick="deleteComment('${c.id}')">Удалить</button>` : ``}
   `;
 
-  c.replies.forEach(r=>{
-    div.appendChild(createComment(r,level+1));
-  });
+  // 👇 ВАЖНО: ответы идут СНИЗУ
+  if(c.replies.length){
+    c.replies.forEach(r=>{
+      div.appendChild(createComment(r, level+1));
+    });
+  }
 
   return div;
 }
 
-// ====================== ЛАЙК / ДИЗЛАЙК ======================
-async function like(id){
-  if(!currentUser) return alert("Войдите!");
-  const ref=db.collection("comments").doc(id);
+
+async function likeComment(id){
+  if(!currentUser) return alert("Сначала войдите!");
+
+  const ref = db.collection("comments").doc(id);
 
   await db.runTransaction(async t=>{
-    const doc=await t.get(ref);
-    let liked=doc.data().likedBy||[];
-    if(liked.includes(currentUser)) return;
+    const doc = await t.get(ref);
+    if(!doc.exists) return;
+
+    let likedBy = doc.data().likedBy || [];
+
+    if(likedBy.includes(currentUser)) return;
 
     t.update(ref,{
-      likes:(doc.data().likes||0)+1,
-      likedBy:[...liked,currentUser]
+      likes:(doc.data().likes || 0)+1,
+      likedBy:[...likedBy, currentUser]
     });
   });
 }
 
-async function dislike(id){
-  if(!currentUser) return alert("Войдите!");
-  const ref=db.collection("comments").doc(id);
+async function dislikeComment(id){
+  if(!currentUser) return alert("Сначала войдите!");
+
+  const ref = db.collection("comments").doc(id);
 
   await db.runTransaction(async t=>{
-    const doc=await t.get(ref);
-    let arr=doc.data().dislikedBy||[];
-    if(arr.includes(currentUser)) return;
+    const doc = await t.get(ref);
+    if(!doc.exists) return;
+
+    let dislikedBy = doc.data().dislikedBy || [];
+
+    if(dislikedBy.includes(currentUser)) return;
 
     t.update(ref,{
-      dislikes:(doc.data().dislikes||0)+1,
-      dislikedBy:[...arr,currentUser]
+      dislikes:(doc.data().dislikes || 0)+1,
+      dislikedBy:[...dislikedBy, currentUser]
     });
   });
 }
 
-// ====================== ОТВЕТ МОДАЛКА ======================
-function openReply(id){
-  if(!currentUser) return alert("Войдите!");
-  replyParentId=id;
-  document.getElementById("replyModal").style.display="flex";
-}
+// Ответ
+function replyComment(parentId,name){
+  if(!currentUser){ alert("Сначала войдите!"); return; }
 
-function closeReply(){
-  document.getElementById("replyModal").style.display="none";
-  document.getElementById("replyText").value="";
-}
-
-async function sendReply(){
-  const text=document.getElementById("replyText").value.trim();
+  const text = prompt("Ответ для " + name + ":");
   if(!text) return;
 
-  await db.collection("comments").add({
-    movieId,
-    name:currentUser,
-    text,
-    parentId:replyParentId,
-    likes:0,
-    dislikes:0,
-    likedBy:[],
-    dislikedBy:[],
-    created:Date.now()
+  db.collection("comments").add({
+    name: currentUser,
+    text: text,
+    likes: 0,
+    dislikes: 0,
+    parentId: parentId,
+    timestamp: firebase.firestore.FieldValue.serverTimestamp()
   });
 
-  closeReply();
+  setTimeout(()=>{
+    const el = document.getElementById("comment-"+parentId);
+    if(el) el.scrollIntoView({behavior:"smooth", block:"center"});
+  },300);
 }
 
-// ====================== УДАЛЕНИЕ ======================
-async function deleteComment(id){
-  const snap=await db.collection("comments")
-    .where("parentId","==",id).get();
 
-  for(const d of snap.docs){
-    await deleteComment(d.id);
+// Удаление с деревом
+async function deleteComment(id){
+
+  // удалить все дочерние
+  const snapshot = await db.collection("comments")
+      .where("parentId","==",id)
+      .get();
+
+  for(const doc of snapshot.docs){
+    await deleteComment(doc.id);
   }
 
   await db.collection("comments").doc(id).delete();
 }
+// ===================== Просмотры =====================
+let viewed = localStorage.getItem("viewedMovie1");
 
-async function editComment(id){
-  const text=prompt("Изменить комментарий:");
-  if(!text) return;
-  await db.collection("comments").doc(id)
-    .update({text});
+if(!viewed){
+  let views = parseInt(localStorage.getItem("viewsMovie1")) || 0;
+  views++;
+  localStorage.setItem("viewsMovie1", views);
+  localStorage.setItem("viewedMovie1", "true");
 }
+
+document.getElementById("viewCount").innerHTML =
+"<b>Просмотры:</b> " + (localStorage.getItem("viewsMovie1") || 0);
+
 </script>
+
+</script>
+</div>
+</body>
+</html>
