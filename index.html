@@ -193,26 +193,45 @@ function createComment(c, level){
 }
 
 
-// Лайк
 async function likeComment(id){
+  if(!currentUser) return alert("Сначала войдите!");
+
   const ref = db.collection("comments").doc(id);
+
   await db.runTransaction(async t=>{
     const doc = await t.get(ref);
     if(!doc.exists) return;
-    t.update(ref,{likes:(doc.data().likes || 0)+1});
+
+    let likedBy = doc.data().likedBy || [];
+
+    if(likedBy.includes(currentUser)) return;
+
+    t.update(ref,{
+      likes:(doc.data().likes || 0)+1,
+      likedBy:[...likedBy, currentUser]
+    });
   });
 }
 
-// Дизлайк
 async function dislikeComment(id){
+  if(!currentUser) return alert("Сначала войдите!");
+
   const ref = db.collection("comments").doc(id);
+
   await db.runTransaction(async t=>{
     const doc = await t.get(ref);
     if(!doc.exists) return;
-    t.update(ref,{dislikes:(doc.data().dislikes || 0)+1});
+
+    let dislikedBy = doc.data().dislikedBy || [];
+
+    if(dislikedBy.includes(currentUser)) return;
+
+    t.update(ref,{
+      dislikes:(doc.data().dislikes || 0)+1,
+      dislikedBy:[...dislikedBy, currentUser]
+    });
   });
 }
-
 
 // Ответ
 function replyComment(parentId,name){
