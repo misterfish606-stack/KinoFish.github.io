@@ -151,6 +151,49 @@ db.collection("comments").orderBy("timestamp","asc")
   const container = document.getElementById("commentList");
   container.innerHTML="";
 
+let replyParentId = null;
+
+function replyComment(parentId,name){
+  if(!currentUser){ alert("Сначала войдите!"); return; }
+
+  replyParentId = parentId;
+  document.getElementById("replyModal").style.display="flex";
+
+  setTimeout(()=>{
+    document.getElementById("replyModal")
+      .scrollIntoView({behavior:"smooth",block:"center"});
+  },200);
+}
+
+function closeReply(){
+  document.getElementById("replyModal").style.display="none";
+  document.getElementById("replyText").value="";
+  replyParentId=null;
+}
+
+async function sendReply(){
+  const text = document.getElementById("replyText").value.trim();
+  if(!text) return;
+
+  await db.collection("comments").add({
+    name: currentUser,
+    text: text,
+    likes:0,
+    dislikes:0,
+    likedBy:[],
+    dislikedBy:[],
+    parentId: replyParentId,
+    timestamp: firebase.firestore.FieldValue.serverTimestamp()
+  });
+
+  closeReply();
+
+  setTimeout(()=>{
+    const el = document.getElementById("comment-"+replyParentId);
+    if(el) el.scrollIntoView({behavior:"smooth", block:"center"});
+  },300);
+}
+
   const all = {};
   snapshot.forEach(doc=>{
     all[doc.id] = {
