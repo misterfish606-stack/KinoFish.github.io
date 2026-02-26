@@ -1,114 +1,4 @@
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Хороший, плохой, злой (1966)</title>
-
-<style>
-body{margin:0;font-family:'Arial Black',sans-serif;background:#1b0000;color:#eee;overflow-x:hidden;}
-.wrapper{width:70%;margin:0 auto;padding-bottom:60px;}
-
-/* Слайдер */
-.slider{position:relative;margin-top:20px;overflow:hidden;border-radius:10px;height:200px;background:#220000;padding:10px;box-shadow:0 0 15px #900;}
-.slides{display:flex;transition:0.5s;}
-.slides img{width:300px;margin-right:15px;border-radius:5px;cursor:pointer;transition:0.3s;}
-.slides img:hover{transform:scale(1.05);}
-.prev,.next{position:absolute;top:50%;transform:translateY(-50%);background:#330000;border:none;color:white;font-size:20px;padding:8px;cursor:pointer;border-radius:5px;}
-.prev{left:5px;} .next{right:5px;}
-
-/* Инфо */
-.top{display:flex;gap:30px;margin-top:30px;}
-.poster img{width:250px;border-radius:10px;box-shadow:0 0 20px #900;}
-.info-block{display:flex;flex-direction:column;justify-content:flex-start;}
-.description{margin-top:30px;line-height:1.6;padding:15px;background:#220000;border-radius:10px;box-shadow:0 0 15px #900;}
-
-/* Видео */
-.video-container{margin-top:30px;}
-.video-container iframe{width:100%;height:500px;border-radius:10px;box-shadow:0 0 25px #900;}
-
-/* Кнопки */
-button{padding:6px 10px;background:#330000;color:white;border:1px solid #aa0000;border-radius:5px;cursor:pointer;margin-top:5px;}
-button:hover{background:#660000;}
-
-/* Рейтинг */
-.star{font-size:24px;color:#550000;cursor:pointer;}
-.star.selected{color:gold;}
-#avgRating{font-size:18px;color:gold;margin-top:10px;}
-
-/* Комментарии */
-.comment{background:#140000;padding:10px;margin-top:10px;border-left:4px solid #aa0000;border-radius:5px;position:relative;}
-.comment-buttons{position:absolute;top:5px;right:5px;}
-.comment-buttons button{margin-left:5px;padding:2px 5px;font-size:12px;}
-</style>
-</head>
-<body>
-<div class="wrapper">
-
-<h2>Хороший, плохой, злой (1966)</h2>
-
-<!-- Слайдер -->
-<div class="slider">
-  <div class="slides" id="slides">
-    <img src="https://raw.githubusercontent.com/username/repo/main/images/good.thm%20хороший.jpg" alt="Хороший">
-    <img src="https://raw.githubusercontent.com/username/repo/main/images/злой.jpg" alt="Злой">
-    <img src="https://raw.githubusercontent.com/username/repo/main/images/плохой.jpg" alt="Плохой">
-  </div>
-  <button class="prev" onclick="moveSlide(-1)">❮</button>
-  <button class="next" onclick="moveSlide(1)">❯</button>
-</div>
-
-<!-- Инфо -->
-<div class="top">
-  <div class="poster">
-    <img src="https://i.imgur.com/XKxOxxg.jpg" alt="Постер">
-  </div>
-  <div class="info-block">
-    <p><b>Оригинальное название:</b> The Good, the Bad and the Ugly</p>
-    <p><b>Страны:</b> Италия, Испания</p>
-    <p><b>Жанр:</b> Вестерн / Экшн</p>
-    <p><b>Рейтинг КиноПоиск:</b> 8.6</p>
-    <p><b>Рейтинг IMDb:</b> 8.8</p>
-    <p><b>Режиссёр:</b> Серджо Леоне</p>
-    <p><b>Актёры:</b> Клинт Иствуд, Ли Ван Клиф, Илай Уоллак</p>
-    <p id="viewCount"><b>Просмотры:</b> 0</p>
-    <div id="avgRating">Средний рейтинг: ⭐0.0</div>
-    <div>
-      <span class="star" data-value="1">★</span>
-      <span class="star" data-value="2">★</span>
-      <span class="star" data-value="3">★</span>
-      <span class="star" data-value="4">★</span>
-      <span class="star" data-value="5">★</span>
-      <span id="votes">(0 голосов)</span>
-    </div>
-  </div>
-</div>
-
-<div class="description">
-История трёх охотников за сокровищами во времена Гражданской войны в США.
-</div>
-
-<!-- Видео -->
-<div class="video-container">
-  <iframe src="https://www.youtube.com/embed/0Bwxz16-T04" allowfullscreen></iframe>
-</div>
-
-<!-- Авторизация -->
-<h3>Вход</h3>
-<input type="text" id="loginName" placeholder="Введите имя">
-<button onclick="login()">Войти</button>
-<p id="currentUser"></p>
-
-<h3>Комментарии</h3>
-<input type="text" id="commentInput" placeholder="Ваш комментарий">
-<button id="sendComment">Отправить</button>
-<div id="commentList"></div>
-
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
-
 <script>
-// ===================== Firebase =====================
 const firebaseConfig = {
   apiKey: "AIzaSyCTr1vgcuSEn_2Ebh2vC3k7sNYzvMoYlBo",
   authDomain: "kino-project-bf21c.firebaseapp.com",
@@ -117,11 +7,14 @@ const firebaseConfig = {
   messagingSenderId: "603398460201",
   appId: "1:603398460201:web:42612fab9d600222985d38"
 };
+
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
 
-// ===================== Авторизация =====================
 let currentUser = localStorage.getItem("currentUser") || null;
+let replyParentId = null;
+
+// ===================== ЛОГИН =====================
 function login(){
   const name = document.getElementById("loginName").value.trim();
   if(!name) return;
@@ -129,22 +22,177 @@ function login(){
   localStorage.setItem("currentUser", name);
   document.getElementById("currentUser").innerText = "Вы вошли как: " + name;
 }
+
 if(currentUser){
   document.getElementById("currentUser").innerText = "Вы вошли как: " + currentUser;
 }
 
-// ===================== Слайдер =====================
-let index = 0;
-function moveSlide(step){
-  const slides = document.getElementById("slides");
-  const total = slides.children.length;
-  const width = slides.children[0].offsetWidth + 15;
-  index += step;
-  if(index < 0) index = total - 1;
-  if(index >= total) index = 0;
-  slides.style.transform = "translateX(-"+index*width+"px)";
+// ===================== КОММЕНТАРИИ =====================
+document.getElementById("sendComment").addEventListener("click", async ()=>{
+  if(!currentUser){ alert("Сначала войдите!"); return; }
+
+  const text = document.getElementById("commentInput").value.trim();
+  if(!text) return;
+
+  await db.collection("comments").add({
+    name: currentUser,
+    text: text,
+    likes: 0,
+    dislikes: 0,
+    likedBy: [],
+    dislikedBy: [],
+    parentId: null,
+    timestamp: firebase.firestore.FieldValue.serverTimestamp()
+  });
+
+  document.getElementById("commentInput").value="";
+});
+
+db.collection("comments").orderBy("timestamp","asc")
+.onSnapshot(snapshot=>{
+  const container = document.getElementById("commentList");
+  container.innerHTML="";
+
+  const all = {};
+  snapshot.forEach(doc=>{
+    all[doc.id] = {
+      id: doc.id,
+      ...doc.data(),
+      replies:[]
+    };
+  });
+
+  Object.values(all).forEach(c=>{
+    if(c.parentId && all[c.parentId]){
+      all[c.parentId].replies.push(c);
+    }
+  });
+
+  Object.values(all)
+    .filter(c=>!c.parentId)
+    .forEach(c=>{
+      container.appendChild(createComment(c,0));
+    });
+});
+
+// ===================== СОЗДАНИЕ КОММЕНТАРИЯ =====================
+function createComment(c, level){
+  const div = document.createElement("div");
+  div.className="comment";
+  div.style.marginLeft = (level*25)+"px";
+  div.id="comment-"+c.id;
+
+  div.innerHTML = `
+    <b>${c.name}</b>: ${c.text}<br>
+    <button onclick="likeComment('${c.id}')">👍 ${c.likes || 0}</button>
+    <button onclick="dislikeComment('${c.id}')">👎 ${c.dislikes || 0}</button>
+    <button onclick="replyComment('${c.id}')">Ответить</button>
+    ${c.name === currentUser ? `<button onclick="deleteComment('${c.id}')">Удалить</button>` : ``}
+  `;
+
+  if(c.replies.length){
+    c.replies.forEach(r=>{
+      div.appendChild(createComment(r, level+1));
+    });
+  }
+
+  return div;
 }
+
+// ===================== ЛАЙК / ДИЗЛАЙК =====================
+async function likeComment(id){
+  if(!currentUser) return alert("Сначала войдите!");
+
+  const ref = db.collection("comments").doc(id);
+
+  await db.runTransaction(async t=>{
+    const doc = await t.get(ref);
+    if(!doc.exists) return;
+
+    let likedBy = doc.data().likedBy || [];
+    if(likedBy.includes(currentUser)) return;
+
+    t.update(ref,{
+      likes:(doc.data().likes || 0)+1,
+      likedBy:[...likedBy, currentUser]
+    });
+  });
+}
+
+async function dislikeComment(id){
+  if(!currentUser) return alert("Сначала войдите!");
+
+  const ref = db.collection("comments").doc(id);
+
+  await db.runTransaction(async t=>{
+    const doc = await t.get(ref);
+    if(!doc.exists) return;
+
+    let dislikedBy = doc.data().dislikedBy || [];
+    if(dislikedBy.includes(currentUser)) return;
+
+    t.update(ref,{
+      dislikes:(doc.data().dislikes || 0)+1,
+      dislikedBy:[...dislikedBy, currentUser]
+    });
+  });
+}
+
+// ===================== ОТВЕТ =====================
+function replyComment(parentId){
+  if(!currentUser){ alert("Сначала войдите!"); return; }
+
+  replyParentId = parentId;
+  document.getElementById("replyModal").style.display="flex";
+}
+
+function closeReply(){
+  document.getElementById("replyModal").style.display="none";
+  document.getElementById("replyText").value="";
+  replyParentId=null;
+}
+
+async function sendReply(){
+  const text = document.getElementById("replyText").value.trim();
+  if(!text || !replyParentId) return;
+
+  await db.collection("comments").add({
+    name: currentUser,
+    text: text,
+    likes:0,
+    dislikes:0,
+    likedBy:[],
+    dislikedBy:[],
+    parentId: replyParentId,
+    timestamp: firebase.firestore.FieldValue.serverTimestamp()
+  });
+
+  closeReply();
+}
+
+// ===================== УДАЛЕНИЕ =====================
+async function deleteComment(id){
+  const snapshot = await db.collection("comments")
+      .where("parentId","==",id)
+      .get();
+
+  for(const doc of snapshot.docs){
+    await deleteComment(doc.id);
+  }
+
+  await db.collection("comments").doc(id).delete();
+}
+
+// ===================== ПРОСМОТРЫ =====================
+let viewed = localStorage.getItem("viewedMovie1");
+
+if(!viewed){
+  let views = parseInt(localStorage.getItem("viewsMovie1")) || 0;
+  views++;
+  localStorage.setItem("viewsMovie1", views);
+  localStorage.setItem("viewedMovie1", "true");
+}
+
+document.getElementById("viewCount").innerHTML =
+"<b>Просмотры:</b> " + (localStorage.getItem("viewsMovie1") || 0);
 </script>
-</div>
-</body>
-</html>
