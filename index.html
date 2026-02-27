@@ -2,7 +2,8 @@
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
-<title>Хороший Плохой Злой</title>
+<title>Хороший, плохой, злой</title>
+
 <style>
 body{
 margin:0;
@@ -11,132 +12,170 @@ background:linear-gradient(to bottom,#3a2c1a,#1a1208);
 color:#f5e6c4;
 }
 
+.container{
+display:flex;
+gap:40px;
+padding:40px;
+}
+
+.poster img{
+width:300px;
+border:5px solid #d4af37;
+box-shadow:0 0 20px black;
+}
+
 h2,h3{
 color:#d4af37;
 text-shadow:2px 2px 5px black;
 }
-  
-.modal{
-position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
-background:rgba(0,0,0,0.8);
-display:flex;
-justify-content:center;
-align-items:center;
-}
 
-.hidden{
-display:none;
+a{color:#ffd700;text-decoration:none}
+a:hover{text-decoration:underline}
+
+.info{max-width:700px}
+
+textarea{
+width:100%;
+padding:10px;
+margin-top:10px;
+background:#2c1c0e;
+color:white;
+border:1px solid #d4af37;
 }
 
 button{
 background:#5a3e1b;
 color:white;
 border:none;
-padding:8px 12px;
-border-radius:5px;
+padding:8px 14px;
+margin-top:8px;
+cursor:pointer;
 }
 
-button:hover{
-background:#8b5a2b;
+button:hover{background:#8b5a2b}
+
+.comment{
+background:#2c1c0e;
+padding:10px;
+margin-top:10px;
+border-left:3px solid #d4af37;
 }
+
+.reply{
+margin-left:30px;
+border-left:3px solid #aaa;
+}
+
+.modal{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,0.85);
+display:flex;
+justify-content:center;
+align-items:center;
+}
+
+.hidden{display:none;}
 
 .modal-box{
-background:#222;
+background:#1b1b1b;
 padding:30px;
-border-radius:10px;
 width:400px;
 position:relative;
+border:2px solid #d4af37;
 }
+
 .close{
 position:absolute;
-right:10px;top:10px;
-color:red;
+right:10px;
+top:10px;
 cursor:pointer;
+color:red;
 font-size:20px;
 }
-.error{color:red}
 </style>
 </head>
 <body>
 
+<div style="padding:20px">
+<input id="nickname" placeholder="Ваш ник">
+<button onclick="login()">Войти</button>
+<span id="loginError" style="color:red"></span>
+</div>
+
 <div class="container">
+
 <div class="poster">
 <img src="https://upload.wikimedia.org/wikipedia/en/4/45/Good_the_bad_and_the_ugly_poster.jpg">
-<h2>Хороший Плохой Злой</h2>
+<h2>Хороший, плохой, злой</h2>
 </div>
 
 <div class="info">
-<h3>Информация</h3>
 
-<p><b>Год выпуска:</b> 1966</p>
+<p><b>Год:</b> 1966</p>
 
 <p><b>Оригинальное название:</b>
 <a href="https://www.imdb.com/title/tt0060196/" target="_blank">
 The Good, the Bad and the Ugly
 </a></p>
 
-<p><b>Страна:</b> 
-<a href="https://ru.wikipedia.org/wiki/Италия" target="_blank">Италия</a>, 
+<p><b>Страна:</b>
+<a href="https://ru.wikipedia.org/wiki/Италия" target="_blank">Италия</a>,
 <a href="https://ru.wikipedia.org/wiki/Испания" target="_blank">Испания</a>
 </p>
 
-<p><b>Жанр:</b> 
-<a href="https://ru.wikipedia.org/wiki/Вестерн" target="_blank">
-Вестерн
-</a></p>
-
-<p><b>Режиссер:</b> 
-<a href="https://ru.wikipedia.org/wiki/Леоне,_Серджо" target="_blank">
-Серджио Леоне
-</a></p>
-
-<p><b>В главных ролях:</b><br>
-<a href="https://ru.wikipedia.org/wiki/Иствуд,_Клинт" target="_blank">Клинт Иствуд</a><br>
-<a href="https://ru.wikipedia.org/wiki/Уоллах,_Эли" target="_blank">Эли Уоллах</a><br>
-<a href="https://ru.wikipedia.org/wiki/Ван_Клиф,_Ли" target="_blank">Ли Ван Клиф</a>
+<p><b>Жанр:</b>
+<a href="https://ru.wikipedia.org/wiki/Вестерн" target="_blank">Вестерн</a>
 </p>
 
-<p><b>IMDb:</b> 
+<p><b>Режиссёр:</b>
+<a href="https://ru.wikipedia.org/wiki/Леоне,_Серджо" target="_blank">
+Серджио Леоне
+</a>
+</p>
+
+<p><b>IMDb:</b>
 <a href="https://www.imdb.com/title/tt0060196/" target="_blank">
 8.8 / 10
 </a></p>
 
-<p><b>Кинопоиск:</b> 
+<p><b>Кинопоиск:</b>
 <a href="https://www.kinopoisk.ru/film/349/" target="_blank">
 8.5 / 10
 </a></p>
+
 <h3>Описание</h3>
 <p>
-«Хороший, плохой, злой» — культовый спагетти-вестерн Серджио Леоне,
-завершающий «долларовую трилогию».
-
-Действие происходит во времена Гражданской войны в США.
-Три стрелка — Блондин, Туко и Ангельские Глаза —
-охотятся за спрятанным золотом Конфедерации.
-
-Каждый из них готов предать другого ради богатства,
-но судьба постоянно сталкивает их вместе.
-
-Фильм прославился легендарной музыкой Эннио Морриконе,
-напряжёнными дуэлями и культовой финальной сценой на кладбище.
+Легендарный спагетти-вестерн режиссёра Серджио Леоне.
+Три стрелка во времена Гражданской войны в США
+охотятся за золотом Конфедерации.
+Каждый преследует свою выгоду, но судьба снова и снова
+сталкивает их вместе.
+Фильм прославился напряжёнными дуэлями и культовой музыкой Эннио Морриконе.
 </p>
+
+<h3>Трейлер</h3>
+<iframe width="560" height="315"
+src="https://www.youtube.com/embed/WCN5JJY_wiA"
+allowfullscreen></iframe>
 
 <h3>Комментарии</h3>
 <div id="comments"></div>
-<textarea id="commentInput" placeholder="Ваш комментарий"></textarea><br>
+
+<textarea id="commentInput" placeholder="Ваш комментарий"></textarea>
 <button onclick="addComment()">Отправить</button>
+
+</div>
 </div>
 
 <div id="modal" class="modal hidden">
 <div class="modal-box">
 <span class="close" onclick="closeModal()">✖</span>
-<textarea id="modalText"></textarea><br><br>
-<button onclick="saveEdit()">Ответ</button>
-<button style="background:red;color:white" onclick="deleteComment()">Удалить</button>
+<textarea id="modalText"></textarea>
+<button onclick="saveReply()">Ответить</button>
 </div>
 </div>
 
@@ -147,73 +186,20 @@ The Good, the Bad and the Ugly
 firebase.initializeApp({
 apiKey: "AIzaSyCTr1vgcuSEn_2Ebh2vC3k7sNYzvMoYlBo",
 authDomain: "kino-project-bf21c.firebaseapp.com",
-projectId:: "kino-project-bf21c",
-
+projectId: "kino-project-bf21c"
 });
 
 const db=firebase.firestore();
 let currentUser=null;
-let selectedComment=null;
+let replyTo=null;
 
-/* LOGIN */
 async function login(){
 const nick=document.getElementById("nickname").value.trim();
 if(!nick)return;
-
-const snap=await db.collection("users").doc(nick).get();
-if(snap.exists){
-document.getElementById("loginError").innerText="Ник уже занят";
-return;
-}
-
-await db.collection("users").doc(nick).set({created:Date.now()});
 currentUser=nick;
-document.getElementById("loginError").innerText="";
 alert("Вы вошли как "+nick);
 }
 
-/* VIEWS */
-async function countView(){
-if(!localStorage.getItem("viewed")){
-await db.collection("stats").doc("views").set({
-count:firebase.firestore.FieldValue.increment(1)
-},{merge:true});
-localStorage.setItem("viewed","yes");
-}
-const snap=await db.collection("stats").doc("views").get();
-document.getElementById("views").innerText=snap.data()?.count||0;
-}
-countView();
-
-/* RATING */
-const ratingRef=db.collection("stats").doc("rating");
-
-document.querySelectorAll(".stars span").forEach(star=>{
-star.onclick=async()=>{
-if(!currentUser)return alert("Войдите");
-if(localStorage.getItem("rated"))return alert("Вы уже голосовали");
-
-const val=parseInt(star.getAttribute("data"));
-await ratingRef.set({
-total:firebase.firestore.FieldValue.increment(val),
-votes:firebase.firestore.FieldValue.increment(1)
-},{merge:true});
-
-localStorage.setItem("rated","yes");
-loadRating();
-};
-});
-
-async function loadRating(){
-const snap=await ratingRef.get();
-if(!snap.exists)return;
-const data=snap.data();
-const avg=(data.total/data.votes).toFixed(1);
-document.getElementById("rating").innerText=avg;
-}
-loadRating();
-
-/* COMMENTS */
 function renderComment(doc,parent=null){
 const data=doc.data();
 const div=document.createElement("div");
@@ -222,22 +208,21 @@ if(parent)div.classList.add("reply");
 
 div.innerHTML=`
 <b>${data.user}</b>
-<span class="menu" onclick="openMenu('${doc.id}')">⋮</span>
 <p>${data.text}</p>
-<button onclick="like('${doc.id}')">👍 ${data.likes||0}</button>
-<button onclick="dislike('${doc.id}')">👎 ${data.dislikes||0}</button>
-<button onclick="reply('${doc.id}')">Ответить</button>
+<button onclick="openReply('${doc.id}')">Ответить</button>
 `;
 
 (parent||document.getElementById("comments")).appendChild(div);
 
-db.collection("comments").where("parent","==",doc.id)
+db.collection("comments")
+.where("parent","==",doc.id)
 .onSnapshot(snap=>{
 snap.forEach(d=>renderComment(d,div));
 });
 }
 
-db.collection("comments").where("parent","==",null)
+db.collection("comments")
+.where("parent","==",null)
 .onSnapshot(snap=>{
 document.getElementById("comments").innerHTML="";
 snap.forEach(doc=>renderComment(doc));
@@ -252,42 +237,13 @@ await db.collection("comments").add({
 user:currentUser,
 text:value,
 parent:parent||null,
-likes:0,
-dislikes:0,
 created:Date.now()
 });
 document.getElementById("commentInput").value="";
 }
 
-/* LIKE */
-async function like(id){
-if(!currentUser)return;
-const voteRef=db.collection("votes").doc(currentUser+"_"+id);
-const snap=await voteRef.get();
-if(snap.exists)return alert("Вы уже голосовали");
-
-await db.collection("comments").doc(id).update({
-likes:firebase.firestore.FieldValue.increment(1)
-});
-await voteRef.set({type:"like"});
-}
-
-/* DISLIKE */
-async function dislike(id){
-if(!currentUser)return;
-const voteRef=db.collection("votes").doc(currentUser+"_"+id);
-const snap=await voteRef.get();
-if(snap.exists)return alert("Вы уже голосовали");
-
-await db.collection("comments").doc(id).update({
-dislikes:firebase.firestore.FieldValue.increment(1)
-});
-await voteRef.set({type:"dislike"});
-}
-
-/* REPLY */
-function reply(id){
-selectedComment=id;
+function openReply(id){
+replyTo=id;
 document.getElementById("modal").classList.remove("hidden");
 }
 
@@ -295,22 +251,14 @@ function closeModal(){
 document.getElementById("modal").classList.add("hidden");
 }
 
-async function saveEdit(){
+async function saveReply(){
 const text=document.getElementById("modalText").value;
-if(text)await addComment(selectedComment,text);
-closeModal();
-}
-
-/* DELETE */
-async function deleteComment(){
-if(!selectedComment)return;
-const doc=await db.collection("comments").doc(selectedComment).get();
-if(doc.data().user!==currentUser)return alert("Не ваш комментарий");
-
-await db.collection("comments").doc(selectedComment).delete();
+if(text)await addComment(replyTo,text);
+document.getElementById("modalText").value="";
 closeModal();
 }
 </script>
+
 </body>
 </html>
 
