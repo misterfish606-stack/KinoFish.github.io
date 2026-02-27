@@ -254,6 +254,22 @@ async function saveReply(){
   document.getElementById("modalText").value="";
   closeModal();
 }
+  // При входе
+currentUser = nick;
+localStorage.setItem("nickname", nick);
+// При загрузке сайта
+window.onload = async () => {
+  const savedNick = localStorage.getItem("nickname");
+  if(savedNick){
+    const doc = await db.collection("users").doc(savedNick).get();
+    if(doc.exists){
+      currentUser = savedNick;
+      console.log("Вошли как " + currentUser);
+      loadRating();
+      countView();
+    }
+  }
+};
 </script>
 </body>
 </html>
