@@ -96,15 +96,19 @@ cursor:pointer;
 color:red;
 font-size:20px;
 }
+
+.stars span{
+font-size:25px;
+cursor:pointer;
+color:#999;
+}
+
+.stars span:hover{
+color:gold;
+}
 </style>
 </head>
 <body>
-
-<div style="padding:20px">
-<input id="nickname" placeholder="Ваш ник">
-<button onclick="login()">Войти</button>
-<span id="loginError" style="color:red"></span>
-</div>
 
 <div class="container">
 
@@ -116,51 +120,29 @@ font-size:20px;
 <div class="info">
 
 <p><b>Год:</b> 1966</p>
+<p><b>IMDb:</b> 8.8</p>
+<p><b>Кинопоиск:</b> 8.5</p>
+<p><b>Просмотры сайта:</b> <span id="views">0</span></p>
 
-<p><b>Оригинальное название:</b>
-<a href="https://www.imdb.com/title/tt0060196/" target="_blank">
-The Good, the Bad and the Ugly
-</a></p>
-
-<p><b>Страна:</b>
-<a href="https://ru.wikipedia.org/wiki/Италия" target="_blank">Италия</a>,
-<a href="https://ru.wikipedia.org/wiki/Испания" target="_blank">Испания</a>
-</p>
-
-<p><b>Жанр:</b>
-<a href="https://ru.wikipedia.org/wiki/Вестерн" target="_blank">Вестерн</a>
-</p>
-
-<p><b>Режиссёр:</b>
-<a href="https://ru.wikipedia.org/wiki/Леоне,_Серджо" target="_blank">
-Серджио Леоне
-</a>
-</p>
-
-<p><b>IMDb:</b>
-<a href="https://www.imdb.com/title/tt0060196/" target="_blank">
-8.8 / 10
-</a></p>
-
-<p><b>Кинопоиск:</b>
-<a href="https://www.kinopoisk.ru/film/349/" target="_blank">
-8.5 / 10
-</a></p>
-
-<h3>Описание</h3>
-<p>
-Легендарный спагетти-вестерн режиссёра Серджио Леоне.
-Три стрелка во времена Гражданской войны в США
-охотятся за золотом Конфедерации.
-Каждый преследует свою выгоду, но судьба снова и снова
-сталкивает их вместе.
-Фильм прославился напряжёнными дуэлями и культовой музыкой Эннио Морриконе.
-</p>
-
-<h3>Трейлер</h3>
+<h3>Фильм</h3>
 <iframe width="560" height="315"
-src="https://www.youtube.com/embed/WCN5JJY_wiA"
+src="https://www.youtube.com/embed/KBFoXtncTfE"
 allowfullscreen></iframe>
+
+<h3>Оцените фильм</h3>
+<div class="stars">
+<span data="1">★</span>
+<span data="2">★</span>
+<span data="3">★</span>
+<span data="4">★</span>
+<span data="5">★</span>
+</div>
+Средний рейтинг: <span id="rating">0</span>
+
+<h3>Вход</h3>
+<input id="nickname" placeholder="Ваш ник">
+<button onclick="login()">Войти</button>
+<span id="loginError" style="color:red"></span>
 
 <h3>Комментарии</h3>
 <div id="comments"></div>
@@ -193,13 +175,56 @@ const db=firebase.firestore();
 let currentUser=null;
 let replyTo=null;
 
-async function login(){
+/* LOGIN */
+function login(){
 const nick=document.getElementById("nickname").value.trim();
 if(!nick)return;
 currentUser=nick;
 alert("Вы вошли как "+nick);
 }
 
+/* VIEWS */
+async function countView(){
+if(!localStorage.getItem("viewed")){
+await db.collection("stats").doc("views").set({
+count:firebase.firestore.FieldValue.increment(1)
+},{merge:true});
+localStorage.setItem("viewed","yes");
+}
+const snap=await db.collection("stats").doc("views").get();
+document.getElementById("views").innerText=snap.data()?.count||0;
+}
+countView();
+
+/* RATING */
+const ratingRef=db.collection("stats").doc("rating");
+
+document.querySelectorAll(".stars span").forEach(star=>{
+star.onclick=async()=>{
+if(!currentUser)return alert("Войдите");
+if(localStorage.getItem("rated"))return alert("Вы уже голосовали");
+
+const val=parseInt(star.getAttribute("data"));
+await ratingRef.set({
+total:firebase.firestore.FieldValue.increment(val),
+votes:firebase.firestore.FieldValue.increment(1)
+},{merge:true});
+
+localStorage.setItem("rated","yes");
+loadRating();
+};
+});
+
+async function loadRating(){
+const snap=await ratingRef.get();
+if(!snap.exists)return;
+const data=snap.data();
+const avg=(data.total/data.votes).toFixed(1);
+document.getElementById("rating").innerText=avg;
+}
+loadRating();
+
+/* COMMENTS */
 function renderComment(doc,parent=null){
 const data=doc.data();
 const div=document.createElement("div");
@@ -209,6 +234,8 @@ if(parent)div.classList.add("reply");
 div.innerHTML=`
 <b>${data.user}</b>
 <p>${data.text}</p>
+<button onclick="like('${doc.id}')">👍 ${data.likes||0}</button>
+<button onclick="dislike('${doc.id}')">👎 ${data.dislikes||0}</button>
 <button onclick="openReply('${doc.id}')">Ответить</button>
 `;
 
@@ -237,11 +264,40 @@ await db.collection("comments").add({
 user:currentUser,
 text:value,
 parent:parent||null,
+likes:0,
+dislikes:0,
 created:Date.now()
 });
 document.getElementById("commentInput").value="";
 }
 
+/* LIKE */
+async function like(id){
+if(!currentUser)return;
+const voteRef=db.collection("votes").doc(currentUser+"_"+id);
+const snap=await voteRef.get();
+if(snap.exists)return alert("Вы уже голосовали");
+
+await db.collection("comments").doc(id).update({
+likes:firebase.firestore.FieldValue.increment(1)
+});
+await voteRef.set({type:"like"});
+}
+
+/* DISLIKE */
+async function dislike(id){
+if(!currentUser)return;
+const voteRef=db.collection("votes").doc(currentUser+"_"+id);
+const snap=await voteRef.get();
+if(snap.exists)return alert("Вы уже голосовали");
+
+await db.collection("comments").doc(id).update({
+dislikes:firebase.firestore.FieldValue.increment(1)
+});
+await voteRef.set({type:"dislike"});
+}
+
+/* MODAL */
 function openReply(id){
 replyTo=id;
 document.getElementById("modal").classList.remove("hidden");
