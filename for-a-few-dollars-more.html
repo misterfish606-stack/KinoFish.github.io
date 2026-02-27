@@ -142,6 +142,7 @@ async function countView(){
 // ===== РЕЙТИНГ =====
 const ratingRef = db.collection("stats").doc("rating");
 
+
 async function loadRating(){
   const snap = await ratingRef.get();
   if(!snap.exists){
@@ -169,7 +170,8 @@ document.querySelectorAll(".star").forEach(star=>{
 });
 
 // ===== КОММЕНТАРИИ =====
-db.collection("comments").orderBy("created").onSnapshot(snapshot=>{
+db.collection("films").doc(filmId).collection("comments")
+orderBy("created").onSnapshot(snapshot=>{
   const all = {};
   snapshot.forEach(doc=>all[doc.id] = {id:doc.id, ...doc.data()});
   document.getElementById("comments").innerHTML="";
@@ -217,7 +219,8 @@ async function like(id){
   const voteRef = db.collection("votes").doc(currentUser+"_"+id);
   const snap = await voteRef.get();
   if(snap.exists) return alert("Вы уже голосовали!");
-  await db.collection("comments").doc(id).update({likes: firebase.firestore.FieldValue.increment(1)});
+  await db.collection("films").doc(filmId).collection("votes")
+(id).update({likes: firebase.firestore.FieldValue.increment(1)});
   await voteRef.set({type:"like"});
 }
 async function dislike(id){
@@ -225,7 +228,8 @@ async function dislike(id){
   const voteRef = db.collection("votes").doc(currentUser+"_"+id);
   const snap = await voteRef.get();
   if(snap.exists) return alert("Вы уже голосовали!");
-  await db.collection("comments").doc(id).update({dislikes: firebase.firestore.FieldValue.increment(1)});
+  await db.collection("films").doc(filmId).collection("votes")
+(id).update({dislikes: firebase.firestore.FieldValue.increment(1)});
   await voteRef.set({type:"dislike"});
 }
 
@@ -270,6 +274,10 @@ window.onload = async () => {
     }
   }
 };
+  <a href="index.html" class="back-btn">⬅ Назад в меню</a>
+
+</div>
+  
 </script>
 </body>
 </html>
