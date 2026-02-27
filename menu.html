@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<title>Меню фильмов</title>
+<style>
+body {
+  font-family: Georgia, serif;
+  background: linear-gradient(to bottom, #3a2c1a, #1a1208);
+  color: #f5e6c4;
+  margin:0;
+  padding:0;
+  text-align:center;
+}
+
+h1 {
+  margin-top: 40px;
+  color: #d4af37;
+  text-shadow: 2px 2px 5px black;
+}
+
+.poster-grid {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 40px;
+  margin-top: 40px;
+}
+
+.movie-item {
+  text-align: center;
+  transition: transform 0.3s;
+}
+
+.movie-item img {
+  width: 200px;
+  border: 4px solid #d4af37;
+  border-radius: 10px;
+  box-shadow: 0 0 15px black;
+  cursor: pointer;
+}
+
+.movie-item:hover {
+  transform: scale(1.05);
+}
+
+.movie-item p {
+  margin-top: 10px;
+  color: #ffd700;
+  font-weight: bold;
+  font-size: 18px;
+}
+
+.movie-item a {
+  text-decoration: none;
+  color: inherit;
+}
+</style>
+</head>
+<body>
+
+<h1>Наши фильмы</h1>
+
+<div class="poster-grid">
+  <!-- Фильм 1 -->
+  <div class="movie-item">
+    <a href="good-bad-ugly.html">
+      <img src="https://upload.wikimedia.org/wikipedia/en/4/45/Good_the_bad_and_the_ugly_poster.jpg" alt="Хороший, Плохой, Злой">
+      <p>Хороший, Плохой, Злой</p>
+    </a>
+  </div>
+
+  <!-- Фильм 2 -->
+  <div class="movie-item">
+    <a href="another-movie.html">
+      <img src="https://upload.wikimedia.org/wikipedia/en/6/60/Once_Upon_a_Time_in_the_West_poster.jpg" alt="Однажды на Диком Западе">
+      <p>Однажды на Диком Западе</p>
+    </a>
+  </div>
+
+  <!-- Фильм 3 -->
+  <div class="movie-item">
+    <a href="dollars-trilogy.html">
+      <img src="https://upload.wikimedia.org/wikipedia/en/0/0d/A_Fistful_of_Dollars.jpg" alt="За пригоршню долларов">
+      <p>За пригоршню долларов</p>
+    </a>
+  </div>
+
+  <!-- Добавляй новые фильмы так же -->
+</div>
+
+</body>
+</html>
