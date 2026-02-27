@@ -175,94 +175,59 @@ authDomain: "kino-project-bf21c.firebaseapp.com",
 projectId: "kino-project-bf21c"
 });
 
-const db=firebase.firestore();
-let currentUser=null;
-let replyTo=null;
+const db = firebase.firestore();
+let currentUser = null;
+let replyTo = null;
 
 /* LOGIN */
 function login(){
-const nick=document.getElementById("nickname").value.trim();
-if(!nick)return;
-currentUser=nick;
-alert("Вы вошли как "+nick);
+const nick = document.getElementById("nickname").value.trim();
+if(!nick) return;
+currentUser = nick;
+alert("Вы вошли как " + nick);
 }
 
-/* VIEWS */
-async function countView(){
-if(!localStorage.getItem("viewed")){
-await db.collection("stats").doc("views").set({
-count:firebase.firestore.FieldValue.increment(1)
-},{merge:true});
-localStorage.setItem("viewed","yes");
-}
-const snap=await db.collection("stats").doc("views").get();
-document.getElementById("views").innerText=snap.data()?.count||0;
-}
-countView();
-
-/* RATING */
-const ratingRef=db.collection("stats").doc("rating");
-
-document.querySelectorAll(".stars span").forEach(star=>{
-star.onclick=async()=>{
-if(!currentUser)return alert("Войдите");
-if(localStorage.getItem("rated"))return alert("Вы уже голосовали");
-
-const val=parseInt(star.getAttribute("data"));
-await ratingRef.set({
-total:firebase.firestore.FieldValue.increment(val),
-votes:firebase.firestore.FieldValue.increment(1)
-},{merge:true});
-
-localStorage.setItem("rated","yes");
-loadRating();
-};
+/* COMMENTS REALTIME */
+db.collection("comments")
+.orderBy("created")
+.onSnapshot(snapshot=>{
+document.getElementById("comments").innerHTML="";
+let all = {};
+snapshot.forEach(doc=>{
+all[doc.id] = {id:doc.id, ...doc.data()};
 });
 
-async function loadRating(){
-const snap=await ratingRef.get();
-if(!snap.exists)return;
-const data=snap.data();
-const avg=(data.total/data.votes).toFixed(1);
-document.getElementById("rating").innerText=avg;
-}
-loadRating();
+Object.values(all)
+.filter(c=>!c.parent)
+.forEach(c=>renderComment(c, all));
+});
 
-/* COMMENTS */
-function renderComment(doc,parent=null){
-const data=doc.data();
-const div=document.createElement("div");
+function renderComment(comment, all, parentDiv=null){
+const div = document.createElement("div");
 div.className="comment";
-if(parent)div.classList.add("reply");
+if(comment.parent) div.classList.add("reply");
 
 div.innerHTML=`
-<b>${data.user}</b>
-<p>${data.text}</p>
-<button onclick="like('${doc.id}')">👍 ${data.likes||0}</button>
-<button onclick="dislike('${doc.id}')">👎 ${data.dislikes||0}</button>
-<button onclick="openReply('${doc.id}')">Ответить</button>
+<b>${comment.user}</b>
+<p>${comment.text}</p>
+<button onclick="like('${comment.id}')">👍 ${comment.likes||0}</button>
+<button onclick="dislike('${comment.id}')">👎 ${comment.dislikes||0}</button>
+<button onclick="openReply('${comment.id}')">Ответить</button>
+${currentUser===comment.user ? `<button onclick="deleteComment('${comment.id}')">Удалить</button>`:""}
 `;
 
-(parent||document.getElementById("comments")).appendChild(div);
+(parentDiv||document.getElementById("comments")).appendChild(div);
 
-db.collection("comments")
-.where("parent","==",doc.id)
-.onSnapshot(snap=>{
-snap.forEach(d=>renderComment(d,div));
-});
+Object.values(all)
+.filter(c=>c.parent===comment.id)
+.forEach(child=>renderComment(child, all, div));
 }
 
-db.collection("comments")
-.where("parent","==",null)
-.onSnapshot(snap=>{
-document.getElementById("comments").innerHTML="";
-snap.forEach(doc=>renderComment(doc));
-});
-
+/* ADD */
 async function addComment(parent=null,text=null){
-if(!currentUser)return alert("Войдите");
+if(!currentUser) return alert("Войдите");
 const value=text||document.getElementById("commentInput").value;
-if(!value)return;
+if(!value) return;
 
 await db.collection("comments").add({
 user:currentUser,
@@ -272,36 +237,50 @@ likes:0,
 dislikes:0,
 created:Date.now()
 });
+
 document.getElementById("commentInput").value="";
 }
 
 /* LIKE */
 async function like(id){
-if(!currentUser)return;
-const voteRef=db.collection("votes").doc(currentUser+"_"+id);
-const snap=await voteRef.get();
-if(snap.exists)return alert("Вы уже голосовали");
+if(!currentUser) return alert("Войдите");
+
+const voteRef = db.collection("votes").doc(currentUser+"_"+id);
+const snap = await voteRef.get();
+if(snap.exists) return alert("Вы уже голосовали");
 
 await db.collection("comments").doc(id).update({
-likes:firebase.firestore.FieldValue.increment(1)
+likes: firebase.firestore.FieldValue.increment(1)
 });
 await voteRef.set({type:"like"});
 }
 
 /* DISLIKE */
 async function dislike(id){
-if(!currentUser)return;
-const voteRef=db.collection("votes").doc(currentUser+"_"+id);
-const snap=await voteRef.get();
-if(snap.exists)return alert("Вы уже голосовали");
+if(!currentUser) return alert("Войдите");
+
+const voteRef = db.collection("votes").doc(currentUser+"_"+id);
+const snap = await voteRef.get();
+if(snap.exists) return alert("Вы уже голосовали");
 
 await db.collection("comments").doc(id).update({
-dislikes:firebase.firestore.FieldValue.increment(1)
+dislikes: firebase.firestore.FieldValue.increment(1)
 });
 await voteRef.set({type:"dislike"});
 }
 
-/* MODAL */
+/* DELETE */
+async function deleteComment(id){
+if(!currentUser) return;
+
+const doc = await db.collection("comments").doc(id).get();
+if(doc.data().user !== currentUser)
+return alert("Это не ваш комментарий");
+
+await db.collection("comments").doc(id).delete();
+}
+
+/* REPLY MODAL */
 function openReply(id){
 replyTo=id;
 document.getElementById("modal").classList.remove("hidden");
@@ -313,11 +292,12 @@ document.getElementById("modal").classList.add("hidden");
 
 async function saveReply(){
 const text=document.getElementById("modalText").value;
-if(text)await addComment(replyTo,text);
+if(text) await addComment(replyTo,text);
 document.getElementById("modalText").value="";
 closeModal();
 }
 </script>
+
 
 </body>
 </html>
