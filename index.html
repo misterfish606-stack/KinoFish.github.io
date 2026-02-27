@@ -133,15 +133,15 @@ color:gold;
 src="https://www.youtube.com/embed/KBFoXtncTfE"
 allowfullscreen></iframe>
 
-<div>
-  <b>Средний рейтинг:</b> <span id="avgRating">0.0</span> ⭐ (<span id="votesCount">0</span> голосов)
-  <br>
-  <span class="star" data-value="1">★</span>
-  <span class="star" data-value="2">★</span>
-  <span class="star" data-value="3">★</span>
-  <span class="star" data-value="4">★</span>
-  <span class="star" data-value="5">★</span>
+<h3>Оцените фильм</h3>
+<div class="stars">
+<span data="1">★</span>
+<span data="2">★</span>
+<span data="3">★</span>
+<span data="4">★</span>
+<span data="5">★</span>
 </div>
+Средний рейтинг: <span id="rating">0</span>
 
 <script>
 const ratingRef = db.collection("stats").doc("rating");
