@@ -133,15 +133,58 @@ color:gold;
 src="https://www.youtube.com/embed/KBFoXtncTfE"
 allowfullscreen></iframe>
 
-<h3>Оцените фильм</h3>
-<div class="stars">
-<span data="1">★</span>
-<span data="2">★</span>
-<span data="3">★</span>
-<span data="4">★</span>
-<span data="5">★</span>
+<div>
+  <b>Средний рейтинг:</b> <span id="avgRating">0.0</span> ⭐ (<span id="votesCount">0</span> голосов)
+  <br>
+  <span class="star" data-value="1">★</span>
+  <span class="star" data-value="2">★</span>
+  <span class="star" data-value="3">★</span>
+  <span class="star" data-value="4">★</span>
+  <span class="star" data-value="5">★</span>
 </div>
-Средний рейтинг: <span id="rating">0</span>
+
+<script>
+const ratingRef = db.collection("stats").doc("rating");
+
+// ЗАГРУЗКА РЕЙТИНГА
+async function loadRating(){
+  const doc = await ratingRef.get();
+  if(!doc.exists){
+    await ratingRef.set({totalScore:0,totalVotes:0});
+    document.getElementById("avgRating").innerText = "0.0";
+    document.getElementById("votesCount").innerText = "0";
+    return;
+  }
+  const data = doc.data();
+  const avg = data.totalVotes ? (data.totalScore / data.totalVotes).toFixed(1) : "0.0";
+  document.getElementById("avgRating").innerText = avg;
+  document.getElementById("votesCount").innerText = data.totalVotes;
+}
+
+// ОБРАБОТКА НАЖАТИЯ НА ЗВЕЗДУ
+document.querySelectorAll(".star").forEach(star=>{
+  star.addEventListener("click", async ()=>{
+    if(!currentUser){ alert("Войдите для голосования!"); return; }
+
+    const voteKey = "rated_" + currentUser;
+    if(localStorage.getItem(voteKey)){ 
+      alert("Вы уже голосовали!"); 
+      return; 
+    }
+
+    const value = parseInt(star.getAttribute("data-value"));
+    await ratingRef.update({
+      totalScore: firebase.firestore.FieldValue.increment(value),
+      totalVotes: firebase.firestore.FieldValue.increment(1)
+    });
+
+    localStorage.setItem(voteKey,"yes");
+    loadRating();
+  });
+});
+
+loadRating();
+</script>
 
 <h3>Вход</h3>
 <input id="nickname" placeholder="Ваш ник">
