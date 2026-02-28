@@ -274,6 +274,43 @@ async function like(id){
       return;
     }
   }
+async function dislike(id){
+  if(!currentUser) return alert("Войдите!");
+
+  const voteDoc = votesRef.doc(currentUser+"_"+id);
+  const voteSnap = await voteDoc.get();
+
+  if(voteSnap.exists){
+
+    const oldType = voteSnap.data().type;
+
+    // Если уже дизлайк — убираем
+    if(oldType === "dislike"){
+      await commentsRef.doc(id).update({
+        dislikes: firebase.firestore.FieldValue.increment(-1)
+      });
+      await voteDoc.delete();
+      return;
+    }
+
+    // Если был лайк — меняем на дизлайк
+    if(oldType === "like"){
+      await commentsRef.doc(id).update({
+        likes: firebase.firestore.FieldValue.increment(-1),
+        dislikes: firebase.firestore.FieldValue.increment(1)
+      });
+      await voteDoc.update({type:"dislike"});
+      return;
+    }
+  }
+
+  // Если реакции не было
+  await commentsRef.doc(id).update({
+    dislikes: firebase.firestore.FieldValue.increment(1)
+  });
+
+  await voteDoc.set({type:"dislike"});
+}
 
   // Если реакции не было
   await commentsRef.doc(id).update({
