@@ -246,6 +246,7 @@ async function addComment(parent=null,text=null){
 }
 
 /* ===== LIKE / DISLIKE ===== */
+/* ===== LIKE ===== */
 async function like(id){
   if(!currentUser) return alert("Войдите!");
 
@@ -253,10 +254,9 @@ async function like(id){
   const voteSnap = await voteDoc.get();
 
   if(voteSnap.exists){
-
     const oldType = voteSnap.data().type;
 
-    // Если уже лайк — убираем
+    // Уже лайк — убрать
     if(oldType === "like"){
       await commentsRef.doc(id).update({
         likes: firebase.firestore.FieldValue.increment(-1)
@@ -264,7 +264,8 @@ async function like(id){
       await voteDoc.delete();
       return;
     }
- // Если был дизлайк — меняем на лайк
+
+    // Был дизлайк — поменять
     if(oldType === "dislike"){
       await commentsRef.doc(id).update({
         dislikes: firebase.firestore.FieldValue.increment(-1),
@@ -274,6 +275,17 @@ async function like(id){
       return;
     }
   }
+
+  // Нет реакции — поставить лайк
+  await commentsRef.doc(id).update({
+    likes: firebase.firestore.FieldValue.increment(1)
+  });
+
+  await voteDoc.set({type:"like"});
+}
+
+
+/* ===== DISLIKE ===== */
 async function dislike(id){
   if(!currentUser) return alert("Войдите!");
 
@@ -281,10 +293,9 @@ async function dislike(id){
   const voteSnap = await voteDoc.get();
 
   if(voteSnap.exists){
-
     const oldType = voteSnap.data().type;
 
-    // Если уже дизлайк — убираем
+    // Уже дизлайк — убрать
     if(oldType === "dislike"){
       await commentsRef.doc(id).update({
         dislikes: firebase.firestore.FieldValue.increment(-1)
@@ -293,7 +304,7 @@ async function dislike(id){
       return;
     }
 
-    // Если был лайк — меняем на дизлайк
+    // Был лайк — поменять
     if(oldType === "like"){
       await commentsRef.doc(id).update({
         likes: firebase.firestore.FieldValue.increment(-1),
@@ -304,7 +315,7 @@ async function dislike(id){
     }
   }
 
-  // Если реакции не было
+  // Нет реакции — поставить дизлайк
   await commentsRef.doc(id).update({
     dislikes: firebase.firestore.FieldValue.increment(1)
   });
@@ -312,13 +323,6 @@ async function dislike(id){
   await voteDoc.set({type:"dislike"});
 }
 
-  // Если реакции не было
-  await commentsRef.doc(id).update({
-    likes: firebase.firestore.FieldValue.increment(1)
-  });
-
-  await voteDoc.set({type:"like"});
-}
 
 /* ===== DELETE ===== */
 async function deleteComment(id){
