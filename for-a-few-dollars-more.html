@@ -250,28 +250,37 @@ async function like(id){
   if(!currentUser) return alert("Войдите!");
 
   const voteDoc = votesRef.doc(currentUser+"_"+id);
-  const snap = await voteDoc.get();
-  if(snap.exists) return alert("Вы уже голосовали!");
+  const voteSnap = await voteDoc.get();
 
+  if(voteSnap.exists){
+
+    const oldType = voteSnap.data().type;
+
+    // Если уже лайк — убираем
+    if(oldType === "like"){
+      await commentsRef.doc(id).update({
+        likes: firebase.firestore.FieldValue.increment(-1)
+      });
+      await voteDoc.delete();
+      return;
+    }
+ // Если был дизлайк — меняем на лайк
+    if(oldType === "dislike"){
+      await commentsRef.doc(id).update({
+        dislikes: firebase.firestore.FieldValue.increment(-1),
+        likes: firebase.firestore.FieldValue.increment(1)
+      });
+      await voteDoc.update({type:"like"});
+      return;
+    }
+  }
+
+  // Если реакции не было
   await commentsRef.doc(id).update({
     likes: firebase.firestore.FieldValue.increment(1)
   });
 
   await voteDoc.set({type:"like"});
-}
-
-async function dislike(id){
-  if(!currentUser) return alert("Войдите!");
-
-  const voteDoc = votesRef.doc(currentUser+"_"+id);
-  const snap = await voteDoc.get();
-  if(snap.exists) return alert("Вы уже голосовали!");
-
-  await commentsRef.doc(id).update({
-    dislikes: firebase.firestore.FieldValue.increment(1)
-  });
-
-  await voteDoc.set({type:"dislike"});
 }
 
 /* ===== DELETE ===== */
