@@ -104,6 +104,8 @@ For a Few Dollars More
 <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
 <script>
+  let votingInProgress = {};
+
 firebase.initializeApp({
   apiKey: "AIzaSyCTr1vgcuSEn_2Ebh2vC3k7sNYzvMoYlBo",
   authDomain: "kino-project-bf21c.firebaseapp.com",
@@ -246,9 +248,11 @@ async function addComment(parent=null,text=null){
 }
 
 /* ===== LIKE / DISLIKE ===== */
-/* ===== LIKE ===== */
 async function like(id){
   if(!currentUser) return alert("Войдите!");
+
+  if(votingInProgress[id]) return;
+  votingInProgress[id] = true;
 
   const voteDoc = votesRef.doc(currentUser+"_"+id);
   const voteSnap = await voteDoc.get();
@@ -256,38 +260,40 @@ async function like(id){
   if(voteSnap.exists){
     const oldType = voteSnap.data().type;
 
-    // Уже лайк — убрать
     if(oldType === "like"){
       await commentsRef.doc(id).update({
         likes: firebase.firestore.FieldValue.increment(-1)
       });
       await voteDoc.delete();
+      votingInProgress[id] = false;
       return;
     }
 
-    // Был дизлайк — поменять
     if(oldType === "dislike"){
       await commentsRef.doc(id).update({
         dislikes: firebase.firestore.FieldValue.increment(-1),
         likes: firebase.firestore.FieldValue.increment(1)
       });
       await voteDoc.update({type:"like"});
+      votingInProgress[id] = false;
       return;
     }
   }
 
-  // Нет реакции — поставить лайк
   await commentsRef.doc(id).update({
     likes: firebase.firestore.FieldValue.increment(1)
   });
 
   await voteDoc.set({type:"like"});
+  votingInProgress[id] = false;
 }
 
 
-/* ===== DISLIKE ===== */
 async function dislike(id){
   if(!currentUser) return alert("Войдите!");
+
+  if(votingInProgress[id]) return;
+  votingInProgress[id] = true;
 
   const voteDoc = votesRef.doc(currentUser+"_"+id);
   const voteSnap = await voteDoc.get();
@@ -295,32 +301,32 @@ async function dislike(id){
   if(voteSnap.exists){
     const oldType = voteSnap.data().type;
 
-    // Уже дизлайк — убрать
     if(oldType === "dislike"){
       await commentsRef.doc(id).update({
         dislikes: firebase.firestore.FieldValue.increment(-1)
       });
       await voteDoc.delete();
+      votingInProgress[id] = false;
       return;
     }
 
-    // Был лайк — поменять
     if(oldType === "like"){
       await commentsRef.doc(id).update({
         likes: firebase.firestore.FieldValue.increment(-1),
         dislikes: firebase.firestore.FieldValue.increment(1)
       });
       await voteDoc.update({type:"dislike"});
+      votingInProgress[id] = false;
       return;
     }
   }
 
-  // Нет реакции — поставить дизлайк
   await commentsRef.doc(id).update({
     dislikes: firebase.firestore.FieldValue.increment(1)
   });
 
   await voteDoc.set({type:"dislike"});
+  votingInProgress[id] = false;
 }
 
 
