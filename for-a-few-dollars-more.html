@@ -216,14 +216,22 @@ function renderComment(comment, all, parentDiv=null){
   div.innerHTML = `
     <b>${comment.user}</b>
     <p>${comment.text}</p>
-  <button onclick="like('${doc.id}', event)">👍 ${data.likes||0}</button>
-<button onclick="dislike('${doc.id}', event)">👎 ${data.dislikes||0}</button>
-
-    <button onclick="openReply('${comment.id}')">Ответить</button>
-    ${currentUser===comment.user ? `<button onclick="deleteComment('${comment.id}')">Удалить</button>`:""}
+    <button onclick="like('${comment.id}')">
+      👍 ${comment.likes || 0}
+    </button>
+    <button onclick="dislike('${comment.id}')">
+      👎 ${comment.dislikes || 0}
+    </button>
+    <button onclick="openReply('${comment.id}')">
+      Ответить
+    </button>
+    ${currentUser===comment.user 
+      ? `<button onclick="deleteComment('${comment.id}')">Удалить</button>`
+      : ""}
   `;
 
-  (parentDiv||document.getElementById("comments")).appendChild(div);
+  (parentDiv || document.getElementById("comments"))
+    .appendChild(div);
 
   Object.values(all)
     .filter(c=>c.parent===comment.id)
