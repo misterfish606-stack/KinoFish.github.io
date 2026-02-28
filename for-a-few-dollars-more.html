@@ -109,7 +109,9 @@ firebase.initializeApp({
   authDomain: "kino-project-bf21c.firebaseapp.com",
   projectId: "kino-project-bf21c"
 });
+
 const db = firebase.firestore();
+
 const movieKey = "dollars_more";
 
 const movieRef = db.collection("movies").doc(movieKey);
@@ -120,34 +122,26 @@ const statsRef = movieRef.collection("stats");
 let currentUser = null;
 let replyTo = null;
 
-// ===== ВХОД =====
+/* ===== ВХОД ===== */
 async function login(){
   const nick = document.getElementById("nickname").value.trim();
   if(!nick) return;
-  // проверка уникальности
-  const doc = await db.collection("users").doc(nick).get();
-  if(doc.exists){
-    document.getElementById("loginError").innerText="Ник уже занят";
-    return;
-  }
-  await db.collection("users").doc(nick).set({created:Date.now()});
+
   currentUser = nick;
-  document.getElementById("loginError").innerText="";
-  alert("Вы вошли как "+nick);
+  localStorage.setItem("nickname", nick);
+
+  alert("Вы вошли как " + nick);
   loadRating();
   countView();
 }
 
-// ===== ПРОСМОТРЫ =====
+/* ===== ПРОСМОТРЫ ===== */
 async function countView(){
   if(localStorage.getItem("viewed_"+movieKey)) return;
 
-  const ref = db.collection("movies")
-                .doc(movieKey)
-                .collection("stats")
-                .doc("views");
+  const ref = statsRef.doc("views");
 
-  await ref.set({}, {merge:true});
+  await ref.set({count:0}, {merge:true});
   await ref.update({
     count: firebase.firestore.FieldValue.increment(1)
   });
@@ -158,26 +152,20 @@ async function countView(){
   document.getElementById("views").innerText = snap.data().count || 0;
 }
 
-
-const ratingRef = db.collection("movies")
-                    .doc(movieKey)
-                    .collection("stats")
-                    .doc("rating");
+/* ===== РЕЙТИНГ ===== */
+const ratingRef = statsRef.doc("rating");
 
 async function loadRating(){
   const snap = await ratingRef.get();
 
   if(!snap.exists){
-    await ratingRef.set({
-      totalScore:0,
-      totalVotes:0
-    });
+    await ratingRef.set({totalScore:0,totalVotes:0});
   }
 
   const data = (await ratingRef.get()).data();
   const avg = data.totalVotes 
-      ? (data.totalScore/data.totalVotes).toFixed(1) 
-      : "0.0";
+    ? (data.totalScore/data.totalVotes).toFixed(1) 
+    : "0.0";
 
   document.getElementById("avgRating").innerText = avg;
   document.getElementById("votesCount").innerText = data.totalVotes;
@@ -188,8 +176,8 @@ document.querySelectorAll(".star").forEach(star=>{
     if(!currentUser) return alert("Войдите!");
 
     const voteKey = "rated_"+movieKey+"_"+currentUser;
-    if(localStorage.getItem(voteKey)) 
-        return alert("Вы уже голосовали!");
+    if(localStorage.getItem(voteKey))
+      return alert("Вы уже голосовали!");
 
     const value = parseInt(star.dataset.value);
 
@@ -203,7 +191,7 @@ document.querySelectorAll(".star").forEach(star=>{
   };
 });
 
-// ===== КОММЕНТАРИИ =====
+/* ===== КОММЕНТАРИИ ===== */
 commentsRef.orderBy("created")
 .onSnapshot(snapshot=>{
   const all = {};
@@ -216,12 +204,6 @@ commentsRef.orderBy("created")
   Object.values(all)
     .filter(c=>!c.parent)
     .forEach(c=>renderComment(c,all));
-});
-
-  const all = {};
-  snapshot.forEach(doc=>all[doc.id] = {id:doc.id, ...doc.data()});
-  document.getElementById("comments").innerHTML="";
-  Object.values(all).filter(c=>!c.parent).forEach(c=>renderComment(c,all));
 });
 
 function renderComment(comment, all, parentDiv=null){
@@ -240,16 +222,18 @@ function renderComment(comment, all, parentDiv=null){
 
   (parentDiv||document.getElementById("comments")).appendChild(div);
 
-  Object.values(all).filter(c=>c.parent===comment.id).forEach(child=>renderComment(child,all,div));
+  Object.values(all)
+    .filter(c=>c.parent===comment.id)
+    .forEach(child=>renderComment(child,all,div));
 }
 
-// ===== ADD COMMENT =====
 async function addComment(parent=null,text=null){
   if(!currentUser) return alert("Войдите!");
+
   const value = text || document.getElementById("commentInput").value;
   if(!value) return;
-await commentsRef.add({
 
+  await commentsRef.add({
     user: currentUser,
     text: value,
     parent: parent||null,
@@ -257,16 +241,12 @@ await commentsRef.add({
     dislikes:0,
     created:Date.now()
   });
+
   document.getElementById("commentInput").value="";
 }
 
-// ===== LIKE/DISLIKE =====
+/* ===== LIKE / DISLIKE ===== */
 async function like(id){
-  if(!currentUser) return alert("Войдите!");
-  const voteRef = db.collection("votes").doc(currentUser+"_"+id);
-  const snap = await voteRef.get();
-  if(snap.exists) return alert("Вы уже голосовали!");
- async function like(id){
   if(!currentUser) return alert("Войдите!");
 
   const voteDoc = votesRef.doc(currentUser+"_"+id);
@@ -282,11 +262,6 @@ async function like(id){
 
 async function dislike(id){
   if(!currentUser) return alert("Войдите!");
-  const voteRef = db.collection("votes").doc(currentUser+"_"+id);
-  const snap = await voteRef.get();
-  if(snap.exists) return alert("Вы уже голосовали!");
-  async function dislike(id){
-  if(!currentUser) return alert("Войдите!");
 
   const voteDoc = votesRef.doc(currentUser+"_"+id);
   const snap = await voteDoc.get();
@@ -298,17 +273,18 @@ async function dislike(id){
 
   await voteDoc.set({type:"dislike"});
 }
-// ===== DELETE =====
+
+/* ===== DELETE ===== */
 async function deleteComment(id){
-  if(!currentUser) return;
   const doc = await commentsRef.doc(id).get();
-if(!doc.exists) return;
-if(doc.data().user!==currentUser) return alert("Не ваш комментарий");
+  if(!doc.exists) return;
+  if(doc.data().user!==currentUser) 
+      return alert("Не ваш комментарий");
 
-await commentsRef.doc(id).delete();
+  await commentsRef.doc(id).delete();
+}
 
-
-// ===== REPLY MODAL =====
+/* ===== REPLY ===== */
 function openReply(id){
   replyTo = id;
   document.getElementById("modal").classList.remove("hidden");
@@ -324,22 +300,18 @@ async function saveReply(){
   document.getElementById("modalText").value="";
   closeModal();
 }
-  // При входе
 
-// При загрузке сайта
-window.onload = async () => {
+/* ===== АВТОВХОД ===== */
+window.onload = async ()=>{
   const savedNick = localStorage.getItem("nickname");
   if(savedNick){
-    const doc = await db.collection("users").doc(savedNick).get();
-    if(doc.exists){
-      currentUser = savedNick;
-      console.log("Вошли как " + currentUser);
-      loadRating();
-      countView();
-    }
+    currentUser = savedNick;
+    console.log("Вошли как "+currentUser);
   }
-};
-
+  loadRating();
+  countView();
+}
 </script>
+
 </body>
 </html>
