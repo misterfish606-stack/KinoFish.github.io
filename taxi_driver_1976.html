@@ -35,6 +35,27 @@ button:hover{background:#8b5a2b}
 .close{position:absolute;right:10px;top:10px;cursor:pointer;color:red;font-size:20px;}
 .stars span{font-size:25px;cursor:pointer;color:#999;}
 .stars span:hover{color:gold;}
+.movie-description{
+  color:#ffd700;
+  position:relative;
+  cursor:pointer;
+}
+
+.movie-description::after{
+  content:"";
+  position:absolute;
+  left:0;
+  bottom:-5px;
+  width:0;
+  height:2px;
+  background:#ffd700;
+  transition:0.4s;
+}
+
+.movie-description:hover::after{
+  width:100%;
+}
+
 </style>
 </head>
 <body>
@@ -60,9 +81,12 @@ taxi driver
 <p><b>Год выпуска:</b> 1964</p>
 <p><b>IMDb:</b> 8.0 / <b>Кинопоиск:</b> 8.1</p>
 <p><b>Просмотры:</b> <span id="views">0</span></p>
-
+  
 <h3>Описание фильма</h3>
-<p>Одинокий стрелок приезжает в маленький городок, чтобы сыграть на противостоянии двух враждующих банд и заработать за пригоршню долларов, при этом разгадывая тайну прошлого.</p>
+<p class="movie-description">
+Одинокий стрелок приезжает в маленький городок , чтобы сыграть на противостоянии двух враждующих банд и заработать за пригоршню долларов, при этом разгадывая тайну прошлого.</p>
+
+
 
 <h3>Фильм</h3>
 <iframe width="560" height="315" src="https://www.youtube.com/embed/TgG4V33bB9U" allowfullscreen></iframe>
