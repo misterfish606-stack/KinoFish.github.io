@@ -5,7 +5,14 @@
 <title>Fish Cinema</title>
 
 <style>
-body.movie-title{
+body{
+    margin:0;
+    font-family:Georgia, serif;
+    background:#1a1208;
+    color:#f5e6c4;
+}
+
+.movie-title{
     position:relative;
     color:#ffd700;
     font-size:18px;
@@ -184,80 +191,13 @@ img:"https://kinogo.online/uploads/mini/shortstory-mob/ed1/1614517323-1826304193
 },
 
 {
-<div class="movie-item">
-
-<a href="fight_club.html">
-
-<img src="https://upload.wikimedia.org/wikipedia/en/f/fc/Fight_Club_poster.jpg">
-
-<div class="movie-info">
-
-<p class="movie-title">Бойцовский клуб</p>
-
-<div class="meta">
-
-<p><b>Оригинальное название:</b> 
-<span class="movie-description">Fight Club</span>
-</p>  
-
-<p><b>Страна:</b> 
-<span class="movie-description">США/Германия</span>
-</p>
-  
-<p><b>Жанр:</b> 
-<span class="movie-description">Драма/Криминал/Триллер</span>
-</p>
-  
-<p><b>Режиссер:</b>
-<span class="movie-description">
-<a href="https://uk.wikipedia.org/wiki/Девід Фінчер" target="_blank">
-Девід Фінчер
-</a>
-</span>
-</p>
-
-<p><b>В главных ролях:</b>
-<span class="movie-description">
-<a href="https://uk.wikipedia.org/wiki/Едвард Нортон" target="_blank">
-Едвард Нортон
-</a>
-</span>
-<span class="movie-description">
-<a href="https://uk.wikipedia.org/wiki/Бред Пітт" target="_blank">
-Бред Пітт
-</a>
-</span>
-</p>
-  
-<p><b>Год выпуска:</b> 1999</p>
-  
-<p><b>IMDb:</b> 
-<span class="movie-description">8.8</span> 
-/ 
-<b>Кинопоиск:</b> 
-<span class="movie-description">8.7</span>
-</p>
-
-<p><b>Просмотры:</b> 
-<span id="views">
-<span class="movie-description">0</span>
-</span>
-</p>
-
-<h3>Описание фильма</h3>
-
-<p class="movie-description description-text">
-Обычный офисный работник неосознанно создаёт воображаемого друга, 
-после чего они начинают разрушать систему. 
-Позже выясняется, что друга не существует — 
-всё это делает он сам.
-</p>
-
-</div>
-</div>
-
-</a>
-</div>
+title:"Бойцовский клуб",
+file:"fight_club.html",
+year:1999,
+country:"США",
+desc:"Офисный работник создаёт альтер эго и начинает разрушать систему.",
+img:"https://upload.wikimedia.org/wikipedia/en/f/fc/Fight_Club_poster.jpg"
+},
 
 {
 title:"Таксист",
@@ -291,7 +231,7 @@ title:"Хулиганы Зеленой улицы",
 file:"Green_Street_hooligans.html",
 year:2005,
 country:"Великобритания",
-desc:"История студента, оказавшегося среди футбольных фанатов.",
+desc:"История студента среди футбольных фанатов.",
 img:"https://static.hdrezka.ac/i/2014/1/28/nec0c4b76dd99cm66u83v.jpg"
 }
 
@@ -307,7 +247,7 @@ catalog.innerHTML+=`
 <a href="${m.file}">
 <img src="${m.img}">
 <div class="movie-info">
-<p>${m.title}</p>
+<p class="movie-title">${m.title}</p>
 <div class="meta">
 Год: ${m.year}<br>
 Страна: ${m.country}
