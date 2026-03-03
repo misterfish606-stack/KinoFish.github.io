@@ -139,9 +139,13 @@ body{
 <!-- ===== Верх ===== -->
 <div class="top-menu">
     <a href="#" onclick="showAll()">Фильмы</a>
-    <a href="#">Поиск</a>
+    <input type="text" id="searchInput" placeholder="Поиск фильма..." 
+oninput="searchMovie()" 
+style="padding:5px; border-radius:5px; border:none;">
+
     <a href="#" onclick="showNew()">Новинки</a>
-    <a href="#">Подборки</a>
+<a href="#" onclick="showCollections()">Подборки</a>
+
 </div>
 
 <div class="main">
@@ -170,6 +174,47 @@ body{
 </div>
 
 <script>
+
+function showCowboys(){
+const catalog = document.getElementById("catalog");
+
+catalog.innerHTML = `
+<h2 style="color:#ffd700;">Фильмы про ковбоев</h2>
+
+<div style="display:flex; gap:20px; margin-top:20px;">
+
+<a href="good-bad-ugly.html">
+<img src="https://kinogo.online/uploads/mini/shortstory-mob/ed1/1614517323-1826304193.jpg" 
+style="width:200px; border:4px solid #d4af37;">
+</a>
+
+<a href="per_un_pugno_di_dollari.html">
+<img src="https://ru-images.kinorium.com/movie/1080/54934.jpg?1754296715" 
+style="width:200px; border:4px solid #d4af37;">
+</a>
+
+<a href="for-a-few-dollars-more.html">
+<img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTCxtEljwymUbifbP48s0ryFIgLy1OYI-j4mQ&s" 
+style="width:200px; border:4px solid #d4af37;">
+</a>
+
+</div>
+`;
+}
+
+function showCollections(){
+const catalog = document.getElementById("catalog");
+
+catalog.innerHTML = `
+<h2 style="color:#ffd700;">Подборки</h2>
+
+<div onclick="showCowboys()" style="cursor:pointer; margin-top:20px;">
+<h3 style="color:#d4af37;">Про ковбоев</h3>
+<img src="https://upload.wikimedia.org/wikipedia/commons/2/2e/Clint_Eastwood_1960s.jpg" 
+style="width:300px; border:4px solid #d4af37;">
+</div>
+`;
+}
 
 /* ===== Автогенерация годов ===== */
 const yearContainer = document.getElementById("years");
@@ -287,6 +332,52 @@ render(movies);
 
 function showNew(){
 render(movies.filter(m=>m.file=="fight_club.html"));
+}
+function levenshtein(a, b) {
+const matrix = [];
+
+for (let i = 0; i <= b.length; i++) {
+matrix[i] = [i];
+}
+for (let j = 0; j <= a.length; j++) {
+matrix[0][j] = j;
+}
+
+for (let i = 1; i <= b.length; i++) {
+for (let j = 1; j <= a.length; j++) {
+if (b.charAt(i - 1) == a.charAt(j - 1)) {
+matrix[i][j] = matrix[i - 1][j - 1];
+} else {
+matrix[i][j] = Math.min(
+matrix[i - 1][j - 1] + 1,
+matrix[i][j - 1] + 1,
+matrix[i - 1][j] + 1
+);
+}
+}
+}
+return matrix[b.length][a.length];
+}
+
+function searchMovie(){
+const value = document.getElementById("searchInput").value.toLowerCase();
+
+if(value==""){
+render(movies);
+return;
+}
+
+let results = movies.filter(m => 
+m.title.toLowerCase().includes(value)
+);
+
+if(results.length==0){
+results = movies.filter(m => 
+levenshtein(m.title.toLowerCase(), value) < 5
+);
+}
+
+render(results);
 }
 
 </script>
