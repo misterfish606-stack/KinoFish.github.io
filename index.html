@@ -96,6 +96,16 @@ body{
     gap:20px;
     margin-bottom:40px;
 }
+.movie-item{
+    display:flex;
+    gap:20px;
+    margin-bottom:40px;
+    transition:0.3s;
+}
+
+.movie-item:hover{
+    transform:scale(1.02);
+}
 
 .movie-item img{
     width:220px;
@@ -372,10 +382,13 @@ m.title.toLowerCase().includes(value)
 );
 
 if(results.length==0){
-results = movies.filter(m => 
-levenshtein(m.title.toLowerCase(), value) < 5
+results = movies.filter(m => {
+return m.title.split(" ").some(word => 
+levenshtein(word.toLowerCase(), value) < 3
 );
+});
 }
+
 
 render(results);
 }
