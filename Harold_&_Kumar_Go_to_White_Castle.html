@@ -196,22 +196,26 @@ async function login(){
 
 /* ===== ПРОСМОТРЫ ===== */
 async function countView(){
-  if(localStorage.getItem("viewed_"+movieKey)) return;
-
-  const ref = statsRef.doc("views");
 async function countView(){
-  if(localStorage.getItem("viewed_"+movieKey)) return;
-
   const ref = statsRef.doc("views");
 
-  await ref.set({
-    count: firebase.firestore.FieldValue.increment(1)
-  }, {merge:true});
+  if(!localStorage.getItem("viewed_"+movieKey)){
+    await ref.set({
+      count: firebase.firestore.FieldValue.increment(1)
+    }, {merge:true});
 
-  localStorage.setItem("viewed_"+movieKey,"yes");
+    localStorage.setItem("viewed_"+movieKey,"yes");
+  }
+statsRef.doc("views").onSnapshot(doc=>{
+  if(doc.exists){
+    document.getElementById("views").innerText = doc.data().count || 0;
+  }
+});
 
   const snap = await ref.get();
   document.getElementById("views").innerText = snap.data()?.count || 0;
+}
+
 }
 statsRef.doc("views").onSnapshot(doc=>{
   if(doc.exists){
