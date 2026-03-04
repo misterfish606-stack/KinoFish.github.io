@@ -201,7 +201,7 @@ let currentUser = null;
 let replyTo = null;
 
 /* ===== ВХОД ===== */
-let currentUser = null;
+
 const usersRef = db.collection("users");
 
 async function login(){
@@ -237,7 +237,6 @@ async function login(){
   currentUser = nick;
 
   alert("Ник успешно зарегистрирован: " + nick);
-}
 
 }
 
@@ -488,7 +487,7 @@ window.onload = async ()=>{
 };
 
 
-}
+
 </script>
 
 </body>
