@@ -106,6 +106,9 @@ firebase.initializeApp({
   projectId: "kino-project-bf21c"
 });
 const db = firebase.firestore();
+const movieKey = "The Good, the Bad and the Ugly";
+const movieRef = db.collection("movies").doc(movieKey);
+const statsRef = movieRef.collection("stats");
 
 let currentUser = null;
 let replyTo = null;
