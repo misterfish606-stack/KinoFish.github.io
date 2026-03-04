@@ -468,15 +468,11 @@ async function saveReply(){
   closeModal();
 }
 
+
 /* ===== АВТОВХОД ===== */
 window.onload = async ()=>{
   const savedNick = localStorage.getItem("nickname");
-  if(savedNick){
-    currentUser = savedNick;
-    console.log("Вошли как "+currentUser);
-  }
-  window.onload = async ()=>{
-  const savedNick = localStorage.getItem("nickname");
+
   if(savedNick){
     currentUser = savedNick;
     console.log("Вы вошли как " + currentUser);
@@ -486,10 +482,7 @@ window.onload = async ()=>{
   initViews();
 };
 
-  loadRating();
- initViews();
 
-}
 </script>
 
 </body>
