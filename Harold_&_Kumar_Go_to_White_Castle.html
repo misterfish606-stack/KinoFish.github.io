@@ -449,14 +449,19 @@ async function saveReply(){
 }
 
 /* ===== АВТОВХОД ===== */
+/* ===== АВТОВХОД ===== */
 window.onload = async ()=>{
   const savedNick = localStorage.getItem("nickname");
+
   if(savedNick){
     currentUser = savedNick;
-    console.log("Вошли как "+currentUser);
+    console.log("Вы вошли как " + currentUser);
   }
+
   loadRating();
   initViews();
+};
+
 
 }
 </script>
