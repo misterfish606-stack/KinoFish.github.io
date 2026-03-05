@@ -112,6 +112,29 @@ body {
   border-left:1px solid rgba(212,175,55,0.15);
 }
 
+/* REPORT BUTTON */
+.report-btn {
+  font-family:'Bebas Neue', sans-serif;
+  font-size:0.78rem; letter-spacing:0.14em;
+  color:var(--cream-dim);
+  background:rgba(122,32,32,0.18);
+  border:1px solid rgba(122,32,32,0.5);
+  border-radius:2px;
+  padding:8px 16px;
+  margin-right:16px;
+  cursor:pointer;
+  transition:0.25s;
+  display:flex; align-items:center; gap:7px;
+  text-decoration:none;
+}
+.report-btn:hover {
+  background:rgba(122,32,32,0.38);
+  border-color:var(--red);
+  color:var(--gold-light);
+  box-shadow:0 0 14px rgba(122,32,32,0.4);
+}
+.report-btn-icon { font-size:1rem; }
+
 /* HERO SECTION */
 .hero {
   position:relative;
@@ -216,6 +239,8 @@ body {
   color:var(--cream-dim); font-size:1.1rem; margin-bottom:18px;
   letter-spacing:0.06em;
 }
+
+/* GOLD META TAGS */
 .hero-meta {
   display:flex; flex-wrap:wrap; gap:10px; margin-bottom:20px;
 }
@@ -223,11 +248,30 @@ body {
   font-family:'Bebas Neue', sans-serif;
   font-size:0.78rem; letter-spacing:0.12em;
   padding:4px 12px; border-radius:2px;
-  border:1px solid var(--gold-dim); color:var(--cream-dim);
+  border:1px solid var(--gold-dim);
+  color:var(--gold);
+  background:rgba(201,168,76,0.08);
+  cursor:default;
+  position:relative;
+  transition:color 0.2s, background 0.2s, border-color 0.2s;
+  text-decoration:none;
+  display:inline-block;
 }
-.meta-tag.year { background:rgba(212,175,55,0.1); color:var(--gold); border-color:var(--gold-dim); }
-.meta-tag.country { }
-.meta-tag.views { color:var(--cream-dim); }
+.meta-tag::after {
+  content:"";
+  position:absolute;
+  bottom:0; left:10%; right:10%;
+  height:1px;
+  background:var(--gold);
+  transform:scaleX(0);
+  transition:transform 0.25s ease;
+}
+.meta-tag:hover {
+  color:var(--gold-light);
+  background:rgba(201,168,76,0.16);
+  border-color:var(--gold);
+}
+.meta-tag:hover::after { transform:scaleX(1); }
 
 .ratings {
   display:flex; gap:16px; align-items:center; margin-bottom:20px;
@@ -322,12 +366,38 @@ body {
   color:var(--gold-dim); display:block; margin-bottom:5px;
   font-style:italic;
 }
+
+/* GOLD UNDERLINE LINKS for detail values */
 .detail-value {
   font-family:'Crimson Text', serif; font-size:1.05rem;
-  color:var(--cream); line-height:1.5;
+  color:var(--gold); line-height:1.5;
 }
-.detail-value a { color:var(--gold); text-decoration:none; }
-.detail-value a:hover { text-decoration:underline; }
+.detail-value a,
+.gold-link {
+  color:var(--gold);
+  text-decoration:none;
+  position:relative;
+  transition:color 0.2s;
+}
+.detail-value a::after,
+.gold-link::after {
+  content:"";
+  position:absolute;
+  bottom:-1px; left:0; right:0;
+  height:1px;
+  background:var(--gold);
+  transform:scaleX(0);
+  transform-origin:left;
+  transition:transform 0.25s ease;
+}
+.detail-value a:hover,
+.gold-link:hover {
+  color:var(--gold-light);
+}
+.detail-value a:hover::after,
+.gold-link:hover::after {
+  transform:scaleX(1);
+}
 
 /* TRAILER */
 .trailer-wrap {
@@ -409,7 +479,7 @@ body {
 .comment-input-wrap textarea:focus { border-color:var(--gold); }
 .comment-input-wrap textarea::placeholder { color:#3a2c14; }
 
-/* MODAL */
+/* MODAL — REPLY */
 .modal-overlay {
   display:none; position:fixed; inset:0;
   background:rgba(0,0,0,0.92); z-index:1000;
@@ -445,6 +515,36 @@ body {
 }
 .modal-box textarea:focus { border-color:var(--gold); }
 
+/* MODAL — REPORT */
+#reportModal .modal-box { width:460px; }
+#reportModal .modal-box h3 { color:var(--gold-light); font-size:1.1rem; margin-bottom:6px; }
+.report-subtitle {
+  font-family:'Crimson Text', serif; font-style:italic;
+  color:var(--cream-dim); font-size:0.9rem; margin-bottom:16px;
+}
+#reportModal input,
+#reportModal textarea {
+  width:100%; margin-bottom:10px;
+  background:var(--bg3); border:1px solid var(--gold-dim); border-radius:2px;
+  color:var(--cream); font-family:'Crimson Text', serif; font-size:1rem;
+  padding:10px 12px; outline:none; transition:0.2s; box-sizing:border-box;
+}
+#reportModal input:focus,
+#reportModal textarea:focus { border-color:var(--gold); }
+#reportModal textarea { min-height:110px; resize:vertical; }
+#reportSentMsg {
+  display:none;
+  color:#4caf79; font-style:italic; font-size:0.92rem;
+  margin-top:8px; text-align:center;
+}
+.btn-red {
+  font-family:'Bebas Neue', sans-serif; letter-spacing:0.14em;
+  background:linear-gradient(135deg, #5a1010, var(--red));
+  color:var(--gold-light); border:none; padding:10px 22px; border-radius:2px;
+  cursor:pointer; font-size:0.9rem; transition:0.3s; margin-top:4px;
+}
+.btn-red:hover { box-shadow:0 0 16px rgba(122,32,32,0.6); }
+
 /* SCROLLBAR */
 ::-webkit-scrollbar { width:5px; }
 ::-webkit-scrollbar-track { background:var(--bg); }
@@ -466,6 +566,9 @@ body {
   <a href="index.html" class="back-btn">⬅ В меню</a>
   <span class="nav-title">Fish Cinema</span>
   <span class="nav-spacer"></span>
+  <button class="report-btn" onclick="openReport()">
+    <span class="report-btn-icon">⚠</span> Проблемы с сайтом? Пиши сюда
+  </button>
   <span class="nav-meta">◆ &nbsp; Драма · Триллер · 1976 &nbsp; ◆</span>
 </nav>
 
@@ -619,6 +722,19 @@ body {
     <div style="margin-top:12px">
       <button class="btn-gold" onclick="saveReply()">Отправить ответ</button>
     </div>
+  </div>
+</div>
+
+<!-- REPORT MODAL -->
+<div class="modal-overlay" id="reportModal">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeReport()">✖</button>
+    <h3>⚠ Проблема с сайтом?</h3>
+    <p class="report-subtitle">Опиши проблему — мы разберёмся как можно скорее.</p>
+    <input type="text" id="reportName" placeholder="Ваш ник (необязательно)">
+    <textarea id="reportText" placeholder="Опиши проблему подробно..."></textarea>
+    <button class="btn-red" onclick="sendReport()">📨 Отправить сообщение</button>
+    <div id="reportSentMsg">✅ Сообщение отправлено! Спасибо.</div>
   </div>
 </div>
 
@@ -838,6 +954,32 @@ async function saveReply(){
   if(t) await addComment(replyTo,t);
   document.getElementById("modalText").value="";
   closeModal();
+}
+
+/* REPORT */
+function openReport(){ document.getElementById("reportModal").classList.add("open"); }
+function closeReport(){
+  document.getElementById("reportModal").classList.remove("open");
+  document.getElementById("reportSentMsg").style.display="none";
+  document.getElementById("reportText").value="";
+  document.getElementById("reportName").value="";
+}
+
+function sendReport(){
+  const name = document.getElementById("reportName").value.trim() || "Аноним";
+  const text = document.getElementById("reportText").value.trim();
+  if(!text) return alert("Опиши проблему!");
+
+  // Отправка через mailto
+  const subject = encodeURIComponent("Fish Cinema — Проблема с сайтом");
+  const body = encodeURIComponent(
+    "От: " + name + "\n" +
+    "Страница: Таксист (taxi_driver_1976.html)\n\n" +
+    "Проблема:\n" + text
+  );
+  window.location.href = "mailto:Mister.fish606@gmail.com?subject=" + subject + "&body=" + body;
+
+  document.getElementById("reportSentMsg").style.display="block";
 }
 
 /* INIT */
