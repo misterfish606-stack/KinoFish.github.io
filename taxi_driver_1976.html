@@ -1,4 +1,4 @@
-!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
@@ -6,15 +6,15 @@
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Crimson+Text:ital,wght@0,400;0,600;1,400&family=Bebas+Neue&display=swap" rel="stylesheet">
 <style>
 :root {
-  --gold:      #d4af37;
-  --gold-light:#f5d76e;
-  --gold-dim:  #7a5c10;
-  --cream:     #f5e6c4;
-  --cream-dim: #b09060;
-  --bg:        #0a0705;
-  --bg2:       #140e06;
-  --bg3:       #1e1508;
-  --red:       #8b1a1a;
+  --gold:      #c9a84c;
+  --gold-light:#e8cc80;
+  --gold-dim:  #8a7040;
+  --cream:     #e8dcc8;
+  --cream-dim: #c4aa88;
+  --bg:        #16120c;
+  --bg2:       #1e1810;
+  --bg3:       #262014;
+  --red:       #7a2020;
 }
 
 * { box-sizing:border-box; margin:0; padding:0; }
@@ -72,19 +72,45 @@ body {
 }
 
 /* BACK BUTTON */
+.top-nav {
+  background:var(--bg2);
+  border-bottom:2px solid var(--gold-dim);
+  display:flex;
+  align-items:center;
+  padding:0;
+  position:sticky; top:0; z-index:200;
+  box-shadow:0 4px 20px rgba(0,0,0,0.7);
+}
 .back-btn {
-  position:fixed; top:48px; left:20px; z-index:200;
   font-family:'Bebas Neue', sans-serif;
-  font-size:0.82rem; letter-spacing:0.14em;
-  color:var(--gold-dim);
-  background:rgba(10,7,5,0.85);
-  border:1px solid var(--gold-dim);
-  padding:7px 14px; border-radius:2px;
+  font-size:0.85rem; letter-spacing:0.18em;
+  color:var(--cream-dim);
+  background:none;
+  border:none;
+  border-right:1px solid var(--gold-dim);
+  padding:14px 24px;
   text-decoration:none;
   transition:0.2s;
-  backdrop-filter:blur(4px);
+  display:flex; align-items:center; gap:8px;
 }
-.back-btn:hover { color:var(--gold); border-color:var(--gold); }
+.back-btn:hover { color:var(--gold); background:rgba(212,175,55,0.05); }
+.nav-title {
+  font-family:'Playfair Display', serif;
+  font-style:italic;
+  color:var(--gold);
+  font-size:1rem;
+  padding:14px 24px;
+  letter-spacing:0.04em;
+  text-shadow:0 0 20px rgba(212,175,55,0.3);
+}
+.nav-spacer { flex:1; }
+.nav-meta {
+  font-family:'Bebas Neue', sans-serif;
+  font-size:0.75rem; letter-spacing:0.2em;
+  color:var(--gold-dim);
+  padding:14px 24px;
+  border-left:1px solid rgba(212,175,55,0.15);
+}
 
 /* HERO SECTION */
 .hero {
@@ -167,9 +193,10 @@ body {
   from{opacity:0;transform:translateX(-20px)} to{opacity:1;transform:translateX(0)}
 }
 .hero-genre {
-  font-family:'Bebas Neue', sans-serif;
-  font-size:0.78rem; letter-spacing:0.35em;
-  color:var(--gold-dim); margin-bottom:10px;
+  font-family:'Crimson Text', serif;
+  font-size:0.9rem; letter-spacing:0.2em;
+  font-style:italic;
+  color:var(--cream-dim); margin-bottom:10px;
 }
 .hero-title {
   font-family:'Playfair Display', serif;
@@ -261,12 +288,12 @@ body {
 
 /* DESCRIPTION */
 .description-block {
-  background:linear-gradient(135deg, rgba(20,14,6,0.8), rgba(30,21,8,0.6));
-  border:1px solid rgba(212,175,55,0.15);
-  border-left:3px solid var(--gold-dim);
-  padding:24px 28px;
-  border-radius:2px;
-  font-size:1.08rem; line-height:1.8;
+  background:rgba(28,22,14,0.45);
+  border:1px solid rgba(180,150,80,0.1);
+  border-left:3px solid rgba(180,150,80,0.3);
+  padding:26px 30px;
+  border-radius:3px;
+  font-size:1.12rem; line-height:1.9;
   color:var(--cream);
   position:relative;
 }
@@ -283,18 +310,21 @@ body {
   display:grid; grid-template-columns:repeat(auto-fill, minmax(220px,1fr)); gap:14px;
 }
 .detail-item {
-  background:rgba(20,14,6,0.6);
-  border:1px solid rgba(212,175,55,0.12);
-  padding:14px 18px; border-radius:2px;
+  background:rgba(30,24,16,0.5);
+  border:1px solid rgba(180,150,80,0.1);
+  padding:16px 20px; border-radius:3px;
   transition:border-color 0.2s;
 }
-.detail-item:hover { border-color:var(--gold-dim); }
+.detail-item:hover { border-color:rgba(180,150,80,0.25); }
 .detail-label {
-  font-family:'Bebas Neue', sans-serif;
-  font-size:0.68rem; letter-spacing:0.22em; color:var(--gold-dim); display:block; margin-bottom:5px;
+  font-family:'Crimson Text', serif;
+  font-size:0.8rem; letter-spacing:0.06em;
+  color:var(--gold-dim); display:block; margin-bottom:5px;
+  font-style:italic;
 }
 .detail-value {
-  font-family:'Crimson Text', serif; font-size:1rem; color:var(--cream);
+  font-family:'Crimson Text', serif; font-size:1.05rem;
+  color:var(--cream); line-height:1.5;
 }
 .detail-value a { color:var(--gold); text-decoration:none; }
 .detail-value a:hover { text-decoration:underline; }
@@ -431,8 +461,13 @@ body {
 <!-- FILMSTRIP TOP -->
 <div class="filmstrip"><div class="filmstrip-holes" id="filmstripTop"></div></div>
 
-<!-- BACK -->
-<a href="index.html" class="back-btn">⬅ В меню</a>
+<!-- TOP NAV -->
+<nav class="top-nav">
+  <a href="index.html" class="back-btn">⬅ В меню</a>
+  <span class="nav-title">Fish Cinema</span>
+  <span class="nav-spacer"></span>
+  <span class="nav-meta">◆ &nbsp; Драма · Триллер · 1976 &nbsp; ◆</span>
+</nav>
 
 <!-- HERO -->
 <section class="hero">
