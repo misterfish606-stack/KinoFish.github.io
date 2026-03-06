@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+!DOCTYPE html>
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
@@ -72,7 +72,10 @@ body{font-family:'Crimson Text',Georgia,serif;background:var(--bg);color:var(--c
 .detail-item{background:rgba(30,24,16,0.5);border:1px solid rgba(180,150,80,0.1);padding:16px 20px;border-radius:3px;transition:border-color 0.2s;}
 .detail-item:hover{border-color:rgba(180,150,80,0.25);}
 .detail-label{font-family:'Crimson Text',serif;font-size:0.8rem;letter-spacing:0.06em;color:var(--gold-dim);display:block;margin-bottom:5px;font-style:italic;}
-.detail-value{font-family:'Crimson Text',serif;font-size:1.05rem;color:var(--gold);line-height:1.5;display:inline-block;position:relative;cursor:default;transition:color 0.2s;}
+.detail-value{font-family:'Crimson Text',serif;font-size:1.05rem;color:var(--gold);line-height:1.5;display:inline-block;position:relative;transition:color 0.2s;}
+.detail-value::after{content:"";position:absolute;left:0;bottom:-2px;width:0;height:1px;background:var(--gold-light);transition:width 0.35s ease;}
+.detail-value:hover{color:var(--gold-light);}
+.detail-value:hover::after{width:100%;}
 .detail-item:hover .detail-value{color:var(--gold-light);}
 .detail-value a{color:var(--gold);text-decoration:none;transition:color 0.2s;}
 .detail-value a:hover{color:var(--gold-light);}
@@ -269,28 +272,6 @@ body{font-family:'Crimson Text',Georgia,serif;background:var(--bg);color:var(--c
       </div>
       <div class="rec-card-title">Хороший, Плохой, Злой</div>
       <div class="rec-card-year">1966</div>
-    </a>
-  </div>
-
-  <div class="rec-category-label">◆ &nbsp; Похожие фильмы · Криминал и противостояние</div>
-  <div class="rec-grid">
-    <a href="No_Country_for_Old_Men.html" class="rec-card">
-      <div class="rec-card-inner">
-        <img src="https://kinogo.online/uploads/posts/2021-02/1614528496-1821078516.jpg" alt="Старикам тут не место">
-        <div class="rec-card-overlay"><div class="rec-card-overlay-title">Старикам тут не место</div><div class="rec-card-overlay-meta">США · 2007 · Триллер</div></div>
-        <span class="rec-badge similar">Похожее</span>
-      </div>
-      <div class="rec-card-title">Старикам тут не место</div>
-      <div class="rec-card-year">2007</div>
-    </a>
-    <a href="taxi_driver_1976.html" class="rec-card">
-      <div class="rec-card-inner">
-        <img src="https://preview.redd.it/taxi-driver-1976-v0-2vafsern2tnf1.jpg?width=640&crop=smart&auto=webp&s=c0319ef604e7680dd8c420851d775d7fe9d2f549" alt="Таксист">
-        <div class="rec-card-overlay"><div class="rec-card-overlay-title">Таксист</div><div class="rec-card-overlay-meta">США · 1976 · Драма</div></div>
-        <span class="rec-badge similar">Похожее</span>
-      </div>
-      <div class="rec-card-title">Таксист</div>
-      <div class="rec-card-year">1976</div>
     </a>
   </div>
 
