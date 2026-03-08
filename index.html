@@ -645,13 +645,7 @@ firebase.initializeApp({
 });
 const db = firebase.firestore();
 
-const ADMIN_NICKS=["Mister_fish","Mister_fish606","fish606"  {title:"Тупой и ещё тупее",               file:"Dumb_and_dumber.html",                       movieKey:"Dumb and Dumber To",                    year:2014,country:"США",            hot:false,isNew:true, desc:"Лойд и Гарри снова вместе — в поисках дочери, которую Гарри никогда не знал.", img:"https://ikinogo.biz/uploads/mini/fullsm/2d/7a4245fcc4d7bacc66bb7ff25f32f1.jpg"},
-  {title:"Звёздный путь",                   file:"Star_trek.html",                             movieKey:"Star Trek 2009",                        year:2009,country:"США",            hot:false,isNew:true, desc:"Молодой Кирк и Спок объединяются чтобы остановить мстительного ромуланца.",    img:"https://kinogo.online/uploads/posts/2021-02/1614496303-1604412785.jpg"},
-  {title:"Зелёная книга",                   file:"Green_book.html",                            movieKey:"Green Book",                            year:2018,country:"США",            hot:false,isNew:true, desc:"Белый водитель и чернокожий пианист — путешествие через расистский Юг США.",   img:"https://new.kinogo.fi/poster/100/1108577.jpg"},
-  {title:"Первый мститель",                 file:"Captain_america.html",                       movieKey:"Captain America The First Avenger",     year:2011,country:"США",            hot:false,isNew:true, desc:"Слабый парень становится Капитаном Америкой и противостоит ГИДРЕ.",           img:"https://kinogo.online/uploads/posts/2021-02/1614451243-2137657427.jpg"},
-  {title:"Элизиум: Рай не на Земле",        file:"Elysium.html",                               movieKey:"Elysium",                               year:2013,country:"США",            hot:false,isNew:true, desc:"В будущем богачи живут на орбите, а бедные гниют на умирающей Земле.",        img:"https://svit.tartugi.net/uploads/posts/2024-02/1707064518-elizium-ray-ne-na-zemle.jpg"},
-  {title:"Я, снова я и Ирэн",               file:"Me_myself_and_irene.html",                   movieKey:"Me Myself and Irene",                   year:2000,country:"США",            hot:false,isNew:true, desc:"Джим Керри в роли копа с раздвоением личности, влюблённого в одну женщину.",  img:"https://kinogo.li/uploads/mini/220x305/f3/c0bd05757047c2cc6bff946fc58baf.jpg"},
-];
+const ADMIN_NICKS=["Mister_fish","Mister_fish606","fish606"];
 const ADMIN_PASS="xhidid";
 let isAdmin=false;
 
@@ -690,6 +684,14 @@ function switchAdminTab(name,btn){
 }
 
 let movies=[
+
+  {title:"Тупой и ещё тупее",               file:"Dumb_and_dumber.html",                       movieKey:"Dumb and Dumber To",                    year:2014,country:"США",            hot:false,isNew:true, desc:"Лойд и Гарри снова вместе — в поисках дочери, которую Гарри никогда не знал.", img:"https://ikinogo.biz/uploads/mini/fullsm/2d/7a4245fcc4d7bacc66bb7ff25f32f1.jpg"},
+  {title:"Звёздный путь",                   file:"Star_trek.html",                             movieKey:"Star Trek 2009",                        year:2009,country:"США",            hot:false,isNew:true, desc:"Молодой Кирк и Спок объединяются чтобы остановить мстительного ромуланца.",    img:"https://kinogo.online/uploads/posts/2021-02/1614496303-1604412785.jpg"},
+  {title:"Зелёная книга",                   file:"Green_book.html",                            movieKey:"Green Book",                            year:2018,country:"США",            hot:false,isNew:true, desc:"Белый водитель и чернокожий пианист — путешествие через расистский Юг США.",   img:"https://new.kinogo.fi/poster/100/1108577.jpg"},
+  {title:"Первый мститель",                 file:"Captain_america.html",                       movieKey:"Captain America The First Avenger",     year:2011,country:"США",            hot:false,isNew:true, desc:"Слабый парень становится Капитаном Америкой и противостоит ГИДРЕ.",           img:"https://kinogo.online/uploads/posts/2021-02/1614451243-2137657427.jpg"},
+  {title:"Элизиум: Рай не на Земле",        file:"Elysium.html",                               movieKey:"Elysium",                               year:2013,country:"США",            hot:false,isNew:true, desc:"В будущем богачи живут на орбите, а бедные гниют на умирающей Земле.",        img:"https://svit.tartugi.net/uploads/posts/2024-02/1707064518-elizium-ray-ne-na-zemle.jpg"},
+  {title:"Я, снова я и Ирэн",               file:"Me_myself_and_irene.html",                   movieKey:"Me Myself and Irene",                   year:2000,country:"США",            hot:false,isNew:true, desc:"Джим Керри в роли копа с раздвоением личности, влюблённого в одну женщину.",  img:"https://kinogo.li/uploads/mini/220x305/f3/c0bd05757047c2cc6bff946fc58baf.jpg"},
+
   {title:"Хороший, Плохой, Злой",          file:"good-bad-ugly.html",                         movieKey:"good-bad-ugly",                         year:1966,country:"Испания",        hot:true, isNew:false,desc:"История трёх стрелков, охотящихся за золотом во времена Гражданской войны.",  img:"https://kinogo.online/uploads/mini/shortstory-mob/ed1/1614517323-1826304193.jpg"},
   {title:"Бойцовский клуб",                 file:"fight_club.html",                            movieKey:"Fight Club",                            year:1999,country:"США",            hot:true, isNew:true, desc:"Офисный работник создаёт альтер эго и начинает разрушать систему.",            img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTHFS7WEw3dSnvD-pu6GKh0CDhf5g6uXC6vow&s"},
   {title:"Таксист",                         file:"taxi_driver_1976.html",                      movieKey:"taxi_driver_1976",                      year:1976,country:"США",            hot:false,isNew:false,desc:"Одинокий ветеран становится свидетелем упадка Нью-Йорка.",                   img:"https://preview.redd.it/taxi-driver-1976-v0-2vafsern2tnf1.jpg?width=640&crop=smart&auto=webp&s=c0319ef604e7680dd8c420851d775d7fe9d2f549"},
