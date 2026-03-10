@@ -545,7 +545,7 @@ body {
   <div class="search-wrap">
     <input type="text" id="searchInput" placeholder="🔍 Поиск..." oninput="searchMovie()">
   </div>
-  <button class="admin-btn" onclick="openAdminLogin()" id="adminOpenBtn">🎬 Админ</button>
+  <button class="admin-btn" onclick="document.getElementById('adminLoginModal').classList.add('open')" id="adminOpenBtn">🎬 Админ</button>
 </nav>
 
 <div class="modal-overlay" id="adminLoginModal">
@@ -554,7 +554,7 @@ body {
     <h2>Вход администратора</h2>
     <input id="adminNickInput" placeholder="Ваш ник">
     <input id="adminPassInput" type="password" placeholder="Пароль">
-    <button class="submit" onclick="doAdminLogin()">Войти</button>
+    <button class="submit" onclick="adminLogin()">Войти</button>
     <div id="adminLoginError"></div>
   </div>
 </div>
@@ -650,8 +650,8 @@ const ADMIN_PASS="xhidid";
 let isAdmin=false;
 
 function adminLogin(){
-  const nick=document.getElementById("adminNick")?document.getElementById("adminNick").value.trim():"";
-  const pass=document.getElementById("adminPass")?document.getElementById("adminPass").value.trim():"";
+  const nick=document.getElementById("adminNickInput")?document.getElementById("adminNickInput").value.trim():"";
+  const pass=document.getElementById("adminPassInput")?document.getElementById("adminPassInput").value.trim():"";
   const err=document.getElementById("adminLoginError");
   if(!ADMIN_NICKS.includes(nick)){if(err)err.innerText="Неверный ник!";return;}
   if(pass!==ADMIN_PASS){if(err)err.innerText="Неверный пароль!";return;}
