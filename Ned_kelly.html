@@ -12,7 +12,7 @@ body{font-family:'Crimson Text',Georgia,serif;background:var(--bg);color:var(--c
 .projector-beam{position:fixed;top:0;left:50%;transform:translateX(-50%);width:0;border-left:180px solid transparent;border-right:180px solid transparent;border-top:100vh solid rgba(255,240,180,0.018);pointer-events:none;z-index:0;animation:beam-flicker 9s infinite;}
 @keyframes beam-flicker{0%,100%{opacity:1}91%{opacity:1}92%{opacity:0.4}93%{opacity:1}96%{opacity:0.7}97%{opacity:1}}
 .filmstrip{width:100%;height:34px;background:var(--bg2);display:flex;align-items:center;overflow:hidden;border-bottom:2px solid #1a1208;position:relative;z-index:2;}
-.filmstrip-holes{display:flex;align-items:center;animation:strip-scroll 14s linear infinite;white-space:nowrap;}
+.filmstrip-holes{display:flex;align-items:center;animation:strip-scroll 14s linear infinite;white-space:nowrap;will-change:transform;}
 .filmstrip-hole{width:19px;height:13px;border:2px solid #2a2010;border-radius:3px;margin:0 15px;flex-shrink:0;background:#060402;}
 @keyframes strip-scroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
 .top-nav{background:var(--bg2);border-bottom:2px solid var(--gold-dim);display:flex;align-items:center;padding:0;position:sticky;top:0;z-index:200;box-shadow:0 4px 20px rgba(0,0,0,0.7);}
@@ -103,6 +103,7 @@ body{font-family:'Crimson Text',Georgia,serif;background:var(--bg);color:var(--c
 .login-block input{background:var(--bg3);border:1px solid var(--gold-dim);border-radius:2px;color:var(--cream);font-family:'Crimson Text',serif;font-size:1rem;padding:9px 14px;outline:none;transition:0.2s;}
 .login-block input:focus{border-color:var(--gold);}
 .login-block input[type="text"]{width:260px;}
+/* ✅ Исправление #7/#8: Используем единый id, скрываем поле по правильному id */
 #adminPassLoginField{display:none;}
 .btn-gold{font-family:'Bebas Neue',sans-serif;letter-spacing:0.14em;background:linear-gradient(135deg,var(--gold-dim),var(--gold));color:var(--bg);border:none;padding:9px 20px;border-radius:2px;cursor:pointer;font-size:0.9rem;transition:0.3s;}
 .btn-gold:hover{box-shadow:0 0 16px rgba(212,175,55,0.4);}
@@ -235,7 +236,8 @@ body{font-family:'Crimson Text',Georgia,serif;background:var(--bg);color:var(--c
   <div class="section-divider"><span class="section-label">✦ Вход ✦</span></div>
   <div class="login-block">
     <input type="text" id="nickname" placeholder="Ваш ник" oninput="checkNick()">
-    <input type="password" id="adminPass" placeholder="Пароль" id="adminPassLoginField">
+    <!-- ✅ Исправление #7: ОДИН id вместо двух дублированных -->
+    <input type="password" id="adminPassLoginField" placeholder="Пароль">
     <button class="btn-gold" onclick="login()">Войти</button>
     <span class="login-status" id="loginStatus"></span>
     <span class="login-error" id="loginError"></span>
@@ -269,6 +271,7 @@ body{font-family:'Crimson Text',Georgia,serif;background:var(--bg);color:var(--c
 <script>
 function buildStrip(id){const el=document.getElementById(id);let h="";for(let i=0;i<80;i++)h+=`<div class="filmstrip-hole"></div>`;el.innerHTML=h+h;}
 buildStrip("filmstripTop");buildStrip("filmstripBottom");
+
 firebase.initializeApp({apiKey:"AIzaSyCTr1vgcuSEn_2Ebh2vC3k7sNYzvMoYlBo",authDomain:"kino-project-bf21c.firebaseapp.com",projectId:"kino-project-bf21c"});
 const db=firebase.firestore();
 const movieKey="Ned Kelly 2003";
@@ -280,26 +283,265 @@ const usersRef=db.collection("users");
 let currentUser=null,replyTo=null,votingInProgress={};
 const PROTECTED_NICKS=["Mister_fish","Mister_fish606","fish606"];
 const ADMIN_PASS="xhidid";
-function checkNick(){const nick=document.getElementById("nickname").value.trim();const pf=document.getElementById("adminPassLoginField");if(PROTECTED_NICKS.includes(nick)){pf.style.display="inline-block";document.getElementById("loginError").innerText="⚠ Ник администратора";}else{pf.style.display="none";document.getElementById("loginError").innerText="";}}
-async function login(){const nick=document.getElementById("nickname").value.trim();if(!nick)return alert("Введите ник!");if(PROTECTED_NICKS.includes(nick)){const pass=document.getElementById("adminPass").value;if(pass!==ADMIN_PASS)return document.getElementById("loginError").innerText="❌ Неверный пароль!";localStorage.setItem("nickname",nick);currentUser=nick;document.getElementById("loginStatus").innerText="👑 Добро пожаловать, "+nick+"!";return;}const saved=localStorage.getItem("nickname");if(saved){if(saved!==nick)return alert("Ваш ник уже: "+saved);currentUser=saved;document.getElementById("loginStatus").innerText="✓ Вы вошли как "+currentUser;return;}const doc=await usersRef.doc(nick).get();if(doc.exists)return alert("Ник '"+nick+"' уже занят!");await usersRef.doc(nick).set({createdAt:firebase.firestore.FieldValue.serverTimestamp(),uid:Date.now()+"_"+Math.random()});localStorage.setItem("nickname",nick);currentUser=nick;document.getElementById("loginStatus").innerText="✓ Зарегистрирован как "+currentUser;}
-function initViews(){const ref=statsRef.doc("views");ref.onSnapshot(doc=>{if(doc.exists)document.getElementById("views").innerText=doc.data().count||0;});if(!localStorage.getItem("viewed_"+movieKey)){ref.set({count:firebase.firestore.FieldValue.increment(1)},{merge:true});localStorage.setItem("viewed_"+movieKey,"yes");}}
+
+// ✅ Исправление #10/#11: Функция экранирования HTML для защиты от XSS
+function escapeHtml(text){
+  const div=document.createElement('div');
+  div.textContent=text;
+  return div.innerHTML;
+}
+
+// ✅ Исправление #7/#8: Все ссылки на поле пароля теперь используют единый id "adminPassLoginField"
+function checkNick(){
+  const nick=document.getElementById("nickname").value.trim();
+  const pf=document.getElementById("adminPassLoginField");
+  if(PROTECTED_NICKS.includes(nick)){
+    pf.style.display="inline-block";
+    document.getElementById("loginError").innerText="⚠ Ник администратора";
+  }else{
+    pf.style.display="none";
+    document.getElementById("loginError").innerText="";
+  }
+}
+
+async function login(){
+  const nick=document.getElementById("nickname").value.trim();
+  if(!nick)return alert("Введите ник!");
+  if(PROTECTED_NICKS.includes(nick)){
+    // ✅ Исправление #7: используем правильный id
+    const pass=document.getElementById("adminPassLoginField").value;
+    if(pass!==ADMIN_PASS)return document.getElementById("loginError").innerText="❌ Неверный пароль!";
+    localStorage.setItem("nickname",nick);
+    currentUser=nick;
+    document.getElementById("loginStatus").innerText="👑 Добро пожаловать, "+nick+"!";
+    document.getElementById("loginError").innerText="";
+    return;
+  }
+  const saved=localStorage.getItem("nickname");
+  if(saved){
+    if(saved!==nick)return alert("Ваш ник уже: "+saved);
+    currentUser=saved;
+    document.getElementById("loginStatus").innerText="✓ Вы вошли как "+currentUser;
+    return;
+  }
+  const doc=await usersRef.doc(nick).get();
+  if(doc.exists)return alert("Ник '"+nick+"' уже занят!");
+  await usersRef.doc(nick).set({createdAt:firebase.firestore.FieldValue.serverTimestamp(),uid:Date.now()+"_"+Math.random()});
+  localStorage.setItem("nickname",nick);
+  currentUser=nick;
+  document.getElementById("loginStatus").innerText="✓ Зарегистрирован как "+currentUser;
+}
+
+// ✅ Исправление #12: Улучшенная функция initViews
+async function initViews(){
+  const ref=statsRef.doc("views");
+  ref.onSnapshot(doc=>{
+    if(doc.exists)document.getElementById("views").innerText=doc.data().count||0;
+  });
+  if(!localStorage.getItem("viewed_"+movieKey)){
+    try{
+      await ref.update({count:firebase.firestore.FieldValue.increment(1)});
+    }catch(e){
+      // Документ ещё не существует — создаём
+      await ref.set({count:1});
+    }
+    localStorage.setItem("viewed_"+movieKey,"yes");
+  }
+}
+
 const ratingRef=statsRef.doc("rating");
-async function loadRating(){const snap=await ratingRef.get();if(!snap.exists)await ratingRef.set({totalScore:0,totalVotes:0});const data=(await ratingRef.get()).data();document.getElementById("avgRating").innerText=data.totalVotes?(data.totalScore/data.totalVotes).toFixed(1):"—";document.getElementById("votesCount").innerText=data.totalVotes;}
+
+// ✅ Исправление #9: Убран лишний запрос к Firestore
+async function loadRating(){
+  let snap=await ratingRef.get();
+  if(!snap.exists){
+    await ratingRef.set({totalScore:0,totalVotes:0});
+    snap=await ratingRef.get();
+  }
+  const data=snap.data();
+  document.getElementById("avgRating").innerText=data.totalVotes?(data.totalScore/data.totalVotes).toFixed(1):"—";
+  document.getElementById("votesCount").innerText=data.totalVotes;
+}
+
 const starsRow=document.getElementById("starsRow");
-starsRow.querySelectorAll(".star").forEach(star=>{star.addEventListener("mouseover",()=>{const v=parseInt(star.dataset.value);starsRow.querySelectorAll(".star").forEach(s=>{s.style.color=parseInt(s.dataset.value)<=v?"var(--gold)":"#3a2c14";});});star.addEventListener("mouseleave",()=>{starsRow.querySelectorAll(".star").forEach(s=>s.style.color="#3a2c14");});star.onclick=async()=>{if(!currentUser)return alert("Войдите чтобы оценить!");const voteKey="rated_"+movieKey+"_"+currentUser;if(localStorage.getItem(voteKey))return alert("Вы уже оценили!");const value=parseInt(star.dataset.value);await ratingRef.update({totalScore:firebase.firestore.FieldValue.increment(value),totalVotes:firebase.firestore.FieldValue.increment(1)});localStorage.setItem(voteKey,"yes");document.getElementById("ratingResult").innerText="Вы поставили "+value+" ★";starsRow.querySelectorAll(".star").forEach((s,i)=>{s.style.color=i<value?"var(--gold)":"#3a2c14";});loadRating();}});
-commentsRef.orderBy("created").onSnapshot(snapshot=>{const all={};snapshot.forEach(doc=>{all[doc.id]={id:doc.id,...doc.data()}});document.getElementById("comments").innerHTML="";Object.values(all).filter(c=>!c.parent).forEach(c=>renderComment(c,all));});
-function renderComment(comment,all,parentEl=null){const div=document.createElement("div");div.className="comment"+(comment.parent?" reply":"");const time=comment.created?new Date(comment.created).toLocaleDateString("ru-RU",{day:"2-digit",month:"short",year:"numeric"}):"";const isAdmin=["Mister_fish","Mister_fish606","fish606"].includes(comment.user);const adminBadge=isAdmin?`<span style="color:#c0392b;font-family:'Bebas Neue',sans-serif;font-size:0.72rem;letter-spacing:0.12em;margin-left:6px;border:1px solid rgba(192,57,43,0.4);padding:1px 7px;border-radius:2px;background:rgba(192,57,43,0.1);">Администратор</span>`:"";div.innerHTML=`<div class="comment-header"><span class="comment-user">${comment.user}</span>${adminBadge}<span class="comment-time">${time}</span></div><div class="comment-text">${comment.text}</div><div class="comment-actions"><button class="btn-action" onclick="likeComment('${comment.id}')">👍 ${comment.likes||0}</button><button class="btn-action" onclick="dislikeComment('${comment.id}')">👎 ${comment.dislikes||0}</button><button class="btn-action" onclick="openReply('${comment.id}')">↩ Ответить</button>${currentUser===comment.user?`<button class="btn-action delete" onclick="deleteComment('${comment.id}')">✕ Удалить</button>`:""}</div>`;(parentEl||document.getElementById("comments")).appendChild(div);Object.values(all).filter(c=>c.parent===comment.id).forEach(child=>renderComment(child,all,div));}
-async function addComment(parent=null,text=null){if(!currentUser)return alert("Войдите!");const val=text||document.getElementById("commentInput").value.trim();if(!val)return;await commentsRef.add({user:currentUser,text:val,parent:parent||null,likes:0,dislikes:0,created:Date.now()});if(!parent)document.getElementById("commentInput").value="";}
-async function likeComment(id){if(!currentUser)return alert("Войдите!");if(votingInProgress[id])return;votingInProgress[id]=true;const vd=votesRef.doc(currentUser+"_"+id);const vs=await vd.get();if(vs.exists){const t=vs.data().type;if(t==="like"){await commentsRef.doc(id).update({likes:firebase.firestore.FieldValue.increment(-1)});await vd.delete();}else if(t==="dislike"){await commentsRef.doc(id).update({dislikes:firebase.firestore.FieldValue.increment(-1),likes:firebase.firestore.FieldValue.increment(1)});await vd.update({type:"like"});}}else{await commentsRef.doc(id).update({likes:firebase.firestore.FieldValue.increment(1)});await vd.set({type:"like"});}votingInProgress[id]=false;}
-async function dislikeComment(id){if(!currentUser)return alert("Войдите!");if(votingInProgress[id])return;votingInProgress[id]=true;const vd=votesRef.doc(currentUser+"_"+id);const vs=await vd.get();if(vs.exists){const t=vs.data().type;if(t==="dislike"){await commentsRef.doc(id).update({dislikes:firebase.firestore.FieldValue.increment(-1)});await vd.delete();}else if(t==="like"){await commentsRef.doc(id).update({likes:firebase.firestore.FieldValue.increment(-1),dislikes:firebase.firestore.FieldValue.increment(1)});await vd.update({type:"dislike"});}}else{await commentsRef.doc(id).update({dislikes:firebase.firestore.FieldValue.increment(1)});await vd.set({type:"dislike"});}votingInProgress[id]=false;}
-async function deleteComment(id){const doc=await commentsRef.doc(id).get();if(!doc.exists||doc.data().user!==currentUser)return alert("Нельзя удалить!");await commentsRef.doc(id).delete();}
+starsRow.querySelectorAll(".star").forEach(star=>{
+  star.addEventListener("mouseover",()=>{
+    const v=parseInt(star.dataset.value);
+    starsRow.querySelectorAll(".star").forEach(s=>{
+      s.style.color=parseInt(s.dataset.value)<=v?"var(--gold)":"#3a2c14";
+    });
+  });
+  star.addEventListener("mouseleave",()=>{
+    starsRow.querySelectorAll(".star").forEach(s=>s.style.color="#3a2c14");
+  });
+  star.onclick=async()=>{
+    if(!currentUser)return alert("Войдите чтобы оценить!");
+    const voteKey="rated_"+movieKey+"_"+currentUser;
+    if(localStorage.getItem(voteKey))return alert("Вы уже оценили!");
+    const value=parseInt(star.dataset.value);
+    await ratingRef.update({
+      totalScore:firebase.firestore.FieldValue.increment(value),
+      totalVotes:firebase.firestore.FieldValue.increment(1)
+    });
+    localStorage.setItem(voteKey,"yes");
+    document.getElementById("ratingResult").innerText="Вы поставили "+value+" ★";
+    starsRow.querySelectorAll(".star").forEach((s,i)=>{
+      s.style.color=i<value?"var(--gold)":"#3a2c14";
+    });
+    loadRating();
+  };
+});
+
+commentsRef.orderBy("created").onSnapshot(snapshot=>{
+  const all={};
+  snapshot.forEach(doc=>{all[doc.id]={id:doc.id,...doc.data()};});
+  document.getElementById("comments").innerHTML="";
+  Object.values(all).filter(c=>!c.parent).forEach(c=>renderComment(c,all));
+});
+
+// ✅ Исправление #10/#11: escapeHtml используется для user и text
+function renderComment(comment,all,parentEl=null){
+  const div=document.createElement("div");
+  div.className="comment"+(comment.parent?" reply":"");
+  const time=comment.created?new Date(comment.created).toLocaleDateString("ru-RU",{day:"2-digit",month:"short",year:"numeric"}):"";
+  const isAdmin=["Mister_fish","Mister_fish606","fish606"].includes(comment.user);
+  const adminBadge=isAdmin?`<span style="color:#c0392b;font-family:'Bebas Neue',sans-serif;font-size:0.72rem;letter-spacing:0.12em;margin-left:6px;border:1px solid rgba(192,57,43,0.4);padding:1px 7px;border-radius:2px;background:rgba(192,57,43,0.1);">Администратор</span>`:"";
+  const safeUser=escapeHtml(comment.user);
+  const safeText=escapeHtml(comment.text);
+  div.innerHTML=`
+    <div class="comment-header">
+      <span class="comment-user">${safeUser}</span>${adminBadge}
+      <span class="comment-time">${time}</span>
+    </div>
+    <div class="comment-text">${safeText}</div>
+    <div class="comment-actions">
+      <button class="btn-action" onclick="likeComment('${comment.id}')">👍 ${comment.likes||0}</button>
+      <button class="btn-action" onclick="dislikeComment('${comment.id}')">👎 ${comment.dislikes||0}</button>
+      <button class="btn-action" onclick="openReply('${comment.id}')">↩ Ответить</button>
+      ${currentUser===comment.user?`<button class="btn-action delete" onclick="deleteComment('${comment.id}')">✕ Удалить</button>`:""}
+    </div>`;
+  (parentEl||document.getElementById("comments")).appendChild(div);
+  Object.values(all).filter(c=>c.parent===comment.id).forEach(child=>renderComment(child,all,div));
+}
+
+async function addComment(parent=null,text=null){
+  if(!currentUser)return alert("Войдите!");
+  const val=text||document.getElementById("commentInput").value.trim();
+  if(!val)return;
+  await commentsRef.add({user:currentUser,text:val,parent:parent||null,likes:0,dislikes:0,created:Date.now()});
+  if(!parent)document.getElementById("commentInput").value="";
+}
+
+async function likeComment(id){
+  if(!currentUser)return alert("Войдите!");
+  if(votingInProgress[id])return;
+  votingInProgress[id]=true;
+  try{
+    const vd=votesRef.doc(currentUser+"_"+id);
+    const vs=await vd.get();
+    if(vs.exists){
+      const t=vs.data().type;
+      if(t==="like"){
+        await commentsRef.doc(id).update({likes:firebase.firestore.FieldValue.increment(-1)});
+        await vd.delete();
+      }else if(t==="dislike"){
+        await commentsRef.doc(id).update({dislikes:firebase.firestore.FieldValue.increment(-1),likes:firebase.firestore.FieldValue.increment(1)});
+        await vd.update({type:"like"});
+      }
+    }else{
+      await commentsRef.doc(id).update({likes:firebase.firestore.FieldValue.increment(1)});
+      await vd.set({type:"like"});
+    }
+  }finally{
+    votingInProgress[id]=false;
+  }
+}
+
+async function dislikeComment(id){
+  if(!currentUser)return alert("Войдите!");
+  if(votingInProgress[id])return;
+  votingInProgress[id]=true;
+  try{
+    const vd=votesRef.doc(currentUser+"_"+id);
+    const vs=await vd.get();
+    if(vs.exists){
+      const t=vs.data().type;
+      if(t==="dislike"){
+        await commentsRef.doc(id).update({dislikes:firebase.firestore.FieldValue.increment(-1)});
+        await vd.delete();
+      }else if(t==="like"){
+        await commentsRef.doc(id).update({likes:firebase.firestore.FieldValue.increment(-1),dislikes:firebase.firestore.FieldValue.increment(1)});
+        await vd.update({type:"dislike"});
+      }
+    }else{
+      await commentsRef.doc(id).update({dislikes:firebase.firestore.FieldValue.increment(1)});
+      await vd.set({type:"dislike"});
+    }
+  }finally{
+    votingInProgress[id]=false;
+  }
+}
+
+// ✅ Исправление #13: Удаление дочерних комментариев вместе с родительским
+async function deleteComment(id){
+  const doc=await commentsRef.doc(id).get();
+  if(!doc.exists||doc.data().user!==currentUser)return alert("Нельзя удалить!");
+  // Удаляем все ответы на этот комментарий
+  const replies=await commentsRef.where("parent","==",id).get();
+  const batch=db.batch();
+  replies.forEach(r=>batch.delete(r.ref));
+  batch.delete(commentsRef.doc(id));
+  await batch.commit();
+}
+
 function openReply(id){replyTo=id;document.getElementById("replyModal").classList.add("open");}
 function closeModal(){document.getElementById("replyModal").classList.remove("open");}
 async function saveReply(){const t=document.getElementById("modalText").value.trim();if(t)await addComment(replyTo,t);document.getElementById("modalText").value="";closeModal();}
+
 function openReport(){document.getElementById("reportModal").classList.add("open");}
-function closeReport(){document.getElementById("reportModal").classList.remove("open");document.getElementById("reportSentMsg").style.display="none";document.getElementById("reportText").value="";document.getElementById("reportName").value="";}
-async function sendReport(){const name=document.getElementById("reportName").value.trim()||"Аноним";const text=document.getElementById("reportText").value.trim();if(!text)return alert("Опиши проблему!");const sendBtn=document.querySelector("#reportModal .btn-red");sendBtn.innerText="Отправка...";sendBtn.disabled=true;try{await emailjs.send("service_m2itd3q","template_jvqfkhr",{from_name:name,message:text,page:"Банда Келли"});document.getElementById("reportSentMsg").style.display="block";sendBtn.innerText="✅ Отправлено!";}catch(err){alert("Ошибка: "+JSON.stringify(err));sendBtn.innerText="📨 Отправить сообщение";sendBtn.disabled=false;}}
-window.onload=async()=>{const saved=localStorage.getItem("nickname");if(saved){currentUser=saved;document.getElementById("loginStatus").innerText="✓ Вы вошли как "+currentUser;}loadRating();initViews();};
+function closeReport(){
+  document.getElementById("reportModal").classList.remove("open");
+  document.getElementById("reportSentMsg").style.display="none";
+  document.getElementById("reportText").value="";
+  document.getElementById("reportName").value="";
+  // ✅ Исправление #14: Сброс кнопки при закрытии
+  const sendBtn=document.querySelector("#reportModal .btn-red");
+  if(sendBtn){sendBtn.innerText="📨 Отправить сообщение";sendBtn.disabled=false;}
+}
+
+// ✅ Исправление #14: Кнопка сбрасывается после успешной отправки
+async function sendReport(){
+  const name=document.getElementById("reportName").value.trim()||"Аноним";
+  const text=document.getElementById("reportText").value.trim();
+  if(!text)return alert("Опиши проблему!");
+  const sendBtn=document.querySelector("#reportModal .btn-red");
+  sendBtn.innerText="Отправка...";
+  sendBtn.disabled=true;
+  try{
+    await emailjs.send("service_m2itd3q","template_jvqfkhr",{from_name:name,message:text,page:"Банда Келли"});
+    document.getElementById("reportSentMsg").style.display="block";
+    sendBtn.innerText="✅ Отправлено!";
+    // Через 3 секунды сбрасываем кнопку
+    setTimeout(()=>{
+      sendBtn.innerText="📨 Отправить сообщение";
+      sendBtn.disabled=false;
+    },3000);
+  }catch(err){
+    alert("Ошибка: "+JSON.stringify(err));
+    sendBtn.innerText="📨 Отправить сообщение";
+    sendBtn.disabled=false;
+  }
+}
+
+window.onload=async()=>{
+  const saved=localStorage.getItem("nickname");
+  if(saved){
+    currentUser=saved;
+    document.getElementById("loginStatus").innerText="✓ Вы вошли как "+currentUser;
+  }
+  loadRating();
+  initViews();
+};
 </script>
 </body>
 </html>
