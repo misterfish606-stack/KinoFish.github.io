@@ -65,6 +65,7 @@ body {
   display:flex; align-items:center;
   animation:strip-scroll 14s linear infinite;
   white-space:nowrap;
+  will-change:transform;
 }
 .filmstrip-hole {
   width:20px; height:14px;
@@ -535,12 +536,13 @@ body {
   <span class="header-stars">★ &nbsp; ★ &nbsp; ★ &nbsp; ★ &nbsp; ★</span>
 </header>
 
+<!-- ✅ Исправление #5: добавлен return false для всех onclick ссылок -->
 <nav class="top-menu">
-  <a href="#" onclick="showAll()">Все фильмы</a>
+  <a href="#" onclick="showAll(); return false">Все фильмы</a>
   <span class="menu-divider">◆</span>
-  <a href="#" onclick="showNewFilms()">Новинки</a>
+  <a href="#" onclick="showNewFilms(); return false">Новинки</a>
   <span class="menu-divider">◆</span>
-  <a href="#" onclick="showCollections()">Подборки</a>
+  <a href="#" onclick="showCollections(); return false">Подборки</a>
   <span class="menu-divider">◆</span>
   <div class="search-wrap">
     <input type="text" id="searchInput" placeholder="🔍 Поиск..." oninput="searchMovie()">
@@ -601,15 +603,16 @@ body {
     </div>
     <div class="sidebar-section">
       <div class="sidebar-title">◆ Страны</div>
-      <a href="#" onclick="filterCountry('США')">США</a>
-      <a href="#" onclick="filterCountry('Испания')">Испания</a>
-      <a href="#" onclick="filterCountry('Великобритания')">Великобритания</a>
-      <a href="#" onclick="filterCountry('Италия')">Италия</a>
-      <a href="#" onclick="filterCountry('Германия')">Германия</a>
-      <a href="#" onclick="filterCountry('Франция')">Франция</a>
-      <a href="#" onclick="filterCountry('Канада')">Канада</a>
-      <a href="#" onclick="filterCountry('Мексика')">Мексика</a>
-      <a href="#" onclick="filterCountry('Южная Корея')">Южная Корея</a>
+      <!-- ✅ Исправление #5: return false -->
+      <a href="#" onclick="filterCountry('США'); return false">США</a>
+      <a href="#" onclick="filterCountry('Испания'); return false">Испания</a>
+      <a href="#" onclick="filterCountry('Великобритания'); return false">Великобритания</a>
+      <a href="#" onclick="filterCountry('Италия'); return false">Италия</a>
+      <a href="#" onclick="filterCountry('Германия'); return false">Германия</a>
+      <a href="#" onclick="filterCountry('Франция'); return false">Франция</a>
+      <a href="#" onclick="filterCountry('Канада'); return false">Канада</a>
+      <a href="#" onclick="filterCountry('Мексика'); return false">Мексика</a>
+      <a href="#" onclick="filterCountry('Южная Корея'); return false">Южная Корея</a>
     </div>
   </aside>
 
@@ -648,6 +651,13 @@ const db = firebase.firestore();
 const ADMIN_NICKS=["Mister_fish","Mister_fish606","fish606"];
 const ADMIN_PASS="xhidid";
 let isAdmin=false;
+
+// ✅ Исправление #10/#11: Функция экранирования HTML для защиты от XSS
+function escapeHtml(text){
+  const div=document.createElement('div');
+  div.textContent=text;
+  return div.innerHTML;
+}
 
 function adminLogin(){
   const nick=document.getElementById("adminNickInput")?document.getElementById("adminNickInput").value.trim():"";
@@ -693,8 +703,8 @@ function switchAdminTab(tab, btn){
   if(tab==="stats") loadStats();
 }
 
+// ✅ Исправление #2: добавлена точка с запятой после массива
 const movies=[
-
   {title:"Зелёная книга",                   file:"Green_book.html",                            movieKey:"Green Book",                            year:2018,country:"США",            hot:false,isNew:false, desc:"Белый водитель и чернокожий пианист — путешествие через расистский Юг США.",   img:"https://new.kinogo.fi/poster/100/1108577.jpg"},
   {title:"Первый мститель",                 file:"Captain_america.html",                       movieKey:"Captain America The First Avenger",     year:2011,country:"США",            hot:false,isNew:false, desc:"Слабый парень становится Капитаном Америкой и противостоит ГИДРЕ.",           img:"https://kinogo.online/uploads/posts/2021-02/1614451243-2137657427.jpg"},
   {title:"Элизиум: Рай не на Земле",        file:"Elysium.html",                               movieKey:"Elysium",                               year:2013,country:"США",            hot:false,isNew:false, desc:"В будущем богачи живут на орбите, а бедные гниют на умирающей Земле.",        img:"https://svit.tartugi.net/uploads/posts/2024-02/1707064518-elizium-ray-ne-na-zemle.jpg"},
@@ -715,11 +725,7 @@ const movies=[
   {title:"Добро пожаловать в Зомбилэнд",    file:"Zombieland.html",                            movieKey:"Zombieland",                            year:2009,country:"США",            hot:false,isNew:false,desc:"Выжившие ищут безопасное место в мире зомби.",                                  img:"https://kinogo.online/uploads/posts/2021-02/1614519780-1944811101.jpg"},
   {title:"Отряд самоубийц",                 file:"Suicide_squad.html",                         movieKey:"Suicide Squad",                         year:2016,country:"США",            hot:false,isNew:false, desc:"Правительство собирает команду суперзлодеев для тайной миссии.",              img:"https://upload.wikimedia.org/wikipedia/ru/4/4d/Suicide_Squad.jpeg"},
   {title:"Хан Соло",                        file:"Solo_star_wars.html",                        movieKey:"Solo A Star Wars Story",                year:2018,country:"США",            hot:false,isNew:false,desc:"История молодого Хана Соло и его пути к звёздам.",                              img:"https://kinogo.media/uploads/posts/2021-10/1634804136_iphone360_841277.jpg"},
-  {title:"Плохие парни",                    file:"Bad_boys.html",                              movieKey:"Bad Boys",                              year:1995,country:"США",            hot:false,isNew:false,desc:"Два детектива против наркоторговцев Майами.",                                    img:"https://play-lh.googleusercontent.com/JZn-yp1_a7RD8Wwk9-CgL-B-Fa51RaGt8rNITKLFddwYhtCLQ1fKd9MlY1OegXRkx1HS"},
-  {title:"Троя",                            file:"Troy.html",                                  movieKey:"Troy",                                  year:2004,country:"США",            hot:false,isNew:false,desc:"Эпическая битва за Трою с Ахиллом во главе.",                                   img:"https://kinogo.online/uploads/posts/2021-02/1614467124-1456019068.jpg"},
-  {title:"Блэйд",                           file:"Blade.html",                                 movieKey:"Blade",                                 year:1998,country:"США",            hot:false,isNew:false,desc:"Охотник на вампиров, сам наполовину вампир.",                                    img:"https://upload.wikimedia.org/wikipedia/ru/e/e5/Blade_2_plakat_gross.jpg"},
-  {title:"Голодные игры",                   file:"Hunger_games.html",                          movieKey:"The Hunger Games",                      year:2012,country:"США",            hot:false,isNew:false,desc:"Девушка-доброволец на смертельном телешоу становится символом восстания.",      img:"https://kinogo.online/uploads/mini/shortstory-mob/84f/1614468212-1246767137.jpg"},
-  {title:"Пункт назначения",                file:"Final_destination.html",                     movieKey:"Final Destination",                     year:2000,country:"США",            hot:false,isNew:false,desc:"Смерть преследует тех, кто сбежал от неё.",                                     img:"https://kinogo.online/uploads/posts/2021-02/1614472317-1321259434.jpg"},
+  {title:"Плохие парни",                    file:"Bad_boys.html",                              movieKey:"Bad Boys",                              year:1995,country:"США",            hot:false,isNew:false,desc:"Два детектива против наркоторговцев Майами.",                                    img:"https://play-lh.googleusercontent.com/JZn-yp1_a7RD8Wwk9-CgL-B-Fa51RaGyear:2000,country:"США",            hot:false,isNew:false,desc:"Смерть преследует тех, кто сбежал от неё.",                                     img:"https://kinogo.online/uploads/posts/2021-02/1614472317-1321259434.jpg"},
   {title:"Полтора шпиона",               file:"Spies.html",                                 movieKey:"Spies 2015",                            year:2015,country:"США",            hot:false,isNew:false, desc:"Аналитик ЦРУ впервые выходит в поле и оказывается самым опасным шпионом в мире.",  img:"https://kinogo.online/uploads/mini/shortstory-mob/be4/1614430083-1244680918.jpg"},
   {title:"Полицейская академия",           file:"Police_academy.html",                        movieKey:"Police Academy 1984",                   year:1984,country:"США",            hot:false,isNew:false, desc:"Самая нелепая команда курсантов в истории полицейской академии.",                   img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTvEIwhv3Ckww8VTUJpnjBaYVSC6YcVJl0Lhg&s"},
   {title:"Очень страшное кино",            file:"Scary_movie.html",                           movieKey:"Scary Movie 2000",                      year:2000,country:"США",            hot:false,isNew:false, desc:"Безумная пародия на хоррор-хиты 90-х — один из самых смешных фильмов своего времени.", img:"https://kinogo.online/uploads/posts/2021-02/1614431711-60734677.jpg"},
@@ -745,7 +751,7 @@ const movies=[
   {title:"Последний киногерой",            file:"Last_action_hero.html",              movieKey:"Last Action Hero 1993",                 year:1993,country:"США",            hot:false,isNew:false, desc:"Мальчик попадает внутрь боевика и встречает Шварценеггера. Пародия на боевики.",    img:"https://www.kino-teatr.ru/movie/posters/big/4/3/17434.jpg"},
   {title:"Пол: Секретный материальчик",    file:"Paul.html",                          movieKey:"Paul 2011",                             year:2011,country:"Великобритания", hot:false,isNew:false, desc:"Два британских фаната встречают настоящего инопланетянина и помогают ему сбежать.", img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTdZzyUs7VZPIKv66use17mojiKWYc6-SH98w&s"},
   {title:"Хэнкок",                         file:"Hancock.html",                       movieKey:"Hancock 2008",                          year:2008,country:"США",            hot:false,isNew:false, desc:"Супергерой-алкоголик с плохой репутацией пытается измениться с помощью пиарщика.", img:"https://kinogo.online/uploads/posts/2021-02/1614415093-1395068612.jpg"}
-]
+]; // ✅ Исправление #2: точка с запятой
 
 function render(list,title="Все фильмы"){
   const catalog=document.getElementById("catalog");
@@ -763,21 +769,24 @@ function render(list,title="Все фильмы"){
     const card=document.createElement("div");
     card.className="movie-card";
     card.style.animationDelay=(i*0.04)+"s";
+    // ✅ Исправление: экранируем title для безопасности
+    const safeTitle=escapeHtml(m.title);
+    const safeCountry=escapeHtml(m.country);
     card.innerHTML=`
       <div class="badge-wrap">
         ${m.hot ?`<span class="badge-fire">🔥 Хит</span>`:""}
         ${m.isNew?`<span class="badge-new">🆕 Новинка</span>`:""}
       </div>
       ${adminBtns}
-      <a href="${m.file}" style="text-decoration:none;color:inherit">
+      <a href="${escapeHtml(m.file)}" style="text-decoration:none;color:inherit">
         <div class="movie-card-inner">
-          <img src="${m.img}" alt="${m.title}" loading="lazy">
+          <img src="${escapeHtml(m.img)}" alt="${safeTitle}" loading="lazy">
           <div class="card-overlay">
-            <div class="card-overlay-title">${m.title}</div>
-            <div class="card-overlay-meta">${m.country} · ${m.year}</div>
+            <div class="card-overlay-title">${safeTitle}</div>
+            <div class="card-overlay-meta">${safeCountry} · ${m.year}</div>
           </div>
         </div>
-        <div class="card-title">${m.title}</div>
+        <div class="card-title">${safeTitle}</div>
         <div class="card-year">${m.year}</div>
       </a>`;
     catalog.appendChild(card);
@@ -822,9 +831,9 @@ async function loadStats(){
   body.innerHTML=sorted.map((m,i)=>`
     <tr>
       <td class="stats-rank">${i+1}</td>
-      <td><a href="${m.file}" style="color:var(--gold);text-decoration:none">${m.title}</a>
+      <td><a href="${escapeHtml(m.file)}" style="color:var(--gold);text-decoration:none">${escapeHtml(m.title)}</a>
       <div class="stats-bar"><div class="stats-bar-fill" style="width:${Math.round(m.views/max*100)}%"></div></div></td>
-      <td>${m.year}</td><td>${m.country}</td>
+      <td>${m.year}</td><td>${escapeHtml(m.country)}</td>
       <td style="color:var(--gold)">👁 ${m.views}</td>
       <td>${m.hot?"🔥":""} ${m.isNew?"🆕":""}</td>
     </tr>`).join("");
@@ -858,14 +867,14 @@ function showCollections(){
 }
 function showCowboys(){render(movies.filter(m=>["good-bad-ugly.html","per_un_pugno_di_dollari.html","for-a-few-dollars-more.html"].includes(m.file)),"Ковбои и вестерны");}
 
+// ✅ Исправление #1: Чистая инициализация массива в levenshtein
 function levenshtein(a,b){
-  const m=[
-]
-  for(let i=0;i<=b.length;i++)m[i]=[i];
-  for(let j=0;j<=a.length;j++)m[0][j]=j;
+  const m=[];
+  for(let i=0;i<=b.length;i++) m[i]=[i];
+  for(let j=0;j<=a.length;j++) m[0][j]=j;
   for(let i=1;i<=b.length;i++)
     for(let j=1;j<=a.length;j++)
-      m[i][j]=b[i-1]==a[j-1]?m[i-1][j-1]:Math.min(m[i-1][j-1]+1,m[i][j-1]+1,m[i-1][j]+1);
+      m[i][j]=b[i-1]===a[j-1]?m[i-1][j-1]:Math.min(m[i-1][j-1]+1,m[i][j-1]+1,m[i-1][j]+1);
   return m[b.length][a.length];
 }
 function searchMovie(){
@@ -873,13 +882,12 @@ function searchMovie(){
   if(!val){render(movies);return;}
   let res=movies.filter(m=>m.title.toLowerCase().includes(val));
   if(!res.length)res=movies.filter(m=>m.title.split(" ").some(w=>levenshtein(w.toLowerCase(),val)<3));
-  render(res,`Поиск: "${val}"`);
+  render(res,`Поиск: "${escapeHtml(val)}"`);
 }
 
+// ✅ Исправление #5: return false в onclick ссылок годов
 const yc=document.getElementById("years");
-for(let y=2026;y>=1964;y--)yc.innerHTML+=`<a href="#" onclick="filterYear(${y})">${y}</a>`;
-
-
+for(let y=2026;y>=1964;y--) yc.innerHTML+=`<a href="#" onclick="filterYear(${y}); return false">${y}</a>`;
 
 render(movies);
 </script>
