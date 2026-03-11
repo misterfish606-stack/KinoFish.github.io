@@ -769,7 +769,7 @@ function render(list,title="Все фильмы"){
     const card=document.createElement("div");
     card.className="movie-card";
     card.style.animationDelay=(i*0.04)+"s";
-    // ✅ Исправление: экранируем title для безопасности
+    // ✅ escapeHtml только для текстового контента, НЕ для URL
     const safeTitle=escapeHtml(m.title);
     const safeCountry=escapeHtml(m.country);
     card.innerHTML=`
@@ -778,9 +778,9 @@ function render(list,title="Все фильмы"){
         ${m.isNew?`<span class="badge-new">🆕 Новинка</span>`:""}
       </div>
       ${adminBtns}
-      <a href="${escapeHtml(m.file)}" style="text-decoration:none;color:inherit">
+      <a href="${m.file}" style="text-decoration:none;color:inherit">
         <div class="movie-card-inner">
-          <img src="${escapeHtml(m.img)}" alt="${safeTitle}" loading="lazy">
+          <img src="${m.img}" alt="${safeTitle}" loading="lazy">
           <div class="card-overlay">
             <div class="card-overlay-title">${safeTitle}</div>
             <div class="card-overlay-meta">${safeCountry} · ${m.year}</div>
