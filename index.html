@@ -831,14 +831,12 @@ async function loadStats(){
   body.innerHTML=sorted.map((m,i)=>`
     <tr>
       <td class="stats-rank">${i+1}</td>
-      <td><a href="${escapeHtml(m.file)}" style="color:var(--gold);text-decoration:none">${escapeHtml(m.title)}</a>
+      <td><a href="${m.file}" style="color:var(--gold);text-decoration:none">${escapeHtml(m.title)}</a>
       <div class="stats-bar"><div class="stats-bar-fill" style="width:${Math.round(m.views/max*100)}%"></div></div></td>
       <td>${m.year}</td><td>${escapeHtml(m.country)}</td>
       <td style="color:var(--gold)">👁 ${m.views}</td>
       <td>${m.hot?"🔥":""} ${m.isNew?"🆕":""}</td>
     </tr>`).join("");
-}
-
 function filterYear(y){render(movies.filter(m=>m.year==y),y+" год");}
 function filterCountry(c){render(movies.filter(m=>m.country==c),c);}
 function showAll(){render(movies);}
