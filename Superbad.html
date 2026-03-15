@@ -331,24 +331,17 @@ body{font-family:'Crimson Text',Georgia,serif;background:var(--bg);color:var(--c
     }
 
     // === ЗАПУСК ===
-    // 1. Пробуем вытащить прямой mp4
-    const directUrl = await tryExtractDirect();
-    if(directUrl){
-      setProgress(90);
-      setStatus("Нашли прямую ссылку! Загружаем плеер...");
-      video.src = directUrl;
-      video.style.display = "block";
-      status.style.display = "none";
-      wrap.style.minHeight = "auto";
-      setProgress(100);
-      return;
-    }
+    // Попытка 1 отключена — возвращала меню вместо видео
 
     // 2. Iframe через прокси
+    setStatus("Попытка 2: iframe через прокси...");
+    setProgress(33);
     const proxyOk = await tryIframeProxy();
     if(proxyOk){ setProgress(100); return; }
 
     // 3. Прямой iframe
+    setStatus("Попытка 3: прямой iframe...");
+    setProgress(66);
     const directOk = await tryDirectIframe();
     if(directOk){ setProgress(100); return; }
 
