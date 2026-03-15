@@ -207,41 +207,9 @@ body{font-family:'Crimson Text',Georgia,serif;background:var(--bg);color:var(--c
     <iframe src="https://drive.google.com/file/d/1GdksV-gyLKP67MAO4efzneehyABSI1hn/preview" allow="autoplay" allowfullscreen></iframe>
   </div>
   <div class="section-divider"><span class="section-label">&#10022; Смотрите также &#10022;</span></div>
-  <div class="rec-category-label">&#9670; &nbsp; Комедии &middot; Джим Керри</div>
-  <div class="rec-grid">
-    <a href="Dumb_and_dumber.html" class="rec-card">
-      <div class="rec-card-inner">
-        <img src="https://ikinogo.biz/uploads/mini/fullsm/2d/7a4245fcc4d7bacc66bb7ff25f32f1.jpg" alt="Тупой и ещё тупее">
-        <div class="rec-card-overlay"><div class="rec-card-overlay-title">Тупой и ещё тупее</div><div class="rec-card-overlay-meta">США &middot; 2014 &middot; Комедия</div></div>
-        <span class="rec-badge">Похожее</span>
-      </div>
-      <div class="rec-card-title">Тупой и ещё тупее</div><div class="rec-card-year">2014</div>
-    </a>
-    <a href="Scary_movie.html" class="rec-card">
-      <div class="rec-card-inner">
-        <img src="https://kinogo.online/uploads/posts/2021-02/1614431711-60734677.jpg" alt="Очень страшное кино">
-        <div class="rec-card-overlay"><div class="rec-card-overlay-title">Очень страшное кино</div><div class="rec-card-overlay-meta">США &middot; 2000 &middot; Комедия</div></div>
-        <span class="rec-badge">Похожее</span>
-      </div>
-      <div class="rec-card-title">Очень страшное кино</div><div class="rec-card-year">2000</div>
-    </a>
-    <a href="50_First_Dates.html" class="rec-card">
-      <div class="rec-card-inner">
-        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQkQmxUJWzAX-Jnp2vTDdO1RqJm5HgX5YN5Cw&s" alt="50 первых поцелуев">
-        <div class="rec-card-overlay"><div class="rec-card-overlay-title">50 первых поцелуев</div><div class="rec-card-overlay-meta">США &middot; 2004 &middot; Комедия</div></div>
-        <span class="rec-badge">Похожее</span>
-      </div>
-      <div class="rec-card-title">50 первых поцелуев</div><div class="rec-card-year">2004</div>
-    </a>
-    <a href="Major_payne.html" class="rec-card">
-      <div class="rec-card-inner">
-        <img src="https://avatars.mds.yandex.net/get-kinopoisk-image/4303601/4c0a3a02-0719-469a-b261-6a1830f54a0a/220x330" alt="Майор Пейн">
-        <div class="rec-card-overlay"><div class="rec-card-overlay-title">Майор Пейн</div><div class="rec-card-overlay-meta">США &middot; 1995 &middot; Комедия</div></div>
-        <span class="rec-badge">Похожее</span>
-      </div>
-      <div class="rec-card-title">Майор Пейн</div><div class="rec-card-year">1995</div>
-    </a>
-  </div>
+  <div class="rec-category-label">◆ &nbsp; Похожие фильмы</div>
+  <div class="rec-grid" id="smartRecs"></div>
+
   <div class="section-divider"><span class="section-label">&#10022; Вход &#10022;</span></div>
   <div class="login-block">
     <input type="text" id="nickname" placeholder="Ваш ник" oninput="checkNick()">
@@ -277,6 +245,7 @@ body{font-family:'Crimson Text',Georgia,serif;background:var(--bg);color:var(--c
     <div id="reportSentMsg">&#9989; Сообщение отправлено! Спасибо.</div>
   </div>
 </div>
+<script src="movies_data.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 <script>emailjs.init("xQFu4rTTN_OUgE6zH");</script>
 <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
@@ -313,7 +282,8 @@ async function saveReply(){const t=document.getElementById("modalText").value.tr
 function openReport(){document.getElementById("reportModal").classList.add("open")}
 function closeReport(){document.getElementById("reportModal").classList.remove("open");document.getElementById("reportSentMsg").style.display="none";document.getElementById("reportText").value="";document.getElementById("reportName").value=""}
 async function sendReport(){const name=document.getElementById("reportName").value.trim()||"Аноним";const text=document.getElementById("reportText").value.trim();if(!text)return alert("Опиши проблему!");const btn=document.querySelector("#reportModal .btn-red");btn.innerText="Отправка...";btn.disabled=true;try{await emailjs.send("service_m2itd3q","template_jvqfkhr",{from_name:name,message:text,page:"Я снова я и Ирэн (Me_myself_irene_2.html)"});document.getElementById("reportSentMsg").style.display="block";btn.innerText="Отправлено!"}catch(e){alert("Ошибка: "+JSON.stringify(e));btn.innerText="Отправить сообщение";btn.disabled=false}}
-window.onload=async()=>{const s=localStorage.getItem("nickname");if(s){currentUser=s;document.getElementById("loginStatus").innerText="Вы вошли как "+currentUser};loadRating();initViews()};
+window.onload=async()=>{const s=localStorage.getItem("nickname");if(s){currentUser=s;document.getElementById("loginStatus").innerText="Вы вошли как "+currentUser  renderSmartRecs("Me Myself and Irene","smartRecs");
+};loadRating();initViews()};
 </script>
 </body>
 </html>
