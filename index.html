@@ -883,7 +883,6 @@ function filterActor(a){render(movies.filter(m=>m.actors&&m.actors.includes(a)),
     el.innerHTML+=`<a href="#" onclick="filterActor('${a.replace(/'/g,"\\'")}'); return false">${a} <span style="color:var(--gold-dim);font-size:0.78rem">(${all[a]})</span></a>`;
   });
 })();
-google-site-verification: google9390ae7eeb13ca76.html
 render(movies);
 </script>
 </body>
