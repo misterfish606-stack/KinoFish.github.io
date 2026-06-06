@@ -435,6 +435,63 @@ body {
 .detail-value a:hover { color:var(--gold-light); }
 .detail-value a:hover::after { transform:scaleX(1); }
 
+.random-btn {
+  font-family:'Bebas Neue', sans-serif !important; letter-spacing:0.1em !important;
+  background:linear-gradient(135deg, #1a4a10, #2e7d1a) !important;
+  color:var(--gold-light) !important; border:1px solid #4a9a30 !important;
+  padding:7px 16px !important; border-radius:2px !important;
+  margin:6px 6px !important; font-size:0.85rem !important; transition:0.3s !important;
+  cursor:pointer !important;
+}
+.random-btn:hover { box-shadow:0 0 14px rgba(46,125,26,0.6) !important; }
+.random-btn::after { display:none !important; }
+
+/* Random Modal */
+#randomModal .modal-box {
+  width:440px; max-width:95vw;
+}
+.random-movie-card {
+  display:flex; gap:18px; align-items:flex-start; margin-bottom:22px;
+}
+.random-movie-poster {
+  width:120px; flex-shrink:0;
+  border:2px solid var(--gold-dim);
+}
+.random-movie-poster img {
+  width:100%; aspect-ratio:2/3; object-fit:cover;
+  display:block; filter:sepia(12%) contrast(1.04);
+}
+.random-movie-info { flex:1; }
+.random-movie-title {
+  font-family:'Playfair Display', serif; font-style:italic;
+  color:var(--gold); font-size:1.2rem; line-height:1.25; margin-bottom:8px;
+}
+.random-movie-meta {
+  font-family:'Bebas Neue', sans-serif; letter-spacing:0.1em;
+  color:var(--cream-dim); font-size:0.78rem; margin-bottom:10px;
+}
+.random-movie-desc {
+  font-style:italic; color:var(--cream-dim); font-size:0.88rem; line-height:1.5;
+}
+.random-btns {
+  display:flex; gap:12px; margin-top:4px;
+}
+.btn-watch-now {
+  flex:1; padding:12px; text-align:center; text-decoration:none;
+  background:linear-gradient(135deg,var(--gold-dim),var(--gold));
+  color:var(--bg); font-family:'Bebas Neue', sans-serif;
+  letter-spacing:0.16em; font-size:0.95rem;
+  border:none; border-radius:2px; cursor:pointer; transition:0.3s; display:block;
+}
+.btn-watch-now:hover { box-shadow:0 0 20px rgba(212,175,55,0.4); }
+.btn-another {
+  padding:12px 16px;
+  background:none; border:1px solid var(--gold-dim); color:var(--cream-dim);
+  font-family:'Bebas Neue', sans-serif; letter-spacing:0.12em; font-size:0.85rem;
+  border-radius:2px; cursor:pointer; transition:0.2s; white-space:nowrap;
+}
+.btn-another:hover { border-color:var(--gold); color:var(--gold); }
+
 .user-rating-wrap label {
   display:inline-block; cursor:default;
   position:relative; transition:color 0.2s;
@@ -476,8 +533,31 @@ body {
   <div class="search-wrap">
     <input type="text" id="searchInput" placeholder="🔍 Поиск..." oninput="searchMovie()">
   </div>
+  <button class="random-btn" onclick="showRandomMovie()">🎲 Рандом</button>
   <button class="admin-btn" onclick="document.getElementById('adminLoginModal').classList.add('open')" id="adminOpenBtn">🎬 Админ</button>
 </nav>
+
+<!-- Random Movie Modal -->
+<div class="modal-overlay" id="randomModal">
+  <div class="modal-box">
+    <button class="modal-close" onclick="document.getElementById('randomModal').classList.remove('open')">✕</button>
+    <h2>🎲 Случайный фильм</h2>
+    <div class="random-movie-card">
+      <div class="random-movie-poster">
+        <img id="randomImg" src="" alt="">
+      </div>
+      <div class="random-movie-info">
+        <div class="random-movie-title" id="randomTitle"></div>
+        <div class="random-movie-meta" id="randomMeta"></div>
+        <div class="random-movie-desc" id="randomDesc"></div>
+      </div>
+    </div>
+    <div class="random-btns">
+      <a class="btn-watch-now" id="randomLink" href="#">▶ Смотреть</a>
+      <button class="btn-another" onclick="showRandomMovie()">🎲 Другой</button>
+    </div>
+  </div>
+</div>
 
 <div class="modal-overlay" id="adminLoginModal">
   <div class="modal-box">
@@ -936,6 +1016,17 @@ function filterActor(a){render(movies.filter(m=>m.actors&&m.actors.includes(a)),
   });
 })();
 render(movies);
+
+function showRandomMovie() {
+  const m = movies[Math.floor(Math.random() * movies.length)];
+  document.getElementById('randomTitle').textContent = m.title;
+  document.getElementById('randomMeta').textContent = m.country + ' · ' + m.year;
+  document.getElementById('randomDesc').textContent = m.desc || '';
+  document.getElementById('randomImg').src = m.img;
+  document.getElementById('randomImg').alt = m.title;
+  document.getElementById('randomLink').href = m.file;
+  document.getElementById('randomModal').classList.add('open');
+}
 </script>
 </body>
 </html>
