@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -625,6 +626,7 @@ body {
 
     <div class="sidebar-section">
       <div class="sidebar-title">◆ Актёры</div>
+      <input type="text" id="actorSearch" placeholder="🔍 Найти актёра..." oninput="filterActorsList()" style="width:100%;padding:6px 9px;background:rgba(255,255,255,0.04);border:1px solid var(--gold-dim);border-radius:2px;color:var(--cream);font-family:'Crimson Text',serif;font-size:0.88rem;outline:none;margin-bottom:7px;box-sizing:border-box;">
       <div id="actorsList"></div>
     </div>
   </aside>
@@ -1006,15 +1008,33 @@ for(let y=2026;y>=1964;y--) yc.innerHTML+=`<a href="#" onclick="filterYear(${y})
 function filterActor(a){render(movies.filter(m=>m.actors&&m.actors.includes(a)),a);}
 
 // Build actors list
+let allActors = {};
 (function(){
-  const all={};
-  movies.forEach(m=>{ if(m.actors) m.actors.forEach(a=>{ all[a]=(all[a]||0)+1; }); });
-  const sorted=Object.keys(all).sort((a,b)=>a.localeCompare(b,'ru'));
-  const el=document.getElementById("actorsList");
-  sorted.forEach(a=>{
-    el.innerHTML+=`<a href="#" onclick="filterActor('${a.replace(/'/g,"\\'")}'); return false">${a} <span style="color:var(--gold-dim);font-size:0.78rem">(${all[a]})</span></a>`;
-  });
+  movies.forEach(m=>{ if(m.actors) m.actors.forEach(a=>{ allActors[a]=(allActors[a]||0)+1; }); });
+  renderActorsList('');
 })();
+
+function renderActorsList(query){
+  const el=document.getElementById("actorsList");
+  const q=query.toLowerCase().trim();
+  const sorted=Object.keys(allActors).sort((a,b)=>a.localeCompare(b,'ru'));
+  const filtered = q
+    ? sorted.filter(a => a.toLowerCase().includes(q) || levenshtein(a.toLowerCase().split(' ').find(w=>w.startsWith(q[0]))||'', q) < 3)
+    : sorted;
+  if(filtered.length===0){
+    el.innerHTML=`<span style="color:var(--gold-dim);font-size:0.83rem;font-style:italic;padding:4px 0;display:block">Не найдено</span>`;
+    return;
+  }
+  el.innerHTML='';
+  filtered.forEach(a=>{
+    el.innerHTML+=`<a href="#" onclick="filterActor('${a.replace(/'/g,"\\'")}'); return false">${a} <span style="color:var(--gold-dim);font-size:0.78rem">(${allActors[a]})</span></a>`;
+  });
+}
+
+function filterActorsList(){
+  const val=document.getElementById("actorSearch").value;
+  renderActorsList(val);
+}
 render(movies);
 
 function showRandomMovie() {
