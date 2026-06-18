@@ -19,9 +19,9 @@
   --gold-dim:  #7a5c10;
   --cream:     #f5e6c4;
   --cream-dim: #b09060;
-  --bg:        #0a0705;
-  --bg2:       #140e06;
-  --bg3:       #1e1508;
+  --bg:        #040302;
+  --bg2:       #090601;
+  --bg3:       #110c04;
   --red:       #8b1a1a;
   --red-light: #c0392b;
 }
@@ -507,13 +507,81 @@ body {
   transform-origin:left;
   transition:transform 0.25s ease;
 }
-.user-rating-wrap label:hover { color:var(--gold-light); }
-.user-rating-wrap label:hover::after { transform:scaleX(1); }
+/* ===== FLASHLIGHT EFFECT ===== */
+#flashlight {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  pointer-events: none;
+  z-index: 9998;
+  background: radial-gradient(
+    circle var(--fl-r, 260px) at var(--fl-x, -500px) var(--fl-y, -500px),
+    transparent 0%,
+    transparent 38%,
+    rgba(0,0,0,0.18) 55%,
+    rgba(0,0,0,0.55) 72%,
+    rgba(0,0,0,0.82) 88%,
+    rgba(0,0,0,0.96) 100%
+  );
+  transition: background 0.04s linear;
+}
 
-</style>
+/* ===== GLOWING MAIN LABELS ===== */
+
+/* Header top ornament */
+.header-ornament {
+  text-shadow: 0 0 12px rgba(212,175,55,0.7), 0 0 28px rgba(212,175,55,0.35);
+  animation: ornament-glow 3s ease-in-out infinite alternate;
+}
+@keyframes ornament-glow {
+  from { text-shadow: 0 0 8px rgba(212,175,55,0.5), 0 0 18px rgba(212,175,55,0.25); }
+  to   { text-shadow: 0 0 18px rgba(212,175,55,0.9), 0 0 40px rgba(212,175,55,0.5), 0 0 70px rgba(212,175,55,0.2); }
+}
+
+/* Header tagline */
+.site-tagline {
+  text-shadow: 0 0 14px rgba(212,175,55,0.4), 0 0 30px rgba(212,175,55,0.15);
+}
+
+/* Header stars */
+.header-stars {
+  text-shadow: 0 0 10px rgba(212,175,55,0.8), 0 0 22px rgba(212,175,55,0.4);
+  animation: stars-pulse 2.5s ease-in-out infinite alternate;
+}
+@keyframes stars-pulse {
+  from { text-shadow: 0 0 6px rgba(212,175,55,0.6), 0 0 16px rgba(212,175,55,0.3); }
+  to   { text-shadow: 0 0 16px rgba(212,175,55,1.0), 0 0 36px rgba(212,175,55,0.6), 0 0 60px rgba(212,175,55,0.25); }
+}
+
+/* Top menu nav links glow */
+.top-menu a, .top-menu button:not(.admin-btn):not(.random-btn) {
+  text-shadow: 0 0 8px rgba(212,175,55,0.15);
+  transition: color 0.2s, background 0.2s, text-shadow 0.3s;
+}
+.top-menu a:hover, .top-menu button:not(.admin-btn):not(.random-btn):hover {
+  text-shadow: 0 0 12px rgba(212,175,55,0.7), 0 0 28px rgba(212,175,55,0.35);
+}
+
+/* Sidebar section titles */
+.sidebar-title {
+  text-shadow: 0 0 10px rgba(212,175,55,0.55), 0 0 22px rgba(212,175,55,0.25);
+  animation: sidebar-glow 4s ease-in-out infinite alternate;
+}
+@keyframes sidebar-glow {
+  from { text-shadow: 0 0 6px rgba(212,175,55,0.4), 0 0 14px rgba(212,175,55,0.15); }
+  to   { text-shadow: 0 0 14px rgba(212,175,55,0.8), 0 0 30px rgba(212,175,55,0.4); }
+}
+
+/* Catalog title */
+.catalog-title {
+  text-shadow: 0 0 18px rgba(212,175,55,0.5), 0 0 40px rgba(212,175,55,0.2);
+}
+
+
 </head>
 <body>
 
+<div id="flashlight"></div>
 <div class="projector-beam"></div>
 <div class="filmstrip"><div class="filmstrip-holes" id="filmstripTop"></div></div>
 
@@ -1047,6 +1115,41 @@ function showRandomMovie() {
   document.getElementById('randomLink').href = m.file;
   document.getElementById('randomModal').classList.add('open');
 }
+
+// ===== FLASHLIGHT EFFECT =====
+(function(){
+  const fl = document.getElementById('flashlight');
+  const BASE_R = 260; // radius px (+30% over original 200px)
+  let mouseX = -9999, mouseY = -9999;
+  let currentX = -9999, currentY = -9999;
+
+  function lerp(a, b, t){ return a + (b - a) * t; }
+
+  function update(){
+    currentX = lerp(currentX, mouseX, 0.10);
+    currentY = lerp(currentY, mouseY, 0.10);
+    fl.style.background = `radial-gradient(
+      circle ${BASE_R}px at ${currentX}px ${currentY}px,
+      transparent 0%,
+      transparent 38%,
+      rgba(0,0,0,0.18) 55%,
+      rgba(0,0,0,0.55) 72%,
+      rgba(0,0,0,0.82) 88%,
+      rgba(0,0,0,0.96) 100%
+    )`;
+    requestAnimationFrame(update);
+  }
+
+  document.addEventListener('mousemove', function(e){
+    mouseX = e.clientX;
+    mouseY = e.clientY;
+  });
+  document.addEventListener('mouseleave', function(){
+    mouseX = -9999; mouseY = -9999;
+  });
+
+  update();
+})();
 </script>
 </body>
 </html>
