@@ -70,6 +70,7 @@ body {
   background:linear-gradient(180deg, #060402 0%, #140e06 100%);
   border-bottom:1px solid var(--gold-dim); overflow:hidden; z-index:1;
 }
+
 .site-header::before {
   content:""; position:absolute; top:0; left:0; right:0; height:1px;
   background:linear-gradient(90deg, transparent, var(--gold-dim), transparent);
@@ -86,17 +87,18 @@ body {
   font-family:'Playfair Display', serif;
   font-size:clamp(3rem, 8vw, 6rem); font-weight:900; font-style:italic;
   color:var(--gold);
-  text-shadow: 0 0 50px rgba(212,175,55,0.45), 0 2px 0 #3a2800, 4px 5px 0 rgba(0,0,0,0.5);
+  text-shadow: 0 0 70px rgba(212,175,55,0.65), 0 0 25px rgba(245,215,110,0.5), 0 2px 0 #3a2800, 4px 5px 0 rgba(0,0,0,0.5);
   letter-spacing:0.03em; line-height:1;
   animation:title-glow 4s ease-in-out infinite alternate;
 }
 @keyframes title-glow {
-  from{text-shadow:0 0 30px rgba(212,175,55,0.3),0 2px 0 #3a2800,4px 5px 0 rgba(0,0,0,0.5)}
-  to  {text-shadow:0 0 70px rgba(212,175,55,0.65),0 2px 0 #3a2800,4px 5px 0 rgba(0,0,0,0.5)}
+  from{text-shadow:0 0 45px rgba(212,175,55,0.45),0 0 15px rgba(245,215,110,0.35),0 2px 0 #3a2800,4px 5px 0 rgba(0,0,0,0.5)}
+  to  {text-shadow:0 0 95px rgba(212,175,55,0.85),0 0 35px rgba(245,215,110,0.65),0 2px 0 #3a2800,4px 5px 0 rgba(0,0,0,0.5)}
 }
 .site-tagline {
   font-family:'Crimson Text', serif; font-style:italic;
   color:var(--cream-dim); font-size:1.05rem; margin-top:10px; letter-spacing:0.14em;
+  text-shadow:0 0 18px rgba(176,144,96,0.4);
 }
 .header-stars { font-size:0.7rem; color:var(--gold-dim); letter-spacing:0.4em; margin-top:6px; display:block; }
 .top-menu {
