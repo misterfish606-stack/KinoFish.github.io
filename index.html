@@ -14,14 +14,14 @@
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Crimson+Text:ital,wght@0,400;0,600;1,400&family=Bebas+Neue&display=swap" rel="stylesheet">
 <style>
 :root {
-  --gold:      #e8e8e8;
+  --gold:      #ffffff;
   --gold-light:#ffffff;
-  --gold-dim:  #5a5a5a;
-  --cream:     #e0e0e0;
-  --cream-dim: #8a8a8a;
-  --bg:        #050505;
-  --bg2:       #0d0d0d;
-  --bg3:       #161616;
+  --gold-dim:  #444444;
+  --cream:     #d8d8d8;
+  --cream-dim: #6a6a6a;
+  --bg:        #000000;
+  --bg2:       #000000;
+  --bg3:       #060606;
   --red:       #8b1a1a;
   --red-light: #c0392b;
 }
@@ -49,8 +49,9 @@ body {
 .flashlight {
   position:fixed; inset:0;
   pointer-events:none; z-index:5000;
-  background: radial-gradient(circle 220px at var(--mx,50%) var(--my,50%), rgba(255,255,255,0.10), rgba(255,255,255,0.03) 45%, transparent 75%);
+  background: radial-gradient(circle 280px at var(--mx,50%) var(--my,50%), rgba(255,255,255,0.22), rgba(255,255,255,0.08) 40%, rgba(255,255,255,0.02) 65%, transparent 80%);
   transition: background 0.05s linear;
+  mix-blend-mode: screen;
 }
 @keyframes beam-flicker {
   0%,100%{opacity:1} 92%{opacity:1} 93%{opacity:0.5} 94%{opacity:1} 97%{opacity:0.75} 98%{opacity:1}
@@ -92,13 +93,13 @@ body {
   font-family:'Playfair Display', serif;
   font-size:clamp(3rem, 8vw, 6rem); font-weight:900; font-style:italic;
   color:var(--gold);
-  text-shadow: 0 0 50px rgba(255,255,255,0.45), 0 2px 0 #1a1a1a, 4px 5px 0 rgba(0,0,0,0.5);
+  text-shadow: 0 0 70px rgba(255,255,255,0.7), 0 0 120px rgba(255,255,255,0.25), 0 2px 0 #000, 4px 5px 0 rgba(0,0,0,0.8);
   letter-spacing:0.03em; line-height:1;
   animation:title-glow 4s ease-in-out infinite alternate;
 }
 @keyframes title-glow {
-  from{text-shadow:0 0 30px rgba(255,255,255,0.3),0 2px 0 #1a1a1a,4px 5px 0 rgba(0,0,0,0.5)}
-  to  {text-shadow:0 0 70px rgba(255,255,255,0.65),0 2px 0 #1a1a1a,4px 5px 0 rgba(0,0,0,0.5)}
+  from{text-shadow:0 0 50px rgba(255,255,255,0.5),0 0 100px rgba(255,255,255,0.15),0 2px 0 #000,4px 5px 0 rgba(0,0,0,0.8)}
+  to  {text-shadow:0 0 90px rgba(255,255,255,0.85),0 0 160px rgba(255,255,255,0.35),0 2px 0 #000,4px 5px 0 rgba(0,0,0,0.8)}
 }
 .site-tagline {
   font-family:'Crimson Text', serif; font-style:italic;
