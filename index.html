@@ -19,9 +19,9 @@
   --gold-dim:  #7a5c10;
   --cream:     #f5e6c4;
   --cream-dim: #b09060;
-  --bg:        #070401;
-  --bg2:       #0c0802;
-  --bg3:       #130e04;
+  --bg:        #0a0705;
+  --bg2:       #140e06;
+  --bg3:       #1e1508;
   --red:       #8b1a1a;
   --red-light: #c0392b;
 }
@@ -510,43 +510,9 @@ body {
 .user-rating-wrap label:hover { color:var(--gold-light); }
 .user-rating-wrap label:hover::after { transform:scaleX(1); }
 
-
-/* FLASHLIGHT */
-#fl {
-  position:fixed; inset:0;
-  pointer-events:none;
-  z-index:500;
-  background:transparent;
-}
-
-/* GLOW: header ornament */
-.header-ornament {
-  text-shadow: 0 0 14px rgba(212,175,55,0.8), 0 0 30px rgba(212,175,55,0.4);
-}
-/* GLOW: tagline */
-.site-tagline {
-  text-shadow: 0 0 12px rgba(212,175,55,0.4), 0 0 28px rgba(212,175,55,0.2);
-}
-/* GLOW: stars */
-.header-stars {
-  text-shadow: 0 0 12px rgba(212,175,55,1), 0 0 30px rgba(212,175,55,0.5);
-}
-/* GLOW: menu links on hover */
-.top-menu a:hover, .top-menu button:hover {
-  text-shadow: 0 0 14px rgba(212,175,55,0.8), 0 0 30px rgba(212,175,55,0.4) !important;
-}
-/* GLOW: sidebar titles */
-.sidebar-title {
-  text-shadow: 0 0 10px rgba(212,175,55,0.6), 0 0 22px rgba(212,175,55,0.3);
-}
-/* GLOW: catalog title */
-.catalog-title {
-  text-shadow: 0 0 16px rgba(212,175,55,0.5), 0 0 36px rgba(212,175,55,0.2);
-}
 </style>
 </head>
 <body>
-<div id="fl"></div>
 
 <div class="projector-beam"></div>
 <div class="filmstrip"><div class="filmstrip-holes" id="filmstripTop"></div></div>
@@ -1081,30 +1047,6 @@ function showRandomMovie() {
   document.getElementById('randomLink').href = m.file;
   document.getElementById('randomModal').classList.add('open');
 }
-
-// FLASHLIGHT
-(function(){
-  var el = document.getElementById('fl');
-  var R = 260;
-  var mx = null, my = null, cx = 0, cy = 0, on = false;
-  function lerp(a,b,t){return a+(b-a)*t;}
-  function tick(){
-    if(on){
-      cx = lerp(cx, mx, 0.12);
-      cy = lerp(cy, my, 0.12);
-      el.style.background = 'radial-gradient(circle '+R+'px at '+cx+'px '+cy+'px, transparent 0%, transparent 40%, rgba(0,0,0,0.3) 62%, rgba(0,0,0,0.75) 82%, rgba(0,0,0,0.92) 100%)';
-    } else {
-      el.style.background = 'transparent';
-    }
-    requestAnimationFrame(tick);
-  }
-  document.addEventListener('mousemove', function(e){
-    if(!on){cx=e.clientX;cy=e.clientY;on=true;}
-    mx=e.clientX; my=e.clientY;
-  });
-  document.addEventListener('mouseleave', function(){ on=false; });
-  tick();
-})();
 </script>
 </body>
 </html>
