@@ -208,15 +208,16 @@ body{font-family:'Crimson Text',Georgia,serif;background:var(--bg);color:var(--c
   </div>
   <div class="section-divider"><span class="section-label">✦ Смотреть фильм ✦</span></div>
   <div class="trailer-wrap">
-    <div id="player"></div>
+    <video id="player" playsinline controls>
+      <source src="https://bysefujedu.com/d/ek0mtryp3hid" type="video/mp4">
+    </video>
   </div>
-  <script src="https://playerjs.io/player.js"></script>
+  <link rel="stylesheet" href="https://cdn.plyr.io/3.7.8/plyr.css">
+  <script src="https://cdn.plyr.io/3.7.8/plyr.js"></script>
   <script>
-    var player = new Playerjs({
-      id: "player",
-      file: "https://bysefujedu.com/d/ek0mtryp3hid",
-      thumbnails: "https://drive.google.com/uc?id=1uku6LzAl93qPluZOVCaKbFczKo3vrbB7",
-      remember_time: 1,
+    const player = new Plyr('#player', {
+      controls: ['play-large','play','progress','current-time','mute','volume','fullscreen'],
+      invertTime: false,
     });
   </script>
   <div class="section-divider"><span class="section-label">✦ Смотрите также ✦</span></div>
