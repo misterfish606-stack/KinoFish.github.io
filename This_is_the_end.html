@@ -69,7 +69,7 @@ body{font-family:'Crimson Text',Georgia,serif;background:var(--bg);color:var(--c
 .detail-value{font-family:'Crimson Text',serif;font-size:1.05rem;color:var(--gold);line-height:1.5;display:inline-block;position:relative;transition:color 0.2s;}
 .detail-value:hover{color:var(--gold-light);}
 .trailer-wrap{position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border:2px solid var(--gold-dim);}
-.trailer-wrap iframe{position:absolute;top:0;left:0;width:100%;height:100%;border:none;}
+.trailer-wrap iframe,.trailer-wrap #player,.trailer-wrap > div{position:absolute;top:0;left:0;width:100%!important;height:100%!important;border:none;}
 .rec-category-label{font-family:'Bebas Neue',sans-serif;font-size:0.72rem;letter-spacing:0.28em;color:var(--gold-dim);margin-bottom:16px;display:flex;align-items:center;gap:10px;}
 .rec-category-label::after{content:"";flex:1;height:1px;background:linear-gradient(90deg,rgba(138,112,64,0.4),transparent);}
 .rec-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,200px));gap:18px;margin-bottom:36px;}
@@ -80,17 +80,10 @@ body{font-family:'Crimson Text',Georgia,serif;background:var(--bg);color:var(--c
 .rec-card:hover .rec-card-inner{border-color:var(--gold);box-shadow:0 0 0 1px var(--gold),0 8px 30px rgba(0,0,0,0.85);transform:translateY(-6px) scale(1.02);}
 .rec-card-inner img{width:100%;aspect-ratio:2/3;object-fit:cover;object-position:center top;display:block;filter:sepia(12%) brightness(0.92);transition:filter 0.3s;}
 .rec-card:hover .rec-card-inner img{filter:sepia(0%) brightness(1.05);}
-.rec-card-inner::before,.rec-card-inner::after{content:"";position:absolute;width:11px;height:11px;border-color:var(--gold);border-style:solid;z-index:3;opacity:0;transition:opacity 0.3s;}
-.rec-card-inner::before{top:4px;left:4px;border-width:2px 0 0 2px;}.rec-card-inner::after{bottom:4px;right:4px;border-width:0 2px 2px 0;}
-.rec-card:hover .rec-card-inner::before,.rec-card:hover .rec-card-inner::after{opacity:1;}
 .rec-card-overlay{position:absolute;inset:0;background:linear-gradient(180deg,transparent 35%,rgba(8,5,2,0.96) 100%);display:flex;flex-direction:column;justify-content:flex-end;padding:8px;opacity:0;transition:opacity 0.3s;}
 .rec-card:hover .rec-card-overlay{opacity:1;}
 .rec-card-overlay-title{font-family:'Playfair Display',serif;font-size:0.8rem;color:var(--gold-light);font-weight:700;line-height:1.2;}
 .rec-card-overlay-meta{font-size:0.68rem;color:var(--cream-dim);font-style:italic;margin-top:2px;}
-.rec-badge{position:absolute;top:5px;left:5px;z-index:4;font-family:'Bebas Neue',sans-serif;font-size:0.65rem;letter-spacing:0.1em;padding:2px 7px;border-radius:2px;pointer-events:none;}
-.rec-badge.sequel{background:linear-gradient(135deg,#7a3a00,#c06010);color:#fff;animation:pulse-sequel 2.2s infinite alternate;}
-@keyframes pulse-sequel{from{box-shadow:0 0 5px rgba(200,90,0,0.35)}to{box-shadow:0 0 14px rgba(200,90,0,0.85)}}
-.rec-badge.similar{background:rgba(30,24,14,0.88);border:1px solid var(--gold-dim);color:var(--gold);}
 .rec-card-title{font-family:'Playfair Display',serif;font-size:0.82rem;color:var(--cream);margin-top:7px;text-align:center;line-height:1.3;transition:color 0.2s;word-break:break-word;}
 .rec-card:hover .rec-card-title{color:var(--gold);}
 .rec-card-year{font-family:'Bebas Neue',sans-serif;font-size:0.68rem;letter-spacing:0.15em;color:var(--gold-dim);text-align:center;margin-top:2px;}
@@ -133,7 +126,6 @@ body{font-family:'Crimson Text',Georgia,serif;background:var(--bg);color:var(--c
 .btn-red{font-family:'Bebas Neue',sans-serif;letter-spacing:0.14em;background:linear-gradient(135deg,#5a1010,var(--red));color:var(--gold-light);border:none;padding:10px 22px;border-radius:2px;cursor:pointer;font-size:0.9rem;transition:0.3s;margin-top:4px;}
 ::-webkit-scrollbar{width:5px;}::-webkit-scrollbar-thumb{background:var(--gold-dim);border-radius:3px;}
 .filmstrip-bottom{border-top:2px solid #1a1208;margin-top:60px;}
-
 .meta-tag{position:relative;}
 .meta-tag::after{content:"";position:absolute;bottom:0;left:10%;right:10%;height:1px;background:var(--gold);transform:scaleX(0);transition:transform 0.25s ease;}
 .meta-tag:hover::after{transform:scaleX(1);}
@@ -152,7 +144,6 @@ body{font-family:'Crimson Text',Georgia,serif;background:var(--bg);color:var(--c
 .user-rating-wrap label::after{content:"";position:absolute;bottom:-2px;left:0;right:0;height:1px;background:var(--gold);transform:scaleX(0);transform-origin:left;transition:transform 0.25s ease;}
 .user-rating-wrap label:hover{color:var(--gold-light);}
 .user-rating-wrap label:hover::after{transform:scaleX(1);}
-
 </style>
 </head>
 <body>
@@ -217,8 +208,17 @@ body{font-family:'Crimson Text',Georgia,serif;background:var(--bg);color:var(--c
   </div>
   <div class="section-divider"><span class="section-label">✦ Смотреть фильм ✦</span></div>
   <div class="trailer-wrap">
-    <iframe src="https://drive.google.com/file/d/1dWLjOdJZbL2pRA19nUvuYp8qomBBud-t/preview" allow="autoplay" allowfullscreen></iframe>
+    <div id="player"></div>
   </div>
+  <script src="https://playerjs.io/player.js"></script>
+  <script>
+    var player = new Playerjs({
+      id: "player",
+      file: "https://drive.google.com/uc?id=1FyDNnh2oC-_qT10BsKrn4oHKCm3c1Aro",
+      thumbnails: "https://drive.google.com/uc?id=1uku6LzAl93qPluZOVCaKbFczKo3vrbB7",
+      remember_time: 1,
+    });
+  </script>
   <div class="section-divider"><span class="section-label">✦ Смотрите также ✦</span></div>
   <div class="rec-category-label">◆ &nbsp; Похожие фильмы</div>
   <div class="rec-grid" id="smartRecs"></div>
