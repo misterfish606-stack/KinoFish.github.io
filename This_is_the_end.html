@@ -208,16 +208,14 @@ body{font-family:'Crimson Text',Georgia,serif;background:var(--bg);color:var(--c
   </div>
   <div class="section-divider"><span class="section-label">✦ Смотреть фильм ✦</span></div>
   <div class="trailer-wrap">
-    <video id="player" playsinline controls>
-      <source src="https://bysefujedu.com/d/ek0mtryp3hid" type="video/mp4">
-    </video>
+    <div id="player"></div>
   </div>
-  <link rel="stylesheet" href="https://cdn.plyr.io/3.7.8/plyr.css">
-  <script src="https://cdn.plyr.io/3.7.8/plyr.js"></script>
-  <script>
-    const player = new Plyr('#player', {
-      controls: ['play-large','play','progress','current-time','mute','volume','fullscreen'],
-      invertTime: false,
+  <script src="https://playerjs.com" type="text/javascript"></script>
+  <script type="text/javascript">
+    var player = new Playerjs({
+      id: "player",
+      file: "https://google.com",
+      thumbnails: "https://google.com"
     });
   </script>
   <div class="section-divider"><span class="section-label">✦ Смотрите также ✦</span></div>
