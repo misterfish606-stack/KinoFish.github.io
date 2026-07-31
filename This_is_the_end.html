@@ -209,34 +209,22 @@ body{font-family:'Crimson Text',Georgia,serif;background:var(--bg);color:var(--c
   <div class="section-divider"><span class="section-label">✦ Смотреть фильм ✦</span></div>
   <div class="trailer-wrap">
     <div id="player"></div>
-</div><!-- Конец блока details-grid или description-block -->
+</div><!-- Кінець попереднього блоку details-grid -->
 
-<!-- УМНЫЙ ПЛЕЕР KINOBOX С ВЫБОРОМ ОЗВУЧЕК (РАБОТАЕТ НА GITHUB) -->
+<!-- ОНОВЛЕНИЙ ПЛЕЄР ІЗ ВИБОРОМ ОЗВУЧКИ (ПРАЦЮЄ НА GITHUB) -->
 <div class="player-section" style="margin-top: 40px; position: relative; z-index: 10;">
   <div class="section-divider">
     <span class="section-label">✦ Просмотр фильма ✦</span>
   </div>
   
-  <!-- Контейнер, куда скрипт загрузит плеер -->
-  <div id="kinobox-player" style="position:relative; padding-bottom:56.25%; height:0; overflow:hidden; border: 2px solid var(--gold-dim); box-shadow: 0 10px 30px rgba(0,0,0,0.9); background: #000;"></div>
+  <div style="position:relative; padding-bottom:56.25%; height:0; overflow:hidden; border: 2px solid var(--gold-dim); box-shadow: 0 10px 30px rgba(0,0,0,0.9); background: #000;">
+    <!-- Плеєр від стабільного балансера з автоматичним вибором перекладів -->
+    <iframe src="https://alloha.tv" style="position:absolute; top:0; left:0; width:100%; height:100%; border:0;" allowfullscreen></iframe>
+  </div>
 </div>
 
-<!-- Подключаем библиотеку плеера -->
-<script src="https://kinobox.tv"></script>
-<script>
-  // Инициализируем плеер для фильма «Апокалипсис по-голливудски» (ID: 463634)
-  kbox('#kinobox-player', {
-    search: {
-      kinopoisk: '463634'
-    },
-    menu: {
-      enable: true, // Включает меню выбора озвучек
-      default: 'items'
-    }
-  });
-</script>
-
 <div class="section-divider"><span class="section-label">✦ Смотрите также ✦</span></div>
+
 
 
   <div class="rec-category-label">◆ &nbsp; Похожие фильмы</div>
