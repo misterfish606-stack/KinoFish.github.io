@@ -209,17 +209,20 @@ body{font-family:'Crimson Text',Georgia,serif;background:var(--bg);color:var(--c
   <div class="section-divider"><span class="section-label">✦ Смотреть фильм ✦</span></div>
   <div class="trailer-wrap">
     <div id="player"></div>
- </div><!-- Конец блока details-grid или description-block -->
+</div><!-- Конец блока details-grid или description-block -->
 
-<!-- БЛОК ПЛЕЕРА (ИСПРАВЛЕННЫЙ) -->
-<div class="player-section" style="margin-top: 40px;">
+<!-- ТВОЙ СОБСТВЕННЫЙ HTML5 ПЛЕЕР ДЛЯ MP4 -->
+<div class="player-section" style="margin-top: 40px; position: relative; z-index: 10;">
   <div class="section-divider">
     <span class="section-label">✦ Просмотр фильма ✦</span>
   </div>
   
   <div style="position:relative; padding-bottom:56.25%; height:0; overflow:hidden; border: 2px solid var(--gold-dim); box-shadow: 0 10px 30px rgba(0,0,0,0.9); background: #000;">
-    <!-- Вставь сюда правильную ссылку, которую тебе выдал балансер Base -->
-<iframe src="https://bysefujedu.com/e/h76e6pg0643m/конец-света-2013-апокалипсис-по-голливудски-2013-смотреть-онлайн-бесплатно-в-хорошем-качестве" frameborder="0" marginwidth="0" marginheight="0" scrolling="no" width="640" height="360" allowfullscreen></iframe>
+    <!-- Тег video вместо iframe для прямой ссылки .mp4 -->
+    <video controls style="position:absolute; top:0; left:0; width:100%; height:100%; object-fit: contain;">
+      <source src="https://img-place.com/h76e6pg0643m.mp4" type="video/mp4">
+      Ваш браузер не поддерживает встроенные видео.
+    </video>
   </div>
 </div>
 
