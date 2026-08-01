@@ -70,6 +70,22 @@ body{font-family:'Crimson Text',Georgia,serif;background:var(--bg);color:var(--c
 .detail-value:hover{color:var(--gold-light);}
 .trailer-wrap{position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border:2px solid var(--gold-dim);}
 .trailer-wrap iframe{position:absolute;top:0;left:0;width:100%;height:100%;border:none;}
+.custom-player{position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border:2px solid var(--gold-dim);background:#000;box-shadow:0 0 0 1px rgba(212,175,55,0.15),0 10px 40px rgba(0,0,0,0.6);}
+.custom-player #ytHolder,.custom-player #ytHolder iframe{position:absolute;top:0;left:0;width:100%;height:100%;border:none;pointer-events:none;}
+.player-cover{position:absolute;inset:0;background-size:cover;background-position:center 20%;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:opacity 0.4s ease;z-index:2;}
+.player-cover::before{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(10,7,5,0.35) 0%,rgba(10,7,5,0.75) 100%);}
+.player-cover.hidden{opacity:0;pointer-events:none;}
+.player-bigplay{position:relative;z-index:2;width:78px;height:78px;border-radius:50%;background:rgba(20,15,8,0.55);border:2px solid var(--gold);color:var(--gold-light);font-size:1.8rem;cursor:pointer;display:flex;align-items:center;justify-content:center;padding-left:6px;transition:0.25s;}
+.player-bigplay:hover{background:rgba(201,168,76,0.25);box-shadow:0 0 30px rgba(212,175,55,0.5);transform:scale(1.08);}
+.player-controls{position:absolute;left:0;right:0;bottom:0;z-index:3;display:flex;align-items:center;gap:12px;padding:10px 16px;background:linear-gradient(0deg,rgba(6,4,2,0.92) 0%,rgba(6,4,2,0.55) 70%,transparent 100%);opacity:0;transform:translateY(6px);transition:opacity 0.25s ease,transform 0.25s ease;}
+.custom-player:hover .player-controls,.custom-player.playing .player-controls:hover,.custom-player.controls-visible .player-controls{opacity:1;transform:translateY(0);}
+.pc-btn{background:none;border:1px solid var(--gold-dim);color:var(--gold);width:34px;height:34px;border-radius:2px;cursor:pointer;font-size:0.95rem;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:0.2s;}
+.pc-btn:hover{border-color:var(--gold);background:rgba(212,175,55,0.12);color:var(--gold-light);}
+.progress-track{flex:1;height:5px;background:rgba(232,220,200,0.15);border-radius:3px;position:relative;cursor:pointer;}
+.progress-fill{position:absolute;top:0;left:0;height:100%;width:0%;background:linear-gradient(90deg,var(--gold-dim),var(--gold));border-radius:3px;}
+.progress-knob{position:absolute;top:50%;left:0%;width:12px;height:12px;border-radius:50%;background:var(--gold-light);border:2px solid var(--bg);transform:translate(-50%,-50%);box-shadow:0 0 6px rgba(212,175,55,0.6);}
+.time-display{font-family:'Bebas Neue',sans-serif;font-size:0.78rem;letter-spacing:0.08em;color:var(--cream-dim);white-space:nowrap;flex-shrink:0;}
+#volumeSlider{width:70px;accent-color:var(--gold);flex-shrink:0;}
 .rec-category-label{font-family:'Bebas Neue',sans-serif;font-size:0.72rem;letter-spacing:0.28em;color:var(--gold-dim);margin-bottom:16px;display:flex;align-items:center;gap:10px;}
 .rec-category-label::after{content:"";flex:1;height:1px;background:linear-gradient(90deg,rgba(138,112,64,0.4),transparent);}
 .rec-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,200px));gap:18px;margin-bottom:36px;}
@@ -216,8 +232,19 @@ body{font-family:'Crimson Text',Georgia,serif;background:var(--bg);color:var(--c
     <div class="detail-item"><span class="detail-label">Длительность</span><span class="detail-value">107 минут</span></div>
   </div>
   <div class="section-divider"><span class="section-label">✦ Трейлер ✦</span></div>
-  <div class="trailer-wrap">
-    <iframe src="https://www.youtube-nocookie.com/embed/Yma-g4gTwlE" title="This Is the End — официальный трейлер" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+  <div class="custom-player" id="customPlayer">
+    <div id="ytHolder"></div>
+    <div class="player-cover" id="playerCover" style="background-image:url('https://play-lh.googleusercontent.com/AoLjRe-KKJqd8ogN33AhIdbpQTOQFvaUDZjIkuf5v0LaPGdKv4N--FX97XkDpuWA4i9V')">
+      <button class="player-bigplay" id="bigPlayBtn" aria-label="Воспроизвести">▶</button>
+    </div>
+    <div class="player-controls" id="playerControls">
+      <button class="pc-btn" id="playPauseBtn">▶</button>
+      <div class="progress-track" id="progressTrack"><div class="progress-fill" id="progressFill"></div><div class="progress-knob" id="progressKnob"></div></div>
+      <span class="time-display" id="timeDisplay">0:00 / 0:00</span>
+      <button class="pc-btn" id="muteBtn">🔊</button>
+      <input type="range" id="volumeSlider" min="0" max="100" value="100">
+      <button class="pc-btn" id="fullscreenBtn">⛶</button>
+    </div>
   </div>
   <div class="section-divider"><span class="section-label">✦ Смотрите также ✦</span></div>
   <div class="rec-category-label">◆ &nbsp; Похожие фильмы</div>
@@ -260,6 +287,29 @@ body{font-family:'Crimson Text',Georgia,serif;background:var(--bg);color:var(--c
 <script>
 function buildStrip(id){const el=document.getElementById(id);let h="";for(let i=0;i<80;i++)h+=`<div class="filmstrip-hole"></div>`;el.innerHTML=h+h;}
 buildStrip("filmstripTop");buildStrip("filmstripBottom");
+
+// --- Custom player (YouTube as source, own UI) ---
+let ytPlayer=null,ytProgTimer=null;
+const TRAILER_ID="Yma-g4gTwlE";
+function fmtTime(s){s=Math.floor(s||0);const m=Math.floor(s/60);const r=s%60;return m+":"+String(r).padStart(2,"0");}
+function loadYT(){const tag=document.createElement("script");tag.src="https://www.youtube.com/iframe_api";document.head.appendChild(tag);}
+window.onYouTubeIframeAPIReady=function(){ytPlayer=new YT.Player("ytHolder",{videoId:TRAILER_ID,playerVars:{controls:0,disablekb:1,modestbranding:1,rel:0,iv_load_policy:3,playsinline:1},events:{onReady:onYTReady,onStateChange:onYTStateChange}});};
+function onYTReady(){}
+function onYTStateChange(e){const player=document.getElementById("customPlayer");const playBtn=document.getElementById("playPauseBtn");
+  if(e.data===YT.PlayerState.PLAYING){playBtn.innerText="⏸";player.classList.add("playing");startProgressLoop();}
+  else{playBtn.innerText="▶";clearInterval(ytProgTimer);}
+  if(e.data===YT.PlayerState.ENDED){document.getElementById("playerCover").classList.remove("hidden");player.classList.remove("playing");}
+}
+function startProgressLoop(){clearInterval(ytProgTimer);ytProgTimer=setInterval(()=>{if(!ytPlayer||!ytPlayer.getDuration)return;const dur=ytPlayer.getDuration()||0;const cur=ytPlayer.getCurrentTime()||0;const pct=dur?(cur/dur*100):0;document.getElementById("progressFill").style.width=pct+"%";document.getElementById("progressKnob").style.left=pct+"%";document.getElementById("timeDisplay").innerText=fmtTime(cur)+" / "+fmtTime(dur);},250);}
+document.getElementById("bigPlayBtn").addEventListener("click",()=>{document.getElementById("playerCover").classList.add("hidden");if(ytPlayer&&ytPlayer.playVideo)ytPlayer.playVideo();});
+document.getElementById("playPauseBtn").addEventListener("click",()=>{if(!ytPlayer||!ytPlayer.getPlayerState)return;const state=ytPlayer.getPlayerState();if(state===1)ytPlayer.pauseVideo();else{document.getElementById("playerCover").classList.add("hidden");ytPlayer.playVideo();}});
+const progressTrack=document.getElementById("progressTrack");
+progressTrack.addEventListener("click",(evt)=>{if(!ytPlayer||!ytPlayer.getDuration)return;const rect=progressTrack.getBoundingClientRect();const pct=(evt.clientX-rect.left)/rect.width;ytPlayer.seekTo(ytPlayer.getDuration()*pct,true);});
+let isMuted=false;
+document.getElementById("muteBtn").addEventListener("click",(e)=>{if(!ytPlayer)return;isMuted=!isMuted;if(isMuted){ytPlayer.mute();e.target.innerText="🔇";}else{ytPlayer.unMute();e.target.innerText="🔊";}});
+document.getElementById("volumeSlider").addEventListener("input",(e)=>{if(!ytPlayer||!ytPlayer.setVolume)return;const v=parseInt(e.target.value);ytPlayer.setVolume(v);if(v===0){isMuted=true;document.getElementById("muteBtn").innerText="🔇";}else if(isMuted){isMuted=false;document.getElementById("muteBtn").innerText="🔊";}});
+document.getElementById("fullscreenBtn").addEventListener("click",()=>{const el=document.getElementById("customPlayer");if(el.requestFullscreen)el.requestFullscreen();else if(el.webkitRequestFullscreen)el.webkitRequestFullscreen();});
+loadYT();
 firebase.initializeApp({apiKey:"AIzaSyCTr1vgcuSEn_2Ebh2vC3k7sNYzvMoYlBo",authDomain:"kino-project-bf21c.firebaseapp.com",projectId:"kino-project-bf21c"});
 const db=firebase.firestore();
 const movieKey="This Is the End 2013";
