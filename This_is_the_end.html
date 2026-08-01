@@ -77,15 +77,25 @@ body{font-family:'Crimson Text',Georgia,serif;background:var(--bg);color:var(--c
 .player-cover.hidden{opacity:0;pointer-events:none;}
 .player-bigplay{position:relative;z-index:2;width:78px;height:78px;border-radius:50%;background:rgba(20,15,8,0.55);border:2px solid var(--gold);color:var(--gold-light);font-size:1.8rem;cursor:pointer;display:flex;align-items:center;justify-content:center;padding-left:6px;transition:0.25s;}
 .player-bigplay:hover{background:rgba(201,168,76,0.25);box-shadow:0 0 30px rgba(212,175,55,0.5);transform:scale(1.08);}
-.player-controls{position:absolute;left:0;right:0;bottom:0;z-index:3;display:flex;align-items:center;gap:12px;padding:10px 16px;background:linear-gradient(0deg,rgba(6,4,2,0.92) 0%,rgba(6,4,2,0.55) 70%,transparent 100%);opacity:0;transform:translateY(6px);transition:opacity 0.25s ease,transform 0.25s ease;}
+.player-controls{position:absolute;left:0;right:0;bottom:0;z-index:3;display:flex;align-items:center;gap:14px;padding:12px 18px;background:linear-gradient(0deg,rgba(6,4,2,0.94) 0%,rgba(6,4,2,0.6) 70%,transparent 100%);opacity:0;transform:translateY(6px);transition:opacity 0.25s ease,transform 0.25s ease;}
 .custom-player:hover .player-controls,.custom-player.playing .player-controls:hover,.custom-player.controls-visible .player-controls{opacity:1;transform:translateY(0);}
+.pc-bigbtn{background:rgba(212,175,55,0.1);border:1px solid var(--gold-dim);color:var(--gold);width:42px;height:42px;border-radius:50%;cursor:pointer;font-size:1.1rem;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:0.2s;padding-left:3px;}
+.pc-bigbtn:hover{border-color:var(--gold);background:rgba(212,175,55,0.22);color:var(--gold-light);box-shadow:0 0 14px rgba(212,175,55,0.35);}
 .pc-btn{background:none;border:1px solid var(--gold-dim);color:var(--gold);width:34px;height:34px;border-radius:2px;cursor:pointer;font-size:0.95rem;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:0.2s;}
 .pc-btn:hover{border-color:var(--gold);background:rgba(212,175,55,0.12);color:var(--gold-light);}
-.progress-track{flex:1;height:5px;background:rgba(232,220,200,0.15);border-radius:3px;position:relative;cursor:pointer;}
+.track-wrap{flex:1;display:flex;flex-direction:column;gap:4px;min-width:0;}
+.progress-track{width:100%;height:5px;background:rgba(232,220,200,0.15);border-radius:3px;position:relative;cursor:pointer;}
 .progress-fill{position:absolute;top:0;left:0;height:100%;width:0%;background:linear-gradient(90deg,var(--gold-dim),var(--gold));border-radius:3px;}
 .progress-knob{position:absolute;top:50%;left:0%;width:12px;height:12px;border-radius:50%;background:var(--gold-light);border:2px solid var(--bg);transform:translate(-50%,-50%);box-shadow:0 0 6px rgba(212,175,55,0.6);}
-.time-display{font-family:'Bebas Neue',sans-serif;font-size:0.78rem;letter-spacing:0.08em;color:var(--cream-dim);white-space:nowrap;flex-shrink:0;}
-#volumeSlider{width:70px;accent-color:var(--gold);flex-shrink:0;}
+.time-display{font-family:'Bebas Neue',sans-serif;font-size:0.72rem;letter-spacing:0.08em;color:var(--cream-dim);white-space:nowrap;align-self:flex-start;}
+.settings-wrap{position:relative;flex-shrink:0;}
+.settings-menu{display:none;position:absolute;bottom:44px;right:0;background:var(--bg2);border:1px solid var(--gold-dim);border-radius:3px;padding:8px;width:150px;box-shadow:0 8px 30px rgba(0,0,0,0.8);z-index:5;}
+.settings-menu.open{display:block;}
+.settings-section{font-family:'Bebas Neue',sans-serif;font-size:0.68rem;letter-spacing:0.14em;color:var(--gold-dim);padding:6px 6px 3px;}
+.settings-opt{display:block;width:100%;text-align:left;background:none;border:none;color:var(--cream-dim);font-family:'Crimson Text',serif;font-size:0.88rem;padding:6px 8px;border-radius:2px;cursor:pointer;transition:0.15s;}
+.settings-opt:hover{background:rgba(212,175,55,0.12);color:var(--gold-light);}
+.settings-opt.active{color:var(--gold);font-weight:600;}
+.settings-opt.active::before{content:"✓ ";}
 .scrub-preview{position:absolute;z-index:4;bottom:46px;left:0;display:none;flex-direction:column;align-items:center;pointer-events:none;transform:translateX(-50%);}
 .scrub-thumb{width:160px;height:90px;background-image:url('assets/trailer_sprite.jpg');background-repeat:no-repeat;border:2px solid var(--gold);border-radius:3px;box-shadow:0 6px 20px rgba(0,0,0,0.7);image-rendering:auto;}
 .scrub-time{margin-top:5px;font-family:'Bebas Neue',sans-serif;font-size:0.8rem;letter-spacing:0.08em;color:var(--gold-light);background:rgba(6,4,2,0.85);border:1px solid var(--gold-dim);padding:2px 8px;border-radius:2px;}
@@ -245,12 +255,27 @@ body{font-family:'Crimson Text',Georgia,serif;background:var(--bg);color:var(--c
       <div class="scrub-time" id="scrubTime">0:00</div>
     </div>
     <div class="player-controls" id="playerControls">
-      <button class="pc-btn" id="playPauseBtn">▶</button>
-      <div class="progress-track" id="progressTrack"><div class="progress-fill" id="progressFill"></div><div class="progress-knob" id="progressKnob"></div></div>
-      <span class="time-display" id="timeDisplay">0:00 / 0:00</span>
-      <button class="pc-btn" id="muteBtn">🔊</button>
-      <input type="range" id="volumeSlider" min="0" max="100" value="100">
-      <button class="pc-btn" id="fullscreenBtn">⛶</button>
+      <button class="pc-bigbtn" id="playPauseBtn" aria-label="Play/Pause">▶</button>
+      <div class="track-wrap">
+        <div class="progress-track" id="progressTrack"><div class="progress-fill" id="progressFill"></div><div class="progress-knob" id="progressKnob"></div></div>
+        <div class="time-display" id="timeDisplay">0:00 / 0:00</div>
+      </div>
+      <button class="pc-btn" id="muteBtn" aria-label="Звук">🔊</button>
+      <div class="settings-wrap">
+        <button class="pc-btn" id="settingsBtn" aria-label="Настройки">⚙</button>
+        <div class="settings-menu" id="settingsMenu">
+          <div class="settings-section">Скорость</div>
+          <button class="settings-opt" data-speed="0.5">0.5×</button>
+          <button class="settings-opt active" data-speed="1">Обычная</button>
+          <button class="settings-opt" data-speed="1.25">1.25×</button>
+          <button class="settings-opt" data-speed="1.5">1.5×</button>
+          <button class="settings-opt" data-speed="2">2×</button>
+          <div class="settings-section">Масштаб</div>
+          <button class="settings-opt active" data-scale="contain">Вписать</button>
+          <button class="settings-opt" data-scale="cover">Заполнить</button>
+        </div>
+      </div>
+      <button class="pc-btn" id="fullscreenBtn" aria-label="Полный экран">⛶</button>
     </div>
   </div>
   <div class="section-divider"><span class="section-label">✦ Смотрите также ✦</span></div>
@@ -307,7 +332,6 @@ buildStrip("filmstripTop");buildStrip("filmstripBottom");
   const knob=document.getElementById("progressKnob");
   const timeDisplay=document.getElementById("timeDisplay");
   const muteBtn=document.getElementById("muteBtn");
-  const volumeSlider=document.getElementById("volumeSlider");
   const fsBtn=document.getElementById("fullscreenBtn");
   const scrubPreview=document.getElementById("scrubPreview");
   const scrubThumb=document.getElementById("scrubThumb");
@@ -364,8 +388,37 @@ buildStrip("filmstripTop");buildStrip("filmstripBottom");
 
   let isMuted=false;
   muteBtn.addEventListener("click",()=>{isMuted=!isMuted;video.muted=isMuted;muteBtn.innerText=isMuted?"🔇":"🔊";});
-  volumeSlider.addEventListener("input",(e)=>{const v=parseInt(e.target.value);video.volume=v/100;if(v===0){isMuted=true;video.muted=true;muteBtn.innerText="🔇";}else if(isMuted){isMuted=false;video.muted=false;muteBtn.innerText="🔊";}});
-  fsBtn.addEventListener("click",()=>{if(player.requestFullscreen)player.requestFullscreen();else if(player.webkitRequestFullscreen)player.webkitRequestFullscreen();});
+
+  fsBtn.addEventListener("click",()=>{
+    const fsEl=document.fullscreenElement||document.webkitFullscreenElement;
+    if(fsEl){
+      if(document.exitFullscreen)document.exitFullscreen();else if(document.webkitExitFullscreen)document.webkitExitFullscreen();
+    }else{
+      if(player.requestFullscreen)player.requestFullscreen();else if(player.webkitRequestFullscreen)player.webkitRequestFullscreen();
+    }
+  });
+  document.addEventListener("fullscreenchange",()=>{fsBtn.innerText=(document.fullscreenElement===player)?"✕":"⛶";});
+  document.addEventListener("webkitfullscreenchange",()=>{fsBtn.innerText=(document.webkitFullscreenElement===player)?"✕":"⛶";});
+
+  // settings menu: playback speed + scale
+  const settingsBtn=document.getElementById("settingsBtn");
+  const settingsMenu=document.getElementById("settingsMenu");
+  settingsBtn.addEventListener("click",(e)=>{e.stopPropagation();settingsMenu.classList.toggle("open");});
+  document.addEventListener("click",(e)=>{if(!settingsMenu.contains(e.target)&&e.target!==settingsBtn)settingsMenu.classList.remove("open");});
+  settingsMenu.querySelectorAll("[data-speed]").forEach(btn=>{
+    btn.addEventListener("click",()=>{
+      video.playbackRate=parseFloat(btn.dataset.speed);
+      settingsMenu.querySelectorAll("[data-speed]").forEach(b=>b.classList.remove("active"));
+      btn.classList.add("active");
+    });
+  });
+  settingsMenu.querySelectorAll("[data-scale]").forEach(btn=>{
+    btn.addEventListener("click",()=>{
+      video.style.objectFit=btn.dataset.scale;
+      settingsMenu.querySelectorAll("[data-scale]").forEach(b=>b.classList.remove("active"));
+      btn.classList.add("active");
+    });
+  });
 })();
 firebase.initializeApp({apiKey:"AIzaSyCTr1vgcuSEn_2Ebh2vC3k7sNYzvMoYlBo",authDomain:"kino-project-bf21c.firebaseapp.com",projectId:"kino-project-bf21c"});
 const db=firebase.firestore();
