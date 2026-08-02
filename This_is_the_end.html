@@ -4,190 +4,137 @@
 <meta charset="UTF-8">
 <title>Апокалипсис по-голливудски — Fish Cinema</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Crimson+Text:ital,wght@0,400;0,600;1,400&family=Bebas+Neue&display=swap" rel="stylesheet">
-<link href="https://vjs.zencdn.net/8.6.1/video-js.css" rel="stylesheet" />
 <style>
 :root{--gold:#c9a84c;--gold-light:#e8cc80;--gold-dim:#8a7040;--cream:#e8dcc8;--cream-dim:#c4aa88;--bg:#16120c;--bg2:#1e1810;--bg3:#262014;--red:#7a2020;}
 *{box-sizing:border-box;margin:0;padding:0;}
-body{font-family:'Crimson Text',Georgia,serif;background:var(--bg);color:var(--cream);min-height:100vh;}
-.page-content{max-width:1100px;margin:0 auto;padding:50px;}
+body{font-family:'Crimson Text',Georgia,serif;background:var(--bg);color:var(--cream);min-height:100vh;overflow-x:hidden;}
+.page-content{position:relative;z-index:1;max-width:1100px;margin:0 auto;padding:50px 50px 60px;}
 
-/* Плеер */
-.player-wrapper{position:relative;padding-bottom:56.25%;height:0;background:#000;border:2px solid var(--gold-dim);}
-.video-js{position:absolute;top:0;left:0;width:100%;height:100%;}
-.video-js .vjs-big-play-button{background:rgba(43,182,204,0.9);border:none;border-radius:12px;width:80px;height:80px;line-height:80px;font-size:30px;left:50%;top:50%;transform:translate(-50%,-50%);margin:0;}
-.video-js .vjs-control-bar{background:rgba(10,10,10,0.95);height:50px;}
-.video-js .vjs-progress-control{top:-8px;}
-.video-js .vjs-play-progress{background:#2bb6cc;}
-.video-js .vjs-volume-panel .vjs-volume-control{display:block;}
+.section-divider{display:flex;align-items:center;gap:16px;margin:40px 0 24px;}
+.section-divider::before,.section-divider::after{content:"";flex:1;height:1px;background:linear-gradient(90deg,transparent,var(--gold-dim),transparent);}
+.section-label{font-family:'Bebas Neue',sans-serif;font-size:0.78rem;letter-spacing:0.3em;color:var(--gold);white-space:nowrap;}
 
-/* Табы источников */
-.source-tabs{display:flex;gap:10px;margin-bottom:20px;border-bottom:1px solid var(--gold-dim);padding-bottom:10px;}
-.source-tab{background:none;border:1px solid var(--gold-dim);color:var(--cream);padding:10px 20px;font-family:'Bebas Neue',sans-serif;cursor:pointer;transition:0.2s;}
-.source-tab.active{background:var(--gold);color:var(--bg);border-color:var(--gold);}
-.source-tab:hover:not(.active){border-color:var(--gold);}
+/* Адаптивный iframe плеер */
+.archive-player{position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border:2px solid var(--gold-dim);background:#000;box-shadow:0 0 0 1px rgba(212,175,55,0.15),0 10px 40px rgba(0,0,0,0.6);}
+.archive-player iframe{position:absolute;top:0;left:0;width:100%;height:100%;border:none;display:block;}
 
-.source-panel{display:none;}
-.source-panel.active{display:block;}
+/* Декоративные углы */
+.player-corners{position:relative;}
+.player-corners::before,.player-corners::after{content:"";position:absolute;width:20px;height:20px;border-color:var(--gold);border-style:solid;z-index:10;pointer-events:none;}
+.player-corners::before{top:2px;left:2px;border-width:2px 0 0 2px;}
+.player-corners::after{top:2px;right:2px;border-width:2px 2px 0 0;}
+.player-corners-inner{position:relative;}
+.player-corners-inner::before,.player-corners-inner::after{content:"";position:absolute;width:20px;height:20px;border-color:var(--gold);border-style:solid;z-index:10;pointer-events:none;}
+.player-corners-inner::before{bottom:2px;left:2px;border-width:0 0 2px 2px;}
+.player-corners-inner::after{bottom:2px;right:2px;border-width:0 2px 2px 0;}
 
-.input-group{margin:15px 0;}
-.input-group label{display:block;color:var(--gold-dim);font-size:0.85rem;margin-bottom:5px;}
-.input-group input{width:100%;padding:12px;background:var(--bg2);border:1px solid var(--gold-dim);color:var(--cream);font-size:1rem;}
-.input-group button{background:var(--gold);color:var(--bg);border:none;padding:12px 24px;font-family:'Bebas Neue',sans-serif;font-size:1rem;cursor:pointer;margin-top:10px;}
-.input-group button:hover{background:var(--gold-light);}
+/* Инфо под плеером */
+.player-meta{margin-top:15px;display:flex;justify-content:space-between;align-items:center;font-family:'Bebas Neue',sans-serif;font-size:0.75rem;letter-spacing:0.15em;color:var(--gold-dim);}
+.player-meta a{color:var(--gold);text-decoration:none;}
+.player-meta a:hover{color:var(--gold-light);}
 
-.status-box{margin-top:15px;padding:15px;background:rgba(30,24,16,0.7);border-left:3px solid var(--gold);font-size:0.9rem;}
-.status-box.error{border-color:var(--red);background:rgba(122,32,32,0.2);}
-.status-box.success{border-color:#27ae60;}
+/* Альтернативные источники */
+.alt-sources{margin-top:30px;padding:20px;background:rgba(30,24,16,0.5);border:1px solid rgba(180,150,80,0.1);border-radius:3px;}
+.alt-sources h4{font-family:'Playfair Display',serif;color:var(--gold);margin-bottom:15px;font-size:1.1rem;}
+.source-btn{display:inline-block;background:rgba(201,168,76,0.1);border:1px solid var(--gold-dim);color:var(--cream);padding:8px 16px;margin:5px;text-decoration:none;font-family:'Bebas Neue',sans-serif;font-size:0.8rem;letter-spacing:0.1em;transition:0.2s;}
+.source-btn:hover{background:var(--gold);color:var(--bg);border-color:var(--gold);}
 
-.torrent-stats{font-family:monospace;font-size:0.8rem;color:var(--cream-dim);margin-top:10px;}
+/* Прочие стили страницы */
+.filmstrip{width:100%;height:34px;background:var(--bg2);display:flex;align-items:center;overflow:hidden;border-bottom:2px solid #1a1208;}
+.filmstrip-holes{display:flex;align-items:center;animation:strip-scroll 14s linear infinite;white-space:nowrap;}
+.filmstrip-hole{width:19px;height:13px;border:2px solid #2a2010;border-radius:3px;margin:0 15px;flex-shrink:0;background:#060402;}
+@keyframes strip-scroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+.top-nav{background:var(--bg2);border-bottom:2px solid var(--gold-dim);display:flex;align-items:center;padding:0;position:sticky;top:0;z-index:200;}
+.back-btn{font-family:'Bebas Neue',sans-serif;font-size:0.85rem;letter-spacing:0.18em;color:var(--cream-dim);background:none;border:none;border-right:1px solid var(--gold-dim);padding:14px 24px;text-decoration:none;transition:0.2s;}
+.back-btn:hover{color:var(--gold);}
+.nav-title{font-family:'Playfair Display',serif;font-style:italic;color:var(--gold);font-size:1rem;padding:14px 24px;}
+.nav-spacer{flex:1;}
+.nav-meta{font-family:'Bebas Neue',sans-serif;font-size:0.75rem;letter-spacing:0.2em;color:var(--gold-dim);padding:14px 24px;border-left:1px solid rgba(212,175,55,0.15);}
+
+.hero{position:relative;min-height:420px;display:flex;align-items:flex-end;overflow:hidden;}
+.hero-bg{position:absolute;inset:0;background-size:cover;background-position:center top;filter:sepia(40%) brightness(0.35) contrast(1.1);}
+.hero-gradient{position:absolute;inset:0;background:linear-gradient(180deg,rgba(10,7,5,0.2) 0%,rgba(10,7,5,0.98) 100%);}
+.hero-content{position:relative;z-index:2;padding:40px 50px;display:flex;gap:40px;align-items:flex-end;width:100%;}
+.poster-wrap{flex-shrink:0;}
+.poster-wrap img{width:200px;border:3px solid var(--gold-dim);box-shadow:0 0 0 1px rgba(212,175,55,0.2),-8px 8px 40px rgba(0,0,0,0.8);}
+.hero-info{flex:1;}
+.hero-title{font-family:'Playfair Display',serif;font-size:2.5rem;font-weight:900;font-style:italic;color:var(--gold);text-shadow:0 0 40px rgba(212,175,55,0.4);}
+.hero-orig{color:var(--cream-dim);font-style:italic;margin:10px 0;}
+.hero-meta{display:flex;flex-wrap:wrap;gap:10px;margin:15px 0;}
+.meta-tag{font-family:'Bebas Neue',sans-serif;font-size:0.75rem;letter-spacing:0.12em;padding:4px 12px;border:1px solid var(--gold-dim);color:var(--gold);background:rgba(201,168,76,0.08);}
 </style>
 </head>
 <body>
 
+<div class="filmstrip"><div class="filmstrip-holes" id="filmstripTop"></div></div>
+
+<nav class="top-nav">
+  <a href="index.html" class="back-btn">⬅ В меню</a>
+  <span class="nav-title">Fish Cinema</span>
+  <span class="nav-spacer"></span>
+  <span class="nav-meta">◆ &nbsp; Комедия · 2013 &nbsp; ◆</span>
+</nav>
+
+<section class="hero">
+  <div class="hero-bg" style="background-image:url('https://play-lh.googleusercontent.com/AoLjRe-KKJqd8ogN33AhIdbpQTOQFvaUDZjIkuf5v0LaPGdKv4N--FX97XkDpuWA4i9V')"></div>
+  <div class="hero-gradient"></div>
+  <div class="hero-content">
+    <div class="poster-wrap">
+      <img src="https://play-lh.googleusercontent.com/AoLjRe-KKJqd8ogN33AhIdbpQTOQFvaUDZjIkuf5v0LaPGdKv4N--FX97XkDpuWA4i9V" alt="Постер">
+    </div>
+    <div class="hero-info">
+      <h1 class="hero-title">Апокалипсис по-голливудски</h1>
+      <div class="hero-orig">This Is the End · 2013</div>
+      <div class="hero-meta">
+        <span class="meta-tag">Комедия</span>
+        <span class="meta-tag">США</span>
+        <span class="meta-tag">107 мин</span>
+      </div>
+    </div>
+  </div>
+</section>
+
 <div class="page-content">
-  <h2 style="font-family:'Playfair Display',serif;color:var(--gold);margin-bottom:20px;">✦ Смотреть онлайн ✦</h2>
+  <div class="section-divider"><span class="section-label">✦ Смотреть онлайн ✦</span></div>
   
-  <div class="source-tabs">
-    <button class="source-tab active" onclick="switchTab('direct')">Прямая ссылка (MP4)</button>
-    <button class="source-tab" onclick="switchTab('torrent')">WebTorrent</button>
-  </div>
-
-  <!-- Прямая ссылка -->
-  <div class="source-panel active" id="directPanel">
-    <div class="input-group">
-      <label>Ссылка на видео (MP4, WebM):</label>
-      <input type="text" id="directUrl" placeholder="https://example.com/video.mp4" 
-        value="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4">
-      <button onclick="loadDirect()">▶ Воспроизвести</button>
-    </div>
-    <div class="player-wrapper" style="margin-top:20px;">
-      <video id="directPlayer" class="video-js vjs-default-skin" controls preload="auto" width="100%" height="100%">
-        <p class="vjs-no-js">JavaScript отключен</p>
-      </video>
+  <!-- Плеер Archive.org -->
+  <div class="player-corners">
+    <div class="player-corners-inner">
+      <div class="archive-player">
+        <iframe src="https://archive.org/embed/2013-2013-2" 
+                width="100%" height="100%" 
+                frameborder="0" 
+                webkitallowfullscreen="true" 
+                mozallowfullscreen="true" 
+                allowfullscreen
+                allow="autoplay; fullscreen">
+        </iframe>
+      </div>
     </div>
   </div>
+  
+  <div class="player-meta">
+    <span>Видео загружено на Archive.org</span>
+    <a href="https://archive.org/details/2013-2013-2" target="_blank">Открыть на Archive.org ↗</a>
+  </div>
 
-  <!-- Торрент -->
-  <div class="source-panel" id="torrentPanel">
-    <div class="input-group">
-      <label>Magnet ссылка:</label>
-      <input type="text" id="magnetUrl" placeholder="magnet:?xt=urn:btih:..." 
-        value="magnet:?xt=urn:btih:08ada5a7a6183aae1e09d831df6748d566095a10&dn=Sintel&tr=udp%3A%2F%2Ftracker.openbittorrent.com%3A80&tr=udp%3A%2F%2Ftracker.publicbt.com%3A80&tr=udp%3A%2F%2Ftracker.istole.it%3A6969&tr=udp%3A%2F%2Ftracker.ccc.de%3A80&tr=udp%3A%2F%2Fopen.demonii.com%3A1337">
-      <button onclick="loadTorrent()">▶ Загрузить торрент</button>
-    </div>
-    <div id="torrentStatus" class="status-box" style="display:none;"></div>
-    <div class="player-wrapper" style="margin-top:20px;">
-      <video id="torrentPlayer" class="video-js vjs-default-skin" controls preload="auto" width="100%" height="100%"></video>
-    </div>
+  <!-- Альтернативные источники -->
+  <div class="alt-sources">
+    <h4>⚠ Не работает видео?</h4>
+    <p style="color:var(--cream-dim);margin-bottom:15px;font-size:0.9rem;">Если видео не загружается, попробуйте:</p>
+    <a href="https://archive.org/download/2013-2013-2/2013-2013-2.mp4" class="source-btn" target="_blank">Прямая ссылка MP4</a>
+    <a href="https://archive.org/stream/2013-2013-2/2013-2013-2.mp4" class="source-btn" target="_blank">Stream версия</a>
   </div>
 </div>
 
-<script src="https://vjs.zencdn.net/8.6.1/video.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/webtorrent@latest/webtorrent.min.js"></script>
-
 <script>
-let directPlayer = null;
-let torrentPlayer = null;
-let client = null;
-
-// Инициализация прямого плеера
-function initDirectPlayer() {
-  directPlayer = videojs('directPlayer', {
-    html5: {
-      vhs: {
-        overrideNative: true,
-        limitRenditionByPlayerDimensions: true
-      }
-    }
-  });
-  
-  // Загружаем тестовое видео сразу
-  directPlayer.src({type: 'video/mp4', src: document.getElementById('directUrl').value});
+// Фильмstrip анимация
+const filmstripTop = document.getElementById('filmstripTop');
+for (let i = 0; i < 40; i++) {
+  const hole = document.createElement('div');
+  hole.className = 'filmstrip-hole';
+  filmstripTop.appendChild(hole);
 }
-
-function loadDirect() {
-  const url = document.getElementById('directUrl').value.trim();
-  if (!url) return alert('Введите ссылку');
-  
-  directPlayer.src({type: 'video/mp4', src: url});
-  directPlayer.play();
-}
-
-// Торрент плеер
-function loadTorrent() {
-  const magnet = document.getElementById('magnetUrl').value.trim();
-  const statusBox = document.getElementById('torrentStatus');
-  
-  if (!magnet) return alert('Введите magnet ссылку');
-  
-  statusBox.style.display = 'block';
-  statusBox.className = 'status-box';
-  statusBox.innerHTML = 'Подключение к торренту...';
-  
-  if (client) client.destroy();
-  
-  client = new WebTorrent();
-  
-  client.add(magnet, function(torrent) {
-    console.log('Torrent:', torrent);
-    
-    // Находим видеофайл
-    const file = torrent.files.find(f => 
-      /\.(mp4|webm|mkv|avi|mov)$/i.test(f.name)
-    );
-    
-    if (!file) {
-      statusBox.className = 'status-box error';
-      statusBox.innerHTML = '❌ Видеофайл не найден в торренте';
-      return;
-    }
-    
-    statusBox.innerHTML = `✅ Найден файл: <b>${file.name}</b><br>Размер: ${(file.length/1024/1024).toFixed(1)} MB`;
-    
-    // Создаём URL для видео
-    file.getBlobURL(function(err, url) {
-      if (err) {
-        statusBox.className = 'status-box error';
-        statusBox.innerHTML += '<br>❌ Ошибка: ' + err.message;
-        return;
-      }
-      
-      statusBox.className = 'status-box success';
-      statusBox.innerHTML += '<br>✅ Готово к воспроизведению';
-      
-      if (!torrentPlayer) {
-        torrentPlayer = videojs('torrentPlayer');
-      }
-      
-      torrentPlayer.src({type: 'video/mp4', src: url});
-      torrentPlayer.play();
-    });
-    
-    // Обновляем статистику
-    setInterval(() => {
-      const progress = (torrent.progress * 100).toFixed(1);
-      const peers = torrent.numPeers;
-      const speed = (torrent.downloadSpeed / 1024 / 1024).toFixed(2);
-      statusBox.innerHTML += `<div class="torrent-stats">Загрузка: ${progress}% | Пиры: ${peers} | Скорость: ${speed} MB/s</div>`;
-    }, 2000);
-  });
-  
-  client.on('error', err => {
-    statusBox.className = 'status-box error';
-    statusBox.innerHTML = '❌ Ошибка WebTorrent: ' + err.message;
-  });
-}
-
-function switchTab(tab) {
-  document.querySelectorAll('.source-tab').forEach(t => t.classList.remove('active'));
-  document.querySelectorAll('.source-panel').forEach(p => p.classList.remove('active'));
-  
-  event.target.classList.add('active');
-  document.getElementById(tab + 'Panel').classList.add('active');
-}
-
-// Старт
-initDirectPlayer();
 </script>
 
 </body>
