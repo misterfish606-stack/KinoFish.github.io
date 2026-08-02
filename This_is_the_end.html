@@ -71,34 +71,21 @@ body{font-family:'Crimson Text',Georgia,serif;background:var(--bg);color:var(--c
 .trailer-wrap{position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border:2px solid var(--gold-dim);}
 .trailer-wrap iframe{position:absolute;top:0;left:0;width:100%;height:100%;border:none;}
 .custom-player{position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border:2px solid var(--gold-dim);background:#000;box-shadow:0 0 0 1px rgba(212,175,55,0.15),0 10px 40px rgba(0,0,0,0.6);}
-.custom-player video{position:absolute;top:0;left:0;width:100%;height:100%;display:block;background:#000;}
+.custom-player #ytHolder,.custom-player #ytHolder iframe{position:absolute;top:0;left:0;width:100%;height:100%;border:none;pointer-events:none;}
 .player-cover{position:absolute;inset:0;background-size:cover;background-position:center 20%;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:opacity 0.4s ease;z-index:2;}
 .player-cover::before{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(10,7,5,0.35) 0%,rgba(10,7,5,0.75) 100%);}
 .player-cover.hidden{opacity:0;pointer-events:none;}
 .player-bigplay{position:relative;z-index:2;width:78px;height:78px;border-radius:50%;background:rgba(20,15,8,0.55);border:2px solid var(--gold);color:var(--gold-light);font-size:1.8rem;cursor:pointer;display:flex;align-items:center;justify-content:center;padding-left:6px;transition:0.25s;}
 .player-bigplay:hover{background:rgba(201,168,76,0.25);box-shadow:0 0 30px rgba(212,175,55,0.5);transform:scale(1.08);}
-.player-controls{position:absolute;left:0;right:0;bottom:0;z-index:3;display:flex;align-items:center;gap:14px;padding:12px 18px;background:linear-gradient(0deg,rgba(6,4,2,0.94) 0%,rgba(6,4,2,0.6) 70%,transparent 100%);opacity:0;transform:translateY(6px);transition:opacity 0.25s ease,transform 0.25s ease;}
+.player-controls{position:absolute;left:0;right:0;bottom:0;z-index:3;display:flex;align-items:center;gap:12px;padding:10px 16px;background:linear-gradient(0deg,rgba(6,4,2,0.92) 0%,rgba(6,4,2,0.55) 70%,transparent 100%);opacity:0;transform:translateY(6px);transition:opacity 0.25s ease,transform 0.25s ease;}
 .custom-player:hover .player-controls,.custom-player.playing .player-controls:hover,.custom-player.controls-visible .player-controls{opacity:1;transform:translateY(0);}
-.pc-bigbtn{background:rgba(212,175,55,0.1);border:1px solid var(--gold-dim);color:var(--gold);width:42px;height:42px;border-radius:50%;cursor:pointer;font-size:1.1rem;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:0.2s;padding-left:3px;}
-.pc-bigbtn:hover{border-color:var(--gold);background:rgba(212,175,55,0.22);color:var(--gold-light);box-shadow:0 0 14px rgba(212,175,55,0.35);}
 .pc-btn{background:none;border:1px solid var(--gold-dim);color:var(--gold);width:34px;height:34px;border-radius:2px;cursor:pointer;font-size:0.95rem;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:0.2s;}
 .pc-btn:hover{border-color:var(--gold);background:rgba(212,175,55,0.12);color:var(--gold-light);}
-.track-wrap{flex:1;display:flex;flex-direction:column;gap:4px;min-width:0;}
-.progress-track{width:100%;height:5px;background:rgba(232,220,200,0.15);border-radius:3px;position:relative;cursor:pointer;}
+.progress-track{flex:1;height:5px;background:rgba(232,220,200,0.15);border-radius:3px;position:relative;cursor:pointer;}
 .progress-fill{position:absolute;top:0;left:0;height:100%;width:0%;background:linear-gradient(90deg,var(--gold-dim),var(--gold));border-radius:3px;}
 .progress-knob{position:absolute;top:50%;left:0%;width:12px;height:12px;border-radius:50%;background:var(--gold-light);border:2px solid var(--bg);transform:translate(-50%,-50%);box-shadow:0 0 6px rgba(212,175,55,0.6);}
-.time-display{font-family:'Bebas Neue',sans-serif;font-size:0.72rem;letter-spacing:0.08em;color:var(--cream-dim);white-space:nowrap;align-self:flex-start;}
-.settings-wrap{position:relative;flex-shrink:0;}
-.settings-menu{display:none;position:absolute;bottom:44px;right:0;background:var(--bg2);border:1px solid var(--gold-dim);border-radius:3px;padding:8px;width:150px;box-shadow:0 8px 30px rgba(0,0,0,0.8);z-index:5;}
-.settings-menu.open{display:block;}
-.settings-section{font-family:'Bebas Neue',sans-serif;font-size:0.68rem;letter-spacing:0.14em;color:var(--gold-dim);padding:6px 6px 3px;}
-.settings-opt{display:block;width:100%;text-align:left;background:none;border:none;color:var(--cream-dim);font-family:'Crimson Text',serif;font-size:0.88rem;padding:6px 8px;border-radius:2px;cursor:pointer;transition:0.15s;}
-.settings-opt:hover{background:rgba(212,175,55,0.12);color:var(--gold-light);}
-.settings-opt.active{color:var(--gold);font-weight:600;}
-.settings-opt.active::before{content:"✓ ";}
-.scrub-preview{position:absolute;z-index:4;bottom:46px;left:0;display:none;flex-direction:column;align-items:center;pointer-events:none;transform:translateX(-50%);}
-.scrub-thumb{width:160px;height:90px;background-image:url('assets/trailer_sprite.jpg');background-repeat:no-repeat;border:2px solid var(--gold);border-radius:3px;box-shadow:0 6px 20px rgba(0,0,0,0.7);image-rendering:auto;}
-.scrub-time{margin-top:5px;font-family:'Bebas Neue',sans-serif;font-size:0.8rem;letter-spacing:0.08em;color:var(--gold-light);background:rgba(6,4,2,0.85);border:1px solid var(--gold-dim);padding:2px 8px;border-radius:2px;}
+.time-display{font-family:'Bebas Neue',sans-serif;font-size:0.78rem;letter-spacing:0.08em;color:var(--cream-dim);white-space:nowrap;flex-shrink:0;}
+#volumeSlider{width:70px;accent-color:var(--gold);flex-shrink:0;}
 .rec-category-label{font-family:'Bebas Neue',sans-serif;font-size:0.72rem;letter-spacing:0.28em;color:var(--gold-dim);margin-bottom:16px;display:flex;align-items:center;gap:10px;}
 .rec-category-label::after{content:"";flex:1;height:1px;background:linear-gradient(90deg,rgba(138,112,64,0.4),transparent);}
 .rec-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,200px));gap:18px;margin-bottom:36px;}
@@ -246,36 +233,17 @@ body{font-family:'Crimson Text',Georgia,serif;background:var(--bg);color:var(--c
   </div>
   <div class="section-divider"><span class="section-label">✦ Трейлер ✦</span></div>
   <div class="custom-player" id="customPlayer">
-    <video id="trailerVideo" src="assets/trailer.mp4" preload="metadata" playsinline poster="https://play-lh.googleusercontent.com/AoLjRe-KKJqd8ogN33AhIdbpQTOQFvaUDZjIkuf5v0LaPGdKv4N--FX97XkDpuWA4i9V"></video>
+    <div id="ytHolder"></div>
     <div class="player-cover" id="playerCover" style="background-image:url('https://play-lh.googleusercontent.com/AoLjRe-KKJqd8ogN33AhIdbpQTOQFvaUDZjIkuf5v0LaPGdKv4N--FX97XkDpuWA4i9V')">
       <button class="player-bigplay" id="bigPlayBtn" aria-label="Воспроизвести">▶</button>
     </div>
-    <div class="scrub-preview" id="scrubPreview">
-      <div class="scrub-thumb" id="scrubThumb"></div>
-      <div class="scrub-time" id="scrubTime">0:00</div>
-    </div>
     <div class="player-controls" id="playerControls">
-      <button class="pc-bigbtn" id="playPauseBtn" aria-label="Play/Pause">▶</button>
-      <div class="track-wrap">
-        <div class="progress-track" id="progressTrack"><div class="progress-fill" id="progressFill"></div><div class="progress-knob" id="progressKnob"></div></div>
-        <div class="time-display" id="timeDisplay">0:00 / 0:00</div>
-      </div>
-      <button class="pc-btn" id="muteBtn" aria-label="Звук">🔊</button>
-      <div class="settings-wrap">
-        <button class="pc-btn" id="settingsBtn" aria-label="Настройки">⚙</button>
-        <div class="settings-menu" id="settingsMenu">
-          <div class="settings-section">Скорость</div>
-          <button class="settings-opt" data-speed="0.5">0.5×</button>
-          <button class="settings-opt active" data-speed="1">Обычная</button>
-          <button class="settings-opt" data-speed="1.25">1.25×</button>
-          <button class="settings-opt" data-speed="1.5">1.5×</button>
-          <button class="settings-opt" data-speed="2">2×</button>
-          <div class="settings-section">Масштаб</div>
-          <button class="settings-opt active" data-scale="contain">Вписать</button>
-          <button class="settings-opt" data-scale="cover">Заполнить</button>
-        </div>
-      </div>
-      <button class="pc-btn" id="fullscreenBtn" aria-label="Полный экран">⛶</button>
+      <button class="pc-btn" id="playPauseBtn">▶</button>
+      <div class="progress-track" id="progressTrack"><div class="progress-fill" id="progressFill"></div><div class="progress-knob" id="progressKnob"></div></div>
+      <span class="time-display" id="timeDisplay">0:00 / 0:00</span>
+      <button class="pc-btn" id="muteBtn">🔊</button>
+      <input type="range" id="volumeSlider" min="0" max="100" value="100">
+      <button class="pc-btn" id="fullscreenBtn">⛶</button>
     </div>
   </div>
   <div class="section-divider"><span class="section-label">✦ Смотрите также ✦</span></div>
@@ -320,106 +288,28 @@ body{font-family:'Crimson Text',Georgia,serif;background:var(--bg);color:var(--c
 function buildStrip(id){const el=document.getElementById(id);let h="";for(let i=0;i<80;i++)h+=`<div class="filmstrip-hole"></div>`;el.innerHTML=h+h;}
 buildStrip("filmstripTop");buildStrip("filmstripBottom");
 
-// --- Custom native video player with sprite scrub-preview ---
-(function(){
-  const video=document.getElementById("trailerVideo");
-  const player=document.getElementById("customPlayer");
-  const cover=document.getElementById("playerCover");
-  const bigPlay=document.getElementById("bigPlayBtn");
-  const playBtn=document.getElementById("playPauseBtn");
-  const track=document.getElementById("progressTrack");
-  const fill=document.getElementById("progressFill");
-  const knob=document.getElementById("progressKnob");
-  const timeDisplay=document.getElementById("timeDisplay");
-  const muteBtn=document.getElementById("muteBtn");
-  const fsBtn=document.getElementById("fullscreenBtn");
-  const scrubPreview=document.getElementById("scrubPreview");
-  const scrubThumb=document.getElementById("scrubThumb");
-  const scrubTime=document.getElementById("scrubTime");
-
-  // sprite config: 65 frames, interval 2s, grid 13x5, cell 160x90
-  const SPRITE_COLS=13,SPRITE_ROWS=5,SPRITE_INTERVAL=2,SPRITE_FRAMES=65,CELL_W=160,CELL_H=90;
-
-  function fmt(s){s=Math.max(0,Math.floor(s||0));const m=Math.floor(s/60);const r=s%60;return m+":"+String(r).padStart(2,"0");}
-
-  function startPlayback(){cover.classList.add("hidden");video.play();}
-  bigPlay.addEventListener("click",startPlayback);
-  playBtn.addEventListener("click",()=>{if(video.paused){startPlayback();}else{video.pause();}});
-  video.addEventListener("play",()=>{playBtn.innerText="⏸";player.classList.add("playing");});
-  video.addEventListener("pause",()=>{playBtn.innerText="▶";player.classList.remove("playing");});
-  video.addEventListener("ended",()=>{cover.classList.remove("hidden");player.classList.remove("playing");});
-
-  video.addEventListener("timeupdate",()=>{
-    const dur=video.duration||0;const cur=video.currentTime||0;const pct=dur?(cur/dur*100):0;
-    fill.style.width=pct+"%";knob.style.left=pct+"%";
-    timeDisplay.innerText=fmt(cur)+" / "+fmt(dur);
-  });
-  video.addEventListener("loadedmetadata",()=>{timeDisplay.innerText="0:00 / "+fmt(video.duration);});
-
-  function timeFromEvent(clientX){
-    const rect=track.getBoundingClientRect();
-    let pct=(clientX-rect.left)/rect.width;pct=Math.min(1,Math.max(0,pct));
-    return pct*(video.duration||0);
-  }
-
-  function showScrub(clientX,t){
-    const rect=track.getBoundingClientRect();
-    const idx=Math.min(SPRITE_FRAMES-1,Math.max(0,Math.round(t/SPRITE_INTERVAL)));
-    const col=idx%SPRITE_COLS,row=Math.floor(idx/SPRITE_COLS);
-    scrubThumb.style.backgroundPosition="-"+(col*CELL_W)+"px -"+(row*CELL_H)+"px";
-    let left=clientX-rect.left;
-    left=Math.min(rect.width-10,Math.max(10,left));
-    scrubPreview.style.left=left+"px";
-    scrubTime.innerText=fmt(t);
-    scrubPreview.style.display="flex";
-  }
-  function hideScrub(){scrubPreview.style.display="none";}
-
-  let dragging=false;
-  track.addEventListener("mousemove",(e)=>{if(!video.duration)return;const t=timeFromEvent(e.clientX);showScrub(e.clientX,t);if(dragging){video.currentTime=t;}});
-  track.addEventListener("mouseleave",()=>{if(!dragging)hideScrub();});
-  track.addEventListener("mousedown",(e)=>{dragging=true;const t=timeFromEvent(e.clientX);video.currentTime=t;showScrub(e.clientX,t);});
-  window.addEventListener("mouseup",()=>{if(dragging){dragging=false;hideScrub();}});
-  track.addEventListener("click",(e)=>{if(!video.duration)return;video.currentTime=timeFromEvent(e.clientX);});
-  // touch support
-  track.addEventListener("touchstart",(e)=>{const touch=e.touches[0];const t=timeFromEvent(touch.clientX);video.currentTime=t;showScrub(touch.clientX,t);},{passive:true});
-  track.addEventListener("touchmove",(e)=>{const touch=e.touches[0];const t=timeFromEvent(touch.clientX);video.currentTime=t;showScrub(touch.clientX,t);},{passive:true});
-  track.addEventListener("touchend",hideScrub);
-
-  let isMuted=false;
-  muteBtn.addEventListener("click",()=>{isMuted=!isMuted;video.muted=isMuted;muteBtn.innerText=isMuted?"🔇":"🔊";});
-
-  fsBtn.addEventListener("click",()=>{
-    const fsEl=document.fullscreenElement||document.webkitFullscreenElement;
-    if(fsEl){
-      if(document.exitFullscreen)document.exitFullscreen();else if(document.webkitExitFullscreen)document.webkitExitFullscreen();
-    }else{
-      if(player.requestFullscreen)player.requestFullscreen();else if(player.webkitRequestFullscreen)player.webkitRequestFullscreen();
-    }
-  });
-  document.addEventListener("fullscreenchange",()=>{fsBtn.innerText=(document.fullscreenElement===player)?"✕":"⛶";});
-  document.addEventListener("webkitfullscreenchange",()=>{fsBtn.innerText=(document.webkitFullscreenElement===player)?"✕":"⛶";});
-
-  // settings menu: playback speed + scale
-  const settingsBtn=document.getElementById("settingsBtn");
-  const settingsMenu=document.getElementById("settingsMenu");
-  settingsBtn.addEventListener("click",(e)=>{e.stopPropagation();settingsMenu.classList.toggle("open");});
-  document.addEventListener("click",(e)=>{if(!settingsMenu.contains(e.target)&&e.target!==settingsBtn)settingsMenu.classList.remove("open");});
-  settingsMenu.querySelectorAll("[data-speed]").forEach(btn=>{
-    btn.addEventListener("click",()=>{
-      video.playbackRate=parseFloat(btn.dataset.speed);
-      settingsMenu.querySelectorAll("[data-speed]").forEach(b=>b.classList.remove("active"));
-      btn.classList.add("active");
-    });
-  });
-  settingsMenu.querySelectorAll("[data-scale]").forEach(btn=>{
-    btn.addEventListener("click",()=>{
-      video.style.objectFit=btn.dataset.scale;
-      settingsMenu.querySelectorAll("[data-scale]").forEach(b=>b.classList.remove("active"));
-      btn.classList.add("active");
-    });
-  });
-})();
+// --- Custom player (YouTube as source, own UI) ---
+let ytPlayer=null,ytProgTimer=null;
+const TRAILER_ID="Yma-g4gTwlE";
+function fmtTime(s){s=Math.floor(s||0);const m=Math.floor(s/60);const r=s%60;return m+":"+String(r).padStart(2,"0");}
+function loadYT(){const tag=document.createElement("script");tag.src="https://www.youtube.com/iframe_api";document.head.appendChild(tag);}
+window.onYouTubeIframeAPIReady=function(){ytPlayer=new YT.Player("ytHolder",{videoId:TRAILER_ID,playerVars:{controls:0,disablekb:1,modestbranding:1,rel:0,iv_load_policy:3,playsinline:1},events:{onReady:onYTReady,onStateChange:onYTStateChange}});};
+function onYTReady(){}
+function onYTStateChange(e){const player=document.getElementById("customPlayer");const playBtn=document.getElementById("playPauseBtn");
+  if(e.data===YT.PlayerState.PLAYING){playBtn.innerText="⏸";player.classList.add("playing");startProgressLoop();}
+  else{playBtn.innerText="▶";clearInterval(ytProgTimer);}
+  if(e.data===YT.PlayerState.ENDED){document.getElementById("playerCover").classList.remove("hidden");player.classList.remove("playing");}
+}
+function startProgressLoop(){clearInterval(ytProgTimer);ytProgTimer=setInterval(()=>{if(!ytPlayer||!ytPlayer.getDuration)return;const dur=ytPlayer.getDuration()||0;const cur=ytPlayer.getCurrentTime()||0;const pct=dur?(cur/dur*100):0;document.getElementById("progressFill").style.width=pct+"%";document.getElementById("progressKnob").style.left=pct+"%";document.getElementById("timeDisplay").innerText=fmtTime(cur)+" / "+fmtTime(dur);},250);}
+document.getElementById("bigPlayBtn").addEventListener("click",()=>{document.getElementById("playerCover").classList.add("hidden");if(ytPlayer&&ytPlayer.playVideo)ytPlayer.playVideo();});
+document.getElementById("playPauseBtn").addEventListener("click",()=>{if(!ytPlayer||!ytPlayer.getPlayerState)return;const state=ytPlayer.getPlayerState();if(state===1)ytPlayer.pauseVideo();else{document.getElementById("playerCover").classList.add("hidden");ytPlayer.playVideo();}});
+const progressTrack=document.getElementById("progressTrack");
+progressTrack.addEventListener("click",(evt)=>{if(!ytPlayer||!ytPlayer.getDuration)return;const rect=progressTrack.getBoundingClientRect();const pct=(evt.clientX-rect.left)/rect.width;ytPlayer.seekTo(ytPlayer.getDuration()*pct,true);});
+let isMuted=false;
+document.getElementById("muteBtn").addEventListener("click",(e)=>{if(!ytPlayer)return;isMuted=!isMuted;if(isMuted){ytPlayer.mute();e.target.innerText="🔇";}else{ytPlayer.unMute();e.target.innerText="🔊";}});
+document.getElementById("volumeSlider").addEventListener("input",(e)=>{if(!ytPlayer||!ytPlayer.setVolume)return;const v=parseInt(e.target.value);ytPlayer.setVolume(v);if(v===0){isMuted=true;document.getElementById("muteBtn").innerText="🔇";}else if(isMuted){isMuted=false;document.getElementById("muteBtn").innerText="🔊";}});
+document.getElementById("fullscreenBtn").addEventListener("click",()=>{const el=document.getElementById("customPlayer");if(el.requestFullscreen)el.requestFullscreen();else if(el.webkitRequestFullscreen)el.webkitRequestFullscreen();});
+loadYT();
 firebase.initializeApp({apiKey:"AIzaSyCTr1vgcuSEn_2Ebh2vC3k7sNYzvMoYlBo",authDomain:"kino-project-bf21c.firebaseapp.com",projectId:"kino-project-bf21c"});
 const db=firebase.firestore();
 const movieKey="This Is the End 2013";
