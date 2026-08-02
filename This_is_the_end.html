@@ -3,127 +3,164 @@
 <head>
 <meta charset="UTF-8">
 <title>Апокалипсис по-голливудски — Fish Cinema</title>
-<link href="https://archive.org/download/2013-2013-2/2013-2013-2.mp4" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Crimson+Text:ital,wght@0,400;0,600;1,400&family=Bebas+Neue&display=swap" rel="stylesheet">
 <style>
 :root{--gold:#c9a84c;--gold-light:#e8cc80;--gold-dim:#8a7040;--cream:#e8dcc8;--cream-dim:#c4aa88;--bg:#16120c;--bg2:#1e1810;--bg3:#262014;--red:#7a2020;}
 *{box-sizing:border-box;margin:0;padding:0;}
+body::before{content:"";position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");pointer-events:none;z-index:9999;opacity:0.4;}
 body{font-family:'Crimson Text',Georgia,serif;background:var(--bg);color:var(--cream);min-height:100vh;overflow-x:hidden;}
-.page-content{position:relative;z-index:1;max-width:1100px;margin:0 auto;padding:50px 50px 60px;}
-
-.section-divider{display:flex;align-items:center;gap:16px;margin:40px 0 24px;}
-.section-divider::before,.section-divider::after{content:"";flex:1;height:1px;background:linear-gradient(90deg,transparent,var(--gold-dim),transparent);}
-.section-label{font-family:'Bebas Neue',sans-serif;font-size:0.78rem;letter-spacing:0.3em;color:var(--gold);white-space:nowrap;}
-
-/* Адаптивный iframe плеер */
-.archive-player{position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border:2px solid var(--gold-dim);background:#000;box-shadow:0 0 0 1px rgba(212,175,55,0.15),0 10px 40px rgba(0,0,0,0.6);}
-.archive-player iframe{position:absolute;top:0;left:0;width:100%;height:100%;border:none;display:block;}
-
-/* Декоративные углы */
-.player-corners{position:relative;}
-.player-corners::before,.player-corners::after{content:"";position:absolute;width:20px;height:20px;border-color:var(--gold);border-style:solid;z-index:10;pointer-events:none;}
-.player-corners::before{top:2px;left:2px;border-width:2px 0 0 2px;}
-.player-corners::after{top:2px;right:2px;border-width:2px 2px 0 0;}
-.player-corners-inner{position:relative;}
-.player-corners-inner::before,.player-corners-inner::after{content:"";position:absolute;width:20px;height:20px;border-color:var(--gold);border-style:solid;z-index:10;pointer-events:none;}
-.player-corners-inner::before{bottom:2px;left:2px;border-width:0 0 2px 2px;}
-.player-corners-inner::after{bottom:2px;right:2px;border-width:0 2px 2px 0;}
-
-/* Инфо под плеером */
-.player-meta{margin-top:15px;display:flex;justify-content:space-between;align-items:center;font-family:'Bebas Neue',sans-serif;font-size:0.75rem;letter-spacing:0.15em;color:var(--gold-dim);}
-.player-meta a{color:var(--gold);text-decoration:none;}
-.player-meta a:hover{color:var(--gold-light);}
-
-/* Альтернативные источники */
-.alt-sources{margin-top:30px;padding:20px;background:rgba(30,24,16,0.5);border:1px solid rgba(180,150,80,0.1);border-radius:3px;}
-.alt-sources h4{font-family:'Playfair Display',serif;color:var(--gold);margin-bottom:15px;font-size:1.1rem;}
-.source-btn{display:inline-block;background:rgba(201,168,76,0.1);border:1px solid var(--gold-dim);color:var(--cream);padding:8px 16px;margin:5px;text-decoration:none;font-family:'Bebas Neue',sans-serif;font-size:0.8rem;letter-spacing:0.1em;transition:0.2s;}
-.source-btn:hover{background:var(--gold);color:var(--bg);border-color:var(--gold);}
-
-/* Прочие стили страницы */
-.filmstrip{width:100%;height:34px;background:var(--bg2);display:flex;align-items:center;overflow:hidden;border-bottom:2px solid #1a1208;}
+.projector-beam{position:fixed;top:0;left:50%;transform:translateX(-50%);width:0;border-left:180px solid transparent;border-right:180px solid transparent;border-top:100vh solid rgba(255,240,180,0.018);pointer-events:none;z-index:0;animation:beam-flicker 9s infinite;}
+@keyframes beam-flicker{0%,100%{opacity:1}91%{opacity:1}92%{opacity:0.4}93%{opacity:1}96%{opacity:0.7}97%{opacity:1}}
+.filmstrip{width:100%;height:34px;background:var(--bg2);display:flex;align-items:center;overflow:hidden;border-bottom:2px solid #1a1208;position:relative;z-index:2;}
 .filmstrip-holes{display:flex;align-items:center;animation:strip-scroll 14s linear infinite;white-space:nowrap;}
 .filmstrip-hole{width:19px;height:13px;border:2px solid #2a2010;border-radius:3px;margin:0 15px;flex-shrink:0;background:#060402;}
 @keyframes strip-scroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
-.top-nav{background:var(--bg2);border-bottom:2px solid var(--gold-dim);display:flex;align-items:center;padding:0;position:sticky;top:0;z-index:200;}
-.back-btn{font-family:'Bebas Neue',sans-serif;font-size:0.85rem;letter-spacing:0.18em;color:var(--cream-dim);background:none;border:none;border-right:1px solid var(--gold-dim);padding:14px 24px;text-decoration:none;transition:0.2s;}
-.back-btn:hover{color:var(--gold);}
+.top-nav{background:var(--bg2);border-bottom:2px solid var(--gold-dim);display:flex;align-items:center;padding:0;position:sticky;top:0;z-index:200;box-shadow:0 4px 20px rgba(0,0,0,0.7);}
+.back-btn{font-family:'Bebas Neue',sans-serif;font-size:0.85rem;letter-spacing:0.18em;color:var(--cream-dim);background:none;border:none;border-right:1px solid var(--gold-dim);padding:14px 24px;text-decoration:none;transition:0.2s;display:flex;align-items:center;gap:8px;}
+.back-btn:hover{color:var(--gold);background:rgba(212,175,55,0.05);}
 .nav-title{font-family:'Playfair Display',serif;font-style:italic;color:var(--gold);font-size:1rem;padding:14px 24px;}
 .nav-spacer{flex:1;}
 .nav-meta{font-family:'Bebas Neue',sans-serif;font-size:0.75rem;letter-spacing:0.2em;color:var(--gold-dim);padding:14px 24px;border-left:1px solid rgba(212,175,55,0.15);}
-
-.hero{position:relative;min-height:420px;display:flex;align-items:flex-end;overflow:hidden;}
-.hero-bg{position:absolute;inset:0;background-size:cover;background-position:center top;filter:sepia(40%) brightness(0.35) contrast(1.1);}
-.hero-gradient{position:absolute;inset:0;background:linear-gradient(180deg,rgba(10,7,5,0.2) 0%,rgba(10,7,5,0.98) 100%);}
+.report-btn{font-family:'Bebas Neue',sans-serif;font-size:0.78rem;letter-spacing:0.14em;color:var(--cream-dim);background:rgba(122,32,32,0.18);border:1px solid rgba(122,32,32,0.5);border-radius:2px;padding:8px 16px;margin-right:16px;cursor:pointer;transition:0.25s;display:flex;align-items:center;gap:7px;}
+.report-btn:hover{background:rgba(122,32,32,0.38);border-color:var(--red);color:var(--gold-light);}
+.hero{position:relative;min-height:520px;display:flex;align-items:flex-end;overflow:hidden;z-index:1;}
+.hero-bg{position:absolute;inset:0;background-size:cover;background-position:center top;filter:sepia(40%) brightness(0.35) contrast(1.1);transform:scale(1.04);animation:hero-zoom 20s ease-in-out infinite alternate;}
+@keyframes hero-zoom{from{transform:scale(1.04)}to{transform:scale(1.1)}}
+.hero-gradient{position:absolute;inset:0;background:linear-gradient(180deg,rgba(10,7,5,0.2) 0%,rgba(10,7,5,0.1) 30%,rgba(10,7,5,0.7) 65%,rgba(10,7,5,0.98) 100%);}
+.hero-gradient-left{position:absolute;inset:0;background:linear-gradient(90deg,rgba(10,7,5,0.85) 0%,transparent 50%);}
 .hero-content{position:relative;z-index:2;padding:40px 50px;display:flex;gap:40px;align-items:flex-end;width:100%;}
-.poster-wrap{flex-shrink:0;}
-.poster-wrap img{width:200px;border:3px solid var(--gold-dim);box-shadow:0 0 0 1px rgba(212,175,55,0.2),-8px 8px 40px rgba(0,0,0,0.8);}
-.hero-info{flex:1;}
-.hero-title{font-family:'Playfair Display',serif;font-size:2.5rem;font-weight:900;font-style:italic;color:var(--gold);text-shadow:0 0 40px rgba(212,175,55,0.4);}
-.hero-orig{color:var(--cream-dim);font-style:italic;margin:10px 0;}
-.hero-meta{display:flex;flex-wrap:wrap;gap:10px;margin:15px 0;}
-.meta-tag{font-family:'Bebas Neue',sans-serif;font-size:0.75rem;letter-spacing:0.12em;padding:4px 12px;border:1px solid var(--gold-dim);color:var(--gold);background:rgba(201,168,76,0.08);}
+.poster-wrap{flex-shrink:0;position:relative;animation:poster-in 0.8s ease both;}
+@keyframes poster-in{from{opacity:0;transform:translateY(30px) rotate(-2deg)}to{opacity:1;transform:translateY(0)}}
+.poster-wrap img{width:260px;border:4px solid var(--gold-dim);box-shadow:0 0 0 1px rgba(212,175,55,0.2),-8px 8px 40px rgba(0,0,0,0.8);display:block;filter:sepia(8%) contrast(1.05);transition:0.4s;}
+.poster-wrap img:hover{border-color:var(--gold);filter:sepia(0%);}
+.poster-corner{position:absolute;width:16px;height:16px;border-color:var(--gold);border-style:solid;}
+.poster-corner.tl{top:-4px;left:-4px;border-width:2px 0 0 2px;}.poster-corner.tr{top:-4px;right:-4px;border-width:2px 2px 0 0;}
+.poster-corner.bl{bottom:-4px;left:-4px;border-width:0 0 2px 2px;}.poster-corner.br{bottom:-4px;right:-4px;border-width:0 2px 2px 0;}
+.hero-info{flex:1;animation:info-in 0.8s ease 0.2s both;}
+@keyframes info-in{from{opacity:0;transform:translateX(-20px)}to{opacity:1;transform:translateX(0)}}
+.hero-genre{font-family:'Crimson Text',serif;font-size:0.9rem;letter-spacing:0.2em;font-style:italic;color:var(--cream-dim);margin-bottom:10px;}
+.hero-title{font-family:'Playfair Display',serif;font-size:clamp(2rem,5vw,3.8rem);font-weight:900;font-style:italic;color:var(--gold);text-shadow:0 0 40px rgba(212,175,55,0.4),3px 4px 0 rgba(0,0,0,0.6);line-height:1.05;margin-bottom:6px;animation:title-glow 4s ease-in-out infinite alternate;}
+@keyframes title-glow{from{text-shadow:0 0 25px rgba(212,175,55,0.3),3px 4px 0 rgba(0,0,0,0.6)}to{text-shadow:0 0 55px rgba(212,175,55,0.6),3px 4px 0 rgba(0,0,0,0.6)}}
+.hero-orig{font-family:'Crimson Text',serif;font-style:italic;color:var(--cream-dim);font-size:1.1rem;margin-bottom:18px;}
+.hero-meta{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:20px;}
+.meta-tag{font-family:'Bebas Neue',sans-serif;font-size:0.78rem;letter-spacing:0.12em;padding:4px 12px;border-radius:2px;border:1px solid var(--gold-dim);color:var(--gold);background:rgba(201,168,76,0.08);display:inline-block;transition:0.2s;}
+.meta-tag:hover{color:var(--gold-light);background:rgba(201,168,76,0.16);}
+.ratings{display:flex;gap:16px;align-items:center;margin-bottom:20px;}
+.rating-badge{text-align:center;background:rgba(212,175,55,0.08);border:1px solid var(--gold-dim);padding:8px 16px;border-radius:2px;cursor:default;transition:0.25s;}
+.rating-badge:hover{border-color:var(--gold);background:rgba(212,175,55,0.14);}
+.rating-badge .label{font-family:'Bebas Neue',sans-serif;font-size:0.65rem;letter-spacing:0.2em;color:var(--gold-dim);display:block;}
+.rating-badge .value{font-family:'Playfair Display',serif;font-size:1.5rem;font-weight:700;color:var(--gold);display:block;}
+.user-rating-wrap{margin-bottom:8px;}
+.user-rating-wrap label{font-family:'Bebas Neue',sans-serif;font-size:0.72rem;letter-spacing:0.2em;color:var(--gold);display:inline-block;margin-bottom:6px;}
+.stars{display:flex;gap:4px;}
+.star{font-size:1.6rem;cursor:pointer;color:#3a2c14;transition:color 0.15s,transform 0.15s;line-height:1;}
+.star:hover{color:var(--gold);transform:scale(1.2);}
+.rating-result{font-family:'Crimson Text',serif;font-style:italic;color:var(--cream-dim);font-size:0.9rem;margin-top:6px;}
+.page-content{position:relative;z-index:1;max-width:1100px;margin:0 auto;padding:50px 50px 60px;}
+.section-divider{display:flex;align-items:center;gap:16px;margin:40px 0 24px;}
+.section-divider::before,.section-divider::after{content:"";flex:1;height:1px;background:linear-gradient(90deg,transparent,var(--gold-dim),transparent);}
+.section-label{font-family:'Bebas Neue',sans-serif;font-size:0.78rem;letter-spacing:0.3em;color:var(--gold);white-space:nowrap;}
+.description-block{background:rgba(28,22,14,0.45);border:1px solid rgba(180,150,80,0.1);border-left:3px solid rgba(180,150,80,0.3);padding:26px 30px;border-radius:3px;font-size:1.12rem;line-height:1.9;color:var(--cream);position:relative;}
+.description-block::before{content:"\201C";font-family:'Playfair Display',serif;font-size:5rem;color:var(--gold-dim);position:absolute;top:-10px;left:16px;line-height:1;opacity:0.4;}
+.details-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:14px;}
+.detail-item{background:rgba(30,24,16,0.5);border:1px solid rgba(180,150,80,0.1);padding:16px 20px;border-radius:3px;transition:border-color 0.2s;}
+.detail-item:hover{border-color:rgba(180,150,80,0.25);}
+.detail-label{font-family:'Crimson Text',serif;font-size:0.8rem;color:var(--gold-dim);display:block;margin-bottom:5px;font-style:italic;}
+.detail-value{font-family:'Crimson Text',serif;font-size:1.05rem;color:var(--gold);line-height:1.5;display:inline-block;position:relative;transition:color 0.2s;}
+.detail-value:hover{color:var(--gold-light);}
+
+/* Стили для iframe плеера */
+.iframe-player{position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border:2px solid var(--gold-dim);background:#000;box-shadow:0 0 0 1px rgba(212,175,55,0.15),0 10px 40px rgba(0,0,0,0.6);}
+.iframe-player iframe{position:absolute;top:0;left:0;width:100%;height:100%;border:none;display:block;}
+.player-info{margin-top:15px;display:flex;justify-content:space-between;align-items:center;font-family:'Bebas Neue',sans-serif;font-size:0.75rem;letter-spacing:0.15em;color:var(--gold-dim);}
+.player-info a{color:var(--gold);text-decoration:none;transition:0.2s;}
+.player-info a:hover{color:var(--gold-light);}
+
+::-webkit-scrollbar{width:5px;}::-webkit-scrollbar-thumb{background:var(--gold-dim);border-radius:3px;}
 </style>
 </head>
 <body>
-
+<div class="projector-beam"></div>
 <div class="filmstrip"><div class="filmstrip-holes" id="filmstripTop"></div></div>
 
 <nav class="top-nav">
   <a href="index.html" class="back-btn">⬅ В меню</a>
   <span class="nav-title">Fish Cinema</span>
   <span class="nav-spacer"></span>
+  <button class="report-btn" onclick="openReport()"><span>⚠</span> Проблемы с сайтом? Пиши сюда</button>
   <span class="nav-meta">◆ &nbsp; Комедия · 2013 &nbsp; ◆</span>
 </nav>
 
 <section class="hero">
   <div class="hero-bg" style="background-image:url('https://play-lh.googleusercontent.com/AoLjRe-KKJqd8ogN33AhIdbpQTOQFvaUDZjIkuf5v0LaPGdKv4N--FX97XkDpuWA4i9V')"></div>
   <div class="hero-gradient"></div>
+  <div class="hero-gradient-left"></div>
   <div class="hero-content">
     <div class="poster-wrap">
-      <img src="https://play-lh.googleusercontent.com/AoLjRe-KKJqd8ogN33AhIdbpQTOQFvaUDZjIkuf5v0LaPGdKv4N--FX97XkDpuWA4i9V" alt="Постер">
+      <img src="https://play-lh.googleusercontent.com/AoLjRe-KKJqd8ogN33AhIdbpQTOQFvaUDZjIkuf5v0LaPGdKv4N--FX97XkDpuWA4i9V" alt="Апокалипсис по-голливудски">
+      <div class="poster-corner tl"></div><div class="poster-corner tr"></div>
+      <div class="poster-corner bl"></div><div class="poster-corner br"></div>
     </div>
     <div class="hero-info">
+      <div class="hero-genre">◆ &nbsp; КОМЕДИЯ &nbsp; ◆</div>
       <h1 class="hero-title">Апокалипсис по-голливудски</h1>
-      <div class="hero-orig">This Is the End · 2013</div>
+      <div class="hero-orig">This Is the End &nbsp;·&nbsp; 2013</div>
       <div class="hero-meta">
-        <span class="meta-tag">Комедия</span>
+        <span class="meta-tag">2013</span>
         <span class="meta-tag">США</span>
-        <span class="meta-tag">107 мин</span>
+        <span class="meta-tag">Сет Роген, Эван Голдберг</span>
+        <span class="meta-tag">👁 <span id="views">0</span> просмотров</span>
+      </div>
+      <div class="ratings">
+        <div class="rating-badge"><span class="label">IMDb</span><span class="value">6.6</span></div>
+        <div class="rating-badge"><span class="label">Кинопоиск</span><span class="value">6.9</span></div>
+        <div class="rating-badge"><span class="label">Fish Cinema</span><span class="value" id="avgRating">—</span><span class="label"><span id="votesCount">0</span> голосов</span></div>
+      </div>
+      <div class="user-rating-wrap">
+        <label>ВАША ОЦЕНКА</label>
+        <div class="stars" id="starsRow">
+          <span class="star" data-value="1">★</span><span class="star" data-value="2">★</span>
+          <span class="star" data-value="3">★</span><span class="star" data-value="4">★</span>
+          <span class="star" data-value="5">★</span>
+        </div>
+        <div class="rating-result" id="ratingResult"></div>
       </div>
     </div>
   </div>
 </section>
 
 <div class="page-content">
-  <div class="section-divider"><span class="section-label">✦ Смотреть онлайн ✦</span></div>
+  <div class="section-divider"><span class="section-label">✦ Описание фильма ✦</span></div>
+  <div class="description-block">Джеймс Франко устраивает вечеринку — и тут начинается настоящий апокалипсис. Знаменитые голливудские звёзды в роли самих себя застревают в доме и пытаются выжить. Дикий, самоироничный и очень смешной фильм.</div>
   
-  <!-- Плеер Archive.org -->
-  <div class="player-corners">
-    <div class="player-corners-inner">
-      <div class="archive-player">
-        <iframe src="https://archive.org/embed/2013-2013-2" 
-                width="100%" height="100%" 
-                frameborder="0" 
-                webkitallowfullscreen="true" 
-                mozallowfullscreen="true" 
-                allowfullscreen
-                allow="autoplay; fullscreen">
-        </iframe>
-      </div>
-    </div>
-  </div>
-  
-  <div class="player-meta">
-    <span>Видео загружено на Archive.org</span>
-    <a href="https://archive.org/details/2013-2013-2" target="_blank">Открыть на Archive.org ↗</a>
+  <div class="section-divider"><span class="section-label">✦ О фильме ✦</span></div>
+  <div class="details-grid">
+    <div class="detail-item"><span class="detail-label">Оригинальное название</span><span class="detail-value">This Is the End</span></div>
+    <div class="detail-item"><span class="detail-label">Режиссёр</span><span class="detail-value">Сет Роген, Эван Голдберг</span></div>
+    <div class="detail-item"><span class="detail-label">В главных ролях</span><span class="detail-value">Джеймс Франко, Джона Хилл, Сет Роген</span></div>
+    <div class="detail-item"><span class="detail-label">Страна</span><span class="detail-value">США</span></div>
+    <div class="detail-item"><span class="detail-label">Год выпуска</span><span class="detail-value">2013</span></div>
+    <div class="detail-item"><span class="detail-label">Жанр</span><span class="detail-value">Комедия / Фантастика</span></div>
+    <div class="detail-item"><span class="detail-label">Длительность</span><span class="detail-value">107 минут</span></div>
   </div>
 
-  <!-- Альтернативные источники -->
-  <div class="alt-sources">
-    <h4>⚠ Не работает видео?</h4>
-    <p style="color:var(--cream-dim);margin-bottom:15px;font-size:0.9rem;">Если видео не загружается, попробуйте:</p>
-    <a href="https://archive.org/download/2013-2013-2/2013-2013-2.mp4" class="source-btn" target="_blank">Прямая ссылка MP4</a>
-    <a href="https://archive.org/stream/2013-2013-2/2013-2013-2.mp4" class="source-btn" target="_blank">Stream версия</a>
+  <div class="section-divider"><span class="section-label">✦ Смотреть онлайн ✦</span></div>
+
+  <!-- IFRAME ПЛЕЕР -->
+  <div class="iframe-player">
+    <iframe src="https://archive.org/embed/2013-2013-2" 
+            width="100%" height="100%" 
+            frameborder="0" 
+            webkitallowfullscreen="true" 
+            mozallowfullscreen="true" 
+            allowfullscreen
+            allow="autoplay; fullscreen">
+    </iframe>
+  </div>
+  
+  <div class="player-info">
+    <span>📽 Видео загружено на Archive.org</span>
+    <a href="https://archive.org/details/2013-2013-2" target="_blank">Открыть на сайте ↗</a>
   </div>
 </div>
 
@@ -135,7 +172,39 @@ for (let i = 0; i < 40; i++) {
   hole.className = 'filmstrip-hole';
   filmstripTop.appendChild(hole);
 }
-</script>
 
+// Рейтинг звёздами
+const stars = document.querySelectorAll('.star');
+const ratingResult = document.getElementById('ratingResult');
+let currentRating = 0;
+
+stars.forEach(star => {
+  star.addEventListener('click', () => {
+    const value = parseInt(star.dataset.value);
+    currentRating = value;
+    updateStars(value);
+    ratingResult.textContent = `Ваша оценка: ${value}/5`;
+  });
+  
+  star.addEventListener('mouseenter', () => {
+    updateStars(parseInt(star.dataset.value));
+  });
+});
+
+document.getElementById('starsRow').addEventListener('mouseleave', () => {
+  updateStars(currentRating);
+});
+
+function updateStars(value) {
+  stars.forEach(s => {
+    const sValue = parseInt(s.dataset.value);
+    s.style.color = sValue <= value ? 'var(--gold)' : '#3a2c14';
+  });
+}
+
+function openReport() {
+  alert('Напишите на: support@fishcinema.com');
+}
+</script>
 </body>
 </html>
