@@ -323,7 +323,7 @@ function buildStrip(id){const el=document.getElementById(id);let h="";for(let i=
 buildStrip("filmstripTop");buildStrip("filmstripBottom");
 firebase.initializeApp({apiKey:"AIzaSyCTr1vgcuSEn_2Ebh2vC3k7sNYzvMoYlBo",authDomain:"kino-project-bf21c.firebaseapp.com",projectId:"kino-project-bf21c"});
 const db=firebase.firestore();
-const movieKey="this_is_the_end_2013";
+const movieKey="This Is the End 2013";
 const movieRef=db.collection("movies").doc(movieKey);
 const commentsRef=movieRef.collection("comments");
 const votesRef=movieRef.collection("votes");
@@ -351,7 +351,7 @@ async function saveReply(){const t=document.getElementById("modalText").value.tr
 function openReport(){document.getElementById("reportModal").classList.add("open");}
 function closeReport(){document.getElementById("reportModal").classList.remove("open");document.getElementById("reportSentMsg").style.display="none";document.getElementById("reportText").value="";document.getElementById("reportName").value="";}
 async function sendReport(){const name=document.getElementById("reportName").value.trim()||"Аноним";const text=document.getElementById("reportText").value.trim();if(!text)return alert("Опиши проблему!");const sendBtn=document.querySelector("#reportModal .btn-red");sendBtn.innerText="Отправка...";sendBtn.disabled=true;try{await emailjs.send("service_m2itd3q","template_jvqfkhr",{from_name:name,message:text,page:"Конец света 2013"});document.getElementById("reportSentMsg").style.display="block";sendBtn.innerText="✅ Отправлено!";}catch(err){alert("Ошибка: "+JSON.stringify(err));sendBtn.innerText="📨 Отправить сообщение";sendBtn.disabled=false;}}
-window.onload=async()=>{const saved=localStorage.getItem("nickname");if(saved){currentUser=saved;document.getElementById("loginStatus").innerText="✓ Вы вошли как "+currentUser;}loadRating();initViews();renderSmartRecs("this_is_the_end_2013","smartRecs");};
+window.onload=async()=>{const saved=localStorage.getItem("nickname");if(saved){currentUser=saved;document.getElementById("loginStatus").innerText="✓ Вы вошли как "+currentUser;}loadRating();initViews();renderSmartRecs("This Is the End 2013","smartRecs");};
 </script>
 </body>
 </html>
