@@ -71,21 +71,41 @@ body{font-family:'Crimson Text',Georgia,serif;background:var(--bg);color:var(--c
 .trailer-wrap{position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border:2px solid var(--gold-dim);}
 .trailer-wrap iframe{position:absolute;top:0;left:0;width:100%;height:100%;border:none;}
 .custom-player{position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border:2px solid var(--gold-dim);background:#000;box-shadow:0 0 0 1px rgba(212,175,55,0.15),0 10px 40px rgba(0,0,0,0.6);}
-.custom-player #ytHolder,.custom-player #ytHolder iframe{position:absolute;top:0;left:0;width:100%;height:100%;border:none;pointer-events:none;}
+.custom-player video{position:absolute;top:0;left:0;width:100%;height:100%;display:block;background:#000;}
 .player-cover{position:absolute;inset:0;background-size:cover;background-position:center 20%;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:opacity 0.4s ease;z-index:2;}
 .player-cover::before{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(10,7,5,0.35) 0%,rgba(10,7,5,0.75) 100%);}
 .player-cover.hidden{opacity:0;pointer-events:none;}
-.player-bigplay{position:relative;z-index:2;width:78px;height:78px;border-radius:50%;background:rgba(20,15,8,0.55);border:2px solid var(--gold);color:var(--gold-light);font-size:1.8rem;cursor:pointer;display:flex;align-items:center;justify-content:center;padding-left:6px;transition:0.25s;}
-.player-bigplay:hover{background:rgba(201,168,76,0.25);box-shadow:0 0 30px rgba(212,175,55,0.5);transform:scale(1.08);}
-.player-controls{position:absolute;left:0;right:0;bottom:0;z-index:3;display:flex;align-items:center;gap:12px;padding:10px 16px;background:linear-gradient(0deg,rgba(6,4,2,0.92) 0%,rgba(6,4,2,0.55) 70%,transparent 100%);opacity:0;transform:translateY(6px);transition:opacity 0.25s ease,transform 0.25s ease;}
+.player-bigplay{position:relative;z-index:2;width:74px;height:74px;border-radius:12px;background:#2bb6cc;border:none;color:#fff;font-size:1.7rem;cursor:pointer;display:flex;align-items:center;justify-content:center;padding-left:6px;transition:0.25s;box-shadow:0 6px 20px rgba(0,0,0,0.5);}
+.player-bigplay:hover{background:#33c7df;transform:scale(1.06);}
+.pip-btn{position:absolute;z-index:3;right:14px;top:50%;transform:translateY(-50%);width:34px;height:34px;border-radius:50%;background:rgba(0,0,0,0.35);border:1.5px solid rgba(255,255,255,0.7);color:#fff;font-size:0.95rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:0.2s;opacity:0;}
+.custom-player:hover .pip-btn{opacity:1;}
+.pip-btn:hover{background:rgba(255,255,255,0.15);border-color:#fff;}
+.player-controls{position:absolute;left:0;right:0;bottom:0;z-index:3;display:flex;flex-direction:column;gap:6px;padding:8px 14px 10px;background:linear-gradient(0deg,rgba(10,10,10,0.96) 0%,rgba(10,10,10,0.7) 75%,transparent 100%);opacity:0;transform:translateY(6px);transition:opacity 0.25s ease,transform 0.25s ease;}
 .custom-player:hover .player-controls,.custom-player.playing .player-controls:hover,.custom-player.controls-visible .player-controls{opacity:1;transform:translateY(0);}
-.pc-btn{background:none;border:1px solid var(--gold-dim);color:var(--gold);width:34px;height:34px;border-radius:2px;cursor:pointer;font-size:0.95rem;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:0.2s;}
-.pc-btn:hover{border-color:var(--gold);background:rgba(212,175,55,0.12);color:var(--gold-light);}
-.progress-track{flex:1;height:5px;background:rgba(232,220,200,0.15);border-radius:3px;position:relative;cursor:pointer;}
-.progress-fill{position:absolute;top:0;left:0;height:100%;width:0%;background:linear-gradient(90deg,var(--gold-dim),var(--gold));border-radius:3px;}
-.progress-knob{position:absolute;top:50%;left:0%;width:12px;height:12px;border-radius:50%;background:var(--gold-light);border:2px solid var(--bg);transform:translate(-50%,-50%);box-shadow:0 0 6px rgba(212,175,55,0.6);}
-.time-display{font-family:'Bebas Neue',sans-serif;font-size:0.78rem;letter-spacing:0.08em;color:var(--cream-dim);white-space:nowrap;flex-shrink:0;}
-#volumeSlider{width:70px;accent-color:var(--gold);flex-shrink:0;}
+.progress-track{width:100%;height:4px;background:rgba(255,255,255,0.25);border-radius:2px;position:relative;cursor:pointer;}
+.progress-fill{position:absolute;top:0;left:0;height:100%;width:0%;background:#2bb6cc;border-radius:2px;}
+.progress-knob{position:absolute;top:50%;left:0%;width:12px;height:12px;border-radius:50%;background:#2bb6cc;border:2px solid #fff;transform:translate(-50%,-50%);box-shadow:0 0 4px rgba(0,0,0,0.5);}
+.controls-row{display:flex;align-items:center;justify-content:space-between;gap:10px;}
+.controls-left{display:flex;align-items:center;gap:12px;}
+.controls-right{display:flex;align-items:center;gap:14px;}
+.pc-icon{background:none;border:none;color:#fff;width:26px;height:26px;cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center;flex-shrink:0;opacity:0.9;transition:0.15s;position:relative;padding:0;}
+.pc-icon:hover{opacity:1;transform:scale(1.08);}
+.time-display{font-family:'Bebas Neue',sans-serif;font-size:0.78rem;letter-spacing:0.05em;color:#e8e0d4;white-space:nowrap;}
+.cc-btn{font-family:'Bebas Neue',sans-serif;font-size:0.68rem;letter-spacing:0.05em;border:1.5px solid #fff;border-radius:2px;width:28px;height:20px;}
+.cc-btn.active{background:#fff;color:#000;}
+.settings-wrap{position:relative;flex-shrink:0;}
+.settings-icon{width:auto;}
+.hd-badge{position:absolute;bottom:-3px;right:-8px;background:#c0392b;color:#fff;font-family:'Bebas Neue',sans-serif;font-size:0.5rem;padding:0px 3px;border-radius:2px;letter-spacing:0.03em;}
+.settings-menu{display:none;position:absolute;bottom:34px;right:0;background:var(--bg2);border:1px solid var(--gold-dim);border-radius:3px;padding:8px;width:150px;box-shadow:0 8px 30px rgba(0,0,0,0.8);z-index:5;}
+.settings-menu.open{display:block;}
+.settings-section{font-family:'Bebas Neue',sans-serif;font-size:0.68rem;letter-spacing:0.14em;color:var(--gold-dim);padding:6px 6px 3px;}
+.settings-opt{display:block;width:100%;text-align:left;background:none;border:none;color:var(--cream-dim);font-family:'Crimson Text',serif;font-size:0.88rem;padding:6px 8px;border-radius:2px;cursor:pointer;transition:0.15s;}
+.settings-opt:hover{background:rgba(212,175,55,0.12);color:var(--gold-light);}
+.settings-opt.active{color:var(--gold);font-weight:600;}
+.settings-opt.active::before{content:"✓ ";}
+.scrub-preview{position:absolute;z-index:4;bottom:52px;left:0;display:none;flex-direction:column;align-items:center;pointer-events:none;transform:translateX(-50%);}
+.scrub-thumb{width:160px;height:90px;background-image:url('assets/trailer_sprite.jpg');background-repeat:no-repeat;border:2px solid #2bb6cc;border-radius:3px;box-shadow:0 6px 20px rgba(0,0,0,0.7);image-rendering:auto;}
+.scrub-time{margin-top:5px;font-family:'Bebas Neue',sans-serif;font-size:0.8rem;letter-spacing:0.08em;color:#fff;background:rgba(6,4,2,0.85);border:1px solid rgba(255,255,255,0.3);padding:2px 8px;border-radius:2px;}
 .rec-category-label{font-family:'Bebas Neue',sans-serif;font-size:0.72rem;letter-spacing:0.28em;color:var(--gold-dim);margin-bottom:16px;display:flex;align-items:center;gap:10px;}
 .rec-category-label::after{content:"";flex:1;height:1px;background:linear-gradient(90deg,rgba(138,112,64,0.4),transparent);}
 .rec-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,200px));gap:18px;margin-bottom:36px;}
@@ -233,17 +253,42 @@ body{font-family:'Crimson Text',Georgia,serif;background:var(--bg);color:var(--c
   </div>
   <div class="section-divider"><span class="section-label">✦ Трейлер ✦</span></div>
   <div class="custom-player" id="customPlayer">
-    <div id="ytHolder"></div>
+    <video id="trailerVideo" src="assets/trailer.mp4" preload="metadata" playsinline poster="https://play-lh.googleusercontent.com/AoLjRe-KKJqd8ogN33AhIdbpQTOQFvaUDZjIkuf5v0LaPGdKv4N--FX97XkDpuWA4i9V"></video>
     <div class="player-cover" id="playerCover" style="background-image:url('https://play-lh.googleusercontent.com/AoLjRe-KKJqd8ogN33AhIdbpQTOQFvaUDZjIkuf5v0LaPGdKv4N--FX97XkDpuWA4i9V')">
       <button class="player-bigplay" id="bigPlayBtn" aria-label="Воспроизвести">▶</button>
     </div>
+    <button class="pip-btn" id="pipBtn" aria-label="Картинка в картинке">⧉</button>
+    <div class="scrub-preview" id="scrubPreview">
+      <div class="scrub-thumb" id="scrubThumb"></div>
+      <div class="scrub-time" id="scrubTime">0:00</div>
+    </div>
     <div class="player-controls" id="playerControls">
-      <button class="pc-btn" id="playPauseBtn">▶</button>
       <div class="progress-track" id="progressTrack"><div class="progress-fill" id="progressFill"></div><div class="progress-knob" id="progressKnob"></div></div>
-      <span class="time-display" id="timeDisplay">0:00 / 0:00</span>
-      <button class="pc-btn" id="muteBtn">🔊</button>
-      <input type="range" id="volumeSlider" min="0" max="100" value="100">
-      <button class="pc-btn" id="fullscreenBtn">⛶</button>
+      <div class="controls-row">
+        <div class="controls-left">
+          <button class="pc-icon" id="playPauseBtn" aria-label="Play/Pause">▶</button>
+          <span class="time-display" id="timeDisplay">0:00:00 / 0:00:00</span>
+        </div>
+        <div class="controls-right">
+          <button class="pc-icon" id="muteBtn" aria-label="Звук">🔊</button>
+          <button class="pc-icon cc-btn" id="ccBtn" aria-label="Субтитры">CC</button>
+          <div class="settings-wrap">
+            <button class="pc-icon settings-icon" id="settingsBtn" aria-label="Настройки"><span class="gear">⚙</span><span class="hd-badge">HD</span></button>
+            <div class="settings-menu" id="settingsMenu">
+              <div class="settings-section">Скорость</div>
+              <button class="settings-opt" data-speed="0.5">0.5×</button>
+              <button class="settings-opt active" data-speed="1">Обычная</button>
+              <button class="settings-opt" data-speed="1.25">1.25×</button>
+              <button class="settings-opt" data-speed="1.5">1.5×</button>
+              <button class="settings-opt" data-speed="2">2×</button>
+              <div class="settings-section">Масштаб</div>
+              <button class="settings-opt active" data-scale="contain">Вписать</button>
+              <button class="settings-opt" data-scale="cover">Заполнить</button>
+            </div>
+          </div>
+          <button class="pc-icon" id="fullscreenBtn" aria-label="Полный экран">⤢</button>
+        </div>
+      </div>
     </div>
   </div>
   <div class="section-divider"><span class="section-label">✦ Смотрите также ✦</span></div>
@@ -288,28 +333,124 @@ body{font-family:'Crimson Text',Georgia,serif;background:var(--bg);color:var(--c
 function buildStrip(id){const el=document.getElementById(id);let h="";for(let i=0;i<80;i++)h+=`<div class="filmstrip-hole"></div>`;el.innerHTML=h+h;}
 buildStrip("filmstripTop");buildStrip("filmstripBottom");
 
-// --- Custom player (YouTube as source, own UI) ---
-let ytPlayer=null,ytProgTimer=null;
-const TRAILER_ID="Yma-g4gTwlE";
-function fmtTime(s){s=Math.floor(s||0);const m=Math.floor(s/60);const r=s%60;return m+":"+String(r).padStart(2,"0");}
-function loadYT(){const tag=document.createElement("script");tag.src="https://www.youtube.com/iframe_api";document.head.appendChild(tag);}
-window.onYouTubeIframeAPIReady=function(){ytPlayer=new YT.Player("ytHolder",{videoId:TRAILER_ID,playerVars:{controls:0,disablekb:1,modestbranding:1,rel:0,iv_load_policy:3,playsinline:1},events:{onReady:onYTReady,onStateChange:onYTStateChange}});};
-function onYTReady(){}
-function onYTStateChange(e){const player=document.getElementById("customPlayer");const playBtn=document.getElementById("playPauseBtn");
-  if(e.data===YT.PlayerState.PLAYING){playBtn.innerText="⏸";player.classList.add("playing");startProgressLoop();}
-  else{playBtn.innerText="▶";clearInterval(ytProgTimer);}
-  if(e.data===YT.PlayerState.ENDED){document.getElementById("playerCover").classList.remove("hidden");player.classList.remove("playing");}
-}
-function startProgressLoop(){clearInterval(ytProgTimer);ytProgTimer=setInterval(()=>{if(!ytPlayer||!ytPlayer.getDuration)return;const dur=ytPlayer.getDuration()||0;const cur=ytPlayer.getCurrentTime()||0;const pct=dur?(cur/dur*100):0;document.getElementById("progressFill").style.width=pct+"%";document.getElementById("progressKnob").style.left=pct+"%";document.getElementById("timeDisplay").innerText=fmtTime(cur)+" / "+fmtTime(dur);},250);}
-document.getElementById("bigPlayBtn").addEventListener("click",()=>{document.getElementById("playerCover").classList.add("hidden");if(ytPlayer&&ytPlayer.playVideo)ytPlayer.playVideo();});
-document.getElementById("playPauseBtn").addEventListener("click",()=>{if(!ytPlayer||!ytPlayer.getPlayerState)return;const state=ytPlayer.getPlayerState();if(state===1)ytPlayer.pauseVideo();else{document.getElementById("playerCover").classList.add("hidden");ytPlayer.playVideo();}});
-const progressTrack=document.getElementById("progressTrack");
-progressTrack.addEventListener("click",(evt)=>{if(!ytPlayer||!ytPlayer.getDuration)return;const rect=progressTrack.getBoundingClientRect();const pct=(evt.clientX-rect.left)/rect.width;ytPlayer.seekTo(ytPlayer.getDuration()*pct,true);});
-let isMuted=false;
-document.getElementById("muteBtn").addEventListener("click",(e)=>{if(!ytPlayer)return;isMuted=!isMuted;if(isMuted){ytPlayer.mute();e.target.innerText="🔇";}else{ytPlayer.unMute();e.target.innerText="🔊";}});
-document.getElementById("volumeSlider").addEventListener("input",(e)=>{if(!ytPlayer||!ytPlayer.setVolume)return;const v=parseInt(e.target.value);ytPlayer.setVolume(v);if(v===0){isMuted=true;document.getElementById("muteBtn").innerText="🔇";}else if(isMuted){isMuted=false;document.getElementById("muteBtn").innerText="🔊";}});
-document.getElementById("fullscreenBtn").addEventListener("click",()=>{const el=document.getElementById("customPlayer");if(el.requestFullscreen)el.requestFullscreen();else if(el.webkitRequestFullscreen)el.webkitRequestFullscreen();});
-loadYT();
+// --- Custom native video player with sprite scrub-preview ---
+(function(){
+  const video=document.getElementById("trailerVideo");
+  const player=document.getElementById("customPlayer");
+  const cover=document.getElementById("playerCover");
+  const bigPlay=document.getElementById("bigPlayBtn");
+  const playBtn=document.getElementById("playPauseBtn");
+  const track=document.getElementById("progressTrack");
+  const fill=document.getElementById("progressFill");
+  const knob=document.getElementById("progressKnob");
+  const timeDisplay=document.getElementById("timeDisplay");
+  const muteBtn=document.getElementById("muteBtn");
+  const fsBtn=document.getElementById("fullscreenBtn");
+  const pipBtn=document.getElementById("pipBtn");
+  const ccBtn=document.getElementById("ccBtn");
+  const scrubPreview=document.getElementById("scrubPreview");
+  const scrubThumb=document.getElementById("scrubThumb");
+  const scrubTime=document.getElementById("scrubTime");
+
+  // sprite config: 65 frames, interval 2s, grid 13x5, cell 160x90
+  const SPRITE_COLS=13,SPRITE_ROWS=5,SPRITE_INTERVAL=2,SPRITE_FRAMES=65,CELL_W=160,CELL_H=90;
+
+  function fmt(s){s=Math.max(0,Math.floor(s||0));const h=Math.floor(s/3600);const m=Math.floor((s%3600)/60);const r=s%60;return h+":"+String(m).padStart(2,"0")+":"+String(r).padStart(2,"0");}
+
+  function startPlayback(){cover.classList.add("hidden");video.play();}
+  bigPlay.addEventListener("click",startPlayback);
+  playBtn.addEventListener("click",()=>{if(video.paused){startPlayback();}else{video.pause();}});
+  video.addEventListener("play",()=>{playBtn.innerText="⏸";player.classList.add("playing");});
+  video.addEventListener("pause",()=>{playBtn.innerText="▶";player.classList.remove("playing");});
+  video.addEventListener("ended",()=>{cover.classList.remove("hidden");player.classList.remove("playing");});
+
+  video.addEventListener("timeupdate",()=>{
+    const dur=video.duration||0;const cur=video.currentTime||0;const pct=dur?(cur/dur*100):0;
+    fill.style.width=pct+"%";knob.style.left=pct+"%";
+    timeDisplay.innerText=fmt(cur)+" / "+fmt(dur);
+  });
+  video.addEventListener("loadedmetadata",()=>{timeDisplay.innerText="0:00:00 / "+fmt(video.duration);});
+
+  function timeFromEvent(clientX){
+    const rect=track.getBoundingClientRect();
+    let pct=(clientX-rect.left)/rect.width;pct=Math.min(1,Math.max(0,pct));
+    return pct*(video.duration||0);
+  }
+
+  function showScrub(clientX,t){
+    const rect=track.getBoundingClientRect();
+    const idx=Math.min(SPRITE_FRAMES-1,Math.max(0,Math.round(t/SPRITE_INTERVAL)));
+    const col=idx%SPRITE_COLS,row=Math.floor(idx/SPRITE_COLS);
+    scrubThumb.style.backgroundPosition="-"+(col*CELL_W)+"px -"+(row*CELL_H)+"px";
+    let left=clientX-rect.left;
+    left=Math.min(rect.width-10,Math.max(10,left));
+    scrubPreview.style.left=left+"px";
+    scrubTime.innerText=fmt(t);
+    scrubPreview.style.display="flex";
+  }
+  function hideScrub(){scrubPreview.style.display="none";}
+
+  let dragging=false;
+  track.addEventListener("mousemove",(e)=>{if(!video.duration)return;const t=timeFromEvent(e.clientX);showScrub(e.clientX,t);if(dragging){video.currentTime=t;}});
+  track.addEventListener("mouseleave",()=>{if(!dragging)hideScrub();});
+  track.addEventListener("mousedown",(e)=>{dragging=true;const t=timeFromEvent(e.clientX);video.currentTime=t;showScrub(e.clientX,t);});
+  window.addEventListener("mouseup",()=>{if(dragging){dragging=false;hideScrub();}});
+  track.addEventListener("click",(e)=>{if(!video.duration)return;video.currentTime=timeFromEvent(e.clientX);});
+  // touch support
+  track.addEventListener("touchstart",(e)=>{const touch=e.touches[0];const t=timeFromEvent(touch.clientX);video.currentTime=t;showScrub(touch.clientX,t);},{passive:true});
+  track.addEventListener("touchmove",(e)=>{const touch=e.touches[0];const t=timeFromEvent(touch.clientX);video.currentTime=t;showScrub(touch.clientX,t);},{passive:true});
+  track.addEventListener("touchend",hideScrub);
+
+  let isMuted=false;
+  muteBtn.addEventListener("click",()=>{isMuted=!isMuted;video.muted=isMuted;muteBtn.innerText=isMuted?"🔇":"🔊";});
+
+  fsBtn.addEventListener("click",()=>{
+    const fsEl=document.fullscreenElement||document.webkitFullscreenElement;
+    if(fsEl){
+      if(document.exitFullscreen)document.exitFullscreen();else if(document.webkitExitFullscreen)document.webkitExitFullscreen();
+    }else{
+      if(player.requestFullscreen)player.requestFullscreen();else if(player.webkitRequestFullscreen)player.webkitRequestFullscreen();
+    }
+  });
+  document.addEventListener("fullscreenchange",()=>{fsBtn.innerText=(document.fullscreenElement===player)?"✕":"⤢";});
+  document.addEventListener("webkitfullscreenchange",()=>{fsBtn.innerText=(document.webkitFullscreenElement===player)?"✕":"⤢";});
+
+  // Picture-in-Picture
+  if(pipBtn){
+    if(!document.pictureInPictureEnabled){pipBtn.style.display="none";}
+    pipBtn.addEventListener("click",async()=>{
+      try{
+        if(document.pictureInPictureElement){await document.exitPictureInPicture();}
+        else{await video.requestPictureInPicture();}
+      }catch(err){console.warn("PiP недоступен:",err);}
+    });
+  }
+
+  // CC — переключатель субтитров (пока без файла субтитров: просто визуальный тумблер)
+  if(ccBtn){
+    ccBtn.addEventListener("click",()=>{ccBtn.classList.toggle("active");});
+  }
+
+  // settings menu: playback speed + scale
+  const settingsBtn=document.getElementById("settingsBtn");
+  const settingsMenu=document.getElementById("settingsMenu");
+  settingsBtn.addEventListener("click",(e)=>{e.stopPropagation();settingsMenu.classList.toggle("open");});
+  document.addEventListener("click",(e)=>{if(!settingsMenu.contains(e.target)&&e.target!==settingsBtn)settingsMenu.classList.remove("open");});
+  settingsMenu.querySelectorAll("[data-speed]").forEach(btn=>{
+    btn.addEventListener("click",()=>{
+      video.playbackRate=parseFloat(btn.dataset.speed);
+      settingsMenu.querySelectorAll("[data-speed]").forEach(b=>b.classList.remove("active"));
+      btn.classList.add("active");
+    });
+  });
+  settingsMenu.querySelectorAll("[data-scale]").forEach(btn=>{
+    btn.addEventListener("click",()=>{
+      video.style.objectFit=btn.dataset.scale;
+      settingsMenu.querySelectorAll("[data-scale]").forEach(b=>b.classList.remove("active"));
+      btn.classList.add("active");
+    });
+  });
+})();
 firebase.initializeApp({apiKey:"AIzaSyCTr1vgcuSEn_2Ebh2vC3k7sNYzvMoYlBo",authDomain:"kino-project-bf21c.firebaseapp.com",projectId:"kino-project-bf21c"});
 const db=firebase.firestore();
 const movieKey="This Is the End 2013";
