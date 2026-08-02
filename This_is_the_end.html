@@ -94,42 +94,31 @@ body{font-family:'Crimson Text',Georgia,serif;background:var(--bg);color:var(--c
 .volume-slider::-moz-range-thumb{width:12px;height:12px;background:#fff;border-radius:50%;cursor:pointer;border:none;}
 
 /* Прогресс загрузки торрента */
-.torrent-progress{position:absolute;top:10px;right:10px;background:rgba(0,0,0,0.8);border:1px solid var(--gold-dim);padding:8px 12px;border-radius:3px;font-family:'Bebas Neue',sans-serif;font-size:0.75rem;color:var(--gold);z-index:4;display:none;}
+.torrent-progress{position:absolute;top:10px;right:10px;background:rgba(0,0,0,0.9);border:1px solid var(--gold-dim);padding:10px 14px;border-radius:3px;font-family:'Bebas Neue',sans-serif;font-size:0.75rem;color:var(--gold);z-index:4;display:none;min-width:180px;}
 .torrent-progress.active{display:block;}
-.torrent-progress .peers{color:var(--cream-dim);margin-top:4px;}
+.torrent-progress .peers{color:var(--cream-dim);margin-top:4px;font-size:0.7rem;}
 .loading-spinner{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:50px;height:50px;border:3px solid rgba(255,255,255,0.1);border-top-color:#2bb6cc;border-radius:50%;animation:spin 1s linear infinite;z-index:3;display:none;}
 @keyframes spin{to{transform:translate(-50%,-50%) rotate(360deg);}}
 
 /* Ошибка */
-.video-error{position:absolute;inset:0;background:rgba(0,0,0,0.95);color:#c0392b;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:15px;z-index:10;text-align:center;padding:20px;}
-.video-error h3{font-family:'Playfair Display',serif;font-size:1.3rem;}
-.video-error p{color:var(--cream-dim);font-size:0.95rem;max-width:400px;line-height:1.5;}
+.video-error{position:absolute;inset:0;background:rgba(10,7,5,0.98);display:flex;align-items:center;justify-content:center;flex-direction:column;gap:20px;z-index:10;text-align:center;padding:40px;display:none;}
+.video-error h3{font-family:'Playfair Display',serif;font-size:1.4rem;color:var(--gold);margin-bottom:10px;}
+.video-error p{color:var(--cream-dim);font-size:1rem;max-width:500px;line-height:1.6;}
+.video-error .error-code{font-family:monospace;background:rgba(122,32,32,0.3);padding:8px 12px;border-radius:3px;color:#c0392b;font-size:0.85rem;margin-top:10px;}
+.video-error button{background:var(--gold);color:var(--bg);border:none;padding:12px 24px;font-family:'Bebas Neue',sans-serif;font-size:0.9rem;letter-spacing:0.1em;cursor:pointer;border-radius:2px;transition:0.2s;}
+.video-error button:hover{background:var(--gold-light);}
 
-/* Рекомендации */
-.rec-category-label{font-family:'Bebas Neue',sans-serif;font-size:0.72rem;letter-spacing:0.28em;color:var(--gold-dim);margin-bottom:16px;display:flex;align-items:center;gap:10px;}
-.rec-category-label::after{content:"";flex:1;height:1px;background:linear-gradient(90deg,rgba(138,112,64,0.4),transparent);}
-.rec-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,200px));gap:18px;margin-bottom:36px;}
-.rec-card{position:relative;cursor:pointer;text-decoration:none;color:inherit;display:block;animation:rec-card-in 0.5s ease both;}
-@keyframes rec-card-in{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
-.rec-card:nth-child(1){animation-delay:0.05s}.rec-card:nth-child(2){animation-delay:0.12s}.rec-card:nth-child(3){animation-delay:0.19s}.rec-card:nth-child(4){animation-delay:0.26s}
-.rec-card-inner{position:relative;overflow:hidden;border:2px solid var(--gold-dim);transition:border-color 0.3s,box-shadow 0.3s,transform 0.3s;}
-.rec-card:hover .rec-card-inner{border-color:var(--gold);box-shadow:0 0 0 1px var(--gold),0 8px 30px rgba(0,0,0,0.85);transform:translateY(-6px) scale(1.02);}
-.rec-card-inner img{width:100%;aspect-ratio:2/3;object-fit:cover;object-position:center top;display:block;filter:sepia(12%) brightness(0.92);transition:filter 0.3s;}
-.rec-card:hover .rec-card-inner img{filter:sepia(0%) brightness(1.05);}
-.rec-card-inner::before,.rec-card-inner::after{content:"";position:absolute;width:11px;height:11px;border-color:var(--gold);border-style:solid;z-index:3;opacity:0;transition:opacity 0.3s;}
-.rec-card-inner::before{top:4px;left:4px;border-width:2px 0 0 2px;}.rec-card-inner::after{bottom:4px;right:4px;border-width:0 2px 2px 0;}
-.rec-card:hover .rec-card-inner::before,.rec-card:hover .rec-card-inner::after{opacity:1;}
-.rec-card-overlay{position:absolute;inset:0;background:linear-gradient(180deg,transparent 35%,rgba(8,5,2,0.96) 100%);display:flex;flex-direction:column;justify-content:flex-end;padding:8px;opacity:0;transition:opacity 0.3s;}
-.rec-card:hover .rec-card-overlay{opacity:1;}
-.rec-card-overlay-title{font-family:'Playfair Display',serif;font-size:0.8rem;color:var(--gold-light);font-weight:700;line-height:1.2;}
-.rec-card-overlay-meta{font-size:0.68rem;color:var(--cream-dim);font-style:italic;margin-top:2px;}
-.rec-badge{position:absolute;top:5px;left:5px;z-index:4;font-family:'Bebas Neue',sans-serif;font-size:0.65rem;letter-spacing:0.1em;padding:2px 7px;border-radius:2px;pointer-events:none;}
-.rec-badge.sequel{background:linear-gradient(135deg,#7a3a00,#c06010);color:#fff;animation:pulse-sequel 2.2s infinite alternate;}
-@keyframes pulse-sequel{from{box-shadow:0 0 5px rgba(200,90,0,0.35)}to{box-shadow:0 0 14px rgba(200,90,0,0.85)}}
-.rec-badge.similar{background:rgba(30,24,14,0.88);border:1px solid var(--gold-dim);color:var(--gold);}
-.rec-card-title{font-family:'Playfair Display',serif;font-size:0.82rem;color:var(--cream);margin-top:7px;text-align:center;line-height:1.3;transition:color 0.2s;word-break:break-word;}
-.rec-card:hover .rec-card-title{color:var(--gold);}
-.rec-card-year{font-family:'Bebas Neue',sans-serif;font-size:0.68rem;letter-spacing:0.15em;color:var(--gold-dim);text-align:center;margin-top:2px;}
+/* Информация о файле */
+.file-info{position:absolute;top:10px;left:10px;background:rgba(0,0,0,0.85);border:1px solid var(--gold-dim);padding:8px 12px;border-radius:3px;font-family:'Bebas Neue',sans-serif;font-size:0.7rem;color:var(--gold);z-index:4;display:none;max-width:250px;}
+.file-info.active{display:block;}
+.file-info .filename{color:var(--cream-dim);margin-top:4px;word-break:break-all;}
+
+/* Альтернативный источник */
+.alt-source{margin-top:20px;padding:20px;background:rgba(30,24,16,0.7);border:1px solid var(--gold-dim);border-radius:3px;}
+.alt-source h4{font-family:'Playfair Display',serif;color:var(--gold);margin-bottom:10px;}
+.alt-source input{width:100%;padding:10px;background:var(--bg);border:1px solid var(--gold-dim);color:var(--cream);font-family:monospace;font-size:0.9rem;margin-bottom:10px;}
+.alt-source button{background:var(--gold);color:var(--bg);border:none;padding:10px 20px;font-family:'Bebas Neue',sans-serif;cursor:pointer;}
+.alt-source button:hover{background:var(--gold-light);}
 
 ::-webkit-scrollbar{width:5px;}::-webkit-scrollbar-thumb{background:var(--gold-dim);border-radius:3px;}
 </style>
@@ -202,7 +191,7 @@ body{font-family:'Crimson Text',Georgia,serif;background:var(--bg);color:var(--c
   <div class="section-divider"><span class="section-label">✦ Смотреть онлайн ✦</span></div>
 
   <div class="custom-player" id="customPlayer">
-    <video id="videoPlayer" preload="metadata"></video>
+    <video id="videoPlayer" preload="metadata" crossorigin="anonymous"></video>
     
     <div class="player-cover" id="playerCover" style="background-image:url('https://play-lh.googleusercontent.com/AoLjRe-KKJqd8ogN33AhIdbpQTOQFvaUDZjIkuf5v0LaPGdKv4N--FX97XkDpuWA4i9V')">
       <button class="player-bigplay" id="bigPlayBtn" aria-label="Воспроизвести">▶</button>
@@ -212,12 +201,19 @@ body{font-family:'Crimson Text',Georgia,serif;background:var(--bg);color:var(--c
     
     <div class="torrent-progress" id="torrentProgress">
       <div class="progress-text">Загрузка: <span id="progressPercent">0</span>%</div>
-      <div class="peers">Пиров: <span id="peersCount">0</span> | Скорость: <span id="downloadSpeed">0</span> MB/s</div>
+      <div class="peers">Пиров: <span id="peersCount">0</span> | ↓ <span id="downloadSpeed">0</span> MB/s | ↑ <span id="uploadSpeed">0</span> MB/s</div>
     </div>
 
-    <div class="video-error" id="videoError" style="display:none;">
-      <h3>⚠ Не удалось загрузить видео</h3>
-      <p>Для воспроизведения торрентов требуется поддержка WebRTC. Рекомендуем использовать прямую ссылку на видеофайл или включить WebRTC в настройках браузера.</p>
+    <div class="file-info" id="fileInfo">
+      <div>Файл: <span id="fileName">-</span></div>
+      <div class="filename">Формат: <span id="fileFormat">-</span></div>
+    </div>
+
+    <div class="video-error" id="videoError">
+      <h3>⚠ Не удалось воспроизвести видео</h3>
+      <p id="errorMessage">Возможно, формат файла не поддерживается браузером. MKV и AVI не работают в браузерах напрямую.</p>
+      <div class="error-code" id="errorCode"></div>
+      <button onclick="showAltSource()">Использовать другой источник</button>
     </div>
 
     <div class="player-controls" id="playerControls">
@@ -237,6 +233,13 @@ body{font-family:'Crimson Text',Georgia,serif;background:var(--bg);color:var(--c
         </div>
       </div>
     </div>
+  </div>
+
+  <div class="alt-source" id="altSource" style="display:none;">
+    <h4>Альтернативный источник</h4>
+    <p style="color:var(--cream-dim);margin-bottom:10px;font-size:0.9rem;">Вставьте прямую ссылку на MP4 файл:</p>
+    <input type="text" id="videoUrl" placeholder="https://example.com/video.mp4">
+    <button onclick="loadDirectVideo()">Загрузить</button>
   </div>
 </div>
 
@@ -261,16 +264,23 @@ body{font-family:'Crimson Text',Georgia,serif;background:var(--bg);color:var(--c
   const progressPercent = document.getElementById('progressPercent');
   const peersCount = document.getElementById('peersCount');
   const downloadSpeed = document.getElementById('downloadSpeed');
+  const uploadSpeed = document.getElementById('uploadSpeed');
   const loadingSpinner = document.getElementById('loadingSpinner');
   const videoError = document.getElementById('videoError');
+  const errorMessage = document.getElementById('errorMessage');
+  const errorCode = document.getElementById('errorCode');
+  const fileInfo = document.getElementById('fileInfo');
+  const fileName = document.getElementById('fileName');
+  const fileFormat = document.getElementById('fileFormat');
   
   let client = null;
   let isPlaying = false;
   let isDragging = false;
+  let torrentLoaded = false;
 
   // Проверка поддержки WebTorrent
   if (typeof WebTorrent === 'undefined') {
-    showError('Библиотека WebTorrent не загрузилась');
+    showError('Библиотека WebTorrent не загрузилась. Проверьте интернет-соединение.', 'WEBTORRENT_NOT_LOADED');
     return;
   }
 
@@ -281,52 +291,136 @@ body{font-family:'Crimson Text',Georgia,serif;background:var(--bg);color:var(--c
     return `${m}:${sec < 10 ? '0' : ''}${sec}`;
   }
 
-  function showError(msg) {
+  function showError(msg, code) {
+    errorMessage.textContent = msg;
+    if (code) errorCode.textContent = 'Код ошибки: ' + code;
     videoError.style.display = 'flex';
-    if (msg) videoError.querySelector('p').textContent = msg;
     cover.style.display = 'none';
     loadingSpinner.style.display = 'none';
+    torrentProgress.classList.remove('active');
+  }
+
+  function showAltSource() {
+    document.getElementById('altSource').style.display = 'block';
+    videoError.style.display = 'none';
+  }
+
+  window.showAltSource = showAltSource;
+  
+  window.loadDirectVideo = function() {
+    const url = document.getElementById('videoUrl').value.trim();
+    if (!url) return;
+    
+    video.src = url;
+    video.load();
+    video.play().catch(e => console.log('Autoplay prevented:', e));
+    
+    document.getElementById('altSource').style.display = 'none';
+    videoError.style.display = 'none';
+    cover.classList.add('hidden');
+  };
+
+  function checkVideoSupport(filename) {
+    const ext = filename.split('.').pop().toLowerCase();
+    const supported = ['mp4', 'webm', 'ogv', 'ogg'];
+    const maybeSupported = ['mkv', 'avi', 'mov', 'flv', 'wmv'];
+    
+    if (supported.includes(ext)) return {supported: true, ext};
+    if (maybeSupported.includes(ext)) return {supported: false, ext, reason: 'Формат ' + ext.toUpperCase() + ' обычно не поддерживается браузерами напрямую. Требуется MP4 (H.264).'};
+    return {supported: false, ext, reason: 'Неизвестный формат: ' + ext};
   }
 
   function initTorrent() {
+    if (torrentLoaded) return;
+    torrentLoaded = true;
+    
     loadingSpinner.style.display = 'block';
     
-    client = new WebTorrent();
-    
-    client.add(MAGNET_URI, function(torrent) {
-      loadingSpinner.style.display = 'none';
-      torrentProgress.classList.add('active');
+    try {
+      client = new WebTorrent();
       
-      // Находим видеофайл
-      const file = torrent.files.find(function(file) {
-        return file.name.endsWith('.mp4') || file.name.endsWith('.mkv') || file.name.endsWith('.avi');
+      client.on('error', function(err) {
+        console.error('WebTorrent client error:', err);
+        showError('Ошибка WebTorrent: ' + err.message, 'CLIENT_ERROR');
       });
       
-      if (!file) {
-        showError('Видеофайл не найден в торренте');
-        return;
-      }
-      
-      // Стримим в видео элемент
-      file.renderTo(video, { autoplay: false }, function(err) {
-        if (err) {
-          console.error('Render error:', err);
-          showError('Ошибка воспроизведения: ' + err.message);
+      client.add(MAGNET_URI, function(torrent) {
+        console.log('Torrent added:', torrent.name);
+        console.log('Files:', torrent.files.map(f => f.name));
+        
+        // Находим видеофайл
+        const videoExts = ['.mp4', '.webm', '.mkv', '.avi', '.mov', '.ogv'];
+        const file = torrent.files.find(function(file) {
+          const name = file.name.toLowerCase();
+          return videoExts.some(ext => name.endsWith(ext));
+        });
+        
+        if (!file) {
+          showError('Видеофайл не найден в торренте. Доступные файлы: ' + torrent.files.map(f => f.name).join(', '), 'NO_VIDEO_FILE');
+          return;
         }
+        
+        console.log('Selected file:', file.name);
+        fileName.textContent = file.name;
+        fileFormat.textContent = file.name.split('.').pop().toUpperCase();
+        fileInfo.classList.add('active');
+        
+        // Проверяем поддержку формата
+        const support = checkVideoSupport(file.name);
+        if (!support.supported) {
+          console.warn('Format may not be supported:', support.reason);
+          // Показываем предупреждение, но пробуем всё равно
+        }
+        
+        // Стримим в видео элемент
+        file.renderTo(video, { autoplay: true }, function(err) {
+          loadingSpinner.style.display = 'none';
+          
+          if (err) {
+            console.error('Render error:', err);
+            showError('Ошибка воспроизведения: ' + err.message + '. Возможно, формат не поддерживается браузером.', 'RENDER_ERROR');
+            return;
+          }
+          
+          console.log('Render started successfully');
+          torrentProgress.classList.add('active');
+        });
+        
+        // Обновляем прогресс каждую секунду
+        const progressInterval = setInterval(function() {
+          if (!client) {
+            clearInterval(progressInterval);
+            return;
+          }
+          
+          progressPercent.textContent = Math.round(torrent.progress * 100);
+          peersCount.textContent = torrent.numPeers;
+          downloadSpeed.textContent = (torrent.downloadSpeed / 1024 / 1024).toFixed(2);
+          uploadSpeed.textContent = (torrent.uploadSpeed / 1024 / 1024).toFixed(2);
+          
+          // Если загрузка завершена, скрываем прогресс через 5 секунд
+          if (torrent.progress >= 1) {
+            setTimeout(() => {
+              torrentProgress.classList.remove('active');
+            }, 5000);
+          }
+        }, 1000);
+        
+        // Обработка событий торрента
+        torrent.on('error', function(err) {
+          console.error('Torrent error:', err);
+          showError('Ошибка торрента: ' + err.message, 'TORRENT_ERROR');
+        });
+        
+        torrent.on('warning', function(warn) {
+          console.warn('Torrent warning:', warn);
+        });
+        
       });
-      
-      // Обновляем прогресс
-      setInterval(function() {
-        progressPercent.textContent = Math.round(torrent.progress * 100);
-        peersCount.textContent = torrent.numPeers;
-        downloadSpeed.textContent = (torrent.downloadSpeed / 1024 / 1024).toFixed(2);
-      }, 1000);
-    });
-    
-    client.on('error', function(err) {
-      console.error('WebTorrent error:', err);
-      showError('Ошибка WebTorrent: ' + err.message);
-    });
+    } catch (e) {
+      console.error('Init error:', e);
+      showError('Ошибка инициализации: ' + e.message, 'INIT_ERROR');
+    }
   }
 
   function togglePlay() {
@@ -338,6 +432,9 @@ body{font-family:'Crimson Text',Georgia,serif;background:var(--bg);color:var(--c
     if (video.paused) {
       video.play().catch(err => {
         console.error('Play error:', err);
+        if (err.name === 'NotSupportedError') {
+          showError('Браузер не поддерживает этот формат видео. Попробуйте MP4 (H.264).', 'NOT_SUPPORTED');
+        }
       });
     } else {
       video.pause();
@@ -359,7 +456,7 @@ body{font-family:'Crimson Text',Georgia,serif;background:var(--bg);color:var(--c
   });
   
   video.addEventListener('timeupdate', function() {
-    if (!video.duration) return;
+    if (!video.duration || isDragging) return;
     const pct = (video.currentTime / video.duration) * 100;
     progressFill.style.width = pct + '%';
     progressKnob.style.left = pct + '%';
@@ -367,12 +464,35 @@ body{font-family:'Crimson Text',Georgia,serif;background:var(--bg);color:var(--c
   });
   
   video.addEventListener('loadedmetadata', function() {
+    console.log('Video metadata loaded, duration:', video.duration);
     timeDisplay.textContent = `0:00 / ${fmtTime(video.duration)}`;
+  });
+  
+  video.addEventListener('canplay', function() {
+    console.log('Video can play');
+    loadingSpinner.style.display = 'none';
+  });
+  
+  video.addEventListener('waiting', function() {
+    console.log('Video waiting for data...');
+    loadingSpinner.style.display = 'block';
   });
   
   video.addEventListener('error', function(e) {
     console.error('Video error:', video.error);
-    showError('Ошибка загрузки видео');
+    const error = video.error;
+    let msg = 'Неизвестная ошибка видео';
+    let code = 'VIDEO_ERROR';
+    
+    if (error) {
+      switch(error.code) {
+        case 1: msg = 'Загрузка прервана'; code = 'MEDIA_ERR_ABORTED'; break;
+        case 2: msg = 'Ошибка сети'; code = 'MEDIA_ERR_NETWORK'; break;
+        case 3: msg = 'Ошибка декодирования — формат не поддерживается'; code = 'MEDIA_ERR_DECODE'; break;
+        case 4: msg = 'Формат не поддерживается'; code = 'MEDIA_ERR_SRC_NOT_SUPPORTED'; break;
+      }
+    }
+    showError(msg + '. Попробуйте использовать прямую ссылку на MP4 файл.', code);
   });
 
   // Кнопки
@@ -458,6 +578,12 @@ body{font-family:'Crimson Text',Georgia,serif;background:var(--bg);color:var(--c
     hole.className = 'filmstrip-hole';
     filmstripTop.appendChild(hole);
   }
+  
+  // Отладка — показываем инфо о браузере
+  console.log('Browser:', navigator.userAgent);
+  console.log('Video formats supported:');
+  console.log('- MP4 (H.264):', video.canPlayType('video/mp4; codecs="avc1.42E01E"'));
+  console.log('- WebM:', video.canPlayType('video/webm'));
 })();
 </script>
 </body>
