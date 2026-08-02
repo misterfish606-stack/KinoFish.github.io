@@ -253,204 +253,158 @@ body{font-family:'Crimson Text',Georgia,serif;background:var(--bg);color:var(--c
   </div>
 <div class="section-divider"><span class="section-label">✦ Смотреть онлайн ✦</span></div>
 <div class="trailer-wrap">
-  <iframe 
-    src="https://vidsrc.net/embed/movie?imdb=tt1245492" 
-    style="width: 100%; height: 450px; border: none; border-radius: 12px;" 
-    allowfullscreen 
-    allow="autoplay; encrypted-media">
-  </iframe>
-</div>
-  <div class="section-divider"><span class="section-label">✦ Смотрите также ✦</span></div>
-  <div class="rec-category-label">◆ &nbsp; Похожие фильмы</div>
-  <div class="rec-grid" id="smartRecs"></div>
-  <div class="section-divider"><span class="section-label">✦ Вход ✦</span></div>
-  <div class="login-block">
-    <input type="text" id="nickname" placeholder="Ваш ник" oninput="checkNick()">
-    <input type="password" id="adminPassLoginField" placeholder="Пароль">
-    <button class="btn-gold" onclick="login()">Войти</button>
-    <span class="login-status" id="loginStatus"></span>
-    <span class="login-error" id="loginError"></span>
+  <div class="custom-player" id="customPlayer">
+    <!-- Укажите путь к вашему видео-файлу в src -->
+    <video id="trailerVideo" src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"></video>
+    
+    <div class="player-cover" id="playerCover">
+      <button class="player-bigplay" id="bigPlayBtn" aria-label="Воспроизвести">▶</button>
+    </div>
+
+    <div class="progress-preview" id="progressPreview">
+      <div class="preview-thumb" id="previewThumb"></div>
+      <div class="preview-time" id="previewTime">0:00</div>
+    </div>
+
+    <div class="player-controls">
+      <div class="progress-track" id="progressTrack">
+        <div class="progress-fill" id="progressFill"></div>
+        <div class="progress-knob" id="progressKnob"></div>
+      </div>
+      <div class="controls-bar">
+        <div class="controls-left">
+          <button class="ctrl-btn" id="playPauseBtn" title="Старт / Пауза">▶</button>
+          <span class="time-display" id="timeDisplay">0:00 / 0:00</span>
+        </div>
+        <div class="controls-right">
+          <button class="ctrl-btn" id="muteBtn" title="Звук">🔊</button>
+          <input type="range" class="volume-slider" id="volumeSlider" min="0" max="1" step="0.05" value="1">
+          <button class="ctrl-btn" id="fullscreenBtn" title="Во весь экран">⛶</button>
+        </div>
+      </div>
+    </div>
   </div>
-  <div class="section-divider"><span class="section-label">✦ Комментарии ✦</span></div>
-  <div id="comments"></div>
-  <div class="comment-input-wrap">
-    <textarea id="commentInput" placeholder="Поделитесь впечатлениями о фильме..."></textarea>
-    <div style="margin-top:10px"><button class="btn-gold" onclick="addComment()">Оставить комментарий</button></div>
-  </div>
 </div>
-<div class="filmstrip filmstrip-bottom"><div class="filmstrip-holes" id="filmstripBottom"></div></div>
-<div class="modal-overlay" id="replyModal">
-  <div class="modal-box"><button class="modal-close" onclick="closeModal()">✖</button>
-  <h3>Ответить на комментарий</h3>
-  <textarea id="modalText" placeholder="Ваш ответ..."></textarea>
-  <div style="margin-top:12px"><button class="btn-gold" onclick="saveReply()">Отправить ответ</button></div></div>
-</div>
-<div class="modal-overlay" id="reportModal">
-  <div class="modal-box"><button class="modal-close" onclick="closeReport()">✖</button>
-  <h3>⚠ Проблема с сайтом?</h3><p class="report-subtitle">Опиши проблему — мы разберёмся как можно скорее.</p>
-  <input type="text" id="reportName" placeholder="Ваш ник (необязательно)">
-  <textarea id="reportText" placeholder="Опиши проблему подробно..."></textarea>
-  <button class="btn-red" onclick="sendReport()">📨 Отправить сообщение</button>
-  <div id="reportSentMsg">✅ Сообщение отправлено! Спасибо.</div></div>
-</div>
-<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
-<script>emailjs.init("xQFu4rTTN_OUgE6zH");</script>
-<script src="movies_data.js"></script>
-<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
-<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+
 <script>
-function buildStrip(id){const el=document.getElementById(id);let h="";for(let i=0;i<80;i++)h+=`<div class="filmstrip-hole"></div>`;el.innerHTML=h+h;}
-buildStrip("filmstripTop");buildStrip("filmstripBottom");
-
-// --- Custom native video player with sprite scrub-preview ---
 (function(){
-  const video=document.getElementById("trailerVideo");
-  const player=document.getElementById("customPlayer");
-  const cover=document.getElementById("playerCover");
-  const bigPlay=document.getElementById("bigPlayBtn");
-  const playBtn=document.getElementById("playPauseBtn");
-  const track=document.getElementById("progressTrack");
-  const fill=document.getElementById("progressFill");
-  const knob=document.getElementById("progressKnob");
-  const timeDisplay=document.getElementById("timeDisplay");
-  const muteBtn=document.getElementById("muteBtn");
-  const fsBtn=document.getElementById("fullscreenBtn");
-  const pipBtn=document.getElementById("pipBtn");
-  const ccBtn=document.getElementById("ccBtn");
-  const scrubPreview=document.getElementById("scrubPreview");
-  const scrubThumb=document.getElementById("scrubThumb");
-  const scrubTime=document.getElementById("scrubTime");
+  const video = document.getElementById('trailerVideo');
+  const player = document.getElementById('customPlayer');
+  const cover = document.getElementById('playerCover');
+  const bigPlayBtn = document.getElementById('bigPlayBtn');
+  const playPauseBtn = document.getElementById('playPauseBtn');
+  const progressTrack = document.getElementById('progressTrack');
+  const progressFill = document.getElementById('progressFill');
+  const progressKnob = document.getElementById('progressKnob');
+  const timeDisplay = document.getElementById('timeDisplay');
+  const muteBtn = document.getElementById('muteBtn');
+  const volumeSlider = document.getElementById('volumeSlider');
+  const fullscreenBtn = document.getElementById('fullscreenBtn');
+  const progressPreview = document.getElementById('progressPreview');
+  const previewThumb = document.getElementById('previewThumb');
+  const previewTime = document.getElementById('previewTime');
 
-  // sprite config: 65 frames, interval 2s, grid 13x5, cell 160x90
-  const SPRITE_COLS=13,SPRITE_ROWS=5,SPRITE_INTERVAL=2,SPRITE_FRAMES=65,CELL_W=160,CELL_H=90;
+  if (!video || !player) return;
 
-  function fmt(s){s=Math.max(0,Math.floor(s||0));const h=Math.floor(s/3600);const m=Math.floor((s%3600)/60);const r=s%60;return h+":"+String(m).padStart(2,"0")+":"+String(r).padStart(2,"0");}
+  function fmtTime(s) {
+    if (isNaN(s) || s < 0) return '0:00';
+    const m = Math.floor(s / 60);
+    const sec = Math.floor(s % 60);
+    return `${m}:${sec < 10 ? '0' : ''}${sec}`;
+  }
 
-  function startPlayback(){cover.classList.add("hidden");video.play();}
-  bigPlay.addEventListener("click",startPlayback);
-  playBtn.addEventListener("click",()=>{if(video.paused){startPlayback();}else{video.pause();}});
-  video.addEventListener("play",()=>{playBtn.innerText="⏸";player.classList.add("playing");});
-  video.addEventListener("pause",()=>{playBtn.innerText="▶";player.classList.remove("playing");});
-  video.addEventListener("ended",()=>{cover.classList.remove("hidden");player.classList.remove("playing");});
+  function togglePlay() {
+    if (video.paused) {
+      video.play();
+    } else {
+      video.pause();
+    }
+  }
 
-  video.addEventListener("timeupdate",()=>{
-    const dur=video.duration||0;const cur=video.currentTime||0;const pct=dur?(cur/dur*100):0;
-    fill.style.width=pct+"%";knob.style.left=pct+"%";
-    timeDisplay.innerText=fmt(cur)+" / "+fmt(dur);
+  video.addEventListener('play', () => {
+    cover.classList.add('hidden');
+    playPauseBtn.textContent = '❚❚';
   });
-  video.addEventListener("loadedmetadata",()=>{timeDisplay.innerText="0:00:00 / "+fmt(video.duration);});
 
-  function timeFromEvent(clientX){
-    const rect=track.getBoundingClientRect();
-    let pct=(clientX-rect.left)/rect.width;pct=Math.min(1,Math.max(0,pct));
-    return pct*(video.duration||0);
+  video.addEventListener('pause', () => {
+    playPauseBtn.textContent = '▶';
+  });
+
+  video.addEventListener('timeupdate', () => {
+    if (!video.duration) return;
+    const pct = (video.currentTime / video.duration) * 100;
+    progressFill.style.width = pct + '%';
+    progressKnob.style.left = pct + '%';
+    timeDisplay.textContent = `${fmtTime(video.currentTime)} / ${fmtTime(video.duration)}`;
+  });
+
+  video.addEventListener('loadedmetadata', () => {
+    timeDisplay.textContent = `0:00 / ${fmtTime(video.duration)}`;
+  });
+
+  bigPlayBtn.addEventListener('click', togglePlay);
+  playPauseBtn.addEventListener('click', togglePlay);
+  video.addEventListener('click', togglePlay);
+
+  // Перемотка
+  let isDragging = false;
+  function seek(e) {
+    const rect = progressTrack.getBoundingClientRect();
+    let pos = (e.clientX - rect.left) / rect.width;
+    pos = Math.max(0, Math.min(1, pos));
+    video.currentTime = pos * video.duration;
   }
 
-  function showScrub(clientX,t){
-    const rect=track.getBoundingClientRect();
-    const idx=Math.min(SPRITE_FRAMES-1,Math.max(0,Math.round(t/SPRITE_INTERVAL)));
-    const col=idx%SPRITE_COLS,row=Math.floor(idx/SPRITE_COLS);
-    scrubThumb.style.backgroundPosition="-"+(col*CELL_W)+"px -"+(row*CELL_H)+"px";
-    let left=clientX-rect.left;
-    left=Math.min(rect.width-10,Math.max(10,left));
-    scrubPreview.style.left=left+"px";
-    scrubTime.innerText=fmt(t);
-    scrubPreview.style.display="flex";
-  }
-  function hideScrub(){scrubPreview.style.display="none";}
+  progressTrack.addEventListener('mousedown', (e) => {
+    isDragging = true;
+    seek(e);
+  });
 
-  let dragging=false;
-  track.addEventListener("mousemove",(e)=>{if(!video.duration)return;const t=timeFromEvent(e.clientX);showScrub(e.clientX,t);if(dragging){video.currentTime=t;}});
-  track.addEventListener("mouseleave",()=>{if(!dragging)hideScrub();});
-  track.addEventListener("mousedown",(e)=>{dragging=true;const t=timeFromEvent(e.clientX);video.currentTime=t;showScrub(e.clientX,t);});
-  window.addEventListener("mouseup",()=>{if(dragging){dragging=false;hideScrub();}});
-  track.addEventListener("click",(e)=>{if(!video.duration)return;video.currentTime=timeFromEvent(e.clientX);});
-  // touch support
-  track.addEventListener("touchstart",(e)=>{const touch=e.touches[0];const t=timeFromEvent(touch.clientX);video.currentTime=t;showScrub(touch.clientX,t);},{passive:true});
-  track.addEventListener("touchmove",(e)=>{const touch=e.touches[0];const t=timeFromEvent(touch.clientX);video.currentTime=t;showScrub(touch.clientX,t);},{passive:true});
-  track.addEventListener("touchend",hideScrub);
+  document.addEventListener('mousemove', (e) => {
+    if (isDragging) seek(e);
+  });
 
-  let isMuted=false;
-  muteBtn.addEventListener("click",()=>{isMuted=!isMuted;video.muted=isMuted;muteBtn.innerText=isMuted?"🔇":"🔊";});
+  document.addEventListener('mouseup', () => {
+    isDragging = false;
+  });
 
-  fsBtn.addEventListener("click",()=>{
-    const fsEl=document.fullscreenElement||document.webkitFullscreenElement;
-    if(fsEl){
-      if(document.exitFullscreen)document.exitFullscreen();else if(document.webkitExitFullscreen)document.webkitExitFullscreen();
-    }else{
-      if(player.requestFullscreen)player.requestFullscreen();else if(player.webkitRequestFullscreen)player.webkitRequestFullscreen();
+  // Превью при наведении
+  progressTrack.addEventListener('mousemove', (e) => {
+    const rect = progressTrack.getBoundingClientRect();
+    let pos = (e.clientX - rect.left) / rect.width;
+    pos = Math.max(0, Math.min(1, pos));
+    
+    progressPreview.style.display = 'block';
+    progressPreview.style.left = (pos * 100) + '%';
+    previewTime.textContent = fmtTime(pos * video.duration);
+  });
+
+  progressTrack.addEventListener('mouseleave', () => {
+    progressPreview.style.display = 'none';
+  });
+
+  // Громкость
+  muteBtn.addEventListener('click', () => {
+    video.muted = !video.muted;
+    muteBtn.textContent = video.muted ? '🔇' : '🔊';
+  });
+
+  volumeSlider.addEventListener('input', (e) => {
+    video.volume = e.target.value;
+    video.muted = (video.volume === 0);
+    muteBtn.textContent = video.muted ? '🔇' : '🔊';
+  });
+
+  // Полноэкранный режим
+  fullscreenBtn.addEventListener('click', () => {
+    if (!document.fullscreenElement) {
+      player.requestFullscreen().catch(err => console.log(err));
+    } else {
+      document.exitFullscreen();
     }
   });
-  document.addEventListener("fullscreenchange",()=>{fsBtn.innerText=(document.fullscreenElement===player)?"✕":"⤢";});
-  document.addEventListener("webkitfullscreenchange",()=>{fsBtn.innerText=(document.webkitFullscreenElement===player)?"✕":"⤢";});
-
-  // Picture-in-Picture
-  if(pipBtn){
-    if(!document.pictureInPictureEnabled){pipBtn.style.display="none";}
-    pipBtn.addEventListener("click",async()=>{
-      try{
-        if(document.pictureInPictureElement){await document.exitPictureInPicture();}
-        else{await video.requestPictureInPicture();}
-      }catch(err){console.warn("PiP недоступен:",err);}
-    });
-  }
-
-  // CC — переключатель субтитров (пока без файла субтитров: просто визуальный тумблер)
-  if(ccBtn){
-    ccBtn.addEventListener("click",()=>{ccBtn.classList.toggle("active");});
-  }
-
-  // settings menu: playback speed + scale
-  const settingsBtn=document.getElementById("settingsBtn");
-  const settingsMenu=document.getElementById("settingsMenu");
-  settingsBtn.addEventListener("click",(e)=>{e.stopPropagation();settingsMenu.classList.toggle("open");});
-  document.addEventListener("click",(e)=>{if(!settingsMenu.contains(e.target)&&e.target!==settingsBtn)settingsMenu.classList.remove("open");});
-  settingsMenu.querySelectorAll("[data-speed]").forEach(btn=>{
-    btn.addEventListener("click",()=>{
-      video.playbackRate=parseFloat(btn.dataset.speed);
-      settingsMenu.querySelectorAll("[data-speed]").forEach(b=>b.classList.remove("active"));
-      btn.classList.add("active");
-    });
-  });
-  settingsMenu.querySelectorAll("[data-scale]").forEach(btn=>{
-    btn.addEventListener("click",()=>{
-      video.style.objectFit=btn.dataset.scale;
-      settingsMenu.querySelectorAll("[data-scale]").forEach(b=>b.classList.remove("active"));
-      btn.classList.add("active");
-    });
-  });
 })();
-firebase.initializeApp({apiKey:"AIzaSyCTr1vgcuSEn_2Ebh2vC3k7sNYzvMoYlBo",authDomain:"kino-project-bf21c.firebaseapp.com",projectId:"kino-project-bf21c"});
-const db=firebase.firestore();
-const movieKey="This Is the End 2013";
-const movieRef=db.collection("movies").doc(movieKey);
-const commentsRef=movieRef.collection("comments");
-const votesRef=movieRef.collection("votes");
-const statsRef=movieRef.collection("stats");
-const usersRef=db.collection("users");
-let currentUser=null,replyTo=null,votingInProgress={};
-const PROTECTED_NICKS=["Mister_fish","Mister_fish606","fish606"];
-const ADMIN_PASS="xhidid";
-function checkNick(){const nick=document.getElementById("nickname").value.trim();const pf=document.getElementById("adminPassLoginField");if(PROTECTED_NICKS.includes(nick)){pf.style.display="inline-block";document.getElementById("loginError").innerText="⚠ Ник администратора";}else{pf.style.display="none";document.getElementById("loginError").innerText="";}}
-async function login(){const nick=document.getElementById("nickname").value.trim();if(!nick)return alert("Введите ник!");if(PROTECTED_NICKS.includes(nick)){const pass=document.getElementById("adminPassLoginField").value;if(pass!==ADMIN_PASS)return document.getElementById("loginError").innerText="❌ Неверный пароль!";localStorage.setItem("nickname",nick);currentUser=nick;document.getElementById("loginStatus").innerText="👑 Добро пожаловать, "+nick+"!";return;}const saved=localStorage.getItem("nickname");if(saved){if(saved!==nick)return alert("Ваш ник уже: "+saved);currentUser=saved;document.getElementById("loginStatus").innerText="✓ Вы вошли как "+currentUser;return;}const doc=await usersRef.doc(nick).get();if(doc.exists)return alert("Ник '"+nick+"' уже занят!");await usersRef.doc(nick).set({createdAt:firebase.firestore.FieldValue.serverTimestamp(),uid:Date.now()+"_"+Math.random()});localStorage.setItem("nickname",nick);currentUser=nick;document.getElementById("loginStatus").innerText="✓ Зарегистрирован как "+currentUser;}
-function initViews(){const ref=statsRef.doc("views");ref.onSnapshot(doc=>{if(doc.exists)document.getElementById("views").innerText=doc.data().count||0;});if(!localStorage.getItem("viewed_"+movieKey)){ref.set({count:firebase.firestore.FieldValue.increment(1)},{merge:true});localStorage.setItem("viewed_"+movieKey,"yes");}}
-const ratingRef=statsRef.doc("rating");
-async function loadRating(){const snap=await ratingRef.get();if(!snap.exists)await ratingRef.set({totalScore:0,totalVotes:0});const data=(await ratingRef.get()).data();document.getElementById("avgRating").innerText=data.totalVotes?(data.totalScore/data.totalVotes).toFixed(1):"—";document.getElementById("votesCount").innerText=data.totalVotes;}
-const starsRow=document.getElementById("starsRow");
-starsRow.querySelectorAll(".star").forEach(star=>{star.addEventListener("mouseover",()=>{const v=parseInt(star.dataset.value);starsRow.querySelectorAll(".star").forEach(s=>{s.style.color=parseInt(s.dataset.value)<=v?"var(--gold)":"#3a2c14";});});star.addEventListener("mouseleave",()=>{starsRow.querySelectorAll(".star").forEach(s=>s.style.color="#3a2c14");});star.onclick=async()=>{if(!currentUser)return alert("Войдите чтобы оценить!");const voteKey="rated_"+movieKey+"_"+currentUser;if(localStorage.getItem(voteKey))return alert("Вы уже оценили!");const value=parseInt(star.dataset.value);await ratingRef.update({totalScore:firebase.firestore.FieldValue.increment(value),totalVotes:firebase.firestore.FieldValue.increment(1)});localStorage.setItem(voteKey,"yes");document.getElementById("ratingResult").innerText="Вы поставили "+value+" ★";starsRow.querySelectorAll(".star").forEach((s,i)=>{s.style.color=i<value?"var(--gold)":"#3a2c14";});loadRating();}});
-commentsRef.orderBy("created").onSnapshot(snapshot=>{const all={};snapshot.forEach(doc=>{all[doc.id]={id:doc.id,...doc.data()}});document.getElementById("comments").innerHTML="";Object.values(all).filter(c=>!c.parent).forEach(c=>renderComment(c,all));});
-function renderComment(comment,all,parentEl=null){const div=document.createElement("div");div.className="comment"+(comment.parent?" reply":"");const time=comment.created?new Date(comment.created).toLocaleDateString("ru-RU",{day:"2-digit",month:"short",year:"numeric"}):"";const isAdmin=["Mister_fish","Mister_fish606","fish606"].includes(comment.user);const adminBadge=isAdmin?`<span style="color:#c0392b;font-family:'Bebas Neue',sans-serif;font-size:0.72rem;letter-spacing:0.12em;margin-left:6px;border:1px solid rgba(192,57,43,0.4);padding:1px 7px;border-radius:2px;background:rgba(192,57,43,0.1);">Администратор</span>`:"";div.innerHTML=`<div class="comment-header"><span class="comment-user">${comment.user}</span>${adminBadge}<span class="comment-time">${time}</span></div><div class="comment-text">${comment.text}</div><div class="comment-actions"><button class="btn-action" onclick="likeComment('${comment.id}')">👍 ${comment.likes||0}</button><button class="btn-action" onclick="dislikeComment('${comment.id}')">👎 ${comment.dislikes||0}</button><button class="btn-action" onclick="openReply('${comment.id}')">↩ Ответить</button>${currentUser===comment.user?`<button class="btn-action delete" onclick="deleteComment('${comment.id}')">✕ Удалить</button>`:""}</div>`;(parentEl||document.getElementById("comments")).appendChild(div);Object.values(all).filter(c=>c.parent===comment.id).forEach(child=>renderComment(child,all,div));}
-async function addComment(parent=null,text=null){if(!currentUser)return alert("Войдите!");const val=text||document.getElementById("commentInput").value.trim();if(!val)return;await commentsRef.add({user:currentUser,text:val,parent:parent||null,likes:0,dislikes:0,created:Date.now()});if(!parent)document.getElementById("commentInput").value="";}
-async function likeComment(id){if(!currentUser)return alert("Войдите!");if(votingInProgress[id])return;votingInProgress[id]=true;const vd=votesRef.doc(currentUser+"_"+id);const vs=await vd.get();if(vs.exists){const t=vs.data().type;if(t==="like"){await commentsRef.doc(id).update({likes:firebase.firestore.FieldValue.increment(-1)});await vd.delete();}else if(t==="dislike"){await commentsRef.doc(id).update({dislikes:firebase.firestore.FieldValue.increment(-1),likes:firebase.firestore.FieldValue.increment(1)});await vd.update({type:"like"});}}else{await commentsRef.doc(id).update({likes:firebase.firestore.FieldValue.increment(1)});await vd.set({type:"like"});}votingInProgress[id]=false;}
-async function dislikeComment(id){if(!currentUser)return alert("Войдите!");if(votingInProgress[id])return;votingInProgress[id]=true;const vd=votesRef.doc(currentUser+"_"+id);const vs=await vd.get();if(vs.exists){const t=vs.data().type;if(t==="dislike"){await commentsRef.doc(id).update({dislikes:firebase.firestore.FieldValue.increment(-1)});await vd.delete();}else if(t==="like"){await commentsRef.doc(id).update({likes:firebase.firestore.FieldValue.increment(-1),dislikes:firebase.firestore.FieldValue.increment(1)});await vd.update({type:"dislike"});}}else{await commentsRef.doc(id).update({dislikes:firebase.firestore.FieldValue.increment(1)});await vd.set({type:"dislike"});}votingInProgress[id]=false;}
-async function deleteComment(id){const doc=await commentsRef.doc(id).get();if(!doc.exists||doc.data().user!==currentUser)return alert("Нельзя удалить!");await commentsRef.doc(id).delete();}
-function openReply(id){replyTo=id;document.getElementById("replyModal").classList.add("open");}
-function closeModal(){document.getElementById("replyModal").classList.remove("open");}
-async function saveReply(){const t=document.getElementById("modalText").value.trim();if(t)await addComment(replyTo,t);document.getElementById("modalText").value="";closeModal();}
-function openReport(){document.getElementById("reportModal").classList.add("open");}
-function closeReport(){document.getElementById("reportModal").classList.remove("open");document.getElementById("reportSentMsg").style.display="none";document.getElementById("reportText").value="";document.getElementById("reportName").value="";}
-async function sendReport(){const name=document.getElementById("reportName").value.trim()||"Аноним";const text=document.getElementById("reportText").value.trim();if(!text)return alert("Опиши проблему!");const sendBtn=document.querySelector("#reportModal .btn-red");sendBtn.innerText="Отправка...";sendBtn.disabled=true;try{await emailjs.send("service_m2itd3q","template_jvqfkhr",{from_name:name,message:text,page:"Апокалипсис по-голливудски"});document.getElementById("reportSentMsg").style.display="block";sendBtn.innerText="✅ Отправлено!";}catch(err){alert("Ошибка: "+JSON.stringify(err));sendBtn.innerText="📨 Отправить сообщение";sendBtn.disabled=false;}}
-window.onload=async()=>{const saved=localStorage.getItem("nickname");if(saved){currentUser=saved;document.getElementById("loginStatus").innerText="✓ Вы вошли как "+currentUser;}loadRating();initViews();renderSmartRecs("This Is the End 2013","smartRecs");};
 </script>
+ 
 </body>
 </html>
