@@ -2,7 +2,7 @@
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
-<title>Таксист — Fish Cinema</title>
+<title>Апокалипсис по-голливудски — Fish Cinema</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Crimson+Text:ital,wght@0,400;0,600;1,400&family=Bebas+Neue&display=swap" rel="stylesheet">
 <style>
 :root{--gold:#c9a84c;--gold-light:#e8cc80;--gold-dim:#8a7040;--cream:#e8dcc8;--cream-dim:#c4aa88;--bg:#16120c;--bg2:#1e1810;--bg3:#262014;--red:#7a2020;}
@@ -43,15 +43,20 @@ body{font-family:'Crimson Text',Georgia,serif;background:var(--bg);color:var(--c
 @keyframes title-glow{from{text-shadow:0 0 25px rgba(212,175,55,0.3),3px 4px 0 rgba(0,0,0,0.6)}to{text-shadow:0 0 55px rgba(212,175,55,0.6),3px 4px 0 rgba(0,0,0,0.6)}}
 .hero-orig{font-family:'Crimson Text',serif;font-style:italic;color:var(--cream-dim);font-size:1.1rem;margin-bottom:18px;}
 .hero-meta{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:20px;}
-.meta-tag{font-family:'Bebas Neue',sans-serif;font-size:0.78rem;letter-spacing:0.12em;padding:4px 12px;border-radius:2px;border:1px solid var(--gold-dim);color:var(--gold);background:rgba(201,168,76,0.08);display:inline-block;transition:0.2s;}
+.meta-tag{font-family:'Bebas Neue',sans-serif;font-size:0.78rem;letter-spacing:0.12em;padding:4px 12px;border-radius:2px;border:1px solid var(--gold-dim);color:var(--gold);background:rgba(201,168,76,0.08);display:inline-block;transition:0.2s;position:relative;}
+.meta-tag::after{content:"";position:absolute;bottom:0;left:10%;right:10%;height:1px;background:var(--gold);transform:scaleX(0);transition:transform 0.25s ease;}
 .meta-tag:hover{color:var(--gold-light);background:rgba(201,168,76,0.16);}
+.meta-tag:hover::after{transform:scaleX(1);}
 .ratings{display:flex;gap:16px;align-items:center;margin-bottom:20px;}
-.rating-badge{text-align:center;background:rgba(212,175,55,0.08);border:1px solid var(--gold-dim);padding:8px 16px;border-radius:2px;cursor:default;transition:0.25s;}
+.rating-badge{text-align:center;background:rgba(212,175,55,0.08);border:1px solid var(--gold-dim);padding:8px 16px;border-radius:2px;cursor:default;transition:0.25s;position:relative;overflow:hidden;}
+.rating-badge::after{content:"";position:absolute;bottom:0;left:10%;right:10%;height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent);transform:scaleX(0);transition:transform 0.3s ease;}
 .rating-badge:hover{border-color:var(--gold);background:rgba(212,175,55,0.14);}
-.rating-badge .label{font-family:'Bebas Neue',sans-serif;font-size:0.65rem;letter-spacing:0.2em;color:var(--gold-dim);display:block;}
+.rating-badge:hover::after{transform:scaleX(1);}
+.rating-badge .label{font-family:'Bebas Neue',sans-serif;font-size:0.65rem;letter-spacing:0.2em;color:var(--gold-dim);display:block;transition:color 0.2s;}
+.rating-badge:hover .label{color:var(--gold);}
 .rating-badge .value{font-family:'Playfair Display',serif;font-size:1.5rem;font-weight:700;color:var(--gold);display:block;}
 .user-rating-wrap{margin-bottom:8px;}
-.user-rating-wrap label{font-family:'Bebas Neue',sans-serif;font-size:0.72rem;letter-spacing:0.2em;color:var(--gold);display:inline-block;margin-bottom:6px;}
+.user-rating-wrap label{font-family:'Bebas Neue',sans-serif;font-size:0.72rem;letter-spacing:0.2em;color:var(--gold);display:inline-block;margin-bottom:6px;position:relative;cursor:default;transition:color 0.2s;}
 .stars{display:flex;gap:4px;}
 .star{font-size:1.6rem;cursor:pointer;color:#3a2c14;transition:color 0.15s,transform 0.15s;line-height:1;}
 .star:hover{color:var(--gold);transform:scale(1.2);}
@@ -67,9 +72,9 @@ body{font-family:'Crimson Text',Georgia,serif;background:var(--bg);color:var(--c
 .detail-item:hover{border-color:rgba(180,150,80,0.25);}
 .detail-label{font-family:'Crimson Text',serif;font-size:0.8rem;color:var(--gold-dim);display:block;margin-bottom:5px;font-style:italic;}
 .detail-value{font-family:'Crimson Text',serif;font-size:1.05rem;color:var(--gold);line-height:1.5;display:inline-block;position:relative;transition:color 0.2s;}
-.detail-value:hover{color:var(--gold-light);}
-.trailer-wrap{position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border:2px solid var(--gold-dim);}
-.trailer-wrap iframe{position:absolute;top:0;left:0;width:100%;height:100%;border:none;}
+.detail-item:hover .detail-value{color:var(--gold-light);}
+.trailer-wrap{position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border:2px solid var(--gold-dim);box-shadow:0 0 0 1px rgba(212,175,55,0.15),0 10px 40px rgba(0,0,0,0.6);}
+.trailer-wrap iframe{position:absolute;top:-42px;left:0;width:100%;height:calc(100% + 42px);border:none;clip-path:inset(42px 0 0 0);}
 .rec-category-label{font-family:'Bebas Neue',sans-serif;font-size:0.72rem;letter-spacing:0.28em;color:var(--gold-dim);margin-bottom:16px;display:flex;align-items:center;gap:10px;}
 .rec-category-label::after{content:"";flex:1;height:1px;background:linear-gradient(90deg,rgba(138,112,64,0.4),transparent);}
 .rec-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,200px));gap:18px;margin-bottom:36px;}
@@ -87,10 +92,6 @@ body{font-family:'Crimson Text',Georgia,serif;background:var(--bg);color:var(--c
 .rec-card:hover .rec-card-overlay{opacity:1;}
 .rec-card-overlay-title{font-family:'Playfair Display',serif;font-size:0.8rem;color:var(--gold-light);font-weight:700;line-height:1.2;}
 .rec-card-overlay-meta{font-size:0.68rem;color:var(--cream-dim);font-style:italic;margin-top:2px;}
-.rec-badge{position:absolute;top:5px;left:5px;z-index:4;font-family:'Bebas Neue',sans-serif;font-size:0.65rem;letter-spacing:0.1em;padding:2px 7px;border-radius:2px;pointer-events:none;}
-.rec-badge.sequel{background:linear-gradient(135deg,#7a3a00,#c06010);color:#fff;animation:pulse-sequel 2.2s infinite alternate;}
-@keyframes pulse-sequel{from{box-shadow:0 0 5px rgba(200,90,0,0.35)}to{box-shadow:0 0 14px rgba(200,90,0,0.85)}}
-.rec-badge.similar{background:rgba(30,24,14,0.88);border:1px solid var(--gold-dim);color:var(--gold);}
 .rec-card-title{font-family:'Playfair Display',serif;font-size:0.82rem;color:var(--cream);margin-top:7px;text-align:center;line-height:1.3;transition:color 0.2s;word-break:break-word;}
 .rec-card:hover .rec-card-title{color:var(--gold);}
 .rec-card-year{font-family:'Bebas Neue',sans-serif;font-size:0.68rem;letter-spacing:0.15em;color:var(--gold-dim);text-align:center;margin-top:2px;}
@@ -133,85 +134,6 @@ body{font-family:'Crimson Text',Georgia,serif;background:var(--bg);color:var(--c
 .btn-red{font-family:'Bebas Neue',sans-serif;letter-spacing:0.14em;background:linear-gradient(135deg,#5a1010,var(--red));color:var(--gold-light);border:none;padding:10px 22px;border-radius:2px;cursor:pointer;font-size:0.9rem;transition:0.3s;margin-top:4px;}
 ::-webkit-scrollbar{width:5px;}::-webkit-scrollbar-thumb{background:var(--gold-dim);border-radius:3px;}
 .filmstrip-bottom{border-top:2px solid #1a1208;margin-top:60px;}
-
-/* GOLD UNDERLINES ON HOVER */
-.meta-tag {
-  position:relative;
-}
-.meta-tag::after {
-  content:"";
-  position:absolute;
-  bottom:0; left:10%; right:10%;
-  height:1px;
-  background:var(--gold);
-  transform:scaleX(0);
-  transition:transform 0.25s ease;
-}
-.meta-tag:hover::after { transform:scaleX(1); }
-
-.rating-badge {
-  position:relative; overflow:hidden;
-}
-.rating-badge::after {
-  content:"";
-  position:absolute;
-  bottom:0; left:10%; right:10%;
-  height:1px;
-  background:linear-gradient(90deg, transparent, var(--gold), transparent);
-  transform:scaleX(0);
-  transition:transform 0.3s ease;
-}
-.rating-badge:hover::after { transform:scaleX(1); }
-.rating-badge .label { transition:color 0.2s; }
-.rating-badge:hover .label { color:var(--gold); }
-.rating-badge .value { transition:color 0.2s, text-shadow 0.2s; }
-.rating-badge:hover .value {
-  color:var(--gold-light);
-  text-shadow:0 0 18px rgba(201,168,76,0.5);
-}
-
-.detail-value {
-  position:relative;
-}
-.detail-value::after {
-  content:"";
-  position:absolute;
-  bottom:-2px; left:0; right:0;
-  height:1px;
-  background:linear-gradient(90deg, var(--gold-dim), var(--gold), var(--gold-dim));
-  transform:scaleX(0);
-  transform-origin:left;
-  transition:transform 0.3s ease;
-}
-.detail-item:hover .detail-value::after { transform:scaleX(1); }
-.detail-item:hover .detail-value { color:var(--gold-light); }
-
-.detail-value a { color:var(--gold); text-decoration:none; position:relative; transition:color 0.2s; }
-.detail-value a::after {
-  content:""; position:absolute;
-  bottom:-1px; left:0; right:0; height:1px;
-  background:var(--gold); transform:scaleX(0); transform-origin:left; transition:transform 0.25s ease;
-}
-.detail-value a:hover { color:var(--gold-light); }
-.detail-value a:hover::after { transform:scaleX(1); }
-
-.user-rating-wrap label {
-  display:inline-block; cursor:default;
-  position:relative; transition:color 0.2s;
-}
-.user-rating-wrap label::after {
-  content:"";
-  position:absolute;
-  bottom:-2px; left:0; right:0;
-  height:1px;
-  background:var(--gold);
-  transform:scaleX(0);
-  transform-origin:left;
-  transition:transform 0.25s ease;
-}
-.user-rating-wrap label:hover { color:var(--gold-light); }
-.user-rating-wrap label:hover::after { transform:scaleX(1); }
-
 </style>
 </head>
 <body>
@@ -222,31 +144,31 @@ body{font-family:'Crimson Text',Georgia,serif;background:var(--bg);color:var(--c
   <span class="nav-title">Fish Cinema</span>
   <span class="nav-spacer"></span>
   <button class="report-btn" onclick="openReport()"><span>⚠</span> Проблемы с сайтом? Пиши сюда</button>
-  <span class="nav-meta">◆ &nbsp; Драма · Триллер · 1976 &nbsp; ◆</span>
+  <span class="nav-meta">◆ &nbsp; Комедия · 2013 &nbsp; ◆</span>
 </nav>
 <section class="hero">
-  <div class="hero-bg" style="background-image:url('https://preview.redd.it/taxi-driver-1976-v0-2vafsern2tnf1.jpg?width=640&crop=smart&auto=webp&s=c0319ef604e7680dd8c420851d775d7fe9d2f549')"></div>
+  <div class="hero-bg" style="background-image:url('https://play-lh.googleusercontent.com/AoLjRe-KKJqd8ogN33AhIdbpQTOQFvaUDZjIkuf5v0LaPGdKv4N--FX97XkDpuWA4i9V')"></div>
   <div class="hero-gradient"></div>
   <div class="hero-gradient-left"></div>
   <div class="hero-content">
     <div class="poster-wrap">
-      <img src="https://preview.redd.it/taxi-driver-1976-v0-2vafsern2tnf1.jpg?width=640&crop=smart&auto=webp&s=c0319ef604e7680dd8c420851d775d7fe9d2f549" alt="Таксист">
+      <img src="https://play-lh.googleusercontent.com/AoLjRe-KKJqd8ogN33AhIdbpQTOQFvaUDZjIkuf5v0LaPGdKv4N--FX97XkDpuWA4i9V" alt="Апокалипсис по-голливудски">
       <div class="poster-corner tl"></div><div class="poster-corner tr"></div>
       <div class="poster-corner bl"></div><div class="poster-corner br"></div>
     </div>
     <div class="hero-info">
-      <div class="hero-genre">◆ &nbsp; ДРАМА · ТРИЛЛЕР &nbsp; ◆</div>
-      <h1 class="hero-title">Таксист</h1>
-      <div class="hero-orig">Taxi Driver &nbsp;·&nbsp; 1976</div>
+      <div class="hero-genre">◆ &nbsp; КОМЕДИЯ · ФЭНТЕЗИ &nbsp; ◆</div>
+      <h1 class="hero-title">Апокалипсис по-голливудски</h1>
+      <div class="hero-orig">This Is the End &nbsp;·&nbsp; 2013</div>
       <div class="hero-meta">
-        <span class="meta-tag">1976</span>
+        <span class="meta-tag">2013</span>
         <span class="meta-tag">США</span>
-        <span class="meta-tag">Мартин Скорсезе</span>
+        <span class="meta-tag">Сет Роген</span>
         <span class="meta-tag">👁 <span id="views">0</span> просмотров</span>
       </div>
       <div class="ratings">
-        <div class="rating-badge"><span class="label">IMDb</span><span class="value">8.2</span></div>
-        <div class="rating-badge"><span class="label">Кинопоиск</span><span class="value">8.1</span></div>
+        <div class="rating-badge"><span class="label">IMDb</span><span class="value">6.6</span></div>
+        <div class="rating-badge"><span class="label">Кинопоиск</span><span class="value">6.8</span></div>
         <div class="rating-badge"><span class="label">Fish Cinema</span><span class="value" id="avgRating">—</span><span class="label"><span id="votesCount">0</span> голосов</span></div>
       </div>
       <div class="user-rating-wrap">
@@ -263,27 +185,25 @@ body{font-family:'Crimson Text',Georgia,serif;background:var(--bg);color:var(--c
 </section>
 <div class="page-content">
   <div class="section-divider"><span class="section-label">✦ Описание фильма ✦</span></div>
-  <div class="description-block">Трэвис Бикл — ветеран Вьетнама, страдающий бессонницей. По ночам он колесит по улицам Нью-Йорка за рулём такси, наблюдая за нравственным разложением города. Одержимый идеей очистить улицы от скверны, он обзаводится арсеналом оружия и готовится к своей личной войне.</div>
+  <div class="description-block">Голливудские звёзды собираются на вечеринку у Джеймса Франко. В разгар веселья начинается настоящий апокалипсис — земля разверзается, с неба падает огонь, а монстры бродят по улицам. Сет Роген, Джона Хилл, Джей Барушель и другие знаменитости вынуждены выживать, играя самих себя.</div>
   <div class="section-divider"><span class="section-label">✦ О фильме ✦</span></div>
   <div class="details-grid">
-    <div class="detail-item"><span class="detail-label">Оригинальное название</span><span class="detail-value">Taxi Driver</span></div>
-    <div class="detail-item"><span class="detail-label">Режиссёр</span><span class="detail-value">Мартин Скорсезе</span></div>
-    <div class="detail-item"><span class="detail-label">В главных ролях</span><span class="detail-value">Роберт Де Ниро, Джоди Фостер</span></div>
+    <div class="detail-item"><span class="detail-label">Оригинальное название</span><span class="detail-value">This Is the End</span></div>
+    <div class="detail-item"><span class="detail-label">Режиссёр</span><span class="detail-value">Сет Роген, Эван Голдберг</span></div>
+    <div class="detail-item"><span class="detail-label">В главных ролях</span><span class="detail-value">Сет Роген, Джеймс Франко, Джона Хилл, Майкл Сера</span></div>
     <div class="detail-item"><span class="detail-label">Страна</span><span class="detail-value">США</span></div>
-    <div class="detail-item"><span class="detail-label">Год выпуска</span><span class="detail-value">1976</span></div>
-    <div class="detail-item"><span class="detail-label">Жанр</span><span class="detail-value">Драма / Триллер / Криминал</span></div>
-    <div class="detail-item"><span class="detail-label">Длительность</span><span class="detail-value">114 минут</span></div>
-    <div class="detail-item"><span class="detail-label">Сценарист</span><span class="detail-value">Пол Шрейдер</span></div>
+    <div class="detail-item"><span class="detail-label">Год выпуска</span><span class="detail-value">2013</span></div>
+    <div class="detail-item"><span class="detail-label">Жанр</span><span class="detail-value">Комедия / Фэнтези / Ужасы</span></div>
+    <div class="detail-item"><span class="detail-label">Длительность</span><span class="detail-value">107 минут</span></div>
+    <div class="detail-item"><span class="detail-label">Сценарист</span><span class="detail-value">Сет Роген, Эван Голдберг</span></div>
   </div>
   <div class="section-divider"><span class="section-label">✦ Смотреть фильм ✦</span></div>
   <div class="trailer-wrap">
-    <iframe src="https://drive.google.com/file/d/1rDNzZOuAbwscYcEsBw18rAtkUI49ttZu/preview" allow="autoplay" allowfullscreen></iframe>
+    <iframe src="https://archive.org/embed/2013-2013-2" allow="autoplay" allowfullscreen></iframe>
   </div>
   <div class="section-divider"><span class="section-label">✦ Смотрите также ✦</span></div>
-  <div class="rec-category-label">&#9670; &nbsp; Похожие фильмы</div>
+  <div class="rec-category-label">◆ &nbsp; Похожие фильмы</div>
   <div class="rec-grid" id="smartRecs"></div>
-
-  <div class="section-divider"><span class="section-label">✦ Вход ✦</span></div>
   <div class="section-divider"><span class="section-label">✦ Вход ✦</span></div>
   <div class="login-block">
     <input type="text" id="nickname" placeholder="Ваш ник" oninput="checkNick()">
@@ -324,7 +244,7 @@ function buildStrip(id){const el=document.getElementById(id);let h="";for(let i=
 buildStrip("filmstripTop");buildStrip("filmstripBottom");
 firebase.initializeApp({apiKey:"AIzaSyCTr1vgcuSEn_2Ebh2vC3k7sNYzvMoYlBo",authDomain:"kino-project-bf21c.firebaseapp.com",projectId:"kino-project-bf21c"});
 const db=firebase.firestore();
-const movieKey="taxi_driver_1976";
+const movieKey="This Is the End 2013";
 const movieRef=db.collection("movies").doc(movieKey);
 const commentsRef=movieRef.collection("comments");
 const votesRef=movieRef.collection("votes");
@@ -351,8 +271,8 @@ function closeModal(){document.getElementById("replyModal").classList.remove("op
 async function saveReply(){const t=document.getElementById("modalText").value.trim();if(t)await addComment(replyTo,t);document.getElementById("modalText").value="";closeModal();}
 function openReport(){document.getElementById("reportModal").classList.add("open");}
 function closeReport(){document.getElementById("reportModal").classList.remove("open");document.getElementById("reportSentMsg").style.display="none";document.getElementById("reportText").value="";document.getElementById("reportName").value="";}
-async function sendReport(){const name=document.getElementById("reportName").value.trim()||"Аноним";const text=document.getElementById("reportText").value.trim();if(!text)return alert("Опиши проблему!");const sendBtn=document.querySelector("#reportModal .btn-red");sendBtn.innerText="Отправка...";sendBtn.disabled=true;try{await emailjs.send("service_m2itd3q","template_jvqfkhr",{from_name:name,message:text,page:"Таксист"});document.getElementById("reportSentMsg").style.display="block";sendBtn.innerText="✅ Отправлено!";}catch(err){alert("Ошибка: "+JSON.stringify(err));sendBtn.innerText="📨 Отправить сообщение";sendBtn.disabled=false;}}
-window.onload=async()=>{const saved=localStorage.getItem("nickname");if(saved){currentUser=saved;document.getElementById("loginStatus").innerText="✓ Вы вошли как "+currentUser;}loadRating();initViews();renderSmartRecs("taxi_driver_1976","smartRecs");};
+async function sendReport(){const name=document.getElementById("reportName").value.trim()||"Аноним";const text=document.getElementById("reportText").value.trim();if(!text)return alert("Опиши проблему!");const sendBtn=document.querySelector("#reportModal .btn-red");sendBtn.innerText="Отправка...";sendBtn.disabled=true;try{await emailjs.send("service_m2itd3q","template_jvqfkhr",{from_name:name,message:text,page:"Апокалипсис по-голливудски"});document.getElementById("reportSentMsg").style.display="block";sendBtn.innerText="✅ Отправлено!";}catch(err){alert("Ошибка: "+JSON.stringify(err));sendBtn.innerText="📨 Отправить сообщение";sendBtn.disabled=false;}}
+window.onload=async()=>{const saved=localStorage.getItem("nickname");if(saved){currentUser=saved;document.getElementById("loginStatus").innerText="✓ Вы вошли как "+currentUser;}loadRating();initViews();renderSmartRecs("This Is the End 2013","smartRecs");};
 </script>
 </body>
 </html>
