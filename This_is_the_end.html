@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <title>Апокалипсис по-голливудски — Fish Cinema</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Crimson+Text:ital,wght@0,400;0,600;1,400&family=Bebas+Neue&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/webtorrent@latest/webtorrent.min.js"></script>
 <style>
 :root{--gold:#c9a84c;--gold-light:#e8cc80;--gold-dim:#8a7040;--cream:#e8dcc8;--cream-dim:#c4aa88;--bg:#16120c;--bg2:#1e1810;--bg3:#262014;--red:#7a2020;}
 *{box-sizing:border-box;margin:0;padding:0;}
@@ -68,8 +69,8 @@ body{font-family:'Crimson Text',Georgia,serif;background:var(--bg);color:var(--c
 .detail-label{font-family:'Crimson Text',serif;font-size:0.8rem;color:var(--gold-dim);display:block;margin-bottom:5px;font-style:italic;}
 .detail-value{font-family:'Crimson Text',serif;font-size:1.05rem;color:var(--gold);line-height:1.5;display:inline-block;position:relative;transition:color 0.2s;}
 .detail-value:hover{color:var(--gold-light);}
-.trailer-wrap{position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border:2px solid var(--gold-dim);}
-.trailer-wrap iframe{position:absolute;top:0;left:0;width:100%;height:100%;border:none;}
+
+/* Стили плеера */
 .custom-player{position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border:2px solid var(--gold-dim);background:#000;box-shadow:0 0 0 1px rgba(212,175,55,0.15),0 10px 40px rgba(0,0,0,0.6);}
 .custom-player video{position:absolute;top:0;left:0;width:100%;height:100%;display:block;background:#000;}
 .player-cover{position:absolute;inset:0;background-size:cover;background-position:center 20%;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:opacity 0.4s ease;z-index:2;}
@@ -77,9 +78,6 @@ body{font-family:'Crimson Text',Georgia,serif;background:var(--bg);color:var(--c
 .player-cover.hidden{opacity:0;pointer-events:none;}
 .player-bigplay{position:relative;z-index:2;width:74px;height:74px;border-radius:12px;background:#2bb6cc;border:none;color:#fff;font-size:1.7rem;cursor:pointer;display:flex;align-items:center;justify-content:center;padding-left:6px;transition:0.25s;box-shadow:0 6px 20px rgba(0,0,0,0.5);}
 .player-bigplay:hover{background:#33c7df;transform:scale(1.06);}
-.pip-btn{position:absolute;z-index:3;right:14px;top:50%;transform:translateY(-50%);width:34px;height:34px;border-radius:50%;background:rgba(0,0,0,0.35);border:1.5px solid rgba(255,255,255,0.7);color:#fff;font-size:0.95rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:0.2s;opacity:0;}
-.custom-player:hover .pip-btn{opacity:1;}
-.pip-btn:hover{background:rgba(255,255,255,0.15);border-color:#fff;}
 .player-controls{position:absolute;left:0;right:0;bottom:0;z-index:3;display:flex;flex-direction:column;gap:6px;padding:8px 14px 10px;background:linear-gradient(0deg,rgba(10,10,10,0.96) 0%,rgba(10,10,10,0.7) 75%,transparent 100%);opacity:0;transform:translateY(6px);transition:opacity 0.25s ease,transform 0.25s ease;}
 .custom-player:hover .player-controls,.custom-player.playing .player-controls:hover,.custom-player.controls-visible .player-controls{opacity:1;transform:translateY(0);}
 .progress-track{width:100%;height:4px;background:rgba(255,255,255,0.25);border-radius:2px;position:relative;cursor:pointer;}
@@ -91,21 +89,23 @@ body{font-family:'Crimson Text',Georgia,serif;background:var(--bg);color:var(--c
 .pc-icon{background:none;border:none;color:#fff;width:26px;height:26px;cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center;flex-shrink:0;opacity:0.9;transition:0.15s;position:relative;padding:0;}
 .pc-icon:hover{opacity:1;transform:scale(1.08);}
 .time-display{font-family:'Bebas Neue',sans-serif;font-size:0.78rem;letter-spacing:0.05em;color:#e8e0d4;white-space:nowrap;}
-.cc-btn{font-family:'Bebas Neue',sans-serif;font-size:0.68rem;letter-spacing:0.05em;border:1.5px solid #fff;border-radius:2px;width:28px;height:20px;}
-.cc-btn.active{background:#fff;color:#000;}
-.settings-wrap{position:relative;flex-shrink:0;}
-.settings-icon{width:auto;}
-.hd-badge{position:absolute;bottom:-3px;right:-8px;background:#c0392b;color:#fff;font-family:'Bebas Neue',sans-serif;font-size:0.5rem;padding:0px 3px;border-radius:2px;letter-spacing:0.03em;}
-.settings-menu{display:none;position:absolute;bottom:34px;right:0;background:var(--bg2);border:1px solid var(--gold-dim);border-radius:3px;padding:8px;width:150px;box-shadow:0 8px 30px rgba(0,0,0,0.8);z-index:5;}
-.settings-menu.open{display:block;}
-.settings-section{font-family:'Bebas Neue',sans-serif;font-size:0.68rem;letter-spacing:0.14em;color:var(--gold-dim);padding:6px 6px 3px;}
-.settings-opt{display:block;width:100%;text-align:left;background:none;border:none;color:var(--cream-dim);font-family:'Crimson Text',serif;font-size:0.88rem;padding:6px 8px;border-radius:2px;cursor:pointer;transition:0.15s;}
-.settings-opt:hover{background:rgba(212,175,55,0.12);color:var(--gold-light);}
-.settings-opt.active{color:var(--gold);font-weight:600;}
-.settings-opt.active::before{content:"✓ ";}
-.scrub-preview{position:absolute;z-index:4;bottom:52px;left:0;display:none;flex-direction:column;align-items:center;pointer-events:none;transform:translateX(-50%);}
-.scrub-thumb{width:160px;height:90px;background-image:url('assets/trailer_sprite.jpg');background-repeat:no-repeat;border:2px solid #2bb6cc;border-radius:3px;box-shadow:0 6px 20px rgba(0,0,0,0.7);image-rendering:auto;}
-.scrub-time{margin-top:5px;font-family:'Bebas Neue',sans-serif;font-size:0.8rem;letter-spacing:0.08em;color:#fff;background:rgba(6,4,2,0.85);border:1px solid rgba(255,255,255,0.3);padding:2px 8px;border-radius:2px;}
+.volume-slider{width:80px;cursor:pointer;appearance:none;height:4px;background:rgba(255,255,255,0.3);border-radius:2px;}
+.volume-slider::-webkit-slider-thumb{appearance:none;width:12px;height:12px;background:#fff;border-radius:50%;cursor:pointer;}
+.volume-slider::-moz-range-thumb{width:12px;height:12px;background:#fff;border-radius:50%;cursor:pointer;border:none;}
+
+/* Прогресс загрузки торрента */
+.torrent-progress{position:absolute;top:10px;right:10px;background:rgba(0,0,0,0.8);border:1px solid var(--gold-dim);padding:8px 12px;border-radius:3px;font-family:'Bebas Neue',sans-serif;font-size:0.75rem;color:var(--gold);z-index:4;display:none;}
+.torrent-progress.active{display:block;}
+.torrent-progress .peers{color:var(--cream-dim);margin-top:4px;}
+.loading-spinner{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:50px;height:50px;border:3px solid rgba(255,255,255,0.1);border-top-color:#2bb6cc;border-radius:50%;animation:spin 1s linear infinite;z-index:3;display:none;}
+@keyframes spin{to{transform:translate(-50%,-50%) rotate(360deg);}}
+
+/* Ошибка */
+.video-error{position:absolute;inset:0;background:rgba(0,0,0,0.95);color:#c0392b;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:15px;z-index:10;text-align:center;padding:20px;}
+.video-error h3{font-family:'Playfair Display',serif;font-size:1.3rem;}
+.video-error p{color:var(--cream-dim);font-size:0.95rem;max-width:400px;line-height:1.5;}
+
+/* Рекомендации */
 .rec-category-label{font-family:'Bebas Neue',sans-serif;font-size:0.72rem;letter-spacing:0.28em;color:var(--gold-dim);margin-bottom:16px;display:flex;align-items:center;gap:10px;}
 .rec-category-label::after{content:"";flex:1;height:1px;background:linear-gradient(90deg,rgba(138,112,64,0.4),transparent);}
 .rec-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,200px));gap:18px;margin-bottom:36px;}
@@ -130,70 +130,14 @@ body{font-family:'Crimson Text',Georgia,serif;background:var(--bg);color:var(--c
 .rec-card-title{font-family:'Playfair Display',serif;font-size:0.82rem;color:var(--cream);margin-top:7px;text-align:center;line-height:1.3;transition:color 0.2s;word-break:break-word;}
 .rec-card:hover .rec-card-title{color:var(--gold);}
 .rec-card-year{font-family:'Bebas Neue',sans-serif;font-size:0.68rem;letter-spacing:0.15em;color:var(--gold-dim);text-align:center;margin-top:2px;}
-.login-block{display:flex;gap:10px;align-items:center;flex-wrap:wrap;}
-.login-block input{background:var(--bg3);border:1px solid var(--gold-dim);border-radius:2px;color:var(--cream);font-family:'Crimson Text',serif;font-size:1rem;padding:9px 14px;outline:none;transition:0.2s;}
-.login-block input:focus{border-color:var(--gold);}
-.login-block input[type="text"]{width:260px;}
-#adminPassLoginField{display:none;}
-.btn-gold{font-family:'Bebas Neue',sans-serif;letter-spacing:0.14em;background:linear-gradient(135deg,var(--gold-dim),var(--gold));color:var(--bg);border:none;padding:9px 20px;border-radius:2px;cursor:pointer;font-size:0.9rem;transition:0.3s;}
-.btn-gold:hover{box-shadow:0 0 16px rgba(212,175,55,0.4);}
-.login-status{font-style:italic;color:var(--cream-dim);font-size:0.9rem;}
-.login-error{color:#c0392b;font-size:0.88rem;}
-.comment{background:rgba(20,14,6,0.7);border:1px solid rgba(212,175,55,0.1);border-left:3px solid var(--gold-dim);padding:16px 18px;margin-bottom:14px;border-radius:2px;animation:comment-in 0.4s ease both;}
-@keyframes comment-in{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
-.comment.reply{margin-left:30px;border-left-color:#3a3028;background:rgba(14,10,4,0.6);}
-.comment-header{display:flex;align-items:center;gap:10px;margin-bottom:8px;flex-wrap:wrap;}
-.comment-user{font-family:'Bebas Neue',sans-serif;letter-spacing:0.1em;color:var(--gold);font-size:0.9rem;}
-.comment-time{font-size:0.78rem;color:var(--cream-dim);font-style:italic;}
-.comment-text{font-size:1rem;line-height:1.6;margin-bottom:10px;}
-.comment-actions{display:flex;gap:8px;flex-wrap:wrap;}
-.btn-action{font-family:'Bebas Neue',sans-serif;font-size:0.72rem;background:rgba(212,175,55,0.06);border:1px solid rgba(212,175,55,0.2);color:var(--cream-dim);padding:4px 10px;border-radius:2px;cursor:pointer;transition:0.2s;}
-.btn-action:hover{background:rgba(212,175,55,0.14);color:var(--gold);}
-.btn-action.delete:hover{background:rgba(139,26,26,0.2);color:#c0392b;}
-.comment-input-wrap{margin-top:20px;}
-.comment-input-wrap textarea{width:100%;min-height:90px;resize:vertical;background:var(--bg3);border:1px solid var(--gold-dim);border-radius:2px;color:var(--cream);font-family:'Crimson Text',serif;font-size:1rem;padding:12px 14px;outline:none;transition:0.2s;}
-.comment-input-wrap textarea:focus{border-color:var(--gold);}
-.comment-input-wrap textarea::placeholder{color:#3a2c14;}
-.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.92);z-index:1000;justify-content:center;align-items:center;}
-.modal-overlay.open{display:flex;}
-.modal-box{background:var(--bg2);border:2px solid var(--gold-dim);padding:32px;width:420px;max-width:95vw;position:relative;}
-.modal-box h3{font-family:'Playfair Display',serif;font-style:italic;color:var(--gold);font-size:1.2rem;margin-bottom:14px;}
-.modal-close{position:absolute;top:10px;right:12px;background:none;border:none;color:var(--gold-dim);font-size:18px;cursor:pointer;}
-.modal-close:hover{color:#c0392b;}
-.modal-box textarea{width:100%;min-height:100px;resize:vertical;background:var(--bg3);border:1px solid var(--gold-dim);border-radius:2px;color:var(--cream);font-family:'Crimson Text',serif;font-size:1rem;padding:10px 12px;outline:none;box-sizing:border-box;}
-#reportModal .modal-box h3{color:var(--gold-light);}
-.report-subtitle{font-family:'Crimson Text',serif;font-style:italic;color:var(--cream-dim);font-size:0.9rem;margin-bottom:16px;}
-#reportModal input,#reportModal textarea{width:100%;margin-bottom:10px;background:var(--bg3);border:1px solid var(--gold-dim);border-radius:2px;color:var(--cream);font-family:'Crimson Text',serif;font-size:1rem;padding:10px 12px;outline:none;box-sizing:border-box;}
-#reportModal textarea{min-height:110px;resize:vertical;}
-#reportSentMsg{display:none;color:#4caf79;font-style:italic;font-size:0.92rem;margin-top:8px;text-align:center;}
-.btn-red{font-family:'Bebas Neue',sans-serif;letter-spacing:0.14em;background:linear-gradient(135deg,#5a1010,var(--red));color:var(--gold-light);border:none;padding:10px 22px;border-radius:2px;cursor:pointer;font-size:0.9rem;transition:0.3s;margin-top:4px;}
+
 ::-webkit-scrollbar{width:5px;}::-webkit-scrollbar-thumb{background:var(--gold-dim);border-radius:3px;}
-.filmstrip-bottom{border-top:2px solid #1a1208;margin-top:60px;}
-
-.meta-tag{position:relative;}
-.meta-tag::after{content:"";position:absolute;bottom:0;left:10%;right:10%;height:1px;background:var(--gold);transform:scaleX(0);transition:transform 0.25s ease;}
-.meta-tag:hover::after{transform:scaleX(1);}
-.rating-badge{position:relative;overflow:hidden;}
-.rating-badge::after{content:"";position:absolute;bottom:0;left:10%;right:10%;height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent);transform:scaleX(0);transition:transform 0.3s ease;}
-.rating-badge:hover::after{transform:scaleX(1);}
-.rating-badge .label{transition:color 0.2s;}
-.rating-badge:hover .label{color:var(--gold);}
-.rating-badge .value{transition:color 0.2s,text-shadow 0.2s;}
-.rating-badge:hover .value{color:var(--gold-light);text-shadow:0 0 18px rgba(201,168,76,0.5);}
-.detail-value{position:relative;}
-.detail-value::after{content:"";position:absolute;bottom:-2px;left:0;right:0;height:1px;background:linear-gradient(90deg,var(--gold-dim),var(--gold),var(--gold-dim));transform:scaleX(0);transform-origin:left;transition:transform 0.3s ease;}
-.detail-item:hover .detail-value::after{transform:scaleX(1);}
-.detail-item:hover .detail-value{color:var(--gold-light);}
-.user-rating-wrap label{display:inline-block;cursor:default;position:relative;transition:color 0.2s;}
-.user-rating-wrap label::after{content:"";position:absolute;bottom:-2px;left:0;right:0;height:1px;background:var(--gold);transform:scaleX(0);transform-origin:left;transition:transform 0.25s ease;}
-.user-rating-wrap label:hover{color:var(--gold-light);}
-.user-rating-wrap label:hover::after{transform:scaleX(1);}
-
 </style>
 </head>
 <body>
 <div class="projector-beam"></div>
 <div class="filmstrip"><div class="filmstrip-holes" id="filmstripTop"></div></div>
+
 <nav class="top-nav">
   <a href="index.html" class="back-btn">⬅ В меню</a>
   <span class="nav-title">Fish Cinema</span>
@@ -201,6 +145,7 @@ body{font-family:'Crimson Text',Georgia,serif;background:var(--bg);color:var(--c
   <button class="report-btn" onclick="openReport()"><span>⚠</span> Проблемы с сайтом? Пиши сюда</button>
   <span class="nav-meta">◆ &nbsp; Комедия · 2013 &nbsp; ◆</span>
 </nav>
+
 <section class="hero">
   <div class="hero-bg" style="background-image:url('https://play-lh.googleusercontent.com/AoLjRe-KKJqd8ogN33AhIdbpQTOQFvaUDZjIkuf5v0LaPGdKv4N--FX97XkDpuWA4i9V')"></div>
   <div class="hero-gradient"></div>
@@ -238,9 +183,11 @@ body{font-family:'Crimson Text',Georgia,serif;background:var(--bg);color:var(--c
     </div>
   </div>
 </section>
+
 <div class="page-content">
   <div class="section-divider"><span class="section-label">✦ Описание фильма ✦</span></div>
   <div class="description-block">Джеймс Франко устраивает вечеринку — и тут начинается настоящий апокалипсис. Знаменитые голливудские звёзды в роли самих себя застревают в доме и пытаются выжить. Дикий, самоироничный и очень смешной фильм.</div>
+  
   <div class="section-divider"><span class="section-label">✦ О фильме ✦</span></div>
   <div class="details-grid">
     <div class="detail-item"><span class="detail-label">Оригинальное название</span><span class="detail-value">This Is the End</span></div>
@@ -251,54 +198,54 @@ body{font-family:'Crimson Text',Georgia,serif;background:var(--bg);color:var(--c
     <div class="detail-item"><span class="detail-label">Жанр</span><span class="detail-value">Комедия / Фантастика</span></div>
     <div class="detail-item"><span class="detail-label">Длительность</span><span class="detail-value">107 минут</span></div>
   </div>
-<div class="section-divider"><span class="section-label">✦ Смотреть онлайн ✦</span></div>
 
-<div class="custom-player" id="customPlayer">
-  <!-- Исправлено: добавлен crossorigin и source -->
-  <video id="trailerVideo" crossorigin="anonymous" preload="metadata">
-    <source src="magnet:?xt=urn:btih:382C7D89BB8ED0DA786C62DDE08D2AE3F413B734&dn=This+is+the+End+2013+Unrated+720p+BRRip+XviD+AC3++KINGDOM&tr=http%3A%2F%2F94.228.192.98%2Fannounce&tr=http%3A%2F%2Finferno.demonoid.ph%3A3389%2Fannounce&tr=http%3A%2F%2Ftracker.coppersurfer.tk%3A6969%2Fannounce&tr=udp%3A%2F%2Ftracker.istole.it%3A80%2Fannounce&tr=http%3A%2F%2Fexodus.desync.com%2Fannounce&tr=udp%3A%2F%2F9.rarbg.com%3A2710%2Fannounce&tr=udp%3A%2F%2Ftracker.openbittorrent.com%3A80%2Fannounce&tr=http%3A%2F%2Ftracker.publicbt.com%3A80%2Fannounce&tr=http%3A%2F%2Fp2pdl.com%3A2710%2Fannounce&tr=udp%3A%2F%2Fopen.demonii.com%3A1337%2Fannounce&tr=udp%3A%2F%2Ftracker.opentrackr.org%3A1337%2Fannounce&tr=http%3A%2F%2Ftracker.openbittorrent.com%3A80%2Fannounce&tr=udp%3A%2F%2Fopentracker.i2p.rocks%3A6969%2Fannounce&tr=udp%3A%2F%2Ftracker.internetwarriors.net%3A1337%2Fannounce&tr=udp%3A%2F%2Ftracker.leechers-paradise.org%3A6969%2Fannounce&tr=udp%3A%2F%2Fcoppersurfer.tk%3A6969%2Fannounce&tr=udp%3A%2F%2Ftracker.zer0day.to%3A1337%2Fannounce" type="video/mp4">
-    <!-- Fallback -->
-    Ваш браузер не поддерживает видео.
-  </video>
-  
-  <div class="player-cover" id="playerCover">
-    <button class="player-bigplay" id="bigPlayBtn" aria-label="Воспроизвести">▶</button>
-  </div>
+  <div class="section-divider"><span class="section-label">✦ Смотреть онлайн ✦</span></div>
 
-  <!-- Исправлены классы под CSS -->
-  <div class="scrub-preview" id="progressPreview">
-    <div class="scrub-thumb" id="previewThumb"></div>
-    <div class="scrub-time" id="previewTime">0:00</div>
-  </div>
-
-  <div class="player-controls">
-    <div class="progress-track" id="progressTrack">
-      <div class="progress-fill" id="progressFill"></div>
-      <div class="progress-knob" id="progressKnob"></div>
+  <div class="custom-player" id="customPlayer">
+    <video id="videoPlayer" preload="metadata"></video>
+    
+    <div class="player-cover" id="playerCover" style="background-image:url('https://play-lh.googleusercontent.com/AoLjRe-KKJqd8ogN33AhIdbpQTOQFvaUDZjIkuf5v0LaPGdKv4N--FX97XkDpuWA4i9V')">
+      <button class="player-bigplay" id="bigPlayBtn" aria-label="Воспроизвести">▶</button>
     </div>
-    <div class="controls-row">
-      <div class="controls-left">
-        <button class="pc-icon" id="playPauseBtn" title="Старт / Пауза">▶</button>
-        <span class="time-display" id="timeDisplay">0:00 / 0:00</span>
+
+    <div class="loading-spinner" id="loadingSpinner"></div>
+    
+    <div class="torrent-progress" id="torrentProgress">
+      <div class="progress-text">Загрузка: <span id="progressPercent">0</span>%</div>
+      <div class="peers">Пиров: <span id="peersCount">0</span> | Скорость: <span id="downloadSpeed">0</span> MB/s</div>
+    </div>
+
+    <div class="video-error" id="videoError" style="display:none;">
+      <h3>⚠ Не удалось загрузить видео</h3>
+      <p>Для воспроизведения торрентов требуется поддержка WebRTC. Рекомендуем использовать прямую ссылку на видеофайл или включить WebRTC в настройках браузера.</p>
+    </div>
+
+    <div class="player-controls" id="playerControls">
+      <div class="progress-track" id="progressTrack">
+        <div class="progress-fill" id="progressFill"></div>
+        <div class="progress-knob" id="progressKnob"></div>
       </div>
-      <div class="controls-right">
-        <button class="pc-icon" id="muteBtn" title="Звук">🔊</button>
-        <input type="range" class="volume-slider" id="volumeSlider" min="0" max="1" step="0.05" value="1" style="width:80px;cursor:pointer;">
-        <button class="pc-icon" id="fullscreenBtn" title="Во весь экран">⛶</button>
+      <div class="controls-row">
+        <div class="controls-left">
+          <button class="pc-icon" id="playPauseBtn" title="Старт / Пауза">▶</button>
+          <span class="time-display" id="timeDisplay">0:00 / 0:00</span>
+        </div>
+        <div class="controls-right">
+          <button class="pc-icon" id="muteBtn" title="Звук">🔊</button>
+          <input type="range" class="volume-slider" id="volumeSlider" min="0" max="1" step="0.05" value="1">
+          <button class="pc-icon" id="fullscreenBtn" title="Во весь экран">⛶</button>
+        </div>
       </div>
     </div>
-  </div>
-  
-  <!-- Сообщение об ошибке -->
-  <div id="videoError" style="display:none;position:absolute;inset:0;background:rgba(0,0,0,0.9);color:#c0392b;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:10px;z-index:10;">
-    <div style="font-size:1.2rem;">⚠ Ошибка загрузки видео</div>
-    <div style="color:var(--cream-dim);font-size:0.9rem;">Возможно, источник заблокировал hotlinking</div>
   </div>
 </div>
-<script>
 
+<script>
+// Инициализация плеера с WebTorrent
 (function(){
-  const video = document.getElementById('trailerVideo');
+  const MAGNET_URI = 'magnet:?xt=urn:btih:382C7D89BB8ED0DA786C62DDE08D2AE3F413B734&dn=This+is+the+End+2013+Unrated+720p+BRRip+XviD+AC3++KINGDOM&tr=http%3A%2F%2F94.228.192.98%2Fannounce&tr=http%3A%2F%2Finferno.demonoid.ph%3A3389%2Fannounce&tr=http%3A%2F%2Ftracker.coppersurfer.tk%3A6969%2Fannounce&tr=udp%3A%2F%2Ftracker.istole.it%3A80%2Fannounce&tr=http%3A%2F%2Fexodus.desync.com%2Fannounce&tr=udp%3A%2F%2F9.rarbg.com%3A2710%2Fannounce&tr=udp%3A%2F%2Ftracker.openbittorrent.com%3A80%2Fannounce&tr=http%3A%2F%2Ftracker.publicbt.com%3A80%2Fannounce&tr=http%3A%2F%2Fp2pdl.com%3A2710%2Fannounce&tr=udp%3A%2F%2Fopen.demonii.com%3A1337%2Fannounce&tr=udp%3A%2F%2Ftracker.opentrackr.org%3A1337%2Fannounce&tr=http%3A%2F%2Ftracker.openbittorrent.com%3A80%2Fannounce&tr=udp%3A%2F%2Fopentracker.i2p.rocks%3A6969%2Fannounce&tr=udp%3A%2F%2Ftracker.internetwarriors.net%3A1337%2Fannounce&tr=udp%3A%2F%2Ftracker.leechers-paradise.org%3A6969%2Fannounce&tr=udp%3A%2F%2Fcoppersurfer.tk%3A6969%2Fannounce&tr=udp%3A%2F%2Ftracker.zer0day.to%3A1337%2Fannounce';
+  
+  const video = document.getElementById('videoPlayer');
   const player = document.getElementById('customPlayer');
   const cover = document.getElementById('playerCover');
   const bigPlayBtn = document.getElementById('bigPlayBtn');
@@ -310,12 +257,22 @@ body{font-family:'Crimson Text',Georgia,serif;background:var(--bg);color:var(--c
   const muteBtn = document.getElementById('muteBtn');
   const volumeSlider = document.getElementById('volumeSlider');
   const fullscreenBtn = document.getElementById('fullscreenBtn');
-  const progressPreview = document.getElementById('progressPreview');
-  const previewThumb = document.getElementById('previewThumb');
-  const previewTime = document.getElementById('previewTime');
+  const torrentProgress = document.getElementById('torrentProgress');
+  const progressPercent = document.getElementById('progressPercent');
+  const peersCount = document.getElementById('peersCount');
+  const downloadSpeed = document.getElementById('downloadSpeed');
+  const loadingSpinner = document.getElementById('loadingSpinner');
   const videoError = document.getElementById('videoError');
+  
+  let client = null;
+  let isPlaying = false;
+  let isDragging = false;
 
-  if (!video || !player) return;
+  // Проверка поддержки WebTorrent
+  if (typeof WebTorrent === 'undefined') {
+    showError('Библиотека WebTorrent не загрузилась');
+    return;
+  }
 
   function fmtTime(s) {
     if (!isFinite(s) || isNaN(s) || s < 0) return '0:00';
@@ -324,121 +281,143 @@ body{font-family:'Crimson Text',Georgia,serif;background:var(--bg);color:var(--c
     return `${m}:${sec < 10 ? '0' : ''}${sec}`;
   }
 
+  function showError(msg) {
+    videoError.style.display = 'flex';
+    if (msg) videoError.querySelector('p').textContent = msg;
+    cover.style.display = 'none';
+    loadingSpinner.style.display = 'none';
+  }
+
+  function initTorrent() {
+    loadingSpinner.style.display = 'block';
+    
+    client = new WebTorrent();
+    
+    client.add(MAGNET_URI, function(torrent) {
+      loadingSpinner.style.display = 'none';
+      torrentProgress.classList.add('active');
+      
+      // Находим видеофайл
+      const file = torrent.files.find(function(file) {
+        return file.name.endsWith('.mp4') || file.name.endsWith('.mkv') || file.name.endsWith('.avi');
+      });
+      
+      if (!file) {
+        showError('Видеофайл не найден в торренте');
+        return;
+      }
+      
+      // Стримим в видео элемент
+      file.renderTo(video, { autoplay: false }, function(err) {
+        if (err) {
+          console.error('Render error:', err);
+          showError('Ошибка воспроизведения: ' + err.message);
+        }
+      });
+      
+      // Обновляем прогресс
+      setInterval(function() {
+        progressPercent.textContent = Math.round(torrent.progress * 100);
+        peersCount.textContent = torrent.numPeers;
+        downloadSpeed.textContent = (torrent.downloadSpeed / 1024 / 1024).toFixed(2);
+      }, 1000);
+    });
+    
+    client.on('error', function(err) {
+      console.error('WebTorrent error:', err);
+      showError('Ошибка WebTorrent: ' + err.message);
+    });
+  }
+
   function togglePlay() {
+    if (!client) {
+      initTorrent();
+      return;
+    }
+    
     if (video.paused) {
       video.play().catch(err => {
         console.error('Play error:', err);
-        showError();
       });
     } else {
       video.pause();
     }
   }
 
-  function showError() {
-    if(videoError) {
-      videoError.style.display = 'flex';
-      cover.style.display = 'none';
-    }
-  }
-
-  // Обработка ошибок видео
-  video.addEventListener('error', (e) => {
-    console.error('Video error code:', video.error?.code);
-    console.error('Video error message:', video.error?.message);
-    showError();
-  });
-
-  video.addEventListener('play', () => {
+  // Обработчики событий видео
+  video.addEventListener('play', function() {
+    isPlaying = true;
     cover.classList.add('hidden');
     playPauseBtn.textContent = '❚❚';
     player.classList.add('playing');
   });
-
-  video.addEventListener('pause', () => {
+  
+  video.addEventListener('pause', function() {
+    isPlaying = false;
     playPauseBtn.textContent = '▶';
     player.classList.remove('playing');
   });
-
-  video.addEventListener('timeupdate', () => {
-    if (!video.duration || !isFinite(video.duration)) return;
+  
+  video.addEventListener('timeupdate', function() {
+    if (!video.duration) return;
     const pct = (video.currentTime / video.duration) * 100;
     progressFill.style.width = pct + '%';
     progressKnob.style.left = pct + '%';
     timeDisplay.textContent = `${fmtTime(video.currentTime)} / ${fmtTime(video.duration)}`;
   });
-
-  video.addEventListener('loadedmetadata', () => {
-    console.log('Video loaded, duration:', video.duration);
+  
+  video.addEventListener('loadedmetadata', function() {
     timeDisplay.textContent = `0:00 / ${fmtTime(video.duration)}`;
   });
-
-  // Проверка доступности видео
-  video.addEventListener('canplay', () => {
-    console.log('Video can play');
-    if(videoError) videoError.style.display = 'none';
+  
+  video.addEventListener('error', function(e) {
+    console.error('Video error:', video.error);
+    showError('Ошибка загрузки видео');
   });
 
+  // Кнопки
   bigPlayBtn.addEventListener('click', togglePlay);
   playPauseBtn.addEventListener('click', togglePlay);
   video.addEventListener('click', togglePlay);
 
   // Перемотка
-  let isDragging = false;
   function seek(e) {
     const rect = progressTrack.getBoundingClientRect();
     let pos = (e.clientX - rect.left) / rect.width;
     pos = Math.max(0, Math.min(1, pos));
-    if (video.duration && isFinite(video.duration)) {
+    if (video.duration) {
       video.currentTime = pos * video.duration;
     }
   }
 
-  progressTrack.addEventListener('mousedown', (e) => {
+  progressTrack.addEventListener('mousedown', function(e) {
     isDragging = true;
     seek(e);
   });
-
-  document.addEventListener('mousemove', (e) => {
+  
+  document.addEventListener('mousemove', function(e) {
     if (isDragging) seek(e);
   });
-
-  document.addEventListener('mouseup', () => {
+  
+  document.addEventListener('mouseup', function() {
     isDragging = false;
   });
 
-  // Превью при наведении (исправлено под CSS)
-  progressTrack.addEventListener('mousemove', (e) => {
-    const rect = progressTrack.getBoundingClientRect();
-    let pos = (e.clientX - rect.left) / rect.width;
-    pos = Math.max(0, Math.min(1, pos));
-    
-    if(video.duration && isFinite(video.duration)) {
-      progressPreview.style.display = 'flex';
-      progressPreview.style.left = (pos * 100) + '%';
-      previewTime.textContent = fmtTime(pos * video.duration);
-    }
-  });
-
-  progressTrack.addEventListener('mouseleave', () => {
-    progressPreview.style.display = 'none';
-  });
-
   // Громкость
-  muteBtn.addEventListener('click', () => {
+  muteBtn.addEventListener('click', function() {
     video.muted = !video.muted;
     muteBtn.textContent = video.muted ? '🔇' : '🔊';
     volumeSlider.value = video.muted ? 0 : video.volume;
   });
-
-  volumeSlider.addEventListener('input', (e) => {
+  
+  volumeSlider.addEventListener('input', function(e) {
     video.volume = parseFloat(e.target.value);
     video.muted = (video.volume === 0);
     muteBtn.textContent = video.muted ? '🔇' : '🔊';
   });
 
   // Полноэкранный режим
-  fullscreenBtn.addEventListener('click', () => {
+  fullscreenBtn.addEventListener('click', function() {
     if (!document.fullscreenElement) {
       player.requestFullscreen().catch(err => console.log('Fullscreen error:', err));
     } else {
@@ -446,8 +425,8 @@ body{font-family:'Crimson Text',Georgia,serif;background:var(--bg);color:var(--c
     }
   });
 
-  // Клавиатурное управление
-  document.addEventListener('keydown', (e) => {
+  // Клавиатура
+  document.addEventListener('keydown', function(e) {
     if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
     
     switch(e.code) {
@@ -471,8 +450,15 @@ body{font-family:'Crimson Text',Georgia,serif;background:var(--bg);color:var(--c
         break;
     }
   });
+
+  // Фильмstrip анимация
+  const filmstripTop = document.getElementById('filmstripTop');
+  for (let i = 0; i < 40; i++) {
+    const hole = document.createElement('div');
+    hole.className = 'filmstrip-hole';
+    filmstripTop.appendChild(hole);
+  }
 })();
 </script>
- 
 </body>
 </html>
