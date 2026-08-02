@@ -4,587 +4,191 @@
 <meta charset="UTF-8">
 <title>Апокалипсис по-голливудски — Fish Cinema</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Crimson+Text:ital,wght@0,400;0,600;1,400&family=Bebas+Neue&display=swap" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/webtorrent@latest/webtorrent.min.js"></script>
+<link href="https://vjs.zencdn.net/8.6.1/video-js.css" rel="stylesheet" />
 <style>
 :root{--gold:#c9a84c;--gold-light:#e8cc80;--gold-dim:#8a7040;--cream:#e8dcc8;--cream-dim:#c4aa88;--bg:#16120c;--bg2:#1e1810;--bg3:#262014;--red:#7a2020;}
 *{box-sizing:border-box;margin:0;padding:0;}
-body::before{content:"";position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");pointer-events:none;z-index:9999;opacity:0.4;}
-body{font-family:'Crimson Text',Georgia,serif;background:var(--bg);color:var(--cream);min-height:100vh;overflow-x:hidden;}
-.projector-beam{position:fixed;top:0;left:50%;transform:translateX(-50%);width:0;border-left:180px solid transparent;border-right:180px solid transparent;border-top:100vh solid rgba(255,240,180,0.018);pointer-events:none;z-index:0;animation:beam-flicker 9s infinite;}
-@keyframes beam-flicker{0%,100%{opacity:1}91%{opacity:1}92%{opacity:0.4}93%{opacity:1}96%{opacity:0.7}97%{opacity:1}}
-.filmstrip{width:100%;height:34px;background:var(--bg2);display:flex;align-items:center;overflow:hidden;border-bottom:2px solid #1a1208;position:relative;z-index:2;}
-.filmstrip-holes{display:flex;align-items:center;animation:strip-scroll 14s linear infinite;white-space:nowrap;}
-.filmstrip-hole{width:19px;height:13px;border:2px solid #2a2010;border-radius:3px;margin:0 15px;flex-shrink:0;background:#060402;}
-@keyframes strip-scroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
-.top-nav{background:var(--bg2);border-bottom:2px solid var(--gold-dim);display:flex;align-items:center;padding:0;position:sticky;top:0;z-index:200;box-shadow:0 4px 20px rgba(0,0,0,0.7);}
-.back-btn{font-family:'Bebas Neue',sans-serif;font-size:0.85rem;letter-spacing:0.18em;color:var(--cream-dim);background:none;border:none;border-right:1px solid var(--gold-dim);padding:14px 24px;text-decoration:none;transition:0.2s;display:flex;align-items:center;gap:8px;}
-.back-btn:hover{color:var(--gold);background:rgba(212,175,55,0.05);}
-.nav-title{font-family:'Playfair Display',serif;font-style:italic;color:var(--gold);font-size:1rem;padding:14px 24px;}
-.nav-spacer{flex:1;}
-.nav-meta{font-family:'Bebas Neue',sans-serif;font-size:0.75rem;letter-spacing:0.2em;color:var(--gold-dim);padding:14px 24px;border-left:1px solid rgba(212,175,55,0.15);}
-.report-btn{font-family:'Bebas Neue',sans-serif;font-size:0.78rem;letter-spacing:0.14em;color:var(--cream-dim);background:rgba(122,32,32,0.18);border:1px solid rgba(122,32,32,0.5);border-radius:2px;padding:8px 16px;margin-right:16px;cursor:pointer;transition:0.25s;display:flex;align-items:center;gap:7px;}
-.report-btn:hover{background:rgba(122,32,32,0.38);border-color:var(--red);color:var(--gold-light);}
-.hero{position:relative;min-height:520px;display:flex;align-items:flex-end;overflow:hidden;z-index:1;}
-.hero-bg{position:absolute;inset:0;background-size:cover;background-position:center top;filter:sepia(40%) brightness(0.35) contrast(1.1);transform:scale(1.04);animation:hero-zoom 20s ease-in-out infinite alternate;}
-@keyframes hero-zoom{from{transform:scale(1.04)}to{transform:scale(1.1)}}
-.hero-gradient{position:absolute;inset:0;background:linear-gradient(180deg,rgba(10,7,5,0.2) 0%,rgba(10,7,5,0.1) 30%,rgba(10,7,5,0.7) 65%,rgba(10,7,5,0.98) 100%);}
-.hero-gradient-left{position:absolute;inset:0;background:linear-gradient(90deg,rgba(10,7,5,0.85) 0%,transparent 50%);}
-.hero-content{position:relative;z-index:2;padding:40px 50px;display:flex;gap:40px;align-items:flex-end;width:100%;}
-.poster-wrap{flex-shrink:0;position:relative;animation:poster-in 0.8s ease both;}
-@keyframes poster-in{from{opacity:0;transform:translateY(30px) rotate(-2deg)}to{opacity:1;transform:translateY(0)}}
-.poster-wrap img{width:260px;border:4px solid var(--gold-dim);box-shadow:0 0 0 1px rgba(212,175,55,0.2),-8px 8px 40px rgba(0,0,0,0.8);display:block;filter:sepia(8%) contrast(1.05);transition:0.4s;}
-.poster-wrap img:hover{border-color:var(--gold);filter:sepia(0%);}
-.poster-corner{position:absolute;width:16px;height:16px;border-color:var(--gold);border-style:solid;}
-.poster-corner.tl{top:-4px;left:-4px;border-width:2px 0 0 2px;}.poster-corner.tr{top:-4px;right:-4px;border-width:2px 2px 0 0;}
-.poster-corner.bl{bottom:-4px;left:-4px;border-width:0 0 2px 2px;}.poster-corner.br{bottom:-4px;right:-4px;border-width:0 2px 2px 0;}
-.hero-info{flex:1;animation:info-in 0.8s ease 0.2s both;}
-@keyframes info-in{from{opacity:0;transform:translateX(-20px)}to{opacity:1;transform:translateX(0)}}
-.hero-genre{font-family:'Crimson Text',serif;font-size:0.9rem;letter-spacing:0.2em;font-style:italic;color:var(--cream-dim);margin-bottom:10px;}
-.hero-title{font-family:'Playfair Display',serif;font-size:clamp(2rem,5vw,3.8rem);font-weight:900;font-style:italic;color:var(--gold);text-shadow:0 0 40px rgba(212,175,55,0.4),3px 4px 0 rgba(0,0,0,0.6);line-height:1.05;margin-bottom:6px;animation:title-glow 4s ease-in-out infinite alternate;}
-@keyframes title-glow{from{text-shadow:0 0 25px rgba(212,175,55,0.3),3px 4px 0 rgba(0,0,0,0.6)}to{text-shadow:0 0 55px rgba(212,175,55,0.6),3px 4px 0 rgba(0,0,0,0.6)}}
-.hero-orig{font-family:'Crimson Text',serif;font-style:italic;color:var(--cream-dim);font-size:1.1rem;margin-bottom:18px;}
-.hero-meta{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:20px;}
-.meta-tag{font-family:'Bebas Neue',sans-serif;font-size:0.78rem;letter-spacing:0.12em;padding:4px 12px;border-radius:2px;border:1px solid var(--gold-dim);color:var(--gold);background:rgba(201,168,76,0.08);display:inline-block;transition:0.2s;}
-.meta-tag:hover{color:var(--gold-light);background:rgba(201,168,76,0.16);}
-.ratings{display:flex;gap:16px;align-items:center;margin-bottom:20px;}
-.rating-badge{text-align:center;background:rgba(212,175,55,0.08);border:1px solid var(--gold-dim);padding:8px 16px;border-radius:2px;cursor:default;transition:0.25s;}
-.rating-badge:hover{border-color:var(--gold);background:rgba(212,175,55,0.14);}
-.rating-badge .label{font-family:'Bebas Neue',sans-serif;font-size:0.65rem;letter-spacing:0.2em;color:var(--gold-dim);display:block;}
-.rating-badge .value{font-family:'Playfair Display',serif;font-size:1.5rem;font-weight:700;color:var(--gold);display:block;}
-.user-rating-wrap{margin-bottom:8px;}
-.user-rating-wrap label{font-family:'Bebas Neue',sans-serif;font-size:0.72rem;letter-spacing:0.2em;color:var(--gold);display:inline-block;margin-bottom:6px;}
-.stars{display:flex;gap:4px;}
-.star{font-size:1.6rem;cursor:pointer;color:#3a2c14;transition:color 0.15s,transform 0.15s;line-height:1;}
-.star:hover{color:var(--gold);transform:scale(1.2);}
-.rating-result{font-family:'Crimson Text',serif;font-style:italic;color:var(--cream-dim);font-size:0.9rem;margin-top:6px;}
-.page-content{position:relative;z-index:1;max-width:1100px;margin:0 auto;padding:50px 50px 60px;}
-.section-divider{display:flex;align-items:center;gap:16px;margin:40px 0 24px;}
-.section-divider::before,.section-divider::after{content:"";flex:1;height:1px;background:linear-gradient(90deg,transparent,var(--gold-dim),transparent);}
-.section-label{font-family:'Bebas Neue',sans-serif;font-size:0.78rem;letter-spacing:0.3em;color:var(--gold);white-space:nowrap;}
-.description-block{background:rgba(28,22,14,0.45);border:1px solid rgba(180,150,80,0.1);border-left:3px solid rgba(180,150,80,0.3);padding:26px 30px;border-radius:3px;font-size:1.12rem;line-height:1.9;color:var(--cream);position:relative;}
-.description-block::before{content:"\201C";font-family:'Playfair Display',serif;font-size:5rem;color:var(--gold-dim);position:absolute;top:-10px;left:16px;line-height:1;opacity:0.4;}
-.details-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:14px;}
-.detail-item{background:rgba(30,24,16,0.5);border:1px solid rgba(180,150,80,0.1);padding:16px 20px;border-radius:3px;transition:border-color 0.2s;}
-.detail-item:hover{border-color:rgba(180,150,80,0.25);}
-.detail-label{font-family:'Crimson Text',serif;font-size:0.8rem;color:var(--gold-dim);display:block;margin-bottom:5px;font-style:italic;}
-.detail-value{font-family:'Crimson Text',serif;font-size:1.05rem;color:var(--gold);line-height:1.5;display:inline-block;position:relative;transition:color 0.2s;}
-.detail-value:hover{color:var(--gold-light);}
+body{font-family:'Crimson Text',Georgia,serif;background:var(--bg);color:var(--cream);min-height:100vh;}
+.page-content{max-width:1100px;margin:0 auto;padding:50px;}
 
-/* Стили плеера */
-.custom-player{position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border:2px solid var(--gold-dim);background:#000;box-shadow:0 0 0 1px rgba(212,175,55,0.15),0 10px 40px rgba(0,0,0,0.6);}
-.custom-player video{position:absolute;top:0;left:0;width:100%;height:100%;display:block;background:#000;}
-.player-cover{position:absolute;inset:0;background-size:cover;background-position:center 20%;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:opacity 0.4s ease;z-index:2;}
-.player-cover::before{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(10,7,5,0.35) 0%,rgba(10,7,5,0.75) 100%);}
-.player-cover.hidden{opacity:0;pointer-events:none;}
-.player-bigplay{position:relative;z-index:2;width:74px;height:74px;border-radius:12px;background:#2bb6cc;border:none;color:#fff;font-size:1.7rem;cursor:pointer;display:flex;align-items:center;justify-content:center;padding-left:6px;transition:0.25s;box-shadow:0 6px 20px rgba(0,0,0,0.5);}
-.player-bigplay:hover{background:#33c7df;transform:scale(1.06);}
-.player-controls{position:absolute;left:0;right:0;bottom:0;z-index:3;display:flex;flex-direction:column;gap:6px;padding:8px 14px 10px;background:linear-gradient(0deg,rgba(10,10,10,0.96) 0%,rgba(10,10,10,0.7) 75%,transparent 100%);opacity:0;transform:translateY(6px);transition:opacity 0.25s ease,transform 0.25s ease;}
-.custom-player:hover .player-controls,.custom-player.playing .player-controls:hover,.custom-player.controls-visible .player-controls{opacity:1;transform:translateY(0);}
-.progress-track{width:100%;height:4px;background:rgba(255,255,255,0.25);border-radius:2px;position:relative;cursor:pointer;}
-.progress-fill{position:absolute;top:0;left:0;height:100%;width:0%;background:#2bb6cc;border-radius:2px;}
-.progress-knob{position:absolute;top:50%;left:0%;width:12px;height:12px;border-radius:50%;background:#2bb6cc;border:2px solid #fff;transform:translate(-50%,-50%);box-shadow:0 0 4px rgba(0,0,0,0.5);}
-.controls-row{display:flex;align-items:center;justify-content:space-between;gap:10px;}
-.controls-left{display:flex;align-items:center;gap:12px;}
-.controls-right{display:flex;align-items:center;gap:14px;}
-.pc-icon{background:none;border:none;color:#fff;width:26px;height:26px;cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center;flex-shrink:0;opacity:0.9;transition:0.15s;position:relative;padding:0;}
-.pc-icon:hover{opacity:1;transform:scale(1.08);}
-.time-display{font-family:'Bebas Neue',sans-serif;font-size:0.78rem;letter-spacing:0.05em;color:#e8e0d4;white-space:nowrap;}
-.volume-slider{width:80px;cursor:pointer;appearance:none;height:4px;background:rgba(255,255,255,0.3);border-radius:2px;}
-.volume-slider::-webkit-slider-thumb{appearance:none;width:12px;height:12px;background:#fff;border-radius:50%;cursor:pointer;}
-.volume-slider::-moz-range-thumb{width:12px;height:12px;background:#fff;border-radius:50%;cursor:pointer;border:none;}
+/* Плеер */
+.player-wrapper{position:relative;padding-bottom:56.25%;height:0;background:#000;border:2px solid var(--gold-dim);}
+.video-js{position:absolute;top:0;left:0;width:100%;height:100%;}
+.video-js .vjs-big-play-button{background:rgba(43,182,204,0.9);border:none;border-radius:12px;width:80px;height:80px;line-height:80px;font-size:30px;left:50%;top:50%;transform:translate(-50%,-50%);margin:0;}
+.video-js .vjs-control-bar{background:rgba(10,10,10,0.95);height:50px;}
+.video-js .vjs-progress-control{top:-8px;}
+.video-js .vjs-play-progress{background:#2bb6cc;}
+.video-js .vjs-volume-panel .vjs-volume-control{display:block;}
 
-/* Прогресс загрузки торрента */
-.torrent-progress{position:absolute;top:10px;right:10px;background:rgba(0,0,0,0.9);border:1px solid var(--gold-dim);padding:10px 14px;border-radius:3px;font-family:'Bebas Neue',sans-serif;font-size:0.75rem;color:var(--gold);z-index:4;display:none;min-width:180px;}
-.torrent-progress.active{display:block;}
-.torrent-progress .peers{color:var(--cream-dim);margin-top:4px;font-size:0.7rem;}
-.loading-spinner{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:50px;height:50px;border:3px solid rgba(255,255,255,0.1);border-top-color:#2bb6cc;border-radius:50%;animation:spin 1s linear infinite;z-index:3;display:none;}
-@keyframes spin{to{transform:translate(-50%,-50%) rotate(360deg);}}
+/* Табы источников */
+.source-tabs{display:flex;gap:10px;margin-bottom:20px;border-bottom:1px solid var(--gold-dim);padding-bottom:10px;}
+.source-tab{background:none;border:1px solid var(--gold-dim);color:var(--cream);padding:10px 20px;font-family:'Bebas Neue',sans-serif;cursor:pointer;transition:0.2s;}
+.source-tab.active{background:var(--gold);color:var(--bg);border-color:var(--gold);}
+.source-tab:hover:not(.active){border-color:var(--gold);}
 
-/* Ошибка */
-.video-error{position:absolute;inset:0;background:rgba(10,7,5,0.98);display:flex;align-items:center;justify-content:center;flex-direction:column;gap:20px;z-index:10;text-align:center;padding:40px;display:none;}
-.video-error h3{font-family:'Playfair Display',serif;font-size:1.4rem;color:var(--gold);margin-bottom:10px;}
-.video-error p{color:var(--cream-dim);font-size:1rem;max-width:500px;line-height:1.6;}
-.video-error .error-code{font-family:monospace;background:rgba(122,32,32,0.3);padding:8px 12px;border-radius:3px;color:#c0392b;font-size:0.85rem;margin-top:10px;}
-.video-error button{background:var(--gold);color:var(--bg);border:none;padding:12px 24px;font-family:'Bebas Neue',sans-serif;font-size:0.9rem;letter-spacing:0.1em;cursor:pointer;border-radius:2px;transition:0.2s;}
-.video-error button:hover{background:var(--gold-light);}
+.source-panel{display:none;}
+.source-panel.active{display:block;}
 
-/* Информация о файле */
-.file-info{position:absolute;top:10px;left:10px;background:rgba(0,0,0,0.85);border:1px solid var(--gold-dim);padding:8px 12px;border-radius:3px;font-family:'Bebas Neue',sans-serif;font-size:0.7rem;color:var(--gold);z-index:4;display:none;max-width:250px;}
-.file-info.active{display:block;}
-.file-info .filename{color:var(--cream-dim);margin-top:4px;word-break:break-all;}
+.input-group{margin:15px 0;}
+.input-group label{display:block;color:var(--gold-dim);font-size:0.85rem;margin-bottom:5px;}
+.input-group input{width:100%;padding:12px;background:var(--bg2);border:1px solid var(--gold-dim);color:var(--cream);font-size:1rem;}
+.input-group button{background:var(--gold);color:var(--bg);border:none;padding:12px 24px;font-family:'Bebas Neue',sans-serif;font-size:1rem;cursor:pointer;margin-top:10px;}
+.input-group button:hover{background:var(--gold-light);}
 
-/* Альтернативный источник */
-.alt-source{margin-top:20px;padding:20px;background:rgba(30,24,16,0.7);border:1px solid var(--gold-dim);border-radius:3px;}
-.alt-source h4{font-family:'Playfair Display',serif;color:var(--gold);margin-bottom:10px;}
-.alt-source input{width:100%;padding:10px;background:var(--bg);border:1px solid var(--gold-dim);color:var(--cream);font-family:monospace;font-size:0.9rem;margin-bottom:10px;}
-.alt-source button{background:var(--gold);color:var(--bg);border:none;padding:10px 20px;font-family:'Bebas Neue',sans-serif;cursor:pointer;}
-.alt-source button:hover{background:var(--gold-light);}
+.status-box{margin-top:15px;padding:15px;background:rgba(30,24,16,0.7);border-left:3px solid var(--gold);font-size:0.9rem;}
+.status-box.error{border-color:var(--red);background:rgba(122,32,32,0.2);}
+.status-box.success{border-color:#27ae60;}
 
-::-webkit-scrollbar{width:5px;}::-webkit-scrollbar-thumb{background:var(--gold-dim);border-radius:3px;}
+.torrent-stats{font-family:monospace;font-size:0.8rem;color:var(--cream-dim);margin-top:10px;}
 </style>
 </head>
 <body>
-<div class="projector-beam"></div>
-<div class="filmstrip"><div class="filmstrip-holes" id="filmstripTop"></div></div>
-
-<nav class="top-nav">
-  <a href="index.html" class="back-btn">⬅ В меню</a>
-  <span class="nav-title">Fish Cinema</span>
-  <span class="nav-spacer"></span>
-  <button class="report-btn" onclick="openReport()"><span>⚠</span> Проблемы с сайтом? Пиши сюда</button>
-  <span class="nav-meta">◆ &nbsp; Комедия · 2013 &nbsp; ◆</span>
-</nav>
-
-<section class="hero">
-  <div class="hero-bg" style="background-image:url('https://play-lh.googleusercontent.com/AoLjRe-KKJqd8ogN33AhIdbpQTOQFvaUDZjIkuf5v0LaPGdKv4N--FX97XkDpuWA4i9V')"></div>
-  <div class="hero-gradient"></div>
-  <div class="hero-gradient-left"></div>
-  <div class="hero-content">
-    <div class="poster-wrap">
-      <img src="https://play-lh.googleusercontent.com/AoLjRe-KKJqd8ogN33AhIdbpQTOQFvaUDZjIkuf5v0LaPGdKv4N--FX97XkDpuWA4i9V" alt="Апокалипсис по-голливудски">
-      <div class="poster-corner tl"></div><div class="poster-corner tr"></div>
-      <div class="poster-corner bl"></div><div class="poster-corner br"></div>
-    </div>
-    <div class="hero-info">
-      <div class="hero-genre">◆ &nbsp; КОМЕДИЯ &nbsp; ◆</div>
-      <h1 class="hero-title">Апокалипсис по-голливудски</h1>
-      <div class="hero-orig">This Is the End &nbsp;·&nbsp; 2013</div>
-      <div class="hero-meta">
-        <span class="meta-tag">2013</span>
-        <span class="meta-tag">США</span>
-        <span class="meta-tag">Сет Роген, Эван Голдберг</span>
-        <span class="meta-tag">👁 <span id="views">0</span> просмотров</span>
-      </div>
-      <div class="ratings">
-        <div class="rating-badge"><span class="label">IMDb</span><span class="value">6.6</span></div>
-        <div class="rating-badge"><span class="label">Кинопоиск</span><span class="value">6.9</span></div>
-        <div class="rating-badge"><span class="label">Fish Cinema</span><span class="value" id="avgRating">—</span><span class="label"><span id="votesCount">0</span> голосов</span></div>
-      </div>
-      <div class="user-rating-wrap">
-        <label>ВАША ОЦЕНКА</label>
-        <div class="stars" id="starsRow">
-          <span class="star" data-value="1">★</span><span class="star" data-value="2">★</span>
-          <span class="star" data-value="3">★</span><span class="star" data-value="4">★</span>
-          <span class="star" data-value="5">★</span>
-        </div>
-        <div class="rating-result" id="ratingResult"></div>
-      </div>
-    </div>
-  </div>
-</section>
 
 <div class="page-content">
-  <div class="section-divider"><span class="section-label">✦ Описание фильма ✦</span></div>
-  <div class="description-block">Джеймс Франко устраивает вечеринку — и тут начинается настоящий апокалипсис. Знаменитые голливудские звёзды в роли самих себя застревают в доме и пытаются выжить. Дикий, самоироничный и очень смешной фильм.</div>
+  <h2 style="font-family:'Playfair Display',serif;color:var(--gold);margin-bottom:20px;">✦ Смотреть онлайн ✦</h2>
   
-  <div class="section-divider"><span class="section-label">✦ О фильме ✦</span></div>
-  <div class="details-grid">
-    <div class="detail-item"><span class="detail-label">Оригинальное название</span><span class="detail-value">This Is the End</span></div>
-    <div class="detail-item"><span class="detail-label">Режиссёр</span><span class="detail-value">Сет Роген, Эван Голдберг</span></div>
-    <div class="detail-item"><span class="detail-label">В главных ролях</span><span class="detail-value">Джеймс Франко, Джона Хилл, Сет Роген</span></div>
-    <div class="detail-item"><span class="detail-label">Страна</span><span class="detail-value">США</span></div>
-    <div class="detail-item"><span class="detail-label">Год выпуска</span><span class="detail-value">2013</span></div>
-    <div class="detail-item"><span class="detail-label">Жанр</span><span class="detail-value">Комедия / Фантастика</span></div>
-    <div class="detail-item"><span class="detail-label">Длительность</span><span class="detail-value">107 минут</span></div>
+  <div class="source-tabs">
+    <button class="source-tab active" onclick="switchTab('direct')">Прямая ссылка (MP4)</button>
+    <button class="source-tab" onclick="switchTab('torrent')">WebTorrent</button>
   </div>
 
-  <div class="section-divider"><span class="section-label">✦ Смотреть онлайн ✦</span></div>
-
-  <div class="custom-player" id="customPlayer">
-    <video id="videoPlayer" preload="metadata" crossorigin="anonymous"></video>
-    
-    <div class="player-cover" id="playerCover" style="background-image:url('https://play-lh.googleusercontent.com/AoLjRe-KKJqd8ogN33AhIdbpQTOQFvaUDZjIkuf5v0LaPGdKv4N--FX97XkDpuWA4i9V')">
-      <button class="player-bigplay" id="bigPlayBtn" aria-label="Воспроизвести">▶</button>
+  <!-- Прямая ссылка -->
+  <div class="source-panel active" id="directPanel">
+    <div class="input-group">
+      <label>Ссылка на видео (MP4, WebM):</label>
+      <input type="text" id="directUrl" placeholder="https://example.com/video.mp4" 
+        value="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4">
+      <button onclick="loadDirect()">▶ Воспроизвести</button>
     </div>
-
-    <div class="loading-spinner" id="loadingSpinner"></div>
-    
-    <div class="torrent-progress" id="torrentProgress">
-      <div class="progress-text">Загрузка: <span id="progressPercent">0</span>%</div>
-      <div class="peers">Пиров: <span id="peersCount">0</span> | ↓ <span id="downloadSpeed">0</span> MB/s | ↑ <span id="uploadSpeed">0</span> MB/s</div>
-    </div>
-
-    <div class="file-info" id="fileInfo">
-      <div>Файл: <span id="fileName">-</span></div>
-      <div class="filename">Формат: <span id="fileFormat">-</span></div>
-    </div>
-
-    <div class="video-error" id="videoError">
-      <h3>⚠ Не удалось воспроизвести видео</h3>
-      <p id="errorMessage">Возможно, формат файла не поддерживается браузером. MKV и AVI не работают в браузерах напрямую.</p>
-      <div class="error-code" id="errorCode"></div>
-      <button onclick="showAltSource()">Использовать другой источник</button>
-    </div>
-
-    <div class="player-controls" id="playerControls">
-      <div class="progress-track" id="progressTrack">
-        <div class="progress-fill" id="progressFill"></div>
-        <div class="progress-knob" id="progressKnob"></div>
-      </div>
-      <div class="controls-row">
-        <div class="controls-left">
-          <button class="pc-icon" id="playPauseBtn" title="Старт / Пауза">▶</button>
-          <span class="time-display" id="timeDisplay">0:00 / 0:00</span>
-        </div>
-        <div class="controls-right">
-          <button class="pc-icon" id="muteBtn" title="Звук">🔊</button>
-          <input type="range" class="volume-slider" id="volumeSlider" min="0" max="1" step="0.05" value="1">
-          <button class="pc-icon" id="fullscreenBtn" title="Во весь экран">⛶</button>
-        </div>
-      </div>
+    <div class="player-wrapper" style="margin-top:20px;">
+      <video id="directPlayer" class="video-js vjs-default-skin" controls preload="auto" width="100%" height="100%">
+        <p class="vjs-no-js">JavaScript отключен</p>
+      </video>
     </div>
   </div>
 
-  <div class="alt-source" id="altSource" style="display:none;">
-    <h4>Альтернативный источник</h4>
-    <p style="color:var(--cream-dim);margin-bottom:10px;font-size:0.9rem;">Вставьте прямую ссылку на MP4 файл:</p>
-    <input type="text" id="videoUrl" placeholder="https://example.com/video.mp4">
-    <button onclick="loadDirectVideo()">Загрузить</button>
+  <!-- Торрент -->
+  <div class="source-panel" id="torrentPanel">
+    <div class="input-group">
+      <label>Magnet ссылка:</label>
+      <input type="text" id="magnetUrl" placeholder="magnet:?xt=urn:btih:..." 
+        value="magnet:?xt=urn:btih:08ada5a7a6183aae1e09d831df6748d566095a10&dn=Sintel&tr=udp%3A%2F%2Ftracker.openbittorrent.com%3A80&tr=udp%3A%2F%2Ftracker.publicbt.com%3A80&tr=udp%3A%2F%2Ftracker.istole.it%3A6969&tr=udp%3A%2F%2Ftracker.ccc.de%3A80&tr=udp%3A%2F%2Fopen.demonii.com%3A1337">
+      <button onclick="loadTorrent()">▶ Загрузить торрент</button>
+    </div>
+    <div id="torrentStatus" class="status-box" style="display:none;"></div>
+    <div class="player-wrapper" style="margin-top:20px;">
+      <video id="torrentPlayer" class="video-js vjs-default-skin" controls preload="auto" width="100%" height="100%"></video>
+    </div>
   </div>
 </div>
 
+<script src="https://vjs.zencdn.net/8.6.1/video.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/webtorrent@latest/webtorrent.min.js"></script>
+
 <script>
-// Инициализация плеера с WebTorrent
-(function(){
-  const MAGNET_URI = 'magnet:?xt=urn:btih:D35DFF3B4945299C09F146C20803B9721E22F027&tr=http%3A%2F%2Fbt.t-ru.org%2Fann%3Fmagnet&dn=%D0%9A%D0%BE%D0%BD%D0%B5%D1%86%20%D0%A1%D0%B2%D0%B5%D1%82%D0%B0%20%2F%20%D0%90%D1%80%D0%BC%D0%B0%D0%B3%D0%B5%D0%B4%D0%B4%D0%B5%D1%86%20%2F%20The%20World%27s%20End%20(%D0%AD%D0%B4%D0%B3%D0%B0%D1%80%20%D0%A0%D0%B0%D0%B9%D1%82%20%2F%20Edgar%20Wright)%20%5B2013%2C%20%D0%BA%D0%BE%D0%BC%D0%B5%D0%B4%D0%B8%D1%8F%2C%20%D1%84%D0%B0%D0%BD%D1%82%D0%B0%D1%81%D1%82%D0%B8%D0%BA%D0%B0%2C%20%D0%B1%D0%BE%D0%B5%D0%B2%D0%B8%D0%BA%2C%20DTS-HD%20MA%2C%20NTSC%5D%20VO%20(%D0%94%D0%BC%D0%B8%D1%82%D1%80%D0%B8%D0%B9%20%D0%94%D0%B5%D0%BD%D1%8C%D1%89%D0%B8%D0%BA%D0%BE%D0%B2%20%2F%20%D0%9F%D1%8F';
-  
-  const video = document.getElementById('videoPlayer');
-  const player = document.getElementById('customPlayer');
-  const cover = document.getElementById('playerCover');
-  const bigPlayBtn = document.getElementById('bigPlayBtn');
-  const playPauseBtn = document.getElementById('playPauseBtn');
-  const progressTrack = document.getElementById('progressTrack');
-  const progressFill = document.getElementById('progressFill');
-  const progressKnob = document.getElementById('progressKnob');
-  const timeDisplay = document.getElementById('timeDisplay');
-  const muteBtn = document.getElementById('muteBtn');
-  const volumeSlider = document.getElementById('volumeSlider');
-  const fullscreenBtn = document.getElementById('fullscreenBtn');
-  const torrentProgress = document.getElementById('torrentProgress');
-  const progressPercent = document.getElementById('progressPercent');
-  const peersCount = document.getElementById('peersCount');
-  const downloadSpeed = document.getElementById('downloadSpeed');
-  const uploadSpeed = document.getElementById('uploadSpeed');
-  const loadingSpinner = document.getElementById('loadingSpinner');
-  const videoError = document.getElementById('videoError');
-  const errorMessage = document.getElementById('errorMessage');
-  const errorCode = document.getElementById('errorCode');
-  const fileInfo = document.getElementById('fileInfo');
-  const fileName = document.getElementById('fileName');
-  const fileFormat = document.getElementById('fileFormat');
-  
-  let client = null;
-  let isPlaying = false;
-  let isDragging = false;
-  let torrentLoaded = false;
+let directPlayer = null;
+let torrentPlayer = null;
+let client = null;
 
-  // Проверка поддержки WebTorrent
-  if (typeof WebTorrent === 'undefined') {
-    showError('Библиотека WebTorrent не загрузилась. Проверьте интернет-соединение.', 'WEBTORRENT_NOT_LOADED');
-    return;
-  }
-
-  function fmtTime(s) {
-    if (!isFinite(s) || isNaN(s) || s < 0) return '0:00';
-    const m = Math.floor(s / 60);
-    const sec = Math.floor(s % 60);
-    return `${m}:${sec < 10 ? '0' : ''}${sec}`;
-  }
-
-  function showError(msg, code) {
-    errorMessage.textContent = msg;
-    if (code) errorCode.textContent = 'Код ошибки: ' + code;
-    videoError.style.display = 'flex';
-    cover.style.display = 'none';
-    loadingSpinner.style.display = 'none';
-    torrentProgress.classList.remove('active');
-  }
-
-  function showAltSource() {
-    document.getElementById('altSource').style.display = 'block';
-    videoError.style.display = 'none';
-  }
-
-  window.showAltSource = showAltSource;
-  
-  window.loadDirectVideo = function() {
-    const url = document.getElementById('videoUrl').value.trim();
-    if (!url) return;
-    
-    video.src = url;
-    video.load();
-    video.play().catch(e => console.log('Autoplay prevented:', e));
-    
-    document.getElementById('altSource').style.display = 'none';
-    videoError.style.display = 'none';
-    cover.classList.add('hidden');
-  };
-
-  function checkVideoSupport(filename) {
-    const ext = filename.split('.').pop().toLowerCase();
-    const supported = ['mp4', 'webm', 'ogv', 'ogg'];
-    const maybeSupported = ['mkv', 'avi', 'mov', 'flv', 'wmv'];
-    
-    if (supported.includes(ext)) return {supported: true, ext};
-    if (maybeSupported.includes(ext)) return {supported: false, ext, reason: 'Формат ' + ext.toUpperCase() + ' обычно не поддерживается браузерами напрямую. Требуется MP4 (H.264).'};
-    return {supported: false, ext, reason: 'Неизвестный формат: ' + ext};
-  }
-
-  function initTorrent() {
-    if (torrentLoaded) return;
-    torrentLoaded = true;
-    
-    loadingSpinner.style.display = 'block';
-    
-    try {
-      client = new WebTorrent();
-      
-      client.on('error', function(err) {
-        console.error('WebTorrent client error:', err);
-        showError('Ошибка WebTorrent: ' + err.message, 'CLIENT_ERROR');
-      });
-      
-      client.add(MAGNET_URI, function(torrent) {
-        console.log('Torrent added:', torrent.name);
-        console.log('Files:', torrent.files.map(f => f.name));
-        
-        // Находим видеофайл
-        const videoExts = ['.mp4', '.webm', '.mkv', '.avi', '.mov', '.ogv'];
-        const file = torrent.files.find(function(file) {
-          const name = file.name.toLowerCase();
-          return videoExts.some(ext => name.endsWith(ext));
-        });
-        
-        if (!file) {
-          showError('Видеофайл не найден в торренте. Доступные файлы: ' + torrent.files.map(f => f.name).join(', '), 'NO_VIDEO_FILE');
-          return;
-        }
-        
-        console.log('Selected file:', file.name);
-        fileName.textContent = file.name;
-        fileFormat.textContent = file.name.split('.').pop().toUpperCase();
-        fileInfo.classList.add('active');
-        
-        // Проверяем поддержку формата
-        const support = checkVideoSupport(file.name);
-        if (!support.supported) {
-          console.warn('Format may not be supported:', support.reason);
-          // Показываем предупреждение, но пробуем всё равно
-        }
-        
-        // Стримим в видео элемент
-        file.renderTo(video, { autoplay: true }, function(err) {
-          loadingSpinner.style.display = 'none';
-          
-          if (err) {
-            console.error('Render error:', err);
-            showError('Ошибка воспроизведения: ' + err.message + '. Возможно, формат не поддерживается браузером.', 'RENDER_ERROR');
-            return;
-          }
-          
-          console.log('Render started successfully');
-          torrentProgress.classList.add('active');
-        });
-        
-        // Обновляем прогресс каждую секунду
-        const progressInterval = setInterval(function() {
-          if (!client) {
-            clearInterval(progressInterval);
-            return;
-          }
-          
-          progressPercent.textContent = Math.round(torrent.progress * 100);
-          peersCount.textContent = torrent.numPeers;
-          downloadSpeed.textContent = (torrent.downloadSpeed / 1024 / 1024).toFixed(2);
-          uploadSpeed.textContent = (torrent.uploadSpeed / 1024 / 1024).toFixed(2);
-          
-          // Если загрузка завершена, скрываем прогресс через 5 секунд
-          if (torrent.progress >= 1) {
-            setTimeout(() => {
-              torrentProgress.classList.remove('active');
-            }, 5000);
-          }
-        }, 1000);
-        
-        // Обработка событий торрента
-        torrent.on('error', function(err) {
-          console.error('Torrent error:', err);
-          showError('Ошибка торрента: ' + err.message, 'TORRENT_ERROR');
-        });
-        
-        torrent.on('warning', function(warn) {
-          console.warn('Torrent warning:', warn);
-        });
-        
-      });
-    } catch (e) {
-      console.error('Init error:', e);
-      showError('Ошибка инициализации: ' + e.message, 'INIT_ERROR');
+// Инициализация прямого плеера
+function initDirectPlayer() {
+  directPlayer = videojs('directPlayer', {
+    html5: {
+      vhs: {
+        overrideNative: true,
+        limitRenditionByPlayerDimensions: true
+      }
     }
-  }
+  });
+  
+  // Загружаем тестовое видео сразу
+  directPlayer.src({type: 'video/mp4', src: document.getElementById('directUrl').value});
+}
 
-  function togglePlay() {
-    if (!client) {
-      initTorrent();
+function loadDirect() {
+  const url = document.getElementById('directUrl').value.trim();
+  if (!url) return alert('Введите ссылку');
+  
+  directPlayer.src({type: 'video/mp4', src: url});
+  directPlayer.play();
+}
+
+// Торрент плеер
+function loadTorrent() {
+  const magnet = document.getElementById('magnetUrl').value.trim();
+  const statusBox = document.getElementById('torrentStatus');
+  
+  if (!magnet) return alert('Введите magnet ссылку');
+  
+  statusBox.style.display = 'block';
+  statusBox.className = 'status-box';
+  statusBox.innerHTML = 'Подключение к торренту...';
+  
+  if (client) client.destroy();
+  
+  client = new WebTorrent();
+  
+  client.add(magnet, function(torrent) {
+    console.log('Torrent:', torrent);
+    
+    // Находим видеофайл
+    const file = torrent.files.find(f => 
+      /\.(mp4|webm|mkv|avi|mov)$/i.test(f.name)
+    );
+    
+    if (!file) {
+      statusBox.className = 'status-box error';
+      statusBox.innerHTML = '❌ Видеофайл не найден в торренте';
       return;
     }
     
-    if (video.paused) {
-      video.play().catch(err => {
-        console.error('Play error:', err);
-        if (err.name === 'NotSupportedError') {
-          showError('Браузер не поддерживает этот формат видео. Попробуйте MP4 (H.264).', 'NOT_SUPPORTED');
-        }
-      });
-    } else {
-      video.pause();
-    }
-  }
-
-  // Обработчики событий видео
-  video.addEventListener('play', function() {
-    isPlaying = true;
-    cover.classList.add('hidden');
-    playPauseBtn.textContent = '❚❚';
-    player.classList.add('playing');
-  });
-  
-  video.addEventListener('pause', function() {
-    isPlaying = false;
-    playPauseBtn.textContent = '▶';
-    player.classList.remove('playing');
-  });
-  
-  video.addEventListener('timeupdate', function() {
-    if (!video.duration || isDragging) return;
-    const pct = (video.currentTime / video.duration) * 100;
-    progressFill.style.width = pct + '%';
-    progressKnob.style.left = pct + '%';
-    timeDisplay.textContent = `${fmtTime(video.currentTime)} / ${fmtTime(video.duration)}`;
-  });
-  
-  video.addEventListener('loadedmetadata', function() {
-    console.log('Video metadata loaded, duration:', video.duration);
-    timeDisplay.textContent = `0:00 / ${fmtTime(video.duration)}`;
-  });
-  
-  video.addEventListener('canplay', function() {
-    console.log('Video can play');
-    loadingSpinner.style.display = 'none';
-  });
-  
-  video.addEventListener('waiting', function() {
-    console.log('Video waiting for data...');
-    loadingSpinner.style.display = 'block';
-  });
-  
-  video.addEventListener('error', function(e) {
-    console.error('Video error:', video.error);
-    const error = video.error;
-    let msg = 'Неизвестная ошибка видео';
-    let code = 'VIDEO_ERROR';
+    statusBox.innerHTML = `✅ Найден файл: <b>${file.name}</b><br>Размер: ${(file.length/1024/1024).toFixed(1)} MB`;
     
-    if (error) {
-      switch(error.code) {
-        case 1: msg = 'Загрузка прервана'; code = 'MEDIA_ERR_ABORTED'; break;
-        case 2: msg = 'Ошибка сети'; code = 'MEDIA_ERR_NETWORK'; break;
-        case 3: msg = 'Ошибка декодирования — формат не поддерживается'; code = 'MEDIA_ERR_DECODE'; break;
-        case 4: msg = 'Формат не поддерживается'; code = 'MEDIA_ERR_SRC_NOT_SUPPORTED'; break;
+    // Создаём URL для видео
+    file.getBlobURL(function(err, url) {
+      if (err) {
+        statusBox.className = 'status-box error';
+        statusBox.innerHTML += '<br>❌ Ошибка: ' + err.message;
+        return;
       }
-    }
-    showError(msg + '. Попробуйте использовать прямую ссылку на MP4 файл.', code);
-  });
-
-  // Кнопки
-  bigPlayBtn.addEventListener('click', togglePlay);
-  playPauseBtn.addEventListener('click', togglePlay);
-  video.addEventListener('click', togglePlay);
-
-  // Перемотка
-  function seek(e) {
-    const rect = progressTrack.getBoundingClientRect();
-    let pos = (e.clientX - rect.left) / rect.width;
-    pos = Math.max(0, Math.min(1, pos));
-    if (video.duration) {
-      video.currentTime = pos * video.duration;
-    }
-  }
-
-  progressTrack.addEventListener('mousedown', function(e) {
-    isDragging = true;
-    seek(e);
-  });
-  
-  document.addEventListener('mousemove', function(e) {
-    if (isDragging) seek(e);
-  });
-  
-  document.addEventListener('mouseup', function() {
-    isDragging = false;
-  });
-
-  // Громкость
-  muteBtn.addEventListener('click', function() {
-    video.muted = !video.muted;
-    muteBtn.textContent = video.muted ? '🔇' : '🔊';
-    volumeSlider.value = video.muted ? 0 : video.volume;
-  });
-  
-  volumeSlider.addEventListener('input', function(e) {
-    video.volume = parseFloat(e.target.value);
-    video.muted = (video.volume === 0);
-    muteBtn.textContent = video.muted ? '🔇' : '🔊';
-  });
-
-  // Полноэкранный режим
-  fullscreenBtn.addEventListener('click', function() {
-    if (!document.fullscreenElement) {
-      player.requestFullscreen().catch(err => console.log('Fullscreen error:', err));
-    } else {
-      document.exitFullscreen();
-    }
-  });
-
-  // Клавиатура
-  document.addEventListener('keydown', function(e) {
-    if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+      
+      statusBox.className = 'status-box success';
+      statusBox.innerHTML += '<br>✅ Готово к воспроизведению';
+      
+      if (!torrentPlayer) {
+        torrentPlayer = videojs('torrentPlayer');
+      }
+      
+      torrentPlayer.src({type: 'video/mp4', src: url});
+      torrentPlayer.play();
+    });
     
-    switch(e.code) {
-      case 'Space':
-        e.preventDefault();
-        togglePlay();
-        break;
-      case 'ArrowLeft':
-        e.preventDefault();
-        video.currentTime = Math.max(0, video.currentTime - 10);
-        break;
-      case 'ArrowRight':
-        e.preventDefault();
-        video.currentTime = Math.min(video.duration || 0, video.currentTime + 10);
-        break;
-      case 'KeyF':
-        fullscreenBtn.click();
-        break;
-      case 'KeyM':
-        muteBtn.click();
-        break;
-    }
+    // Обновляем статистику
+    setInterval(() => {
+      const progress = (torrent.progress * 100).toFixed(1);
+      const peers = torrent.numPeers;
+      const speed = (torrent.downloadSpeed / 1024 / 1024).toFixed(2);
+      statusBox.innerHTML += `<div class="torrent-stats">Загрузка: ${progress}% | Пиры: ${peers} | Скорость: ${speed} MB/s</div>`;
+    }, 2000);
   });
-
-  // Фильмstrip анимация
-  const filmstripTop = document.getElementById('filmstripTop');
-  for (let i = 0; i < 40; i++) {
-    const hole = document.createElement('div');
-    hole.className = 'filmstrip-hole';
-    filmstripTop.appendChild(hole);
-  }
   
-  // Отладка — показываем инфо о браузере
-  console.log('Browser:', navigator.userAgent);
-  console.log('Video formats supported:');
-  console.log('- MP4 (H.264):', video.canPlayType('video/mp4; codecs="avc1.42E01E"'));
-  console.log('- WebM:', video.canPlayType('video/webm'));
-})();
+  client.on('error', err => {
+    statusBox.className = 'status-box error';
+    statusBox.innerHTML = '❌ Ошибка WebTorrent: ' + err.message;
+  });
+}
+
+function switchTab(tab) {
+  document.querySelectorAll('.source-tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.source-panel').forEach(p => p.classList.remove('active'));
+  
+  event.target.classList.add('active');
+  document.getElementById(tab + 'Panel').classList.add('active');
+}
+
+// Старт
+initDirectPlayer();
 </script>
+
 </body>
 </html>
