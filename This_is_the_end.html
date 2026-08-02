@@ -254,16 +254,21 @@ body{font-family:'Crimson Text',Georgia,serif;background:var(--bg);color:var(--c
 <div class="section-divider"><span class="section-label">✦ Смотреть онлайн ✦</span></div>
 
 <div class="custom-player" id="customPlayer">
-  <!-- Ваша прямая ссылка с Gofile -->
-  <video id="trailerVideo" src="https://anonmp4.art/v/5KtJzOd7E5XKOqa" preload="metadata"></video>
+  <!-- Исправлено: добавлен crossorigin и source -->
+  <video id="trailerVideo" crossorigin="anonymous" preload="metadata">
+    <source src="https://anonmp4.art/v/5KtJzOd7E5XKOqa" type="video/mp4">
+    <!-- Fallback -->
+    Ваш браузер не поддерживает видео.
+  </video>
   
   <div class="player-cover" id="playerCover">
     <button class="player-bigplay" id="bigPlayBtn" aria-label="Воспроизвести">▶</button>
   </div>
 
-  <div class="progress-preview" id="progressPreview" style="display:none;">
-    <div class="preview-thumb" id="previewThumb"></div>
-    <div class="preview-time" id="previewTime">0:00</div>
+  <!-- Исправлены классы под CSS -->
+  <div class="scrub-preview" id="progressPreview">
+    <div class="scrub-thumb" id="previewThumb"></div>
+    <div class="scrub-time" id="previewTime">0:00</div>
   </div>
 
   <div class="player-controls">
@@ -278,14 +283,20 @@ body{font-family:'Crimson Text',Georgia,serif;background:var(--bg);color:var(--c
       </div>
       <div class="controls-right">
         <button class="pc-icon" id="muteBtn" title="Звук">🔊</button>
-        <input type="range" class="volume-slider" id="volumeSlider" min="0" max="1" step="0.05" value="1">
+        <input type="range" class="volume-slider" id="volumeSlider" min="0" max="1" step="0.05" value="1" style="width:80px;cursor:pointer;">
         <button class="pc-icon" id="fullscreenBtn" title="Во весь экран">⛶</button>
       </div>
     </div>
   </div>
+  
+  <!-- Сообщение об ошибке -->
+  <div id="videoError" style="display:none;position:absolute;inset:0;background:rgba(0,0,0,0.9);color:#c0392b;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:10px;z-index:10;">
+    <div style="font-size:1.2rem;">⚠ Ошибка загрузки видео</div>
+    <div style="color:var(--cream-dim);font-size:0.9rem;">Возможно, источник заблокировал hotlinking</div>
+  </div>
 </div>
-
 <script>
+
 (function(){
   const video = document.getElementById('trailerVideo');
   const player = document.getElementById('customPlayer');
@@ -302,11 +313,12 @@ body{font-family:'Crimson Text',Georgia,serif;background:var(--bg);color:var(--c
   const progressPreview = document.getElementById('progressPreview');
   const previewThumb = document.getElementById('previewThumb');
   const previewTime = document.getElementById('previewTime');
+  const videoError = document.getElementById('videoError');
 
   if (!video || !player) return;
 
   function fmtTime(s) {
-    if (isNaN(s) || s < 0) return '0:00';
+    if (!isFinite(s) || isNaN(s) || s < 0) return '0:00';
     const m = Math.floor(s / 60);
     const sec = Math.floor(s % 60);
     return `${m}:${sec < 10 ? '0' : ''}${sec}`;
@@ -314,23 +326,42 @@ body{font-family:'Crimson Text',Georgia,serif;background:var(--bg);color:var(--c
 
   function togglePlay() {
     if (video.paused) {
-      video.play();
+      video.play().catch(err => {
+        console.error('Play error:', err);
+        showError();
+      });
     } else {
       video.pause();
     }
   }
 
+  function showError() {
+    if(videoError) {
+      videoError.style.display = 'flex';
+      cover.style.display = 'none';
+    }
+  }
+
+  // Обработка ошибок видео
+  video.addEventListener('error', (e) => {
+    console.error('Video error code:', video.error?.code);
+    console.error('Video error message:', video.error?.message);
+    showError();
+  });
+
   video.addEventListener('play', () => {
     cover.classList.add('hidden');
     playPauseBtn.textContent = '❚❚';
+    player.classList.add('playing');
   });
 
   video.addEventListener('pause', () => {
     playPauseBtn.textContent = '▶';
+    player.classList.remove('playing');
   });
 
   video.addEventListener('timeupdate', () => {
-    if (!video.duration) return;
+    if (!video.duration || !isFinite(video.duration)) return;
     const pct = (video.currentTime / video.duration) * 100;
     progressFill.style.width = pct + '%';
     progressKnob.style.left = pct + '%';
@@ -338,7 +369,14 @@ body{font-family:'Crimson Text',Georgia,serif;background:var(--bg);color:var(--c
   });
 
   video.addEventListener('loadedmetadata', () => {
+    console.log('Video loaded, duration:', video.duration);
     timeDisplay.textContent = `0:00 / ${fmtTime(video.duration)}`;
+  });
+
+  // Проверка доступности видео
+  video.addEventListener('canplay', () => {
+    console.log('Video can play');
+    if(videoError) videoError.style.display = 'none';
   });
 
   bigPlayBtn.addEventListener('click', togglePlay);
@@ -351,7 +389,9 @@ body{font-family:'Crimson Text',Georgia,serif;background:var(--bg);color:var(--c
     const rect = progressTrack.getBoundingClientRect();
     let pos = (e.clientX - rect.left) / rect.width;
     pos = Math.max(0, Math.min(1, pos));
-    video.currentTime = pos * video.duration;
+    if (video.duration && isFinite(video.duration)) {
+      video.currentTime = pos * video.duration;
+    }
   }
 
   progressTrack.addEventListener('mousedown', (e) => {
@@ -367,15 +407,17 @@ body{font-family:'Crimson Text',Georgia,serif;background:var(--bg);color:var(--c
     isDragging = false;
   });
 
-  // Превью при наведении
+  // Превью при наведении (исправлено под CSS)
   progressTrack.addEventListener('mousemove', (e) => {
     const rect = progressTrack.getBoundingClientRect();
     let pos = (e.clientX - rect.left) / rect.width;
     pos = Math.max(0, Math.min(1, pos));
     
-    progressPreview.style.display = 'block';
-    progressPreview.style.left = (pos * 100) + '%';
-    previewTime.textContent = fmtTime(pos * video.duration);
+    if(video.duration && isFinite(video.duration)) {
+      progressPreview.style.display = 'flex';
+      progressPreview.style.left = (pos * 100) + '%';
+      previewTime.textContent = fmtTime(pos * video.duration);
+    }
   });
 
   progressTrack.addEventListener('mouseleave', () => {
@@ -386,10 +428,11 @@ body{font-family:'Crimson Text',Georgia,serif;background:var(--bg);color:var(--c
   muteBtn.addEventListener('click', () => {
     video.muted = !video.muted;
     muteBtn.textContent = video.muted ? '🔇' : '🔊';
+    volumeSlider.value = video.muted ? 0 : video.volume;
   });
 
   volumeSlider.addEventListener('input', (e) => {
-    video.volume = e.target.value;
+    video.volume = parseFloat(e.target.value);
     video.muted = (video.volume === 0);
     muteBtn.textContent = video.muted ? '🔇' : '🔊';
   });
@@ -397,9 +440,35 @@ body{font-family:'Crimson Text',Georgia,serif;background:var(--bg);color:var(--c
   // Полноэкранный режим
   fullscreenBtn.addEventListener('click', () => {
     if (!document.fullscreenElement) {
-      player.requestFullscreen().catch(err => console.log(err));
+      player.requestFullscreen().catch(err => console.log('Fullscreen error:', err));
     } else {
       document.exitFullscreen();
+    }
+  });
+
+  // Клавиатурное управление
+  document.addEventListener('keydown', (e) => {
+    if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+    
+    switch(e.code) {
+      case 'Space':
+        e.preventDefault();
+        togglePlay();
+        break;
+      case 'ArrowLeft':
+        e.preventDefault();
+        video.currentTime = Math.max(0, video.currentTime - 10);
+        break;
+      case 'ArrowRight':
+        e.preventDefault();
+        video.currentTime = Math.min(video.duration || 0, video.currentTime + 10);
+        break;
+      case 'KeyF':
+        fullscreenBtn.click();
+        break;
+      case 'KeyM':
+        muteBtn.click();
+        break;
     }
   });
 })();
