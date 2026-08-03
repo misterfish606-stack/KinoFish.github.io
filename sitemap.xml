@@ -111,4 +111,10 @@
   <url><loc>https://misterfish606-stack.github.io/KinoFish.github.io/Johnny_English.html</loc><priority>0.8</priority><changefreq>monthly</changefreq></url>
   <url><loc>https://misterfish606-stack.github.io/KinoFish.github.io/Big_Mommas_House.html</loc><priority>0.8</priority><changefreq>monthly</changefreq></url>
 
+  <url>
+    <loc>https://nickboyko606.github.io/kino/spider_man.html</loc>
+    <lastmod>2026-08-03</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
 </urlset>
