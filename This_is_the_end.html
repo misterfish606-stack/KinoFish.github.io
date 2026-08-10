@@ -84,6 +84,13 @@ body{font-family:'Crimson Text',Georgia,serif;background:var(--bg);color:var(--c
 .detail-value a:hover::after {transform:scaleX(1);}
 .trailer-wrap{position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border:2px solid var(--gold-dim);box-shadow:0 0 0 1px rgba(212,175,55,0.15),0 10px 40px rgba(0,0,0,0.6);}
 .trailer-wrap iframe{position:absolute;top:0;left:0;width:100%;height:100%;border:none;}
+
+/* Стили для блока соцсетей */
+.social-block{text-align:center;margin-top:20px;margin-bottom:10px;}
+.social-link{display:inline-block;transition:transform 0.25s ease, filter 0.25s ease;}
+.social-link:hover{transform:scale(1.15);filter:drop-shadow(0 0 8px rgba(212,175,55,0.6));}
+.social-icon{width:42px;height:42px;display:block;}
+
 .rec-category-label{font-family:'Bebas Neue',sans-serif;font-size:0.72rem;letter-spacing:0.28em;color:var(--gold-dim);margin-bottom:16px;display:flex;align-items:center;gap:10px;}
 .rec-category-label::after{content:"";flex:1;height:1px;background:linear-gradient(90deg,rgba(138,112,64,0.4),transparent);}
 .rec-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,200px));gap:18px;margin-bottom:36px;}
@@ -214,6 +221,15 @@ body{font-family:'Crimson Text',Georgia,serif;background:var(--bg);color:var(--c
   <div class="trailer-wrap">
     <iframe src="https://mega.nz/embed/5dgnjRjb#8hvvJF4r4qY-r1nh30Zj8RQvtzT8xMsiFmp8Ap7S-KE" allowfullscreen frameborder="0"></iframe>
   </div>
+
+  <!-- Блок соцсетей прямо под плеером -->
+  <div class="section-divider"><span class="section-label">✦ Наши соцсети ✦</span></div>
+  <div class="social-block">
+    <a href="https://t.me/MisterFishCinema" target="_blank" class="social-link" title="Наш Telegram чат">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/8/82/Telegram_logo.svg" alt="Telegram" class="social-icon">
+    </a>
+  </div>
+
   <div class="section-divider"><span class="section-label">✦ Смотрите также ✦</span></div>
   <div class="rec-category-label">&#9670; &nbsp; Похожие фильмы</div>
   <div class="rec-grid" id="smartRecs"></div>
