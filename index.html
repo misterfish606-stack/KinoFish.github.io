@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -37,6 +36,45 @@ body {
   background:var(--bg); color:var(--cream);
   min-height:100vh; overflow-x:hidden;
 }
+
+/* Кнопка Telegram слева вверху */
+.telegram-link {
+  position: fixed;
+  top: 12px;
+  left: 15px;
+  z-index: 10000;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(20, 14, 6, 0.85);
+  border: 1px solid var(--gold-dim);
+  padding: 6px 12px;
+  border-radius: 4px;
+  color: var(--gold-light);
+  text-decoration: none;
+  font-family: 'Bebas Neue', sans-serif;
+  letter-spacing: 0.1em;
+  font-size: 0.9rem;
+  box-shadow: 0 0 10px rgba(0,0,0,0.8);
+  transition: all 0.3s ease;
+  backdrop-filter: blur(4px);
+}
+.telegram-link:hover {
+  border-color: var(--gold);
+  color: #fff;
+  box-shadow: 0 0 15px rgba(212, 175, 55, 0.4);
+  transform: translateY(-2px);
+}
+.telegram-icon {
+  width: 18px;
+  height: 18px;
+  fill: var(--gold);
+  transition: fill 0.3s ease;
+}
+.telegram-link:hover .telegram-icon {
+  fill: var(--gold-light);
+}
+
 .projector-beam {
   position:fixed; top:0; left:50%;
   transform:translateX(-50%); width:0;
@@ -375,6 +413,7 @@ body {
   .sidebar{display:none;}
   .catalog{padding:18px;}
   .movies-grid{grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:14px;}
+  .telegram-link span { display: none; } /* Скрываем текст на мобильных устройствах для экономии места */
 }
 
 /* GOLD UNDERLINES ON HOVER */
@@ -578,6 +617,15 @@ body {
 </style>
 </head>
 <body>
+
+<!-- Кнопка Telegram слева вверху -->
+<a href="https://t.me/your_telegram_channel" target="_blank" class="telegram-link">
+  <svg class="telegram-icon" viewBox="0 0 24 24">
+    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69.01-.03.01-.14-.07-.2-.08-.06-.19-.04-.27-.02-.12.02-1.96 1.25-5.54 3.69-.52.36-1 .53-1.42.52-.47-.01-1.37-.26-2.03-.48-.82-.27-1.47-.42-1.42-.88.03-.24.38-.49 1.07-.75 4.19-1.82 6.98-3.02 8.37-3.6 3.98-1.65 4.81-1.94 5.35-1.95.12 0 .38.03.55.17.14.12.18.28.2.45-.02.07-.02.16-.04.25z"/>
+  </svg>
+  <span>Telegram</span>
+</a>
+
 <div class="ascii-portrait">
   <pre>                    ▄▄█████▄▄              
                  ▄█████████████▄           
@@ -941,236 +989,200 @@ const movies=[
   {title:"Дивергент",                   file:"Divergent.html",                         movieKey:"divergent_2014",                year:2014, country:"США",             hot:false, isNew:false, desc:"В постапокалиптическом Чикаго Трис узнаёт, что она дивергент — и это делает её мишенью системы.",      img:"https://kinogo.online/uploads/mini/shortstory-mob/b04/1614407017-1811290746.jpg",            actors:["Шейлин Вудли","Тео Джеймс","Кейт Уинслет"]},
   {title:"Человек дождя",               file:"Rain_Man.html",                          movieKey:"rain_man_1988",                 year:1988, country:"США",             hot:true,  isNew:false, desc:"Циничный делец похищает брата-аутиста и везёт его через всю Америку. Оскар.",                          img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRK-MBvn1kd0Ny8m1hCwLHyQgarFs5GU9bD6yPFCtfi4Q&s=10",            actors:["Дастин Хоффман","Том Круз","Валерия Голино"]},
   {title:"Терминал",                    file:"The_Terminal.html",                      movieKey:"the_terminal_2004",             year:2004, country:"США",             hot:false, isNew:false, desc:"Виктор Наворски застрял в аэропорту JFK — его страна перестала существовать. Спилберг.",               img:"https://kinogo.online/uploads/posts/2021-02/1614402651-1617596396.jpg",            actors:["Том Хэнкс","Кэтрин Зета-Джонс","Стэнли Туччи"]},
-  {title:"Диктатор",                    file:"The_Dictator.html",                      movieKey:"the_dictator_2012",             year:2012, country:"США",             hot:false, isNew:false, desc:"Всесильный диктатор приезжает в Нью-Йорк и лишается власти и личности. Саша Барон Коэн.",            img:"https://ru-images.kinorium.com/movie/1080/530997.jpg?1726583595",            actors:["Саша Барон Коэн","Анна Фарис","Бен Кингсли"]},
-  {title:"Всегда говори «Да»",          file:"Yes_Man.html",                           movieKey:"yes_man_2008",                  year:2008, country:"США",             hot:false, isNew:false, desc:"Пессимист Карл даёт клятву говорить «да» на всё. Джим Керри в ударе.",                               img:"https://kinogo.online/uploads/posts/2021-02/1614363151-1254087138.jpg",            actors:["Джим Керри","Зои Дешанель","Брэдли Купер"]},
-  {title:"Пипец",                       file:"Kick_Ass.html",                          movieKey:"kickass_2010",                  year:2010, country:"США",             hot:true,  isNew:false, desc:"Обычный подросток надевает костюм и выходит на улицы. Реальность — не комикс. Мэттью Вон.",           img:"https://upload.wikimedia.org/wikipedia/ru/f/f8/%D0%9F%D0%BE%D1%81%D1%82%D0%B5%D1%80_%D1%84%D0%B8%D0%BB%D1%8C%D0%BC%D0%B0_%D0%9F%D0%B8%D0%BF%D0%B5%D1%86.jpg",            actors:["Аарон Тейлор-Джонсон","Хлоя Грейс Морец","Николас Кейдж"]},
-  {title:"Копы в глубоком запасе",      file:"Other_Guys.html",                        movieKey:"other_guys_2010",               year:2010, country:"США",             hot:false, isNew:false, desc:"Два скромных полицейских с бумажной работы получают шанс стать настоящими героями.",                  img:"https://kinogo.media/uploads/posts/2021-09/1632938080_iphone360_462466.jpg",            actors:["Уилл Феррелл","Марк Уолберг","Ева Мендес"]},
-  {title:"Агент Джонни Инглиш",         file:"Johnny_English.html",                    movieKey:"johnny_english_2003",           year:2003, country:"Великобритания",  hot:false, isNew:false, desc:"Самый некомпетентный агент MI7 расследует кражу британских королевских регалий. Роуэн Аткинсон.",     img:"https://upload.wikimedia.org/wikipedia/ru/thumb/4/49/Johnny_English_poster.jpg/250px-Johnny_English_poster.jpg",            actors:["Роуэн Аткинсон","Натали Имбрулья","Бен Миллер"]},
-  {title:"Человек-паук: Нуар",       file:"Spider_Man_Noir.html",            movieKey:"spider_man_noir",            year:2025, country:"США",             hot:true,  isNew:true,  desc:"Питер Паркер в Нью-Йорке 1930-х годов. Детектив в маске борется с гангстерами эпохи Великой депрессии.",  img:"https://static.hdrezka.ac/i/2026/5/27/i055dc6db901dgd21d31c.jpg", actors:["Николас Кейдж"]},
-  {title:"Человек-паук: Новый день",    file:"spider_man.html",                   movieKey:"Spider-Man Brand New Day 2026",  year:2026, country:"США",             hot:true,  isNew:true,  desc:"Питер Паркер начинает жизнь с чистого листа — никто не помнит Человека-паука.",      img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRHittsftUahgGoqi0EKhqmX--rGAOMBBIqdsWyYJ9Z-g&s=10", actors:["Том Холланд","Зендея","Джейкоб Баталон"]},
-  {title:"Большая мамочка",             file:"Big_Mommas_House.html",                  movieKey:"big_mommas_house_2000",         year:2000, country:"США",             hot:false, isNew:false, desc:"Агент ФБР переодевается в огромную пожилую женщину для операции прикрытия. Мартин Лоуренс.",           img:"https://kinogo.media/uploads/posts/2021-10/1634995274_iphone360_4537.jpg",            actors:["Мартин Лоуренс","Нии Лонг","Пол Джиамати"]},
+  {title:"Диктатор",                    file:"The_Dictator.html",                      movieKey:"the_dictator_2012",             year:2012, country:"США",             hot:false, isNew:false, desc:"Всесильный диктатор приезжает в Нью-Йорк и лишается власти и личности. Саша Барон Коэн.",            img:"https://ru-images.kinorium.com/movie/1080/530997.jpg?1726583595",            actors:["Саша Барон Коэн","Анна Фарис"]}
 ];
 
-function render(list,title="Все фильмы"){
-  const catalog=document.getElementById("catalog");
-  document.getElementById("catalogTitle").innerText=title;
-  document.getElementById("catalogCount").innerText=list.length+" фильмов";
-  catalog.innerHTML="";
-  list.forEach((m,i)=>{
-    const ri=movies.indexOf(m);
-    const adminBtns=isAdmin?`
+function render(list){
+  const cat=document.getElementById("catalog");
+  document.getElementById("catalogCount").innerText=`(${list.length})`;
+  let html="";
+  list.forEach((m,idx)=>{
+    let badges="";
+    if(m.hot) badges+=`<span class="badge-fire">🔥 HOT</span>`;
+    if(m.isNew) badges+=`<span class="badge-new">🆕 NEW</span>`;
+    let adminBtns="";
+    if(isAdmin){
+      adminBtns=`
       <div class="admin-card-btns" style="display:flex">
-        <button class="btn-del"  onclick="deleteFilm(${ri},event)">✕ Удалить</button>
-        <button class="btn-fire" onclick="toggleFire(${ri},event)">${m.hot?"Снять 🔥":"🔥"}</button>
-        <button class="btn-new"  onclick="toggleNew(${ri},event)">${m.isNew?"Снять 🆕":"🆕"}</button>
-      </div>`:"";
-    const card=document.createElement("div");
-    card.className="movie-card";
-    card.style.animationDelay=(i*0.04)+"s";
-    const safeTitle=escapeHtml(m.title);
-    const safeCountry=escapeHtml(m.country);
-    card.innerHTML=`
-      <div class="badge-wrap">
-        ${m.hot ?`<span class="badge-fire">🔥 Хит</span>`:""}
-        ${m.isNew?`<span class="badge-new">🆕 Новинка</span>`:""}
-      </div>
-      ${adminBtns}
-      <a href="${m.file}" style="text-decoration:none;color:inherit">
-        <div class="movie-card-inner">
-          <img src="${m.img}" alt="${safeTitle}" loading="lazy">
-          <div class="card-overlay">
-            <div class="card-overlay-title">${safeTitle}</div>
-            <div class="card-overlay-meta">${safeCountry} · ${m.year}</div>
-          </div>
+        <button class="btn-fire" onclick="event.stopPropagation();toggleFlag(${idx},'hot')">🔥</button>
+        <button class="btn-new"  onclick="event.stopPropagation();toggleFlag(${idx},'isNew')">🆕</button>
+        <button class="btn-del"  onclick="event.stopPropagation();deleteFilm(${idx})">✕</button>
+      </div>`;
+    }
+    html+=`
+    <div class="movie-card" onclick="location.href='${m.file}'">
+      <div class="movie-card-inner">
+        ${badges?`<div class="badge-wrap">${badges}</div>`:''}
+        ${adminBtns}
+        <img src="${m.img}" alt="${escapeHtml(m.title)}" loading="lazy">
+        <div class="card-overlay">
+          <div class="card-overlay-title">${escapeHtml(m.title)}</div>
+          <div class="card-overlay-meta">${m.year} • ${escapeHtml(m.country)}</div>
         </div>
-        <div class="card-title">${safeTitle}</div>
-        <div class="card-year">${m.year}</div>
-      </a>`;
-    catalog.appendChild(card);
+      </div>
+      <div class="card-title">${escapeHtml(m.title)}</div>
+      <div class="card-year">${m.year}</div>
+    </div>`;
   });
+  cat.innerHTML=html;
 }
 
-function deleteFilm(idx,e){e.preventDefault();if(!confirm(`Удалить "${movies[idx].title}"?`))return;movies.splice(idx,1);render(movies);}
-function toggleFire(idx,e){e.preventDefault();movies[idx].hot=!movies[idx].hot;render(movies);}
-function toggleNew(idx,e){e.preventDefault();movies[idx].isNew=!movies[idx].isNew;render(movies);}
-function addFilm(){
-  const t=document.getElementById("af-title").value.trim();
-  const f=document.getElementById("af-file").value.trim();
-  if(!t||!f){alert("Заполни название и файл!");return;}
-  movies.unshift({
-    title:t,file:f,
-    movieKey:document.getElementById("af-moviekey").value.trim()||t,
-    year:parseInt(document.getElementById("af-year").value)||0,
-    country:document.getElementById("af-country").value.trim(),
-    img:document.getElementById("af-img").value.trim(),
-    desc:document.getElementById("af-desc").value.trim(),
-    hot:document.getElementById("af-hot").value==="1",
-    isNew:document.getElementById("af-new").value==="1"
-  });
-  render(movies);
-  ["af-title","af-file","af-moviekey","af-year","af-country","af-img","af-desc"].forEach(id=>document.getElementById(id).value="");
-  document.getElementById("af-hot").value="0";
-  document.getElementById("af-new").value="0";
-  const msg=document.getElementById("addSuccessMsg");
-  msg.style.display="block";
-  setTimeout(()=>msg.style.display="none",3000);
-}
-
-async function loadStats(){
-  const body=document.getElementById("statsBody");
-  body.innerHTML=`<tr><td colspan="6" style="color:var(--gold-dim);text-align:center;padding:20px;font-style:italic">Загрузка...</td></tr>`;
-  const viewsData=await Promise.all(movies.map(async m=>{
-    try{const snap=await db.collection("movies").doc(m.movieKey).collection("stats").doc("views").get();return{...m,views:snap.exists?(snap.data().count||0):0};}
-    catch(e){return{...m,views:0};}
-  }));
-  const sorted=viewsData.sort((a,b)=>b.views-a.views);
-  const max=Math.max(1,...sorted.map(m=>m.views));
-  body.innerHTML=sorted.map((m,i)=>`
-    <tr>
-      <td class="stats-rank">${i+1}</td>
-      <td><a href="${m.file}" style="color:var(--gold);text-decoration:none">${escapeHtml(m.title)}</a>
-      <div class="stats-bar"><div class="stats-bar-fill" style="width:${Math.round(m.views/max*100)}%"></div></div></td>
-      <td>${m.year}</td><td>${escapeHtml(m.country)}</td>
-      <td style="color:var(--gold)">👁 ${m.views}</td>
-      <td>${m.hot?"🔥":""} ${m.isNew?"🆕":""}</td>
-    </tr>`).join("");
-}
-
-function filterYear(y){render(movies.filter(m=>m.year==y),y+" год");}
-function filterCountry(c){render(movies.filter(m=>m.country==c),c);}
-function showAll(){render(movies);}
-function showNewFilms(){render(movies.filter(m=>m.isNew),"Новинки");}
-
+function showAll(){ document.getElementById("catalogTitle").innerText="Все фильмы"; render(movies); }
+function showNewFilms(){ document.getElementById("catalogTitle").innerText="Новинки"; render(movies.filter(m=>m.isNew)); }
 function showCollections(){
   document.getElementById("catalogTitle").innerText="Подборки";
+  const cat=document.getElementById("catalog");
+  cat.innerHTML=`
+  <div class="collections-grid" style="grid-column:1/-1">
+    <div class="collection-card" onclick="filterHot()">
+      <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTHFS7WEw3dSnvD-pu6GKh0CDhf5g6uXC6vow&s" alt="Популярное">
+      <div class="collection-label"><h3>🔥 Топ и Популярное</h3></div>
+    </div>
+    <div class="collection-card" onclick="showNewFilms()">
+      <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTVfAfG1cFMsOVAAJR5R6sqGRt78apqhvqKKA&s" alt="Новинки">
+      <div class="collection-label"><h3>🆕 Свежие поступления</h3></div>
+    </div>
+  </div>`;
   document.getElementById("catalogCount").innerText="";
-  document.getElementById("catalog").innerHTML=`
-    <div style="grid-column:1/-1">
-      <div class="collections-grid">
-        <div class="collection-card" onclick="showCowboys()">
-          <img src="https://1rus.ru/content/d3/2e/d32e9c78d4734317b3d1aa6682d7_854x480.webp">
-          <div class="collection-label"><h3>🤠 Ковбои и вестерны</h3></div>
-        </div>
-        <div class="collection-card" onclick="render(movies.filter(m=>m.country==='США'&&m.year<1990),'Классика США')">
-          <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQBXlhXamFnFAPgPXJCtYt8FjX0-YS_CdSsAQ&s">
-          <div class="collection-label"><h3>🎞 Классика США</h3></div>
-        </div>
-        <div class="collection-card" onclick="render(movies.filter(m=>m.hot),'Хиты')">
-          <img src="https://i.redd.it/unolqsq59xue1.jpeg">
-          <div class="collection-label"><h3>🔥 Хиты сайта</h3></div>
-        </div>
-        <div class="collection-card" onclick="showZombies()">
-          <img src="https://play-lh.googleusercontent.com/proxy/bisU6N6J4pAlCvsCy0fJwPYmjCBRVldgmjftK9KZ2D2sh_Zq6o4uNv5gQKbSBKf6MsrqhLb4uDr3a2a4w-NoIB-pMFQsLd86D2wlw9-xZUt0BdY9ecsgzpC0yA=s1920-w1920-h1080">
-          <div class="collection-label"><h3>🧟 Зомби апокалипсис</h3></div>
-        </div>
-        <div class="collection-card" onclick="showAction()">
-          <img src="https://www.film.ru/sites/default/files/styles/thumb_1024x450/public/filefield_paths/stallone-rambo-1-3.jpg">
-          <div class="collection-label"><h3>💥 Боевики</h3></div>
-        </div>
-        <div class="collection-card" onclick="showComedy()">
-          <img src="https://www.film.ru/sites/default/files/styles/thumb_1024x450/public/trailers_frame/s7dcallzevsrvivmuvaumwaxfmn.jpg">
-          <div class="collection-label"><h3>😂 Комедии</h3></div>
-        </div>
-        <div class="collection-card" onclick="showCrime()">
-          <img src="https://static.kion.ru/content/mts/movie/70008788/posters/HORIZONTAL_8934796daed69d1c7d2cc2851d06faaf.webp?x=1200&y=10&ar=keep">
-          <div class="collection-label"><h3>🕵️ Криминал и триллеры</h3></div>
-        </div>
-        <div class="collection-card" onclick="showSuperheroes()">
-          <img src="https://i.ytimg.com/vi/I_NVnxCDF90/maxresdefault.jpg">
-          <div class="collection-label"><h3>🦸 Супергерои</h3></div>
-        </div>
-        <div class="collection-card" onclick="showAdventure()">
-          <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRqFrNzW4BbE3kO-Hes305y7N1q2CXfZ0Zifg&s">
-          <div class="collection-label"><h3>⚔️ Приключения и эпос</h3></div>
-        </div>
-        <div class="collection-card" onclick="showBromance()">
-          <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQiafqPZv3N0P4JT_IoQrzoCPwpkm-Ogn0g2A&s">
-          <div class="collection-label"><h3>👬 Дружба и бромансы</h3></div>
-        </div>
-        <div class="collection-card" onclick="showSurvival()">
-          <img src="https://preview.redd.it/the-maze-runner-kept-me-on-edge-v0-idi93xtfl7uf1.jpeg?width=640&crop=smart&auto=webp&s=273ae257ac741f9ed39d90784d4d117024006eea">
-          <div class="collection-label"><h3>🌲 Выживание</h3></div>
-        </div>
-        <div class="collection-card" onclick="showNewFilms()">
-          <img src="https://img.ixbt.site/live/topics/preview/00/09/98/22/e22992cfe9.jpg">
-          <div class="collection-label"><h3>🆕 Новинки</h3></div>
-        </div>
-      </div>
-    </div>`;
 }
-function showCowboys(){render(movies.filter(m=>["good-bad-ugly.html","per_un_pugno_di_dollari.html","for-a-few-dollars-more.html"].includes(m.file)),"Ковбои и вестерны");}
-function showZombies(){render(movies.filter(m=>["Zombieland.html","Busanhaeng.html","Scouts_Guide_to_the_Zombie_Apocalypse.html"].includes(m.file)),"🧟 Зомби апокалипсис");}
-function showAction(){render(movies.filter(m=>["Rambo.html","Gladiator.html","The_Equalizer.html","Bad_boys.html","Escape_Plan.html","Troy.html","Rocky.html","Blood_Diamond.html","The_Revenant.html","Elysium.html","Chappie.html","Blade.html","Captain_america.html"].includes(m.file)),"💥 Боевики");}
-function showComedy(){render(movies.filter(m=>["Dumb_and_dumber.html","Ace_Ventura.html","American_Pie.html","Bruce_Almighty.html","Yes_Man.html","Ted.html","Superbad.html","The_Hangover.html","Police_academy.html","Scary_movie.html","Major_payne.html","White_Chicks.html","Little_Man.html","Johnny_English.html","Vive_la_France.html","Due_Date.html","Movie_43.html","Paul.html","Tropic_Thunder.html","Identity_Thief.html","Vacation.html","50_First_Dates.html","Blended.html","Just_Go_With_It.html","Thats_My_Boy.html","Lets_Be_Cops.html","Million_Ways.html","Big_Stan.html","Big_Mommas_House.html","Me_myself_irene_2.html","Harold_&_Kumar_Go_to_White_Castle.html","Dude_wheres_my_car.html","17_Again.html","Night_at_the_Museum.html","Other_Guys.html"].includes(m.file)),"😂 Комедии");}
-function showCrime(){render(movies.filter(m=>["Pulp_fiction.html","No_Country_for_Old_Men.html","Django.html","Seven.html","fight_club.html","taxi_driver_1976.html","Gentlemen.html","Green_Street_hooligans.html","Ned_Kelly.html","Hitmans_Bodyguard.html"].includes(m.file)),"🕵️ Криминал и триллеры");}
-function showSuperheroes(){render(movies.filter(m=>["Spider_Man_Noir.html","Suicide_squad.html","Kick_Ass.html","Blade.html","Captain_america.html","Hancock.html"].includes(m.file)),"🦸 Супергерои");}
-function showAdventure(){render(movies.filter(m=>["Troy.html","Gladiator.html","Hobbit.html","Matrix.html","Star_trek.html","Solo_star_wars.html","Hunger_games.html","Maze_Runner.html","Divergent.html","Karate_kid.html"].includes(m.file)),"⚔️ Приключения и эпос");}
-function showBromance(){render(movies.filter(m=>["Bad_boys.html","Hot_Fuzz.html","Hitmans_Bodyguard.html","Paul.html","Due_Date.html","Lets_Be_Cops.html","This_is_the_End.html","Spies.html","Harold_&_Kumar_Go_to_White_Castle.html"].includes(m.file)),"👬 Дружба и бромансы");}
-function showSurvival(){render(movies.filter(m=>["The_Revenant.html","Blood_Diamond.html","Elysium.html","Maze_Runner.html","Hunger_games.html","2012.html","All_Quiet_on_the_Western_Front.html"].includes(m.file)),"🌲 Выживание");}
+function filterHot(){ document.getElementById("catalogTitle").innerText="🔥 Популярные фильмы"; render(movies.filter(m=>m.hot)); }
+function filterYear(y){ document.getElementById("catalogTitle").innerText=`Фильмы ${y} года`; render(movies.filter(m=>m.year===y)); }
+function filterCountry(c){ document.getElementById("catalogTitle").innerText=`Фильмы: ${c}`; render(movies.filter(m=>m.country.includes(c))); }
+function filterActor(a){ document.getElementById("catalogTitle").innerText=`В ролях: ${a}`; render(movies.filter(m=>m.actors&&m.actors.includes(a))); }
 
-function levenshtein(a,b){
-  const m=[];
-  for(let i=0;i<=b.length;i++) m[i]=[i];
-  for(let j=0;j<=a.length;j++) m[0][j]=j;
-  for(let i=1;i<=b.length;i++)
-    for(let j=1;j<=a.length;j++)
-      m[i][j]=b[i-1]===a[j-1]?m[i-1][j-1]:Math.min(m[i-1][j-1]+1,m[i][j-1]+1,m[i-1][j]+1);
-  return m[b.length][a.length];
-}
 function searchMovie(){
-  const val=document.getElementById("searchInput").value.toLowerCase();
-  if(!val){render(movies);return;}
-  let res=movies.filter(m=>m.title.toLowerCase().includes(val));
-  if(!res.length)res=movies.filter(m=>m.title.split(" ").some(w=>levenshtein(w.toLowerCase(),val)<3));
-  render(res,`Поиск: "${val}"`);
+  const q=document.getElementById("searchInput").value.toLowerCase().trim();
+  if(!q){ showAll(); return; }
+  document.getElementById("catalogTitle").innerText=`Поиск: ${q}`;
+  render(movies.filter(m=>
+    m.title.toLowerCase().includes(q) ||
+    m.country.toLowerCase().includes(q) ||
+    m.year.toString().includes(q) ||
+    (m.actors && m.actors.some(act=>act.toLowerCase().includes(q)))
+  ));
 }
 
-const yc=document.getElementById("years");
-for(let y=2026;y>=1964;y--) yc.innerHTML+=`<a href="#" onclick="filterYear(${y}); return false">${y}</a>`;
+function showRandomMovie(){
+  const rand = movies[Math.floor(Math.random()*movies.length)];
+  document.getElementById("randomImg").src = rand.img;
+  document.getElementById("randomTitle").innerText = rand.title;
+  document.getElementById("randomMeta").innerText = `${rand.year} • ${rand.country}`;
+  document.getElementById("randomDesc").innerText = rand.desc || "Описание отсутствует.";
+  document.getElementById("randomLink").href = rand.file;
+  document.getElementById("randomModal").classList.add("open");
+}
 
-
-function filterActor(a){render(movies.filter(m=>m.actors&&m.actors.includes(a)),a);}
-
-// Build actors list
-let allActors = {};
-(function(){
-  movies.forEach(m=>{ if(m.actors) m.actors.forEach(a=>{ allActors[a]=(allActors[a]||0)+1; }); });
-  renderActorsList('');
-})();
-
-function renderActorsList(query){
-  const el=document.getElementById("actorsList");
-  const q=query.toLowerCase().trim();
-  const sorted=Object.keys(allActors).sort((a,b)=>a.localeCompare(b,'ru'));
-  const filtered = q
-    ? sorted.filter(a => a.toLowerCase().includes(q) || levenshtein(a.toLowerCase().split(' ').find(w=>w.startsWith(q[0]))||'', q) < 3)
-    : sorted;
-  if(filtered.length===0){
-    el.innerHTML=`<span style="color:var(--gold-dim);font-size:0.83rem;font-style:italic;padding:4px 0;display:block">Не найдено</span>`;
-    return;
-  }
-  el.innerHTML='';
-  filtered.forEach(a=>{
-    el.innerHTML+=`<a href="#" onclick="filterActor('${a.replace(/'/g,"\\'")}'); return false">${a} <span style="color:var(--gold-dim);font-size:0.78rem">(${allActors[a]})</span></a>`;
+function initSidebar(){
+  const yearsSet = new Set(movies.map(m=>m.year));
+  const sortedYears = Array.from(yearsSet).sort((a,b)=>b-a);
+  let yHtml="";
+  sortedYears.forEach(y=>{
+    yHtml+=`<a href="#" onclick="filterYear(${y}); return false">${y}</a>`;
   });
+  document.getElementById("years").innerHTML=yHtml;
+
+  renderActorsList();
+}
+
+function renderActorsList(filterText=""){
+  const actorsSet = new Set();
+  movies.forEach(m=>{
+    if(m.actors) m.actors.forEach(a=>actorsSet.add(a));
+  });
+  const sortedActors = Array.from(actorsSet).sort();
+  let aHtml="";
+  sortedActors.forEach(a=>{
+    if(!filterText || a.toLowerCase().includes(filterText.toLowerCase())){
+      aHtml+=`<a href="#" onclick="filterActor('${escapeHtml(a)}'); return false">${escapeHtml(a)}</a>`;
+    }
+  });
+  document.getElementById("actorsList").innerHTML=aHtml;
 }
 
 function filterActorsList(){
-  const val=document.getElementById("actorSearch").value;
-  renderActorsList(val);
+  const q = document.getElementById("actorSearch").value.trim();
+  renderActorsList(q);
 }
-render(movies);
 
-function showRandomMovie() {
-  const m = movies[Math.floor(Math.random() * movies.length)];
-  document.getElementById('randomTitle').textContent = m.title;
-  document.getElementById('randomMeta').textContent = m.country + ' · ' + m.year;
-  document.getElementById('randomDesc').textContent = m.desc || '';
-  document.getElementById('randomImg').src = m.img;
-  document.getElementById('randomImg').alt = m.title;
-  document.getElementById('randomLink').href = m.file;
-  document.getElementById('randomModal').classList.add('open');
+function toggleFlag(idx, flag){
+  movies[idx][flag] = !movies[idx][flag];
+  render(movies);
 }
+function deleteFilm(idx){
+  if(confirm(`Удалить фильм "${movies[idx].title}"?`)){
+    movies.splice(idx,1);
+    render(movies);
+  }
+}
+function addFilm(){
+  const t = document.getElementById("af-title").value.trim();
+  const f = document.getElementById("af-file").value.trim();
+  const k = document.getElementById("af-moviekey").value.trim();
+  const y = parseInt(document.getElementById("af-year").value);
+  const c = document.getElementById("af-country").value.trim();
+  const i = document.getElementById("af-img").value.trim();
+  const d = document.getElementById("af-desc").value.trim();
+  const h = document.getElementById("af-hot").value==="1";
+  const n = document.getElementById("af-new").value==="1";
+
+  if(!t || !f){ alert("Укажите название и файл!"); return; }
+
+  movies.unshift({
+    title: t, file: f, movieKey: k||t, year: y||2024,
+    country: c||"США", img: i||"https://via.placeholder.com/300x450",
+    desc: d, hot: h, isNew: n, actors: []
+  });
+
+  const msg = document.getElementById("addSuccessMsg");
+  msg.style.display="block";
+  setTimeout(()=>msg.style.display="none", 3000);
+  render(movies);
+}
+
+function loadStats(){
+  const sb = document.getElementById("statsBody");
+  sb.innerHTML = "<tr><td colspan='6'>Загрузка статистики...</td></tr>";
+  db.collection("views").get().then(snap=>{
+    let viewsData = {};
+    snap.forEach(doc=>{
+      viewsData[doc.id] = doc.data().count || 0;
+    });
+
+    let statsList = movies.map(m=>({
+      ...m,
+      views: viewsData[m.movieKey] || 0
+    }));
+
+    statsList.sort((a,b)=>b.views - a.views);
+
+    let maxViews = statsList[0]? statsList[0].views : 1;
+    if(maxViews===0) maxViews=1;
+
+    let h="";
+    statsList.forEach((m, i)=>{
+      let pct = Math.round((m.views/maxViews)*100);
+      let flags="";
+      if(m.hot) flags+="🔥 ";
+      if(m.isNew) flags+="🆕";
+
+      h+=`
+      <tr>
+        <td class="stats-rank">#${i+1}</td>
+        <td><b>${escapeHtml(m.title)}</b><div class="stats-bar"><div class="stats-bar-fill" style="width:${pct}%"></div></div></td>
+        <td>${m.year}</td>
+        <td>${escapeHtml(m.country)}</td>
+        <td><b>${m.views}</b></td>
+        <td>${flags}</td>
+      </tr>`;
+    });
+    sb.innerHTML = h;
+  }).catch(err=>{
+    sb.innerHTML = "<tr><td colspan='6'>Ошибка загрузки статистики.</td></tr>";
+  });
+}
+
+initSidebar();
+showAll();
 </script>
 </body>
 </html>
