@@ -46,33 +46,34 @@ body {
   display: flex;
   align-items: center;
   gap: 8px;
-  background: rgba(20, 14, 6, 0.85);
-  border: 1px solid var(--gold-dim);
+  background: #0088cc;
+  border: 1px solid #0088cc;
   padding: 6px 12px;
   border-radius: 4px;
-  color: var(--gold-light);
+  color: #ffffff;
   text-decoration: none;
   font-family: 'Bebas Neue', sans-serif;
   letter-spacing: 0.1em;
   font-size: 0.9rem;
-  box-shadow: 0 0 10px rgba(0,0,0,0.8);
+  box-shadow: 0 0 10px rgba(0, 136, 204, 0.5);
   transition: all 0.3s ease;
   backdrop-filter: blur(4px);
 }
 .telegram-link:hover {
-  border-color: var(--gold);
+  background: #0077b5;
+  border-color: #0077b5;
   color: #fff;
-  box-shadow: 0 0 15px rgba(212, 175, 55, 0.4);
+  box-shadow: 0 0 15px rgba(0, 136, 204, 0.8);
   transform: translateY(-2px);
 }
 .telegram-icon {
   width: 18px;
   height: 18px;
-  fill: #0088cc;
+  fill: #ffffff;
   transition: fill 0.3s ease;
 }
 .telegram-link:hover .telegram-icon {
-  fill: #24a1de;
+  fill: #ffffff;
 }
 
 .projector-beam {
@@ -975,7 +976,7 @@ const movies=[
   {title:"Ночь в музее",                 file:"Night_At_The_Museum.html",              movieKey:"night_at_museum_2006",          year:2006, country:"США",             hot:false, isNew:false, desc:"Ночной охранник музея обнаруживает, что все экспонаты оживают с наступлением темноты.",                  img:"https://play-lh.googleusercontent.com/m1DATAml2bUrbza4pQmOBmAIgFhFVLa9kygNcN-EIJg-dHDPiFYpED2GwEAX3XfugL2i",            actors:["Бен Стиллер","Карла Гуджино","Дик Ван Дайк"]},
   {title:"Эйс Вентура",                  file:"Ace_Ventura.html",                      movieKey:"ace_ventura_1994",              year:1994, country:"США",             hot:false, isNew:false, desc:"Самый эксцентричный детектив Майами ищет похищенного дельфина — талисмана команды перед Суперкубком.",  img:"https://kinogo.online/uploads/posts/2021-02/1614477480-634145477.jpg",            actors:["Джим Керри","Кортни Кокс","Шон Янг"]},
   {title:"Американский пирог",           file:"American_Pie.html",                     movieKey:"american_pie_1999",             year:1999, country:"США",             hot:true,  isNew:false, desc:"Четверо друзей-старшеклассников заключают пари: потерять невинность до выпускного бала. Культ.",       img:"https://kinogo.online/uploads/posts/2021-02/1614435361-343685995.jpg",            actors:["Джейсон Биггс","Шон Уильям Скотт","Алисон Ханниган"]},
-  {title:"Брюс всемогущий",              file:"Bruce_Almighty.html",                   movieKey:"bruce_almighty_2003",           year:2003, country:"США",             hot:false, isNew:false, desc:"Репортёр злится на Бога — и получает все его силы на неделю. Управлять вселенной сложнее, чем кажется.",img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTq_zoDXTXPlXi4M74ADFBCzJkHiy-ca59hDQ&s",            actors:["Джим Керри","Морган Фримен","Дженнифер Энистон"]},
+  {title:"Брюс всемогущий",              file:"Bruce_Almighty.html",                   movieKey:"bruce_almighty_2003",           year:2003, country:"США",             hot:false, isNew:false, desc:"Репортаж злится на Бога — и получает все его силы на неделю. Управлять вселенной сложнее, чем кажется.",img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTq_zoDXTXPlXi4M74ADFBCzJkHiy-ca59hDQ&s",            actors:["Джим Керри","Морган Фримен","Дженнифер Энистон"]},
   {title:"Большой Стэн",                 file:"Big_Stan.html",                         movieKey:"big_stan_2007",                 year:2007, country:"США",             hot:false, isNew:false, desc:"Мошенник, которому грозит тюрьма, нанимает мастера боевых искусств и превращается в грозного бойца.",  img:"https://kinogo.media/uploads/posts/2021-10/1634995784_iphone360_231150.jpg",            actors:["Роб Шнайдер","Дэвид Кэррэдайн"]},
   {title:"Поймай толстуху, если сможешь",file:"Identity_Thief.html",                   movieKey:"identity_thief_2013",           year:2013, country:"США",             hot:false, isNew:false, desc:"Бухгалтер едет через всю страну, чтобы поймать мошенницу, укравшую его личность.",                     img:"https://upload.wikimedia.org/wikipedia/ru/a/a7/Identity_Thief_Poster.jpg",            actors:["Джейсон Бейтман","Мелисса Маккарти"]},
   {title:"Каникулы",                     file:"Vacation.html",                         movieKey:"vacation_2015",                 year:2015, country:"США",             hot:false, isNew:false, desc:"Расти Гризвольд решает повторить легендарные каникулы своего детства с семьёй. Всё идёт не по плану.",  img:"https://kinogo.media/uploads/posts/2021-09/1632938097_iphone360_484426.jpg",            actors:["Эд Хелмс","Кристина Эпплгейт","Крис Хемсворт"]},
@@ -983,4 +984,8 @@ const movies=[
   {title:"План побега",                  file:"Escape_Plan.html",                      movieKey:"escape_plan_2013",              year:2013, country:"США",             hot:true,  isNew:false, desc:"Эксперт по безопасности тюрем сам оказывается заперт в засекреченном учреждении без права на побег.",   img:"https://kinogo.online/uploads/posts/2021-02/1614521619-1674280347.jpg",            actors:["Сильвестр Сталлоне","Арнольд Шварценеггер"]},
   {title:"Джуманджи: Зов джунглей",     file:"Jumanji_2017.html",                     movieKey:"jumanji_2017",                  year:2017, country:"США",             hot:true,  isNew:false, desc:"Четверо школьников затягиваются в видеоигру и оказываются в телах персонажей Джуманджи.",               img:"https://kinogo.ec/uploads/posts/2020-03/1585501618-456930113.jpg",            actors:["Двейн Джонсон","Джек Блэк","Кевин Харт","Карен Гиллан"]},
   {title:"Начало",                       file:"Inception.html",                        movieKey:"inception_2010",                year:2010, country:"США",             hot:true,  isNew:false, desc:"Кобб крадёт секреты из подсознания людей. Его новое задание — внедрить идею. Нолан меняет кино.",        img:"https://upload.wikimedia.org/wikipedia/ru/b/bc/Poster_Inception_film_2010.jpg",            actors:["Леонардо ДиКаприо","Джозеф Гордон-Левитт","Эллиот Пейдж"]},
-  {title:"Волк с Уолл-стрит",           file:"Wolf_of_Wall_Street.html",              movieKey:"wolf_of_wall_street_2013",      year:2013, country:"США",             hot:true,  isNew:false, desc:"Реальная история брокера Белфорта: мошенничество, наркотики, деньги и полный крах. Скорсезе.",          img:"https://kinogo.my/uploads/posts/2017-04/1493391575-310257099-volk-s-uoll-strit.jpg",            actors:["Леонардо ДиКаприо","Д
+  {title:"Волк с Уолл-стрит",           file:"Wolf_of_Wall_Street.html",              movieKey:"wolf_of_wall_street_2013",      year:2013, country:"США",             hot:true,  isNew:false, desc:"Реальная история брокера Белфорта: мошенничество, наркотики, деньги и полный крах. Скорсезе.",          img:"https://kinogo.my/uploads/posts/2017-04/1493391575-310257099-volk-s-uoll-strit.jpg",            actors:["Леонардо ДиКаприо","Джона Хилл","Марго Робби"]}
+];
+</script>
+</body>
+</html>
