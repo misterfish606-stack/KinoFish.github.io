@@ -2,541 +2,623 @@
 <html lang="ru">
 <head>
   <meta name="google-site-verification" content="MzhtjxY0EDvIbUf2JoInAceuumA-cQfMtUuJddQhEVM" />
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="icon" type="image/png" href="favicon.png">
-  <title>Kino Fish Cinema — смотреть фильмы онлайн бесплатно</title>
+<meta charset="UTF-8">
+<link rel="icon" type="image/png" href="favicon.png">
+<title>Kino Fish Cinema — смотреть фильмы онлайн бесплатно</title>
   <meta name="description" content="Fish Cinema — смотри фильмы онлайн бесплатно и без рекламы. Классика кино, боевики, драмы, комедии. Без казино. Только кино.">
   <meta name="keywords" content="fish cinema, смотреть фильмы онлайн бесплатно, без рекламы, без казино, kino fish, misterfish606, фильмы онлайн, боевики, драмы, комедии, триллеры, классика кино">
   <meta property="og:title" content="Kino Fish Cinema — фильмы онлайн бесплатно">
   <meta property="og:description" content="Смотри фильмы онлайн бесплатно и без рекламы на Fish Cinema.">
   <meta property="og:type" content="website">
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Crimson+Text:ital,wght@0,400;0,600;1,400&family=Bebas+Neue&display=swap" rel="stylesheet">
-  <style>
-  :root {
-    --gold:      #d4af37;
-    --gold-light:#f5d76e;
-    --gold-dim:  #7a5c10;
-    --cream:     #f5e6c4;
-    --cream-dim: #b09060;
-    --bg:        #0a0705;
-    --bg2:       #140e06;
-    --bg3:       #1e1508;
-    --red:       #8b1a1a;
-    --red-light: #c0392b;
-  }
-  * { box-sizing:border-box; margin:0; padding:0; }
-  body::before {
-    content:"";
-    position:fixed; inset:0;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
-    pointer-events:none; z-index:9999; opacity:0.35;
-  }
-  body {
-    font-family:'Crimson Text', Georgia, serif;
-    background:var(--bg); color:var(--cream);
-    min-height:100vh; overflow-x:hidden;
-  }
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Crimson+Text:ital,wght@0,400;0,600;1,400&family=Bebas+Neue&display=swap" rel="stylesheet">
+<style>
+:root {
+  --gold:      #d4af37;
+  --gold-light:#f5d76e;
+  --gold-dim:  #7a5c10;
+  --cream:     #f5e6c4;
+  --cream-dim: #b09060;
+  --bg:        #0a0705;
+  --bg2:       #140e06;
+  --bg3:       #1e1508;
+  --red:       #8b1a1a;
+  --red-light: #c0392b;
+}
+* { box-sizing:border-box; margin:0; padding:0; }
+body::before {
+  content:"";
+  position:fixed; inset:0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+  pointer-events:none; z-index:9999; opacity:0.35;
+}
+body {
+  font-family:'Crimson Text', Georgia, serif;
+  background:var(--bg); color:var(--cream);
+  min-height:100vh; overflow-x:hidden;
+}
 
-  /* Кнопка Telegram слева вверху */
-  .telegram-link {
-    position: fixed;
-    top: 12px;
-    left: 15px;
-    z-index: 10000;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    background: rgba(20, 14, 6, 0.85);
-    border: 1px solid var(--gold-dim);
-    padding: 6px 12px;
-    border-radius: 4px;
-    color: var(--gold-light);
-    text-decoration: none;
-    font-family: 'Bebas Neue', sans-serif;
-    letter-spacing: 0.1em;
-    font-size: 0.9rem;
-    box-shadow: 0 0 10px rgba(0,0,0,0.8);
-    transition: all 0.3s ease;
-    backdrop-filter: blur(4px);
-  }
-  .telegram-link:hover {
-    border-color: var(--gold);
-    color: #fff;
-    box-shadow: 0 0 15px rgba(212, 175, 55, 0.4);
-    transform: translateY(-2px);
-  }
-  .telegram-icon {
-    width: 18px;
-    height: 18px;
-    fill: var(--gold);
-    transition: fill 0.3s ease;
-  }
-  .telegram-link:hover .telegram-icon {
-    fill: var(--gold-light);
-  }
+/* Кнопка Telegram слева вверху */
+.telegram-link {
+  position: fixed;
+  top: 12px;
+  left: 15px;
+  z-index: 10000;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(20, 14, 6, 0.85);
+  border: 1px solid var(--gold-dim);
+  padding: 6px 12px;
+  border-radius: 4px;
+  color: var(--gold-light);
+  text-decoration: none;
+  font-family: 'Bebas Neue', sans-serif;
+  letter-spacing: 0.1em;
+  font-size: 0.9rem;
+  box-shadow: 0 0 10px rgba(0,0,0,0.8);
+  transition: all 0.3s ease;
+  backdrop-filter: blur(4px);
+}
+.telegram-link:hover {
+  border-color: var(--gold);
+  color: #fff;
+  box-shadow: 0 0 15px rgba(212, 175, 55, 0.4);
+  transform: translateY(-2px);
+}
+.telegram-icon {
+  width: 18px;
+  height: 18px;
+  fill: var(--gold);
+  transition: fill 0.3s ease;
+}
+.telegram-link:hover .telegram-icon {
+  fill: var(--gold-light);
+}
 
-  .projector-beam {
-    position:fixed; top:0; left:50%;
-    transform:translateX(-50%); width:0;
-    border-left:200px solid transparent;
-    border-right:200px solid transparent;
-    border-top:100vh solid rgba(255,240,180,0.022);
-    pointer-events:none; z-index:0;
-    animation:beam-flicker 8s infinite;
-  }
-  @keyframes beam-flicker {
-    0%,100%{opacity:1} 92%{opacity:1} 93%{opacity:0.5} 94%{opacity:1} 97%{opacity:0.75} 98%{opacity:1}
-  }
-  .filmstrip {
-    width:100%; height:36px; background:var(--bg2);
-    display:flex; align-items:center; overflow:hidden;
-    border-bottom:2px solid #1a1208; position:relative; z-index:2;
-  }
-  .filmstrip-holes {
-    display:flex; align-items:center;
-    animation:strip-scroll 14s linear infinite;
-    white-space:nowrap; will-change:transform;
-  }
-  .filmstrip-hole {
-    width:20px; height:14px; border:2px solid #2a2010;
-    border-radius:3px; margin:0 16px; flex-shrink:0; background:#060402;
-  }
-  @keyframes strip-scroll { from{transform:translateX(0)} to{transform:translateX(-50%)} }
-  .site-header {
-    position:relative; text-align:center;
-    padding:40px 20px 30px;
-    background:linear-gradient(180deg, #060402 0%, #140e06 100%);
-    border-bottom:1px solid var(--gold-dim); overflow:hidden; z-index:1;
-  }
+.projector-beam {
+  position:fixed; top:0; left:50%;
+  transform:translateX(-50%); width:0;
+  border-left:200px solid transparent;
+  border-right:200px solid transparent;
+  border-top:100vh solid rgba(255,240,180,0.022);
+  pointer-events:none; z-index:0;
+  animation:beam-flicker 8s infinite;
+}
+@keyframes beam-flicker {
+  0%,100%{opacity:1} 92%{opacity:1} 93%{opacity:0.5} 94%{opacity:1} 97%{opacity:0.75} 98%{opacity:1}
+}
+.filmstrip {
+  width:100%; height:36px; background:var(--bg2);
+  display:flex; align-items:center; overflow:hidden;
+  border-bottom:2px solid #1a1208; position:relative; z-index:2;
+}
+.filmstrip-holes {
+  display:flex; align-items:center;
+  animation:strip-scroll 14s linear infinite;
+  white-space:nowrap; will-change:transform;
+}
+.filmstrip-hole {
+  width:20px; height:14px; border:2px solid #2a2010;
+  border-radius:3px; margin:0 16px; flex-shrink:0; background:#060402;
+}
+@keyframes strip-scroll { from{transform:translateX(0)} to{transform:translateX(-50%)} }
+.site-header {
+  position:relative; text-align:center;
+  padding:40px 20px 30px;
+  background:linear-gradient(180deg, #060402 0%, #140e06 100%);
+  border-bottom:1px solid var(--gold-dim); overflow:hidden; z-index:1;
+}
 
-  .site-header::before {
-    content:""; position:absolute; top:0; left:0; right:0; height:1px;
-    background:linear-gradient(90deg, transparent, var(--gold-dim), transparent);
-  }
-  .site-header::after {
-    content:""; position:absolute; bottom:0; left:8%; right:8%; height:1px;
-    background:linear-gradient(90deg, transparent, var(--gold), transparent);
-  }
-  .header-ornament {
-    font-family:'Bebas Neue', sans-serif; font-size:0.72rem;
-    letter-spacing:0.55em; color:var(--gold-dim); margin-bottom:10px; display:block;
-  }
-  .site-title {
-    font-family:'Playfair Display', serif;
-    font-size:clamp(3rem, 8vw, 6rem); font-weight:900; font-style:italic;
-    color:var(--gold);
-    text-shadow: 0 0 70px rgba(212,175,55,0.65), 0 0 25px rgba(245,215,110,0.5), 0 2px 0 #3a2800, 4px 5px 0 rgba(0,0,0,0.5);
-    letter-spacing:0.03em; line-height:1;
-    animation:title-glow 4s ease-in-out infinite alternate;
-  }
-  @keyframes title-glow {
-    from{text-shadow:0 0 45px rgba(212,175,55,0.45),0 0 15px rgba(245,215,110,0.35),0 2px 0 #3a2800,4px 5px 0 rgba(0,0,0,0.5)}
-    to  {text-shadow:0 0 95px rgba(212,175,55,0.85),0 0 35px rgba(245,215,110,0.65),0 2px 0 #3a2800,4px 5px 0 rgba(0,0,0,0.5)}
-  }
-  .site-tagline {
-    font-family:'Crimson Text', serif; font-style:italic;
-    color:var(--cream-dim); font-size:1.05rem; margin-top:10px; letter-spacing:0.14em;
-    text-shadow:0 0 18px rgba(176,144,96,0.4);
-  }
-  .header-stars { font-size:0.7rem; color:var(--gold-dim); letter-spacing:0.4em; margin-top:6px; display:block; }
-  .top-menu {
-    background:var(--bg2); border-bottom:2px solid var(--gold-dim);
-    display:flex; align-items:center; justify-content:center; flex-wrap:wrap;
-    position:sticky; top:0; z-index:100; box-shadow:0 4px 24px rgba(0,0,0,0.8);
-  }
-  .menu-divider { color:var(--gold-dim); padding:0 2px; user-select:none; font-size:0.8rem; }
-  .top-menu a, .top-menu button {
-    font-family:'Bebas Neue', sans-serif; letter-spacing:0.14em;
-    color:var(--cream-dim); text-decoration:none; font-size:0.95rem;
-    padding:14px 18px; background:none; border:none; cursor:pointer;
-    transition:color 0.2s, background 0.2s; position:relative;
-  }
-  .top-menu a::after, .top-menu button::after {
-    content:""; position:absolute; bottom:0; left:20%; right:20%;
-    height:2px; background:var(--gold); transform:scaleX(0); transition:transform 0.3s;
-  }
-  .top-menu a:hover, .top-menu button:hover { color:var(--gold); background:rgba(212,175,55,0.04); }
-  .top-menu a:hover::after, .top-menu button:hover::after { transform:scaleX(1); }
-  .search-wrap { padding:7px 14px; display:flex; align-items:center; }
-  .search-wrap input {
-    background:rgba(255,255,255,0.04); border:1px solid var(--gold-dim); border-radius:2px;
-    color:var(--cream); font-family:'Crimson Text', serif; font-size:0.95rem;
-    padding:7px 14px; width:200px; outline:none; transition:border-color 0.2s, box-shadow 0.2s;
-  }
-  .search-wrap input:focus { border-color:var(--gold); box-shadow:0 0 0 2px rgba(212,175,55,0.15); }
-  .search-wrap input::placeholder { color:#3a2c14; }
-  .admin-btn {
-    font-family:'Bebas Neue', sans-serif !important; letter-spacing:0.1em !important;
-    background:linear-gradient(135deg, #6b1010, var(--red)) !important;
-    color:var(--gold-light) !important; border:1px solid #a03030 !important;
-    padding:7px 16px !important; border-radius:2px !important;
-    margin:6px 14px !important; font-size:0.85rem !important; transition:0.3s !important;
-  }
-  .admin-btn:hover { box-shadow:0 0 14px rgba(192,57,43,0.5) !important; }
-  .admin-btn::after { display:none !important; }
-  .main { display:flex; position:relative; z-index:1; }
-  .sidebar {
-    width:210px; flex-shrink:0;
-    background:linear-gradient(180deg, var(--bg2) 0%, var(--bg) 100%);
-    border-right:1px solid rgba(212,175,55,0.15); padding:26px 18px;
-    position:sticky; top:49px; height:calc(100vh - 49px); overflow-y:auto;
-  }
-  .sidebar::-webkit-scrollbar { width:3px; }
-  .sidebar::-webkit-scrollbar-thumb { background:var(--gold-dim); }
-  .sidebar-section { margin-bottom:26px; }
-  .sidebar-title {
-    font-family:'Bebas Neue', sans-serif; font-size:0.78rem; letter-spacing:0.25em;
-    color:var(--gold); margin-bottom:10px; padding-bottom:6px;
-    border-bottom:1px solid rgba(212,175,55,0.18);
-  }
-  .sidebar a {
-    display:block; font-family:'Crimson Text', serif; color:var(--cream-dim);
-    text-decoration:none; padding:3px 0 3px 8px; font-size:0.92rem;
-    border-left:2px solid transparent; transition:0.2s;
-  }
-  .sidebar a:hover { color:var(--gold); border-left-color:var(--gold); padding-left:12px; }
-  #years { max-height:190px; overflow-y:auto; }
-  #years::-webkit-scrollbar { width:3px; }
-  #years::-webkit-scrollbar-thumb { background:var(--gold-dim); }
-  .catalog {
-    flex:1; padding:30px 34px;
-    background:radial-gradient(ellipse at 50% 0%, rgba(212,175,55,0.035) 0%, transparent 55%);
-  }
-  .catalog-header {
-    display:flex; align-items:baseline; gap:14px;
-    margin-bottom:28px; padding-bottom:12px;
-    border-bottom:1px solid rgba(212,175,55,0.12);
-  }
-  .catalog-title { font-family:'Playfair Display', serif; font-size:1.7rem; font-style:italic; color:var(--gold); }
-  .catalog-count { font-style:italic; color:var(--cream-dim); font-size:0.9rem; }
-  .movies-grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(170px,1fr)); gap:26px; }
-  .movie-card { position:relative; cursor:pointer; animation:card-in 0.45s ease both; text-decoration:none; display:block; color:inherit; }
-  @keyframes card-in { from{opacity:0;transform:translateY(14px)} to{opacity:1;transform:translateY(0)} }
-  .movie-card-inner {
-    position:relative; overflow:hidden; border:3px solid var(--gold-dim);
-    transition:border-color 0.3s, box-shadow 0.3s, transform 0.3s;
-  }
-  .movie-card:hover .movie-card-inner {
-    border-color:var(--gold);
-    box-shadow:0 0 0 1px var(--gold), 0 10px 36px rgba(0,0,0,0.85), 0 0 24px rgba(212,175,55,0.18);
-    transform:translateY(-7px) scale(1.02);
-  }
-  .movie-card img {
-    width:100%; aspect-ratio:2/3; object-fit:cover; display:block;
-    transition:filter 0.3s; filter:sepia(12%) contrast(1.04);
-  }
-  .movie-card:hover img { filter:sepia(0%) contrast(1.1) brightness(1.06); }
-  .movie-card-inner::before, .movie-card-inner::after {
-    content:""; position:absolute; width:13px; height:13px;
-    border-color:var(--gold); border-style:solid; z-index:3; opacity:0; transition:opacity 0.3s;
-  }
-  .movie-card-inner::before { top:5px; left:5px; border-width:2px 0 0 2px; }
-  .movie-card-inner::after  { bottom:5px; right:5px; border-width:0 2px 2px 0; }
-  .movie-card:hover .movie-card-inner::before,
-  .movie-card:hover .movie-card-inner::after { opacity:1; }
-  .card-overlay {
-    position:absolute; inset:0;
-    background:linear-gradient(180deg,transparent 38%,rgba(8,5,2,0.72) 68%,rgba(8,5,2,0.96) 100%);
-    display:flex; flex-direction:column; justify-content:flex-end;
-    padding:10px; opacity:0; transition:opacity 0.3s;
-  }
-  .movie-card:hover .card-overlay { opacity:1; }
-  .card-overlay-title {
-    font-family:'Playfair Display', serif; font-size:0.88rem; color:var(--gold-light);
-    font-weight:700; line-height:1.2; margin-bottom:3px;
-  }
-  .card-overlay-meta { font-size:0.73rem; color:var(--cream-dim); font-style:italic; }
-  .card-title {
-    font-family:'Playfair Display', serif; font-size:0.86rem; color:var(--cream);
-    margin-top:8px; text-align:center; line-height:1.3; transition:color 0.2s;
-  }
-  .movie-card:hover .card-title { color:var(--gold); }
-  .card-year {
-    font-family:'Bebas Neue', sans-serif; font-size:0.72rem; letter-spacing:0.15em;
-    color:var(--gold-dim); text-align:center; margin-top:2px;
-  }
-  .badge-wrap {
-    position:absolute; top:6px; left:6px;
-    display:flex; flex-direction:column; gap:4px; z-index:4; pointer-events:none;
-  }
-  .badge-fire {
-    background:linear-gradient(135deg,#b03308,#ff6010); color:#fff;
-    font-family:'Bebas Neue', sans-serif; font-size:0.68rem; letter-spacing:0.1em;
-    padding:2px 7px; border-radius:2px; box-shadow:0 0 10px rgba(255,70,0,0.6);
-    animation:pulse-fire 2s infinite alternate;
-  }
-  @keyframes pulse-fire {
-    from{box-shadow:0 0 5px rgba(255,70,0,0.4)} to{box-shadow:0 0 16px rgba(255,70,0,0.9)}
-  }
-  .badge-new {
-    background:linear-gradient(135deg,#0e4a1a,#22a050); color:#fff;
-    font-family:'Bebas Neue', sans-serif; font-size:0.68rem; letter-spacing:0.1em;
-    padding:2px 7px; border-radius:2px; box-shadow:0 0 8px rgba(34,160,80,0.5);
-  }
-  .admin-card-btns {
-    display:none; position:absolute; top:6px; right:6px;
-    flex-direction:column; gap:3px; z-index:5;
-  }
-  .admin-card-btns button {
-    font-family:'Bebas Neue', sans-serif; font-size:0.65rem; letter-spacing:0.07em;
-    padding:3px 7px; border:none; border-radius:2px; cursor:pointer; transition:0.2s;
-  }
-  .btn-del  { background:rgba(130,20,20,0.92); color:#ffbbbb; }
-  .btn-fire { background:rgba(160,80,0,0.92);  color:#ffd080; }
-  .btn-new  { background:rgba(16,80,24,0.92);  color:#aaffaa; }
-  .btn-del:hover  { background:#8b1a1a; }
-  .btn-fire:hover { background:#b06000; }
-  .btn-new:hover  { background:#0e5a1a; }
-  #adminPanel {
-    display:none; background:var(--bg2);
-    border-top:2px solid var(--gold-dim); border-bottom:2px solid var(--gold-dim);
-    position:relative; z-index:99;
-  }
-  .admin-header-row {
-    display:flex; align-items:center; gap:14px; padding:10px 26px;
-    background:rgba(120,20,20,0.12); border-bottom:1px solid rgba(212,175,55,0.2);
-  }
-  .admin-crown { font-family:'Bebas Neue', sans-serif; letter-spacing:0.16em; color:var(--gold); font-size:0.88rem; }
-  .admin-logout {
-    margin-left:auto; background:none; border:1px solid var(--gold-dim); color:var(--cream-dim);
-    font-family:'Bebas Neue', sans-serif; font-size:0.78rem; letter-spacing:0.1em;
-    padding:5px 14px; cursor:pointer; border-radius:2px; transition:0.2s;
-  }
-  .admin-logout:hover { border-color:#c0392b; color:#c0392b; }
-  .admin-tabs {
-    display:flex; background:var(--bg);
-    border-bottom:1px solid var(--gold-dim); padding:0 26px;
-  }
-  .admin-tab {
-    font-family:'Bebas Neue', sans-serif; letter-spacing:0.12em; font-size:0.88rem;
-    color:var(--cream-dim); padding:11px 18px; background:none; border:none;
-    border-bottom:2px solid transparent; cursor:pointer; transition:0.2s; margin-bottom:-1px;
-  }
-  .admin-tab.active,.admin-tab:hover { color:var(--gold); border-bottom-color:var(--gold); }
-  .admin-section { display:none; padding:22px 26px; }
-  .admin-section.active { display:block; }
-  .admin-section h3 { font-family:'Playfair Display', serif; font-style:italic; color:var(--gold); font-size:1.15rem; margin-bottom:16px; }
-  .add-form { display:grid; grid-template-columns:1fr 1fr; gap:13px; max-width:680px; }
-  .add-form .full { grid-column:1/-1; }
-  .add-form label {
-    display:block; font-family:'Bebas Neue', sans-serif;
-    font-size:0.72rem; letter-spacing:0.15em; color:var(--gold-dim); margin-bottom:4px;
-  }
-  .add-form input,.add-form textarea,.add-form select {
-    width:100%; padding:8px 11px; background:var(--bg3); color:var(--cream);
-    border:1px solid var(--gold-dim); border-radius:2px;
-    font-family:'Crimson Text', serif; font-size:0.94rem;
-    box-sizing:border-box; outline:none; transition:border-color 0.2s;
-  }
-  .add-form input:focus,.add-form textarea:focus { border-color:var(--gold); }
-  .add-form textarea { min-height:72px; resize:vertical; }
-  .btn-add-film {
-    grid-column:1/-1; padding:11px;
-    background:linear-gradient(135deg,var(--gold-dim),var(--gold));
-    color:var(--bg); font-family:'Bebas Neue', sans-serif;
-    letter-spacing:0.16em; font-size:0.95rem;
-    border:none; border-radius:2px; cursor:pointer; transition:0.3s;
-  }
-  .btn-add-film:hover { box-shadow:0 0 20px rgba(212,175,55,0.4); }
-  .success-msg { grid-column:1/-1; color:#27ae60; font-style:italic; font-size:0.88rem; display:none; margin-top:4px; }
-  .stats-table { width:100%; border-collapse:collapse; }
-  .stats-table th {
-    font-family:'Bebas Neue', sans-serif; letter-spacing:0.12em; font-size:0.78rem;
-    color:var(--gold); text-align:left; padding:8px 12px; border-bottom:1px solid var(--gold-dim);
-  }
-  .stats-table td { padding:8px 12px; border-bottom:1px solid rgba(212,175,55,0.07); font-size:0.88rem; }
-  .stats-table tr:hover td { background:rgba(212,175,55,0.04); }
-  .stats-rank { color:var(--gold); font-family:'Bebas Neue', sans-serif; font-size:1rem; }
-  .stats-bar { height:4px; background:var(--bg3); border-radius:2px; margin-top:4px; }
-  .stats-bar-fill { height:100%; background:linear-gradient(90deg,var(--gold-dim),var(--gold)); border-radius:2px; transition:width 0.8s; }
-  .modal-overlay {
-    display:none; position:fixed; inset:0;
-    background:rgba(0,0,0,0.92); z-index:1000;
-    justify-content:center; align-items:center;
-  }
-  .modal-overlay.open { display:flex; }
-  .modal-box {
-    background:var(--bg2); border:2px solid var(--gold-dim);
-    padding:38px; width:360px; max-width:95vw; position:relative;
-    box-shadow:0 0 70px rgba(0,0,0,0.9), 0 0 24px rgba(212,175,55,0.1);
-  }
-  .modal-box::before {
-    content:""; position:absolute; top:8px; left:8px; right:8px; bottom:8px;
-    border:1px solid rgba(212,175,55,0.1); pointer-events:none;
-  }
-  .modal-box h2 {
-    font-family:'Playfair Display', serif; font-style:italic; color:var(--gold);
-    font-size:1.5rem; margin-bottom:22px; text-align:center;
-  }
-  .modal-close {
-    position:absolute; top:12px; right:14px;
-    background:none; border:none; color:var(--gold-dim); font-size:20px; cursor:pointer;
-  }
-  .modal-close:hover { color:var(--red-light); }
-  #adminLoginModal input {
-    width:100%; padding:10px 12px; margin:6px 0;
-    background:var(--bg3); color:var(--cream);
-    border:1px solid var(--gold-dim); border-radius:2px;
-    font-family:'Crimson Text', serif; font-size:1rem;
-    box-sizing:border-box; outline:none; transition:border-color 0.2s;
-  }
-  #adminLoginModal input:focus { border-color:var(--gold); }
-  #adminLoginModal .submit {
-    width:100%; padding:12px; margin-top:12px;
-    background:linear-gradient(135deg,var(--gold-dim),var(--gold));
-    color:var(--bg); font-family:'Bebas Neue', sans-serif;
-    letter-spacing:0.16em; font-size:1rem;
-    border:none; border-radius:2px; cursor:pointer; transition:0.3s;
-  }
-  #adminLoginModal .submit:hover { box-shadow:0 0 18px rgba(212,175,55,0.4); }
-  #adminLoginError { color:#c0392b; font-size:0.85rem; margin-top:8px; text-align:center; }
-  .collections-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(250px,1fr)); gap:22px; }
-  .collection-card {
-    position:relative; overflow:hidden;
-    border:2px solid var(--gold-dim); cursor:pointer; transition:0.3s;
-  }
-  .collection-card:hover { border-color:var(--gold); transform:translateY(-5px); box-shadow:0 0 22px rgba(212,175,55,0.2); }
-  .collection-card img { width:100%; height:175px; object-fit:cover; filter:sepia(30%) brightness(0.65); transition:0.3s; }
-  .collection-card:hover img { filter:sepia(10%) brightness(0.82); }
-  .collection-label {
-    position:absolute; inset:0; display:flex; align-items:flex-end;
-    background:linear-gradient(transparent 35%, rgba(0,0,0,0.88)); padding:14px;
-  }
-  .collection-label h3 { font-family:'Playfair Display', serif; font-style:italic; color:var(--gold); font-size:1.15rem; }
+.site-header::before {
+  content:""; position:absolute; top:0; left:0; right:0; height:1px;
+  background:linear-gradient(90deg, transparent, var(--gold-dim), transparent);
+}
+.site-header::after {
+  content:""; position:absolute; bottom:0; left:8%; right:8%; height:1px;
+  background:linear-gradient(90deg, transparent, var(--gold), transparent);
+}
+.header-ornament {
+  font-family:'Bebas Neue', sans-serif; font-size:0.72rem;
+  letter-spacing:0.55em; color:var(--gold-dim); margin-bottom:10px; display:block;
+}
+.site-title {
+  font-family:'Playfair Display', serif;
+  font-size:clamp(3rem, 8vw, 6rem); font-weight:900; font-style:italic;
+  color:var(--gold);
+  text-shadow: 0 0 70px rgba(212,175,55,0.65), 0 0 25px rgba(245,215,110,0.5), 0 2px 0 #3a2800, 4px 5px 0 rgba(0,0,0,0.5);
+  letter-spacing:0.03em; line-height:1;
+  animation:title-glow 4s ease-in-out infinite alternate;
+}
+@keyframes title-glow {
+  from{text-shadow:0 0 45px rgba(212,175,55,0.45),0 0 15px rgba(245,215,110,0.35),0 2px 0 #3a2800,4px 5px 0 rgba(0,0,0,0.5)}
+  to  {text-shadow:0 0 95px rgba(212,175,55,0.85),0 0 35px rgba(245,215,110,0.65),0 2px 0 #3a2800,4px 5px 0 rgba(0,0,0,0.5)}
+}
+.site-tagline {
+  font-family:'Crimson Text', serif; font-style:italic;
+  color:var(--cream-dim); font-size:1.05rem; margin-top:10px; letter-spacing:0.14em;
+  text-shadow:0 0 18px rgba(176,144,96,0.4);
+}
+.header-stars { font-size:0.7rem; color:var(--gold-dim); letter-spacing:0.4em; margin-top:6px; display:block; }
+.top-menu {
+  background:var(--bg2); border-bottom:2px solid var(--gold-dim);
+  display:flex; align-items:center; justify-content:center; flex-wrap:wrap;
+  position:sticky; top:0; z-index:100; box-shadow:0 4px 24px rgba(0,0,0,0.8);
+}
+.menu-divider { color:var(--gold-dim); padding:0 2px; user-select:none; font-size:0.8rem; }
+.top-menu a, .top-menu button {
+  font-family:'Bebas Neue', sans-serif; letter-spacing:0.14em;
+  color:var(--cream-dim); text-decoration:none; font-size:0.95rem;
+  padding:14px 18px; background:none; border:none; cursor:pointer;
+  transition:color 0.2s, background 0.2s; position:relative;
+}
+.top-menu a::after, .top-menu button::after {
+  content:""; position:absolute; bottom:0; left:20%; right:20%;
+  height:2px; background:var(--gold); transform:scaleX(0); transition:transform 0.3s;
+}
+.top-menu a:hover, .top-menu button:hover { color:var(--gold); background:rgba(212,175,55,0.04); }
+.top-menu a:hover::after, .top-menu button:hover::after { transform:scaleX(1); }
+.search-wrap { padding:7px 14px; display:flex; align-items:center; }
+.search-wrap input {
+  background:rgba(255,255,255,0.04); border:1px solid var(--gold-dim); border-radius:2px;
+  color:var(--cream); font-family:'Crimson Text', serif; font-size:0.95rem;
+  padding:7px 14px; width:200px; outline:none; transition:border-color 0.2s, box-shadow 0.2s;
+}
+.search-wrap input:focus { border-color:var(--gold); box-shadow:0 0 0 2px rgba(212,175,55,0.15); }
+.search-wrap input::placeholder { color:#3a2c14; }
+.admin-btn {
+  font-family:'Bebas Neue', sans-serif !important; letter-spacing:0.1em !important;
+  background:linear-gradient(135deg, #6b1010, var(--red)) !important;
+  color:var(--gold-light) !important; border:1px solid #a03030 !important;
+  padding:7px 16px !important; border-radius:2px !important;
+  margin:6px 14px !important; font-size:0.85rem !important; transition:0.3s !important;
+}
+.admin-btn:hover { box-shadow:0 0 14px rgba(192,57,43,0.5) !important; }
+.admin-btn::after { display:none !important; }
+.main { display:flex; position:relative; z-index:1; }
+.sidebar {
+  width:210px; flex-shrink:0;
+  background:linear-gradient(180deg, var(--bg2) 0%, var(--bg) 100%);
+  border-right:1px solid rgba(212,175,55,0.15); padding:26px 18px;
+  position:sticky; top:49px; height:calc(100vh - 49px); overflow-y:auto;
+}
+.sidebar::-webkit-scrollbar { width:3px; }
+.sidebar::-webkit-scrollbar-thumb { background:var(--gold-dim); }
+.sidebar-section { margin-bottom:26px; }
+.sidebar-title {
+  font-family:'Bebas Neue', sans-serif; font-size:0.78rem; letter-spacing:0.25em;
+  color:var(--gold); margin-bottom:10px; padding-bottom:6px;
+  border-bottom:1px solid rgba(212,175,55,0.18);
+}
+.sidebar a {
+  display:block; font-family:'Crimson Text', serif; color:var(--cream-dim);
+  text-decoration:none; padding:3px 0 3px 8px; font-size:0.92rem;
+  border-left:2px solid transparent; transition:0.2s;
+}
+.sidebar a:hover { color:var(--gold); border-left-color:var(--gold); padding-left:12px; }
+#years { max-height:190px; overflow-y:auto; }
+#years::-webkit-scrollbar { width:3px; }
+#years::-webkit-scrollbar-thumb { background:var(--gold-dim); }
+.catalog {
+  flex:1; padding:30px 34px;
+  background:radial-gradient(ellipse at 50% 0%, rgba(212,175,55,0.035) 0%, transparent 55%);
+}
+.catalog-header {
+  display:flex; align-items:baseline; gap:14px;
+  margin-bottom:28px; padding-bottom:12px;
+  border-bottom:1px solid rgba(212,175,55,0.12);
+}
+.catalog-title { font-family:'Playfair Display', serif; font-size:1.7rem; font-style:italic; color:var(--gold); }
+.catalog-count { font-style:italic; color:var(--cream-dim); font-size:0.9rem; }
+.movies-grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(170px,1fr)); gap:26px; }
+.movie-card { position:relative; cursor:pointer; animation:card-in 0.45s ease both; }
+@keyframes card-in { from{opacity:0;transform:translateY(14px)} to{opacity:1;transform:translateY(0)} }
+.movie-card-inner {
+  position:relative; overflow:hidden; border:3px solid var(--gold-dim);
+  transition:border-color 0.3s, box-shadow 0.3s, transform 0.3s;
+}
+.movie-card:hover .movie-card-inner {
+  border-color:var(--gold);
+  box-shadow:0 0 0 1px var(--gold), 0 10px 36px rgba(0,0,0,0.85), 0 0 24px rgba(212,175,55,0.18);
+  transform:translateY(-7px) scale(1.02);
+}
+.movie-card img {
+  width:100%; aspect-ratio:2/3; object-fit:cover; display:block;
+  transition:filter 0.3s; filter:sepia(12%) contrast(1.04);
+}
+.movie-card:hover img { filter:sepia(0%) contrast(1.1) brightness(1.06); }
+.movie-card-inner::before, .movie-card-inner::after {
+  content:""; position:absolute; width:13px; height:13px;
+  border-color:var(--gold); border-style:solid; z-index:3; opacity:0; transition:opacity 0.3s;
+}
+.movie-card-inner::before { top:5px; left:5px; border-width:2px 0 0 2px; }
+.movie-card-inner::after  { bottom:5px; right:5px; border-width:0 2px 2px 0; }
+.movie-card:hover .movie-card-inner::before,
+.movie-card:hover .movie-card-inner::after { opacity:1; }
+.card-overlay {
+  position:absolute; inset:0;
+  background:linear-gradient(180deg,transparent 38%,rgba(8,5,2,0.72) 68%,rgba(8,5,2,0.96) 100%);
+  display:flex; flex-direction:column; justify-content:flex-end;
+  padding:10px; opacity:0; transition:opacity 0.3s;
+}
+.movie-card:hover .card-overlay { opacity:1; }
+.card-overlay-title {
+  font-family:'Playfair Display', serif; font-size:0.88rem; color:var(--gold-light);
+  font-weight:700; line-height:1.2; margin-bottom:3px;
+}
+.card-overlay-meta { font-size:0.73rem; color:var(--cream-dim); font-style:italic; }
+.card-title {
+  font-family:'Playfair Display', serif; font-size:0.86rem; color:var(--cream);
+  margin-top:8px; text-align:center; line-height:1.3; transition:color 0.2s;
+}
+.movie-card:hover .card-title { color:var(--gold); }
+.card-year {
+  font-family:'Bebas Neue', sans-serif; font-size:0.72rem; letter-spacing:0.15em;
+  color:var(--gold-dim); text-align:center; margin-top:2px;
+}
+.badge-wrap {
+  position:absolute; top:6px; left:6px;
+  display:flex; flex-direction:column; gap:4px; z-index:4; pointer-events:none;
+}
+.badge-fire {
+  background:linear-gradient(135deg,#b03308,#ff6010); color:#fff;
+  font-family:'Bebas Neue', sans-serif; font-size:0.68rem; letter-spacing:0.1em;
+  padding:2px 7px; border-radius:2px; box-shadow:0 0 10px rgba(255,70,0,0.6);
+  animation:pulse-fire 2s infinite alternate;
+}
+@keyframes pulse-fire {
+  from{box-shadow:0 0 5px rgba(255,70,0,0.4)} to{box-shadow:0 0 16px rgba(255,70,0,0.9)}
+}
+.badge-new {
+  background:linear-gradient(135deg,#0e4a1a,#22a050); color:#fff;
+  font-family:'Bebas Neue', sans-serif; font-size:0.68rem; letter-spacing:0.1em;
+  padding:2px 7px; border-radius:2px; box-shadow:0 0 8px rgba(34,160,80,0.5);
+}
+.admin-card-btns {
+  display:none; position:absolute; top:6px; right:6px;
+  flex-direction:column; gap:3px; z-index:5;
+}
+.admin-card-btns button {
+  font-family:'Bebas Neue', sans-serif; font-size:0.65rem; letter-spacing:0.07em;
+  padding:3px 7px; border:none; border-radius:2px; cursor:pointer; transition:0.2s;
+}
+.btn-del  { background:rgba(130,20,20,0.92); color:#ffbbbb; }
+.btn-fire { background:rgba(160,80,0,0.92);  color:#ffd080; }
+.btn-new  { background:rgba(16,80,24,0.92);  color:#aaffaa; }
+.btn-del:hover  { background:#8b1a1a; }
+.btn-fire:hover { background:#b06000; }
+.btn-new:hover  { background:#0e5a1a; }
+#adminPanel {
+  display:none; background:var(--bg2);
+  border-top:2px solid var(--gold-dim); border-bottom:2px solid var(--gold-dim);
+  position:relative; z-index:99;
+}
+.admin-header-row {
+  display:flex; align-items:center; gap:14px; padding:10px 26px;
+  background:rgba(120,20,20,0.12); border-bottom:1px solid rgba(212,175,55,0.2);
+}
+.admin-crown { font-family:'Bebas Neue', sans-serif; letter-spacing:0.16em; color:var(--gold); font-size:0.88rem; }
+.admin-logout {
+  margin-left:auto; background:none; border:1px solid var(--gold-dim); color:var(--cream-dim);
+  font-family:'Bebas Neue', sans-serif; font-size:0.78rem; letter-spacing:0.1em;
+  padding:5px 14px; cursor:pointer; border-radius:2px; transition:0.2s;
+}
+.admin-logout:hover { border-color:#c0392b; color:#c0392b; }
+.admin-tabs {
+  display:flex; background:var(--bg);
+  border-bottom:1px solid var(--gold-dim); padding:0 26px;
+}
+.admin-tab {
+  font-family:'Bebas Neue', sans-serif; letter-spacing:0.12em; font-size:0.88rem;
+  color:var(--cream-dim); padding:11px 18px; background:none; border:none;
+  border-bottom:2px solid transparent; cursor:pointer; transition:0.2s; margin-bottom:-1px;
+}
+.admin-tab.active,.admin-tab:hover { color:var(--gold); border-bottom-color:var(--gold); }
+.admin-section { display:none; padding:22px 26px; }
+.admin-section.active { display:block; }
+.admin-section h3 { font-family:'Playfair Display', serif; font-style:italic; color:var(--gold); font-size:1.15rem; margin-bottom:16px; }
+.add-form { display:grid; grid-template-columns:1fr 1fr; gap:13px; max-width:680px; }
+.add-form .full { grid-column:1/-1; }
+.add-form label {
+  display:block; font-family:'Bebas Neue', sans-serif;
+  font-size:0.72rem; letter-spacing:0.15em; color:var(--gold-dim); margin-bottom:4px;
+}
+.add-form input,.add-form textarea,.add-form select {
+  width:100%; padding:8px 11px; background:var(--bg3); color:var(--cream);
+  border:1px solid var(--gold-dim); border-radius:2px;
+  font-family:'Crimson Text', serif; font-size:0.94rem;
+  box-sizing:border-box; outline:none; transition:border-color 0.2s;
+}
+.add-form input:focus,.add-form textarea:focus { border-color:var(--gold); }
+.add-form textarea { min-height:72px; resize:vertical; }
+.btn-add-film {
+  grid-column:1/-1; padding:11px;
+  background:linear-gradient(135deg,var(--gold-dim),var(--gold));
+  color:var(--bg); font-family:'Bebas Neue', sans-serif;
+  letter-spacing:0.16em; font-size:0.95rem;
+  border:none; border-radius:2px; cursor:pointer; transition:0.3s;
+}
+.btn-add-film:hover { box-shadow:0 0 20px rgba(212,175,55,0.4); }
+.success-msg { grid-column:1/-1; color:#27ae60; font-style:italic; font-size:0.88rem; display:none; margin-top:4px; }
+.stats-table { width:100%; border-collapse:collapse; }
+.stats-table th {
+  font-family:'Bebas Neue', sans-serif; letter-spacing:0.12em; font-size:0.78rem;
+  color:var(--gold); text-align:left; padding:8px 12px; border-bottom:1px solid var(--gold-dim);
+}
+.stats-table td { padding:8px 12px; border-bottom:1px solid rgba(212,175,55,0.07); font-size:0.88rem; }
+.stats-table tr:hover td { background:rgba(212,175,55,0.04); }
+.stats-rank { color:var(--gold); font-family:'Bebas Neue', sans-serif; font-size:1rem; }
+.stats-bar { height:4px; background:var(--bg3); border-radius:2px; margin-top:4px; }
+.stats-bar-fill { height:100%; background:linear-gradient(90deg,var(--gold-dim),var(--gold)); border-radius:2px; transition:width 0.8s; }
+.modal-overlay {
+  display:none; position:fixed; inset:0;
+  background:rgba(0,0,0,0.92); z-index:1000;
+  justify-content:center; align-items:center;
+}
+.modal-overlay.open { display:flex; }
+.modal-box {
+  background:var(--bg2); border:2px solid var(--gold-dim);
+  padding:38px; width:360px; max-width:95vw; position:relative;
+  box-shadow:0 0 70px rgba(0,0,0,0.9), 0 0 24px rgba(212,175,55,0.1);
+}
+.modal-box::before {
+  content:""; position:absolute; top:8px; left:8px; right:8px; bottom:8px;
+  border:1px solid rgba(212,175,55,0.1); pointer-events:none;
+}
+.modal-box h2 {
+  font-family:'Playfair Display', serif; font-style:italic; color:var(--gold);
+  font-size:1.5rem; margin-bottom:22px; text-align:center;
+}
+.modal-close {
+  position:absolute; top:12px; right:14px;
+  background:none; border:none; color:var(--gold-dim); font-size:20px; cursor:pointer;
+}
+.modal-close:hover { color:var(--red-light); }
+#adminLoginModal input {
+  width:100%; padding:10px 12px; margin:6px 0;
+  background:var(--bg3); color:var(--cream);
+  border:1px solid var(--gold-dim); border-radius:2px;
+  font-family:'Crimson Text', serif; font-size:1rem;
+  box-sizing:border-box; outline:none; transition:border-color 0.2s;
+}
+#adminLoginModal input:focus { border-color:var(--gold); }
+#adminLoginModal .submit {
+  width:100%; padding:12px; margin-top:12px;
+  background:linear-gradient(135deg,var(--gold-dim),var(--gold));
+  color:var(--bg); font-family:'Bebas Neue', sans-serif;
+  letter-spacing:0.16em; font-size:1rem;
+  border:none; border-radius:2px; cursor:pointer; transition:0.3s;
+}
+#adminLoginModal .submit:hover { box-shadow:0 0 18px rgba(212,175,55,0.4); }
+#adminLoginError { color:#c0392b; font-size:0.85rem; margin-top:8px; text-align:center; }
+.collections-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(250px,1fr)); gap:22px; }
+.collection-card {
+  position:relative; overflow:hidden;
+  border:2px solid var(--gold-dim); cursor:pointer; transition:0.3s;
+}
+.collection-card:hover { border-color:var(--gold); transform:translateY(-5px); box-shadow:0 0 22px rgba(212,175,55,0.2); }
+.collection-card img { width:100%; height:175px; object-fit:cover; filter:sepia(30%) brightness(0.65); transition:0.3s; }
+.collection-card:hover img { filter:sepia(10%) brightness(0.82); }
+.collection-label {
+  position:absolute; inset:0; display:flex; align-items:flex-end;
+  background:linear-gradient(transparent 35%, rgba(0,0,0,0.88)); padding:14px;
+}
+.collection-label h3 { font-family:'Playfair Display', serif; font-style:italic; color:var(--gold); font-size:1.15rem; }
 
-  #actorsList { overflow-y:visible; }
+#actorsList { overflow-y:visible; }
 
-  ::-webkit-scrollbar { width:5px; }
-  ::-webkit-scrollbar-track { background:var(--bg); }
-  ::-webkit-scrollbar-thumb { background:var(--gold-dim); border-radius:3px; }
-  @media(max-width:680px){
-    .sidebar{display:none;}
-    .catalog{padding:18px;}
-    .movies-grid{grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:14px;}
-    .telegram-link span { display: none; }
-  }
+::-webkit-scrollbar { width:5px; }
+::-webkit-scrollbar-track { background:var(--bg); }
+::-webkit-scrollbar-thumb { background:var(--gold-dim); border-radius:3px; }
+@media(max-width:680px){
+  .sidebar{display:none;}
+  .catalog{padding:18px;}
+  .movies-grid{grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:14px;}
+  .telegram-link span { display: none; } /* Скрываем текст на мобильных устройствах для экономии места */
+}
 
-  .random-btn {
-    font-family:'Bebas Neue', sans-serif !important; letter-spacing:0.1em !important;
-    background:linear-gradient(135deg, #1a4a10, #2e7d1a) !important;
-    color:var(--gold-light) !important; border:1px solid #4a9a30 !important;
-    padding:7px 16px !important; border-radius:2px !important;
-    margin:6px 6px !important; font-size:0.85rem !important; transition:0.3s !important;
-    cursor:pointer !important;
-  }
-  .random-btn:hover { box-shadow:0 0 14px rgba(46,125,26,0.6) !important; }
-  .random-btn::after { display:none !important; }
+/* GOLD UNDERLINES ON HOVER */
+.meta-tag {
+  position:relative;
+}
+.meta-tag::after {
+  content:"";
+  position:absolute;
+  bottom:0; left:10%; right:10%;
+  height:1px;
+  background:var(--gold);
+  transform:scaleX(0);
+  transition:transform 0.25s ease;
+}
+.meta-tag:hover::after { transform:scaleX(1); }
 
-  /* Random Modal */
-  #randomModal .modal-box {
-    width:440px; max-width:95vw;
-  }
-  .random-movie-card {
-    display:flex; gap:18px; align-items:flex-start; margin-bottom:22px;
-  }
-  .random-movie-poster {
-    width:120px; flex-shrink:0;
-    border:2px solid var(--gold-dim);
-  }
-  .random-movie-poster img {
-    width:100%; aspect-ratio:2/3; object-fit:cover;
-    display:block; filter:sepia(12%) contrast(1.04);
-  }
-  .random-movie-info { flex:1; }
-  .random-movie-title {
-    font-family:'Playfair Display', serif; font-style:italic;
-    color:var(--gold); font-size:1.2rem; line-height:1.25; margin-bottom:8px;
-  }
-  .random-movie-meta {
-    font-family:'Bebas Neue', sans-serif; letter-spacing:0.1em;
-    color:var(--cream-dim); font-size:0.78rem; margin-bottom:10px;
-  }
-  .random-movie-desc {
-    font-style:italic; color:var(--cream-dim); font-size:0.88rem; line-height:1.5;
-  }
-  .random-btns {
-    display:flex; gap:12px; margin-top:4px;
-  }
-  .btn-watch-now {
-    flex:1; padding:12px; text-align:center; text-decoration:none;
-    background:linear-gradient(135deg,var(--gold-dim),var(--gold));
-    color:var(--bg); font-family:'Bebas Neue', sans-serif;
-    letter-spacing:0.16em; font-size:0.95rem;
-    border:none; border-radius:2px; cursor:pointer; transition:0.3s; display:block;
-  }
-  .btn-watch-now:hover { box-shadow:0 0 20px rgba(212,175,55,0.4); }
-  .btn-another {
-    padding:12px 16px;
-    background:none; border:1px solid var(--gold-dim); color:var(--cream-dim);
-    font-family:'Bebas Neue', sans-serif; letter-spacing:0.12em; font-size:0.85rem;
-    border-radius:2px; cursor:pointer; transition:0.2s; white-space:nowrap;
-  }
-  .btn-another:hover { border-color:var(--gold); color:var(--gold); }
+.rating-badge {
+  position:relative; overflow:hidden;
+}
+.rating-badge::after {
+  content:"";
+  position:absolute;
+  bottom:0; left:10%; right:10%;
+  height:1px;
+  background:linear-gradient(90deg, transparent, var(--gold), transparent);
+  transform:scaleX(0);
+  transition:transform 0.3s ease;
+}
+.rating-badge:hover::after { transform:scaleX(1); }
+.rating-badge .label { transition:color 0.2s; }
+.rating-badge:hover .label { color:var(--gold); }
+.rating-badge .value { transition:color 0.2s, text-shadow 0.2s; }
+.rating-badge:hover .value {
+  color:var(--gold-light);
+  text-shadow:0 0 18px rgba(201,168,76,0.5);
+}
 
-  /* ===== HEADER STARS ===== */
-  .header-star-field {
-    position: absolute;
-    inset: 0;
-    pointer-events: none;
-    overflow: hidden;
-  }
-  .hstar {
-    position: absolute;
-    color: var(--gold-dim);
-    font-style: normal;
-    line-height: 1;
-    animation: hstar-twinkle var(--dur, 3s) var(--delay, 0s) ease-in-out infinite alternate;
-    text-shadow: 0 0 6px var(--gold), 0 0 14px rgba(212,175,55,0.4);
-  }
-  @keyframes hstar-twinkle {
-    from { opacity: 0.15; transform: scale(0.8); }
-    to   { opacity: 0.95; transform: scale(1.15); }
-  }
+.detail-value {
+  position:relative;
+}
+.detail-value::after {
+  content:"";
+  position:absolute;
+  bottom:-2px; left:0; right:0;
+  height:1px;
+  background:linear-gradient(90deg, var(--gold-dim), var(--gold), var(--gold-dim));
+  transform:scaleX(0);
+  transform-origin:left;
+  transition:transform 0.3s ease;
+}
+.detail-item:hover .detail-value::after { transform:scaleX(1); }
+.detail-item:hover .detail-value { color:var(--gold-light); }
 
-  /* ===== ASCII PORTRAIT ===== */
-  .ascii-portrait {
-    position: fixed;
-    left: 0;
-    top: 49px;
-    width: 200px;
-    height: calc(100vh - 49px);
-    pointer-events: none;
-    z-index: 1;
-    overflow: hidden;
-    display: flex;
-    align-items: flex-start;
-    justify-content: center;
-    padding-top: 20px;
-  }
-  .ascii-portrait pre {
-    font-family: 'Courier New', monospace;
-    font-size: 5.2px;
-    line-height: 1.15;
-    color: var(--gold-dim);
-    opacity: 0.38;
-    text-shadow: 0 0 4px rgba(212,175,55,0.3);
-    white-space: pre;
-    user-select: none;
-    letter-spacing: 0.5px;
-    filter: blur(0.2px);
-    animation: ascii-fade 6s ease-in-out infinite alternate;
-  }
-  @keyframes ascii-fade {
-    from { opacity: 0.28; }
-    to   { opacity: 0.48; }
-  }
-  .ascii-portrait::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(90deg, transparent 55%, var(--bg) 100%),
-                linear-gradient(180deg, var(--bg) 0%, transparent 5%, transparent 95%, var(--bg) 100%);
-  }
-  </style>
+.detail-value a { color:var(--gold); text-decoration:none; position:relative; transition:color 0.2s; }
+.detail-value a::after {
+  content:""; position:absolute;
+  bottom:-1px; left:0; right:0; height:1px;
+  background:var(--gold); transform:scaleX(0); transform-origin:left; transition:transform 0.25s ease;
+}
+.detail-value a:hover { color:var(--gold-light); }
+.detail-value a:hover::after { transform:scaleX(1); }
+
+.random-btn {
+  font-family:'Bebas Neue', sans-serif !important; letter-spacing:0.1em !important;
+  background:linear-gradient(135deg, #1a4a10, #2e7d1a) !important;
+  color:var(--gold-light) !important; border:1px solid #4a9a30 !important;
+  padding:7px 16px !important; border-radius:2px !important;
+  margin:6px 6px !important; font-size:0.85rem !important; transition:0.3s !important;
+  cursor:pointer !important;
+}
+.random-btn:hover { box-shadow:0 0 14px rgba(46,125,26,0.6) !important; }
+.random-btn::after { display:none !important; }
+
+/* Random Modal */
+#randomModal .modal-box {
+  width:440px; max-width:95vw;
+}
+.random-movie-card {
+  display:flex; gap:18px; align-items:flex-start; margin-bottom:22px;
+}
+.random-movie-poster {
+  width:120px; flex-shrink:0;
+  border:2px solid var(--gold-dim);
+}
+.random-movie-poster img {
+  width:100%; aspect-ratio:2/3; object-fit:cover;
+  display:block; filter:sepia(12%) contrast(1.04);
+}
+.random-movie-info { flex:1; }
+.random-movie-title {
+  font-family:'Playfair Display', serif; font-style:italic;
+  color:var(--gold); font-size:1.2rem; line-height:1.25; margin-bottom:8px;
+}
+.random-movie-meta {
+  font-family:'Bebas Neue', sans-serif; letter-spacing:0.1em;
+  color:var(--cream-dim); font-size:0.78rem; margin-bottom:10px;
+}
+.random-movie-desc {
+  font-style:italic; color:var(--cream-dim); font-size:0.88rem; line-height:1.5;
+}
+.random-btns {
+  display:flex; gap:12px; margin-top:4px;
+}
+.btn-watch-now {
+  flex:1; padding:12px; text-align:center; text-decoration:none;
+  background:linear-gradient(135deg,var(--gold-dim),var(--gold));
+  color:var(--bg); font-family:'Bebas Neue', sans-serif;
+  letter-spacing:0.16em; font-size:0.95rem;
+  border:none; border-radius:2px; cursor:pointer; transition:0.3s; display:block;
+}
+.btn-watch-now:hover { box-shadow:0 0 20px rgba(212,175,55,0.4); }
+.btn-another {
+  padding:12px 16px;
+  background:none; border:1px solid var(--gold-dim); color:var(--cream-dim);
+  font-family:'Bebas Neue', sans-serif; letter-spacing:0.12em; font-size:0.85rem;
+  border-radius:2px; cursor:pointer; transition:0.2s; white-space:nowrap;
+}
+.btn-another:hover { border-color:var(--gold); color:var(--gold); }
+
+.user-rating-wrap label {
+  display:inline-block; cursor:default;
+  position:relative; transition:color 0.2s;
+}
+.user-rating-wrap label::after {
+  content:"";
+  position:absolute;
+  bottom:-2px; left:0; right:0;
+  height:1px;
+  background:var(--gold);
+  transform:scaleX(0);
+  transform-origin:left;
+  transition:transform 0.25s ease;
+}
+.user-rating-wrap label:hover { color:var(--gold-light); }
+.user-rating-wrap label:hover::after { transform:scaleX(1); }
+
+
+/* ===== HEADER STARS (справа и слева от Fish Cinema) ===== */
+.header-star-field {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+/* Отдельные звёзды вокруг заголовка */
+.hstar {
+  position: absolute;
+  color: var(--gold-dim);
+  font-style: normal;
+  line-height: 1;
+  animation: hstar-twinkle var(--dur, 3s) var(--delay, 0s) ease-in-out infinite alternate;
+  text-shadow: 0 0 6px var(--gold), 0 0 14px rgba(212,175,55,0.4);
+}
+@keyframes hstar-twinkle {
+  from { opacity: 0.15; transform: scale(0.8); }
+  to   { opacity: 0.95; transform: scale(1.15); }
+}
+
+/* ===== ПОРТРЕТ СЛЕВА — ASCII/текстовая графика ===== */
+.ascii-portrait {
+  position: fixed;
+  left: 0;
+  top: 49px; /* под меню */
+  width: 200px;
+  height: calc(100vh - 49px);
+  pointer-events: none;
+  z-index: 1;
+  overflow: hidden;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding-top: 20px;
+}
+.ascii-portrait pre {
+  font-family: 'Courier New', monospace;
+  font-size: 5.2px;
+  line-height: 1.15;
+  color: var(--gold-dim);
+  opacity: 0.38;
+  text-shadow: 0 0 4px rgba(212,175,55,0.3);
+  white-space: pre;
+  user-select: none;
+  letter-spacing: 0.5px;
+  filter: blur(0.2px);
+  animation: ascii-fade 6s ease-in-out infinite alternate;
+}
+@keyframes ascii-fade {
+  from { opacity: 0.28; }
+  to   { opacity: 0.48; }
+}
+/* fade right edge */
+.ascii-portrait::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent 55%, var(--bg) 100%),
+              linear-gradient(180deg, var(--bg) 0%, transparent 5%, transparent 95%, var(--bg) 100%);
+}
+</style>
 </head>
 <body>
 
+<!-- Кнопка Telegram слева вверху -->
 <a href="https://t.me/your_telegram_channel" target="_blank" class="telegram-link">
   <svg class="telegram-icon" viewBox="0 0 24 24">
     <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69.01-.03.01-.14-.07-.2-.08-.06-.19-.04-.27-.02-.12.02-1.96 1.25-5.54 3.69-.52.36-1 .53-1.42.52-.47-.01-1.37-.26-2.03-.48-.82-.27-1.47-.42-1.42-.88.03-.24.38-.49 1.07-.75 4.19-1.82 6.98-3.02 8.37-3.6 3.98-1.65 4.81-1.94 5.35-1.95.12 0 .38.03.55.17.14.12.18.28.2.45-.02.07-.02.16-.04.25z"/>
@@ -786,7 +868,6 @@ window.addEventListener("load",()=>{
     isAdmin=true;
     document.getElementById("adminPanel").style.display="block";
   }
-  initApp();
 });
 function closeAdminLogin(){
   document.getElementById("adminLoginModal").classList.remove("open");
@@ -831,7 +912,7 @@ const movies=[
   {title:"Полицейская академия",            file:"Police_academy.html",                        movieKey:"Police Academy 1984",                   year:1984, country:"США",             hot:false, isNew:false, desc:"Самая нелепая команда курсантов в истории полицейской академии.",                      img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTvEIwhv3Ckww8VTUJpnjBaYVSC6YcVJl0Lhg&s", actors:["Стив Гуттенберг","Ким Кэтролл"]},
   {title:"Очень страшное кино",             file:"Scary_movie.html",                           movieKey:"Scary Movie 2000",                      year:2000, country:"США",             hot:false, isNew:false, desc:"Безумная пародия на хоррор-хиты 90-х — один из самых смешных фильмов своего времени.", img:"https://kinogo.online/uploads/posts/2021-02/1614431711-60734677.jpg", actors:["Шон Уэйанс","Марлон Уэйанс","Анна Фэрис"]},
   {title:"Майор Пейн",                      file:"Major_payne.html",                           movieKey:"Major Payne 1995",                      year:1995, country:"США",             hot:false, isNew:false, desc:"Жёсткий военный становится командиром школьного отряда и получает урок человечности.", img:"https://kinogo.online/uploads/mini/shortstory-mob/81e/1614363946-1621052681.jpg", actors:["Дэймон Уэйанс"]},
-  {title:"Без чувств",                      file:"Bez_chuvstv.html",                           movieKey:"Bez chuvstv 1998",                      year:1998, country:"Украина",         hot:false, isNew:false, desc:"История о людях, которые разучились чувствовать, и о важности оставаться живым внутри.",img:"https://mobb.kinovasek.men/uploads/posts/2025-03/67dafbd41d177.webp", actors:["Богдан Ступка","Ада Роговцева"]},
+  {title:"Без чувств",                      file:"Bez_chuvstv.html",                      movieKey:"Bez chuvstv 1998",                      year:1998, country:"Украина",         hot:false, isNew:false, desc:"История о людях, которые разучились чувствовать, и о важности оставаться живым внутри.",img:"https://mobb.kinovasek.men/uploads/posts/2025-03/67dafbd41d177.webp", actors:["Богдан Ступка","Ада Роговцева"]},
   {title:"Робот по имени Чаппи",            file:"Chappie.html",                               movieKey:"Chappie 2015",                          year:2015, country:"ЮАР / США",      hot:false, isNew:false, desc:"Робот получает сознание и учится жить, чувствовать и мечтать.",                         img:"https://www.hdclub.ua/files/film_release/big/bigi55759efdc9425.jpg", actors:["Дев Патель","Хью Джекман","Шарлто Копли"]},
   {title:"Рокки",                           file:"Rocky.html",                                 movieKey:"Rocky 1976",                            year:1976, country:"США",             hot:true,  isNew:false, desc:"Второразрядный боксёр получает шанс жизни — бой с чемпионом мира. Оскар.",             img:"https://kinogo.online/uploads/posts/2021-02/1614398240-303155765.jpg", actors:["Сильвестр Сталлоне","Тэлия Шайр","Берт Янг"]},
   {title:"Да здравствует Франция!",         file:"Vive_la_France.html",                        movieKey:"Vive la France 2013",                   year:2013, country:"Франция",         hot:false, isNew:false, desc:"Два террориста приезжают в Париж и влюбляются во французский образ жизни.",            img:"https://play-lh.googleusercontent.com/whxZ9r9DvZKBef7_ZorHAtbD5MINTF9xVk_pTcOvhwVCRYMfnOszsqAAoKkb4fvnON8aag", actors:["Жозе Гарсия","Мед Хондо"]},
@@ -842,7 +923,7 @@ const movies=[
   {title:"Мост в Терабитию",                file:"Bridge_to_terabithia.html",                  movieKey:"Bridge to Terabithia 2007",             year:2007, country:"США",             hot:false, isNew:false, desc:"Два подростка создают волшебное королевство в лесу. Трогательная история о дружбе.",   img:"https://mobb.kinovasek.men/uploads/posts/2025-03/67db17498a418.webp", actors:["Джош Хатчерсон","АннаСофия Робб"]},
   {title:"Банда Келли",                     file:"Ned_Kelly.html",                             movieKey:"ned_kelly_2003",                        year:2003, country:"Австралия",       hot:false, isNew:false, desc:"Хит Леджер в роли легендарного австралийского бандита и народного героя.",             img:"https://kinogo.media/uploads/posts/2021-10/1634994106_iphone360_5572.jpg", actors:["Хит Леджер","Орландо Блум","Наоми Уоттс"]},
   {title:"Хоббит: Нежданное путешествие",   file:"Hobbit.html",                                movieKey:"The Hobbit 2012",                       year:2012, country:"Новая Зеландия",  hot:false, isNew:false, desc:"Хоббит Бильбо отправляется с гномами вернуть королевство от дракона Смауга.",          img:"https://kinogo.online/uploads/posts/2021-02/1614408723-1574705447.jpg", actors:["Мартин Фриман","Иэн МакКеллен","Ричард Армитидж"]},
-  {title:"Ущелье",                          file:"The_Gorge.html",                             movieKey:"The Gorge 2025",                        year:2025, country:"США",             hot:true,  isNew:false, desc:"Два снайпера по разные стороны ущелья влюбляются и спускаются внутрь.",                img:"https://kinogo.online/uploads/posts/2025-02/1741618926-95a5cfd520_124112.jpg", actors:["Майлз Теллер","Аня Тейлор-Джой"]},
+  {title:"Ущелье",                          file:"The_Gorge.html",                                 movieKey:"The Gorge 2025",                        year:2025, country:"США",             hot:true,  isNew:false, desc:"Два снайпера по разные стороны ущелья влюбляются и спускаются внутрь.",                img:"https://kinogo.online/uploads/posts/2025-02/1741618926-95a5cfd520_124112.jpg", actors:["Майлз Теллер","Аня Тейлор-Джой"]},
   {title:"Криминальное чтиво",              file:"Pulp_fiction.html",                          movieKey:"Pulp Fiction 1994",                     year:1994, country:"США",             hot:true,  isNew:false, desc:"Несколько криминальных историй переплетаются в нелинейном шедевре Тарантино.",         img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQFOc_nYJ6EvcrCVy6WQ-t5tTCtRvw12buu9Q&s", actors:["Джон Траволта","Сэмюэл Л. Джексон","Ума Турман","Брюс Уиллис"]},
   {title:"Где моя тачка, чувак?",           file:"Dude_Wheres_My_Car.html",                    movieKey:"Dude Wheres My Car 2000",               year:2000, country:"США",             hot:false, isNew:false, desc:"Двое друзей ищут машину после вечеринки и встречают инопланетян.",                     img:"https://upload.wikimedia.org/wikipedia/ru/f/fe/Dude%2C_Where%27s_My_Car.jpg", actors:["Эштон Катчер","Шон Уильям Скотт"]},
   {title:"Джанго освобождённый",            file:"Django.html",                                movieKey:"Django Unchained 2012",                 year:2012, country:"США",             hot:true,  isNew:false, desc:"Бывший раб и охотник за головами едут освобождать жену. Тарантино переосмысляет вестерн.",img:"https://kinogo.online/uploads/posts/2021-02/1614410299-1099694772.jpg", actors:["Джейми Фокс","Кристоф Вальц","Леонардо ДиКаприо"]},
@@ -863,7 +944,7 @@ const movies=[
   {title:"Папе снова 17",                   file:"17_Again.html",                              movieKey:"17_again_2009",                         year:2009, country:"США",             hot:false, isNew:true,  desc:"Взрослый мужик снова стал подростком.",                                               img:"https://kinogo.media/uploads/posts/2021-10/1634994993_iphone360_395066.jpg", actors:["Зак Эфрон","Мэттью Перри","Лесли Манн"]},
   {title:"Супер перцы",                     file:"Superbad.html",                              movieKey:"superbad_2007",                         year:2007, country:"США",             hot:false, isNew:true,  desc:"Культовая молодёжная комедия.",                                                       img:"https://upload.wikimedia.org/wikipedia/uk/0/0b/%D0%A1%D1%83%D0%BF%D0%B5%D1%80_%D0%BF%D0%B5%D1%80%D1%86%D1%96.png", actors:["Джона Хилл","Майкл Сера","Кристофер Минц-Пласс"]},
   {title:"Поймай меня если сможешь",        file:"Catch_Me_If_You_Can.html",                   movieKey:"catch_me_if_you_can_2002",              year:2002, country:"США",             hot:true,  isNew:true,  desc:"Мошенник против ФБР. ДиКаприо и Хэнкс.",                                             img:"https://kinogo.online/uploads/posts/2021-02/1614436139-727571647.jpg", actors:["Леонардо ДиКаприо","Том Хэнкс","Кристофер Уокен"]},
-  {title:"Солдаты неудачи",                 file:"Tropic_Thunder.html",                        movieKey:"tropic_thunder_2008",                   year:2008, country:"США",             hot:false, isNew:true,  desc:"Голливудские актёры попали в настоящую войну.",                                       img:"https://ag.gidonline.fun/img/d68b8bc96_200x300.jpg", actors:["Бен Стиллер","Джек Блэ克","Роберт Дауни Мл."]},
+  {title:"Солдаты неудачи",                 file:"Tropic_Thunder.html",                        movieKey:"tropic_thunder_2008",                   year:2008, country:"США",             hot:false, isNew:true,  desc:"Голливудские актёры попали в настоящую войну.",                                       img:"https://ag.gidonline.fun/img/d68b8bc96_200x300.jpg", actors:["Бен Стиллер","Джек Блэк","Роберт Дауни Мл."]},
   {title:"Зелёная миля",                    file:"Green_Mile.html",                            movieKey:"green_mile_1999",                       year:1999, country:"США",             hot:true,  isNew:true,  desc:"Осуждённый с даром. Стивен Кинг. 189 минут шедевра.",                                 img:"https://kinogo.ec/uploads/posts/2020-03/1585530011-1127491609.jpg", actors:["Том Хэнкс","Майкл Кларк Дункан","Дэвид Морс"]},
   {title:"Шоу Трумана",                     file:"The_Truman_Show.html",                       movieKey:"The Truman Show 1998",                   year:1998, country:"США",             hot:true,  isNew:true,  desc:"Весь его мир — реалити-шоу. Он просто об этом не знает.",                             img:"https://kinoukr.tv/uploads/mini/short/1/e3fa5719d987fd66b6dbcb5f911ec1.jpg", actors:["Джим Керри","Эд Харрис","Лора Линни"]},
   {title:"Ричи Богач",                      file:"Richie_Rich.html",                           movieKey:"Richie Rich 1994",                       year:1994, country:"США",             hot:false, isNew:true,  desc:"Самый богатый мальчик в мире хочет только одного — настоящих друзей.",                img:"https://thumbs.dfs.ivi.ru/storage0/contents/5/8/feb78eed0742ec870cc274cee4e4ad.jpg", actors:["Маколей Калкин","Джон Лэрокетт"]},
@@ -877,27 +958,63 @@ const movies=[
   {title:"Главный герой",                   file:"Free_Guy.html",                              movieKey:"Free Guy 2021",                          year:2021, country:"США",             hot:true,  isNew:true,  desc:"NPC в видеоигре осознаёт себя и решает стать героем. Райан Рейнольдс в ударе.",      img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTVfAfG1cFMsOVAAJR5R6sqGRt78apqhvqKKA&s", actors:["Райан Рейнольдс","Джоди Комер","Тайка Вайтити"]},
   {title:"Омерзительная восьмёрка",         file:"Hateful_eight.html",                         movieKey:"The Hateful Eight 2015",                 year:2015, country:"США",             hot:true,  isNew:true,  desc:"8 незнакомцев в таверне. Вьюга. Никто не тот, за кого себя выдаёт. Тарантино.",     img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQwjB4dLskqcqNRow4nfBfc-CogtLc5UNH69A&s", actors:["Сэмюэл Л. Джексон","Курт Рассел","Дженнифер Джейсон Ли"]},
   {title:"1+1",                             file:"Intouchables.html",                          movieKey:"Intouchables 2011",                      year:2011, country:"Франция",         hot:true,  isNew:true,  desc:"Богач-инвалид и парень из трущоб. Невероятная дружба, которая меняет обоих.",        img:"https://kinogo.net/uploads/posts/2024-11/11-poster.webp", actors:["Франсуа Клюзе","Омар Си"]},
-  {title:"Однажды в… Голливуде",        file:"Once_Upon_Time_in_Hollywood.html",           movieKey:"once_upon_a_time_in_hollywood_2019",    year:2019, country:"США",             hot:true,  isNew:false, desc:"Актёр и его дублёр пытаются найти своё место в стремительно меняющемся мире кино. Тарантино.", img:"https://kinogo.online/uploads/posts/2021-02/1614532644-846177114.jpg", actors:["Леонардо ДиКаприо","Брэд Питт","Марго Робби"]}
+  {title:"Шалун",                        file:"Little_Man.html",                       movieKey:"little_man_2006",               year:2006, country:"США",             hot:false, isNew:false, desc:"Миниатюрный вор притворяется брошенным малышом и попадает в приёмную семью в поисках бриллианта.",      img:"https://kinogo.online/uploads/posts/2021-02/1614476880-191880576.jpg",            actors:["Марлон Уэйанс","Шон Уэйанс"]},
+  {title:"Лысый нянька: Спецзадание",    file:"The_Pacifier.html",                     movieKey:"the_pacifier_2005",             year:2005, country:"США",             hot:false, isNew:false, desc:"Суровый морской пехотинец получает задание охранять пятерых детей — и это оказывается труднее войны.",  img:"https://kinogo.online/uploads/posts/2021-02/1614535094-400198581.jpg",            actors:["Вин Дизель","Лорен Грэм"]},
+  {title:"Папа-досвидос",                file:"Thats_My_Boy.html",                     movieKey:"thats_my_boy_2012",             year:2012, country:"США",             hot:false, isNew:false, desc:"Безответственный отец врывается в жизнь своего успешного сына накануне его свадьбы.",                   img:"https://kinogo.online/uploads/posts/2021-02/1614421443-1809227836.jpg",            actors:["Адам Сэндлер","Энди Сэмберг"]},
+  {title:"Тронутые",                     file:"Road_Within.html",                      movieKey:"road_within_2014",              year:2014, country:"США",             hot:false, isNew:false, desc:"Трое пациентов психиатрической клиники сбегают и находят себя в дороге.",                               img:"https://kinogo.online/uploads/posts/2021-02/1614382790-514900871.jpg",            actors:["Роберт Шиэн","Дев Патель","Зои Кравиц"]},
+  {title:"На Западном фронте без перемен",file:"All_Quiet_on_the_Western_Front.html",  movieKey:"all_quiet_2022",                year:2022, country:"Германия",        hot:true,  isNew:false, desc:"Молодой немецкий солдат уходит на Первую мировую полный патриотизма — и теряет всё.",                   img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSz43LMQB8u0JUO7FGkOOE9LJgzGp3JGBNZyA&s",            actors:["Феликс Каммерер","Альбрехт Шух","Даниэль Брюль"]},
+  {title:"Мальчишник в Вегасе",          file:"The_Hangover.html",                     movieKey:"hangover_2009",                 year:2009, country:"США",             hot:true,  isNew:false, desc:"Трое друзей просыпаются в номере люкс после мальчишника — и не помнят ничего. Жениха нет.",             img:"https://kinogo.online/uploads/posts/2021-02/1614515173-533779420.jpg",            actors:["Брэдли Купер","Зак Галифианакис","Эд Хелмс"]},
+  {title:"Любовь зла",                   file:"Love_Is_Evil.html",                     movieKey:"love_is_evil_1999",             year:1999, country:"США",             hot:false, isNew:false, desc:"Сценарист попадает в ловушку между любовью и войной, когда его девушка мечтает о свадьбе, а он — нет.", img:"https://play-lh.googleusercontent.com/jAnkBGEyWRaf857Quc1khyhX-JTu_0CkQMPbQspn4dCLQvsziVxA1kHpLdH-9pIF4PHe",            actors:["Фрэнч Стюарт","Бриджит Уилсон"]},
+  {title:"Кровавый алмаз",               file:"Blood_Diamond.html",                    movieKey:"blood_diamond_2006",            year:2006, country:"США",             hot:true,  isNew:false, desc:"Рыбак находит редкий розовый алмаз в охваченной войной Сьерра-Леоне. Путь к нему обнажает жестокость.", img:"https://kinogo.online/uploads/posts/2021-02/1614482565-370525134.jpg",            actors:["Леонардо ДиКаприо","Дживон Хоузу","Дженнифер Коннелли"]},
+  {title:"Притворись моей женой",        file:"Just_Go_With_It.html",                  movieKey:"just_go_with_it_2011",          year:2011, country:"США",             hot:false, isNew:false, desc:"Хирург просит ассистентку притвориться бывшей женой, чтобы произвести впечатление на новую девушку.",   img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRtKV8uokB6zfZJcQNow1xeKU4BAmbqJ-ic-w&s",            actors:["Адам Сэндлер","Дженнифер Энистон","Бруклин Декер"]},
+  {title:"Впритык",                      file:"Due_Date.html",                         movieKey:"due_date_2010",                 year:2010, country:"США",             hot:false, isNew:false, desc:"Будущий отец и странный попутчик едут через всю страну — времени до родов почти не осталось.",          img:"https://kinogo.online/uploads/posts/2021-02/1614414051-2016840482.jpg",            actors:["Роберт Дауни-мл.","Зак Галифианакис"]},
+  {title:"Телохранитель киллера",        file:"Hitmans_Bodyguard.html",                movieKey:"hitmans_bodyguard_2017",        year:2017, country:"США",             hot:true,  isNew:false, desc:"Телохранитель и матёрый киллер, которые терпеть не могут друг друга, вынуждены выжить вместе.",          img:"https://kinogo.my/uploads/posts/2017-08/1502811918-1723111373-telohranitel-killera.jpg",            actors:["Райан Рейнольдс","Сэмюэл Л. Джексон","Салма Хайек"]},
+  {title:"Типа крутые легавые",          file:"Hot_Fuzz.html",                         movieKey:"hot_fuzz_2007",                 year:2007, country:"Великобритания",  hot:true,  isNew:false, desc:"Образцовый лондонский полицейский переведён в мирную деревушку — за её идиллией скрываются тёмные тайны.",img:"https://kinogo.online/uploads/posts/2021-02/1614512909-730146865.jpg",            actors:["Саймон Пегг","Ник Фрост","Тимоти Далтон"]},
+  {title:"Типа копы",                    file:"Lets_Be_Cops.html",                     movieKey:"lets_be_cops_2014",             year:2014, country:"США",             hot:false, isNew:false, desc:"Двое неудачников надевают полицейскую форму и решают, что это отличная идея. Спойлер: нет.",             img:"https://upload.wikimedia.org/wikipedia/ru/9/9c/%D0%A2%D0%B8%D0%BF%D0%B0_%D0%BA%D0%BE%D0%BF%D1%8B.jpg",            actors:["Дэймон Уэйанс-мл.","Джейк Джонсон"]},
+  {title:"Третий лишний",                file:"Ted.html",                              movieKey:"ted_2012",                      year:2012, country:"США",             hot:true,  isNew:false, desc:"Плюшевый медведь ожил и вырос вместе с хозяином — теперь они оба взрослые балбесы с пивом.",            img:"https://kinogo.org/uploads/mini/shortm/e47/b53677a8e3993947dd652b95df7fb.jpg",            actors:["Марк Уолберг","Мила Кунис","Сет Макфарлейн"]},
+  {title:"Ночь в музее",                 file:"Night_At_The_Museum.html",              movieKey:"night_at_museum_2006",          year:2006, country:"США",             hot:false, isNew:false, desc:"Ночной охранник музея обнаруживает, что все экспонаты оживают с наступлением темноты.",                  img:"https://play-lh.googleusercontent.com/m1DATAml2bUrbza4pQmOBmAIgFhFVLa9kygNcN-EIJg-dHDPiFYpED2GwEAX3XfugL2i",            actors:["Бен Стиллер","Карла Гуджино","Дик Ван Дайк"]},
+  {title:"Эйс Вентура",                  file:"Ace_Ventura.html",                      movieKey:"ace_ventura_1994",              year:1994, country:"США",             hot:false, isNew:false, desc:"Самый эксцентричный детектив Майами ищет похищенного дельфина — талисмана команды перед Суперкубком.",  img:"https://kinogo.online/uploads/posts/2021-02/1614477480-634145477.jpg",            actors:["Джим Керри","Кортни Кокс","Шон Янг"]},
+  {title:"Американский пирог",           file:"American_Pie.html",                     movieKey:"american_pie_1999",             year:1999, country:"США",             hot:true,  isNew:false, desc:"Четверо друзей-старшеклассников заключают пари: потерять невинность до выпускного бала. Культ.",       img:"https://kinogo.online/uploads/posts/2021-02/1614435361-343685995.jpg",            actors:["Джейсон Биггс","Шон Уильям Скотт","Алисон Ханниган"]},
+  {title:"Брюс всемогущий",              file:"Bruce_Almighty.html",                   movieKey:"bruce_almighty_2003",           year:2003, country:"США",             hot:false, isNew:false, desc:"Репортёр злится на Бога — и получает все его силы на неделю. Управлять вселенной сложнее, чем кажется.",img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTq_zoDXTXPlXi4M74ADFBCzJkHiy-ca59hDQ&s",            actors:["Джим Керри","Морган Фримен","Дженнифер Энистон"]},
+  {title:"Большой Стэн",                 file:"Big_Stan.html",                         movieKey:"big_stan_2007",                 year:2007, country:"США",             hot:false, isNew:false, desc:"Мошенник, которому грозит тюрьма, нанимает мастера боевых искусств и превращается в грозного бойца.",  img:"https://kinogo.media/uploads/posts/2021-10/1634995784_iphone360_231150.jpg",            actors:["Роб Шнайдер","Дэвид Кэррэдайн"]},
+  {title:"Поймай толстуху, если сможешь",file:"Identity_Thief.html",                   movieKey:"identity_thief_2013",           year:2013, country:"США",             hot:false, isNew:false, desc:"Бухгалтер едет через всю страну, чтобы поймать мошенницу, укравшую его личность.",                     img:"https://upload.wikimedia.org/wikipedia/ru/a/a7/Identity_Thief_Poster.jpg",            actors:["Джейсон Бейтман","Мелисса Маккарти"]},
+  {title:"Каникулы",                     file:"Vacation.html",                         movieKey:"vacation_2015",                 year:2015, country:"США",             hot:false, isNew:false, desc:"Расти Гризвольд решает повторить легендарные каникулы своего детства с семьёй. Всё идёт не по плану.",  img:"https://kinogo.media/uploads/posts/2021-09/1632938097_iphone360_484426.jpg",            actors:["Эд Хелмс","Кристина Эпплгейт","Крис Хемсворт"]},
+  {title:"2012",                         file:"2012.html",                             movieKey:"movie_2012",                    year:2009, country:"США",             hot:false, isNew:false, desc:"Земля на пороге катастрофы. Писатель пытается спасти семью пока континенты уходят под воду.",            img:"https://upload.wikimedia.org/wikipedia/ru/d/dd/2012_Poster.jpg",            actors:["Джон Кьюсак","Аманда Пит","Чиветель Эджиофор"]},
+  {title:"План побега",                  file:"Escape_Plan.html",                      movieKey:"escape_plan_2013",              year:2013, country:"США",             hot:true,  isNew:false, desc:"Эксперт по безопасности тюрем сам оказывается заперт в засекреченном учреждении без права на побег.",   img:"https://kinogo.online/uploads/posts/2021-02/1614521619-1674280347.jpg",            actors:["Сильвестр Сталлоне","Арнольд Шварценеггер"]},
+  {title:"Джуманджи: Зов джунглей",     file:"Jumanji_2017.html",                     movieKey:"jumanji_2017",                  year:2017, country:"США",             hot:true,  isNew:false, desc:"Четверо школьников затягиваются в видеоигру и оказываются в телах персонажей Джуманджи.",               img:"https://kinogo.ec/uploads/posts/2020-03/1585501618-456930113.jpg",            actors:["Двейн Джонсон","Джек Блэк","Кевин Харт","Карен Гиллан"]},
+  {title:"Начало",                       file:"Inception.html",                        movieKey:"inception_2010",                year:2010, country:"США",             hot:true,  isNew:false, desc:"Кобб крадёт секреты из подсознания людей. Его новое задание — внедрить идею. Нолан меняет кино.",        img:"https://upload.wikimedia.org/wikipedia/ru/b/bc/Poster_Inception_film_2010.jpg",            actors:["Леонардо ДиКаприо","Джозеф Гордон-Левитт","Эллиот Пейдж"]},
+  {title:"Волк с Уолл-стрит",           file:"Wolf_of_Wall_Street.html",              movieKey:"wolf_of_wall_street_2013",      year:2013, country:"США",             hot:true,  isNew:false, desc:"Реальная история брокера Белфорта: мошенничество, наркотики, деньги и полный крах. Скорсезе.",          img:"https://kinogo.my/uploads/posts/2017-04/1493391575-310257099-volk-s-uoll-strit.jpg",            actors:["Леонардо ДиКаприо","Джона Хилл","Марго Робби"]},
+  {title:"Однажды в… Голливуде",        file:"Once_Upon_Time_in_Hollywood.html",       movieKey:"once_upon_time_hollywood_2019", year:2019, country:"США",             hot:true,  isNew:false, desc:"Голливуд 1969 года, угасающая звезда вестернов и его верный дублёр. Тарантино.",                        img:"https://kinogo.online/uploads/mini/shortstory-mob/9ff/1614459939-1211379778.jpg",            actors:["Леонардо ДиКаприо","Брэд Питт","Марго Робби"]},
+  {title:"Один дома",                   file:"Home_Alone.html",                        movieKey:"home_alone_1990",               year:1990, country:"США",             hot:true,  isNew:false, desc:"Восьмилетний Кевин остаётся дома один на Рождество и устраивает ловушки для незадачливых воров.",       img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSbDV2Jm_8Vxc8THjjtuQHGPSaPY76fq_GaNg&s",            actors:["Маколей Калкин","Джо Пеши","Дэниел Стерн"]},
+  {title:"Дивергент",                   file:"Divergent.html",                         movieKey:"divergent_2014",                year:2014, country:"США",             hot:false, isNew:false, desc:"В постапокалиптическом Чикаго Трис узнаёт, что она дивергент — и это делает её мишенью системы.",      img:"https://kinogo.online/uploads/mini/shortstory-mob/b04/1614407017-1811290746.jpg",            actors:["Шейлин Вудли","Тео Джеймс","Кейт Уинслет"]},
+  {title:"Человек дождя",               file:"Rain_Man.html",                          movieKey:"rain_man_1988",                 year:1988, country:"США",             hot:true,  isNew:false, desc:"Циничный делец похищает брата-аутиста и везёт его через всю Америку. Оскар.",                          img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRK-MBvn1kd0Ny8m1hCwLHyQgarFs5GU9bD6yPFCtfi4Q&s=10",            actors:["Дастин Хоффман","Том Круз","Валерия Голино"]},
+  {title:"Терминал",                    file:"The_Terminal.html",                      movieKey:"the_terminal_2004",             year:2004, country:"США",             hot:false, isNew:false, desc:"Виктор Наворски застрял в аэропорту JFK — его страна перестала существовать. Спилберг.",               img:"https://kinogo.online/uploads/posts/2021-02/1614402651-1617596396.jpg",            actors:["Том Хэнкс","Кэтрин Зета-Джонс","Стэнли Туччи"]},
+  {title:"Диктатор",                    file:"The_Dictator.html",                      movieKey:"the_dictator_2012",             year:2012, country:"США",             hot:false, isNew:false, desc:"Всесильный диктатор приезжает в Нью-Йорк и лишается власти и личности. Саша Барон Коэн.",            img:"https://ru-images.kinorium.com/movie/1080/530997.jpg?1726583595",            actors:["Саша Барон Коэн","Анна Фарис"]}
 ];
 
-function render(list, title = "Все фильмы"){
-  const catalog = document.getElementById("catalog");
-  document.getElementById("catalogTitle").innerText = title;
-  document.getElementById("catalogCount").innerText = `(${list.length})`;
-  
-  if(list.length === 0){
-    catalog.innerHTML = `<p style="grid-column:1/-1; text-align:center; padding:40px; color:var(--cream-dim); font-style:italic;">Ничего не найдено...</p>`;
-    return;
-  }
-
-  catalog.innerHTML = list.map(m => `
-    <a class="movie-card" href="${escapeHtml(m.file)}">
+function render(list){
+  const cat=document.getElementById("catalog");
+  document.getElementById("catalogCount").innerText=`(${list.length})`;
+  let html="";
+  list.forEach((m,idx)=>{
+    let badges="";
+    if(m.hot) badges+=`<span class="badge-fire">🔥 HOT</span>`;
+    if(m.isNew) badges+=`<span class="badge-new">🆕 NEW</span>`;
+    let adminBtns="";
+    if(isAdmin){
+      adminBtns=`
+      <div class="admin-card-btns" style="display:flex">
+        <button class="btn-fire" onclick="event.stopPropagation();toggleFlag(${idx},'hot')">🔥</button>
+        <button class="btn-new"  onclick="event.stopPropagation();toggleFlag(${idx},'isNew')">🆕</button>
+        <button class="btn-del"  onclick="event.stopPropagation();deleteFilm(${idx})">✕</button>
+      </div>`;
+    }
+    html+=`
+    <div class="movie-card" onclick="location.href='${m.file}'">
       <div class="movie-card-inner">
-        <div class="badge-wrap">
-          ${m.hot ? `<span class="badge-fire">🔥 TOP</span>` : ''}
-          ${m.isNew ? `<span class="badge-new">NEW</span>` : ''}
-        </div>
-        <img src="${escapeHtml(m.img)}" alt="${escapeHtml(m.title)}" loading="lazy">
+        ${badges?`<div class="badge-wrap">${badges}</div>`:''}
+        ${adminBtns}
+        <img src="${m.img}" alt="${escapeHtml(m.title)}" loading="lazy">
         <div class="card-overlay">
           <div class="card-overlay-title">${escapeHtml(m.title)}</div>
           <div class="card-overlay-meta">${m.year} • ${escapeHtml(m.country)}</div>
@@ -905,146 +1022,167 @@ function render(list, title = "Все фильмы"){
       </div>
       <div class="card-title">${escapeHtml(m.title)}</div>
       <div class="card-year">${m.year}</div>
-    </a>
-  `).join('');
+    </div>`;
+  });
+  cat.innerHTML=html;
 }
 
-function showAll(){
-  render(movies, "Все фильмы");
+function showAll(){ document.getElementById("catalogTitle").innerText="Все фильмы"; render(movies); }
+function showNewFilms(){ document.getElementById("catalogTitle").innerText="Новинки"; render(movies.filter(m=>m.isNew)); }
+function showCollections(){
+  document.getElementById("catalogTitle").innerText="Подборки";
+  const cat=document.getElementById("catalog");
+  cat.innerHTML=`
+  <div class="collections-grid" style="grid-column:1/-1">
+    <div class="collection-card" onclick="filterHot()">
+      <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTHFS7WEw3dSnvD-pu6GKh0CDhf5g6uXC6vow&s" alt="Популярное">
+      <div class="collection-label"><h3>🔥 Топ и Популярное</h3></div>
+    </div>
+    <div class="collection-card" onclick="showNewFilms()">
+      <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTVfAfG1cFMsOVAAJR5R6sqGRt78apqhvqKKA&s" alt="Новинки">
+      <div class="collection-label"><h3>🆕 Свежие поступления</h3></div>
+    </div>
+  </div>`;
+  document.getElementById("catalogCount").innerText="";
 }
-
-function showNewFilms(){
-  const news = movies.filter(m => m.isNew);
-  render(news, "Новинки");
-}
-
-function filterCountry(country){
-  const filtered = movies.filter(m => m.country.toLowerCase().includes(country.toLowerCase()));
-  render(filtered, `Страна: ${country}`);
-}
-
-function filterYear(year){
-  const filtered = movies.filter(m => m.year === year);
-  render(filtered, `Год: ${year}`);
-}
-
-function filterActor(actor){
-  const filtered = movies.filter(m => m.actors && m.actors.includes(actor));
-  render(filtered, `Актёр: ${actor}`);
-}
+function filterHot(){ document.getElementById("catalogTitle").innerText="🔥 Популярные фильмы"; render(movies.filter(m=>m.hot)); }
+function filterYear(y){ document.getElementById("catalogTitle").innerText=`Фильмы ${y} года`; render(movies.filter(m=>m.year===y)); }
+function filterCountry(c){ document.getElementById("catalogTitle").innerText=`Фильмы: ${c}`; render(movies.filter(m=>m.country.includes(c))); }
+function filterActor(a){ document.getElementById("catalogTitle").innerText=`В ролях: ${a}`; render(movies.filter(m=>m.actors&&m.actors.includes(a))); }
 
 function searchMovie(){
-  const q = document.getElementById("searchInput").value.trim().toLowerCase();
-  if(!q){ render(movies); return; }
-  const filtered = movies.filter(m => 
-    m.title.toLowerCase().includes(q) || 
-    (m.desc && m.desc.toLowerCase().includes(q))
-  );
-  render(filtered, `Поиск: ${q}`);
+  const q=document.getElementById("searchInput").value.toLowerCase().trim();
+  if(!q){ showAll(); return; }
+  document.getElementById("catalogTitle").innerText=`Поиск: ${q}`;
+  render(movies.filter(m=>
+    m.title.toLowerCase().includes(q) ||
+    m.country.toLowerCase().includes(q) ||
+    m.year.toString().includes(q) ||
+    (m.actors && m.actors.some(act=>act.toLowerCase().includes(q)))
+  ));
 }
 
 function showRandomMovie(){
-  const random = movies[Math.floor(Math.random() * movies.length)];
-  document.getElementById("randomImg").src = random.img;
-  document.getElementById("randomTitle").innerText = random.title;
-  document.getElementById("randomMeta").innerText = `${random.year} • ${random.country}`;
-  document.getElementById("randomDesc").innerText = random.desc || "Описание отсутствует.";
-  document.getElementById("randomLink").href = random.file;
+  const rand = movies[Math.floor(Math.random()*movies.length)];
+  document.getElementById("randomImg").src = rand.img;
+  document.getElementById("randomTitle").innerText = rand.title;
+  document.getElementById("randomMeta").innerText = `${rand.year} • ${rand.country}`;
+  document.getElementById("randomDesc").innerText = rand.desc || "Описание отсутствует.";
+  document.getElementById("randomLink").href = rand.file;
   document.getElementById("randomModal").classList.add("open");
 }
 
-function showCollections(){
-  const catalog = document.getElementById("catalog");
-  document.getElementById("catalogTitle").innerText = "Подборки";
-  document.getElementById("catalogCount").innerText = "";
-
-  const collections = [
-    { title: "🔥 Популярное кино", filter: () => movies.filter(m => m.hot), img: "https://kinogo.online/uploads/posts/2021-02/1614410299-1099694772.jpg" },
-    { title: "🚀 Фантастика и комедии", filter: () => movies.filter(m => m.year >= 2010), img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTVfAfG1cFMsOVAAJR5R6sqGRt78apqhvqKKA&s" },
-    { title: "📼 Классика кино", filter: () => movies.filter(m => m.year < 2000), img: "https://kinogo.online/uploads/mini/shortstory-mob/ed1/1614517323-1826304193.jpg" }
-  ];
-
-  catalog.innerHTML = `<div class="collections-grid" style="grid-column:1/-1;">` + 
-    collections.map((c, i) => `
-      <div class="collection-card" onclick="render(collectionsList[${i}].filter(), '${escapeHtml(c.title)}')">
-        <img src="${escapeHtml(c.img)}" alt="${escapeHtml(c.title)}">
-        <div class="collection-label">
-          <h3>${escapeHtml(c.title)}</h3>
-        </div>
-      </div>
-    `).join('') + `</div>`;
-
-  window.collectionsList = collections;
-}
-
 function initSidebar(){
-  const yearsSet = new Set(movies.map(m => m.year));
-  const sortedYears = Array.from(yearsSet).sort((a,b) => b - a);
-  const yearsContainer = document.getElementById("years");
-  yearsContainer.innerHTML = sortedYears.map(y => `
-    <a href="#" onclick="filterYear(${y}); return false">${y}</a>
-  `).join('');
+  const yearsSet = new Set(movies.map(m=>m.year));
+  const sortedYears = Array.from(yearsSet).sort((a,b)=>b-a);
+  let yHtml="";
+  sortedYears.forEach(y=>{
+    yHtml+=`<a href="#" onclick="filterYear(${y}); return false">${y}</a>`;
+  });
+  document.getElementById("years").innerHTML=yHtml;
 
-  const actorsSet = new Set();
-  movies.forEach(m => { if(m.actors) m.actors.forEach(a => actorsSet.add(a)); });
-  window.allActors = Array.from(actorsSet).sort();
-  renderActorsList(window.allActors);
+  renderActorsList();
 }
 
-function renderActorsList(list){
-  const actorsContainer = document.getElementById("actorsList");
-  actorsContainer.innerHTML = list.slice(0, 30).map(a => `
-    <a href="#" onclick="filterActor('${escapeHtml(a)}'); return false">${escapeHtml(a)}</a>
-  `).join('');
+function renderActorsList(filterText=""){
+  const actorsSet = new Set();
+  movies.forEach(m=>{
+    if(m.actors) m.actors.forEach(a=>actorsSet.add(a));
+  });
+  const sortedActors = Array.from(actorsSet).sort();
+  let aHtml="";
+  sortedActors.forEach(a=>{
+    if(!filterText || a.toLowerCase().includes(filterText.toLowerCase())){
+      aHtml+=`<a href="#" onclick="filterActor('${escapeHtml(a)}'); return false">${escapeHtml(a)}</a>`;
+    }
+  });
+  document.getElementById("actorsList").innerHTML=aHtml;
 }
 
 function filterActorsList(){
-  const q = document.getElementById("actorSearch").value.trim().toLowerCase();
-  const filtered = window.allActors.filter(a => a.toLowerCase().includes(q));
-  renderActorsList(filtered);
+  const q = document.getElementById("actorSearch").value.trim();
+  renderActorsList(q);
 }
 
-function addFilm(){
-  const title = document.getElementById("af-title").value.trim();
-  const file = document.getElementById("af-file").value.trim();
-  const movieKey = document.getElementById("af-moviekey").value.trim();
-  const year = parseInt(document.getElementById("af-year").value);
-  const country = document.getElementById("af-country").value.trim();
-  const img = document.getElementById("af-img").value.trim();
-  const desc = document.getElementById("af-desc").value.trim();
-  const hot = document.getElementById("af-hot").value === "1";
-  const isNew = document.getElementById("af-new").value === "1";
-
-  if(!title || !file){
-    alert("Заполните основные поля (Название и Файл)!");
-    return;
-  }
-
-  const newObj = { title, file, movieKey, year: year || 2025, country: country || "США", img, desc, hot, isNew, actors: [] };
-  movies.unshift(newObj);
+function toggleFlag(idx, flag){
+  movies[idx][flag] = !movies[idx][flag];
   render(movies);
-  document.getElementById("addSuccessMsg").style.display = "block";
-  setTimeout(() => { document.getElementById("addSuccessMsg").style.display = "none"; }, 3000);
+}
+function deleteFilm(idx){
+  if(confirm(`Удалить фильм "${movies[idx].title}"?`)){
+    movies.splice(idx,1);
+    render(movies);
+  }
+}
+function addFilm(){
+  const t = document.getElementById("af-title").value.trim();
+  const f = document.getElementById("af-file").value.trim();
+  const k = document.getElementById("af-moviekey").value.trim();
+  const y = parseInt(document.getElementById("af-year").value);
+  const c = document.getElementById("af-country").value.trim();
+  const i = document.getElementById("af-img").value.trim();
+  const d = document.getElementById("af-desc").value.trim();
+  const h = document.getElementById("af-hot").value==="1";
+  const n = document.getElementById("af-new").value==="1";
+
+  if(!t || !f){ alert("Укажите название и файл!"); return; }
+
+  movies.unshift({
+    title: t, file: f, movieKey: k||t, year: y||2024,
+    country: c||"США", img: i||"https://via.placeholder.com/300x450",
+    desc: d, hot: h, isNew: n, actors: []
+  });
+
+  const msg = document.getElementById("addSuccessMsg");
+  msg.style.display="block";
+  setTimeout(()=>msg.style.display="none", 3000);
+  render(movies);
 }
 
 function loadStats(){
-  const statsBody = document.getElementById("statsBody");
-  statsBody.innerHTML = movies.slice(0, 10).map((m, i) => `
-    <tr>
-      <td class="stats-rank">#${i + 1}</td>
-      <td>${escapeHtml(m.title)}</td>
-      <td>${m.year}</td>
-      <td>${escapeHtml(m.country)}</td>
-      <td>${Math.floor(Math.random() * 5000) + 100}</td>
-      <td>${m.hot ? '🔥' : ''} ${m.isNew ? '🆕' : ''}</td>
-    </tr>
-  `).join('');
+  const sb = document.getElementById("statsBody");
+  sb.innerHTML = "<tr><td colspan='6'>Загрузка статистики...</td></tr>";
+  db.collection("views").get().then(snap=>{
+    let viewsData = {};
+    snap.forEach(doc=>{
+      viewsData[doc.id] = doc.data().count || 0;
+    });
+
+    let statsList = movies.map(m=>({
+      ...m,
+      views: viewsData[m.movieKey] || 0
+    }));
+
+    statsList.sort((a,b)=>b.views - a.views);
+
+    let maxViews = statsList[0]? statsList[0].views : 1;
+    if(maxViews===0) maxViews=1;
+
+    let h="";
+    statsList.forEach((m, i)=>{
+      let pct = Math.round((m.views/maxViews)*100);
+      let flags="";
+      if(m.hot) flags+="🔥 ";
+      if(m.isNew) flags+="🆕";
+
+      h+=`
+      <tr>
+        <td class="stats-rank">#${i+1}</td>
+        <td><b>${escapeHtml(m.title)}</b><div class="stats-bar"><div class="stats-bar-fill" style="width:${pct}%"></div></div></td>
+        <td>${m.year}</td>
+        <td>${escapeHtml(m.country)}</td>
+        <td><b>${m.views}</b></td>
+        <td>${flags}</td>
+      </tr>`;
+    });
+    sb.innerHTML = h;
+  }).catch(err=>{
+    sb.innerHTML = "<tr><td colspan='6'>Ошибка загрузки статистики.</td></tr>";
+  });
 }
 
-function initApp(){
-  initSidebar();
-  render(movies);
-}
+initSidebar();
+showAll();
 </script>
 </body>
 </html>
