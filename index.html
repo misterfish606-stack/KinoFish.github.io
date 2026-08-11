@@ -1,1205 +1,274 @@
-
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta name="google-site-verification" content="MzhtjxY0EDvIbUf2JoInAceuumA-cQfMtUuJddQhEVM" />
-<meta charset="UTF-8">
-<link rel="icon" type="image/png" href="favicon.png">
-<title>Kino Fish Cinema — смотреть фильмы онлайн бесплатно</title>
-  <meta name="description" content="Fish Cinema — смотри фильмы онлайн бесплатно и без рекламы. Классика кино, боевики, драмы, комедии. Без казино. Только кино.">
-  <meta name="keywords" content="fish cinema, смотреть фильмы онлайн бесплатно, без рекламы, без казино, kino fish, misterfish606, фильмы онлайн, боевики, драмы, комедии, триллеры, классика кино">
-  <meta property="og:title" content="Kino Fish Cinema — фильмы онлайн бесплатно">
-  <meta property="og:description" content="Смотри фильмы онлайн бесплатно и без рекламы на Fish Cinema.">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Фильмы HD — Смотреть онлайн бесплатно в хорошем качестве</title>
+  
+  <meta name="description" content="Смотрите лучшие фильмы, новинки кино 2024-2026 годов онлайн бесплатно в хорошем качестве HD. Удобный поиск, фильтры и подборки.">
+  <meta name="keywords" content="фильмы онлайн, смотреть кино, фильмы HD, новинки кино, боевики, комедии, триллеры">
+  <meta name="robots" content="index, follow">
+
+  <meta property="og:title" content="Фильмы HD — Смотреть онлайн бесплатно">
+  <meta property="og:description" content="Огромная коллекция фильмов в хорошем качестве. Новинки и классика кино.">
   <meta property="og:type" content="website">
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Crimson+Text:ital,wght@0,400;0,600;1,400&family=Bebas+Neue&display=swap" rel="stylesheet">
-<style>
-:root {
-  --gold:      #d4af37;
-  --gold-light:#f5d76e;
-  --gold-dim:  #7a5c10;
-  --cream:     #f5e6c4;
-  --cream-dim: #b09060;
-  --bg:        #0a0705;
-  --bg2:       #140e06;
-  --bg3:       #1e1508;
-  --red:       #8b1a1a;
-  --red-light: #c0392b;
-}
-* { box-sizing:border-box; margin:0; padding:0; }
-body::before {
-  content:"";
-  position:fixed; inset:0;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
-  pointer-events:none; z-index:9999; opacity:0.35;
-}
-body {
-  font-family:'Crimson Text', Georgia, serif;
-  background:var(--bg); color:var(--cream);
-  min-height:100vh; overflow-x:hidden;
-}
-.projector-beam {
-  position:fixed; top:0; left:50%;
-  transform:translateX(-50%); width:0;
-  border-left:200px solid transparent;
-  border-right:200px solid transparent;
-  border-top:100vh solid rgba(255,240,180,0.022);
-  pointer-events:none; z-index:0;
-  animation:beam-flicker 8s infinite;
-}
-@keyframes beam-flicker {
-  0%,100%{opacity:1} 92%{opacity:1} 93%{opacity:0.5} 94%{opacity:1} 97%{opacity:0.75} 98%{opacity:1}
-}
-.filmstrip {
-  width:100%; height:36px; background:var(--bg2);
-  display:flex; align-items:center; overflow:hidden;
-  border-bottom:2px solid #1a1208; position:relative; z-index:2;
-}
-.filmstrip-holes {
-  display:flex; align-items:center;
-  animation:strip-scroll 14s linear infinite;
-  white-space:nowrap; will-change:transform;
-}
-.filmstrip-hole {
-  width:20px; height:14px; border:2px solid #2a2010;
-  border-radius:3px; margin:0 16px; flex-shrink:0; background:#060402;
-}
-@keyframes strip-scroll { from{transform:translateX(0)} to{transform:translateX(-50%)} }
-.site-header {
-  position:relative; text-align:center;
-  padding:40px 20px 30px;
-  background:linear-gradient(180deg, #060402 0%, #140e06 100%);
-  border-bottom:1px solid var(--gold-dim); overflow:hidden; z-index:1;
-}
+  
+  <meta name="google-site-verification" content="google40498a964f43c3f9.html">
+  <meta name="yandex-verification" content="f822b31131ef26f2" />
 
-.site-header::before {
-  content:""; position:absolute; top:0; left:0; right:0; height:1px;
-  background:linear-gradient(90deg, transparent, var(--gold-dim), transparent);
-}
-.site-header::after {
-  content:""; position:absolute; bottom:0; left:8%; right:8%; height:1px;
-  background:linear-gradient(90deg, transparent, var(--gold), transparent);
-}
-.telegram-header-link {
-  position:absolute; top:16px; left:20px; z-index:5;
-  display:flex; align-items:center; gap:8px;
-  text-decoration:none; padding:6px 12px;
-  border:1px solid var(--gold-dim); border-radius:3px;
-  background:rgba(212,175,55,0.05);
-  transition:border-color 0.25s, background 0.25s, box-shadow 0.25s;
-}
-.telegram-header-link:hover {
-  border-color:var(--gold);
-  background:rgba(212,175,55,0.12);
-  box-shadow:0 0 14px rgba(212,175,55,0.25);
-}
-.telegram-header-link img {
-  width:22px; height:22px; display:block;
-}
-.telegram-header-link span {
-  font-family:'Bebas Neue', sans-serif; letter-spacing:0.1em;
-  font-size:0.78rem; color:var(--cream-dim);
-}
-.telegram-header-link:hover span { color:var(--gold); }
-@media (max-width:600px) {
-  .telegram-header-link span { display:none; }
-  .telegram-header-link { padding:6px; top:10px; left:10px; }
-}
-.header-ornament {
-  font-family:'Bebas Neue', sans-serif; font-size:0.72rem;
-  letter-spacing:0.55em; color:var(--gold-dim); margin-bottom:10px; display:block;
-}
-.site-title {
-  font-family:'Playfair Display', serif;
-  font-size:clamp(3rem, 8vw, 6rem); font-weight:900; font-style:italic;
-  color:var(--gold);
-  text-shadow: 0 0 70px rgba(212,175,55,0.65), 0 0 25px rgba(245,215,110,0.5), 0 2px 0 #3a2800, 4px 5px 0 rgba(0,0,0,0.5);
-  letter-spacing:0.03em; line-height:1;
-  animation:title-glow 4s ease-in-out infinite alternate;
-}
-@keyframes title-glow {
-  from{text-shadow:0 0 45px rgba(212,175,55,0.45),0 0 15px rgba(245,215,110,0.35),0 2px 0 #3a2800,4px 5px 0 rgba(0,0,0,0.5)}
-  to  {text-shadow:0 0 95px rgba(212,175,55,0.85),0 0 35px rgba(245,215,110,0.65),0 2px 0 #3a2800,4px 5px 0 rgba(0,0,0,0.5)}
-}
-.site-tagline {
-  font-family:'Crimson Text', serif; font-style:italic;
-  color:var(--cream-dim); font-size:1.05rem; margin-top:10px; letter-spacing:0.14em;
-  text-shadow:0 0 18px rgba(176,144,96,0.4);
-}
-.header-stars { font-size:0.7rem; color:var(--gold-dim); letter-spacing:0.4em; margin-top:6px; display:block; }
-.top-menu {
-  background:var(--bg2); border-bottom:2px solid var(--gold-dim);
-  display:flex; align-items:center; justify-content:center; flex-wrap:wrap;
-  position:sticky; top:0; z-index:100; box-shadow:0 4px 24px rgba(0,0,0,0.8);
-}
-.menu-divider { color:var(--gold-dim); padding:0 2px; user-select:none; font-size:0.8rem; }
-.top-menu a, .top-menu button {
-  font-family:'Bebas Neue', sans-serif; letter-spacing:0.14em;
-  color:var(--cream-dim); text-decoration:none; font-size:0.95rem;
-  padding:14px 18px; background:none; border:none; cursor:pointer;
-  transition:color 0.2s, background 0.2s; position:relative;
-}
-.top-menu a::after, .top-menu button::after {
-  content:""; position:absolute; bottom:0; left:20%; right:20%;
-  height:2px; background:var(--gold); transform:scaleX(0); transition:transform 0.3s;
-}
-.top-menu a:hover, .top-menu button:hover { color:var(--gold); background:rgba(212,175,55,0.04); }
-.top-menu a:hover::after, .top-menu button:hover::after { transform:scaleX(1); }
-.search-wrap { padding:7px 14px; display:flex; align-items:center; }
-.search-wrap input {
-  background:rgba(255,255,255,0.04); border:1px solid var(--gold-dim); border-radius:2px;
-  color:var(--cream); font-family:'Crimson Text', serif; font-size:0.95rem;
-  padding:7px 14px; width:200px; outline:none; transition:border-color 0.2s, box-shadow 0.2s;
-}
-.search-wrap input:focus { border-color:var(--gold); box-shadow:0 0 0 2px rgba(212,175,55,0.15); }
-.search-wrap input::placeholder { color:#3a2c14; }
-.admin-btn {
-  font-family:'Bebas Neue', sans-serif !important; letter-spacing:0.1em !important;
-  background:linear-gradient(135deg, #6b1010, var(--red)) !important;
-  color:var(--gold-light) !important; border:1px solid #a03030 !important;
-  padding:7px 16px !important; border-radius:2px !important;
-  margin:6px 14px !important; font-size:0.85rem !important; transition:0.3s !important;
-}
-.admin-btn:hover { box-shadow:0 0 14px rgba(192,57,43,0.5) !important; }
-.admin-btn::after { display:none !important; }
-.main { display:flex; position:relative; z-index:1; }
-.sidebar {
-  width:210px; flex-shrink:0;
-  background:linear-gradient(180deg, var(--bg2) 0%, var(--bg) 100%);
-  border-right:1px solid rgba(212,175,55,0.15); padding:26px 18px;
-  position:sticky; top:49px; height:calc(100vh - 49px); overflow-y:auto;
-}
-.sidebar::-webkit-scrollbar { width:3px; }
-.sidebar::-webkit-scrollbar-thumb { background:var(--gold-dim); }
-.sidebar-section { margin-bottom:26px; }
-.sidebar-title {
-  font-family:'Bebas Neue', sans-serif; font-size:0.78rem; letter-spacing:0.25em;
-  color:var(--gold); margin-bottom:10px; padding-bottom:6px;
-  border-bottom:1px solid rgba(212,175,55,0.18);
-}
-.sidebar a {
-  display:block; font-family:'Crimson Text', serif; color:var(--cream-dim);
-  text-decoration:none; padding:3px 0 3px 8px; font-size:0.92rem;
-  border-left:2px solid transparent; transition:0.2s;
-}
-.sidebar a:hover { color:var(--gold); border-left-color:var(--gold); padding-left:12px; }
-#years { max-height:190px; overflow-y:auto; }
-#years::-webkit-scrollbar { width:3px; }
-#years::-webkit-scrollbar-thumb { background:var(--gold-dim); }
-.catalog {
-  flex:1; padding:30px 34px;
-  background:radial-gradient(ellipse at 50% 0%, rgba(212,175,55,0.035) 0%, transparent 55%);
-}
-.catalog-header {
-  display:flex; align-items:baseline; gap:14px;
-  margin-bottom:28px; padding-bottom:12px;
-  border-bottom:1px solid rgba(212,175,55,0.12);
-}
-.catalog-title { font-family:'Playfair Display', serif; font-size:1.7rem; font-style:italic; color:var(--gold); }
-.catalog-count { font-style:italic; color:var(--cream-dim); font-size:0.9rem; }
-.movies-grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(170px,1fr)); gap:26px; }
-.movie-card { position:relative; cursor:pointer; animation:card-in 0.45s ease both; }
-@keyframes card-in { from{opacity:0;transform:translateY(14px)} to{opacity:1;transform:translateY(0)} }
-.movie-card-inner {
-  position:relative; overflow:hidden; border:3px solid var(--gold-dim);
-  transition:border-color 0.3s, box-shadow 0.3s, transform 0.3s;
-}
-.movie-card:hover .movie-card-inner {
-  border-color:var(--gold);
-  box-shadow:0 0 0 1px var(--gold), 0 10px 36px rgba(0,0,0,0.85), 0 0 24px rgba(212,175,55,0.18);
-  transform:translateY(-7px) scale(1.02);
-}
-.movie-card img {
-  width:100%; aspect-ratio:2/3; object-fit:cover; display:block;
-  transition:filter 0.3s; filter:sepia(12%) contrast(1.04);
-}
-.movie-card:hover img { filter:sepia(0%) contrast(1.1) brightness(1.06); }
-.movie-card-inner::before, .movie-card-inner::after {
-  content:""; position:absolute; width:13px; height:13px;
-  border-color:var(--gold); border-style:solid; z-index:3; opacity:0; transition:opacity 0.3s;
-}
-.movie-card-inner::before { top:5px; left:5px; border-width:2px 0 0 2px; }
-.movie-card-inner::after  { bottom:5px; right:5px; border-width:0 2px 2px 0; }
-.movie-card:hover .movie-card-inner::before,
-.movie-card:hover .movie-card-inner::after { opacity:1; }
-.card-overlay {
-  position:absolute; inset:0;
-  background:linear-gradient(180deg,transparent 38%,rgba(8,5,2,0.72) 68%,rgba(8,5,2,0.96) 100%);
-  display:flex; flex-direction:column; justify-content:flex-end;
-  padding:10px; opacity:0; transition:opacity 0.3s;
-}
-.movie-card:hover .card-overlay { opacity:1; }
-.card-overlay-title {
-  font-family:'Playfair Display', serif; font-size:0.88rem; color:var(--gold-light);
-  font-weight:700; line-height:1.2; margin-bottom:3px;
-}
-.card-overlay-meta { font-size:0.73rem; color:var(--cream-dim); font-style:italic; }
-.card-title {
-  font-family:'Playfair Display', serif; font-size:0.86rem; color:var(--cream);
-  margin-top:8px; text-align:center; line-height:1.3; transition:color 0.2s;
-}
-.movie-card:hover .card-title { color:var(--gold); }
-.card-year {
-  font-family:'Bebas Neue', sans-serif; font-size:0.72rem; letter-spacing:0.15em;
-  color:var(--gold-dim); text-align:center; margin-top:2px;
-}
-.badge-wrap {
-  position:absolute; top:6px; left:6px;
-  display:flex; flex-direction:column; gap:4px; z-index:4; pointer-events:none;
-}
-.badge-fire {
-  background:linear-gradient(135deg,#b03308,#ff6010); color:#fff;
-  font-family:'Bebas Neue', sans-serif; font-size:0.68rem; letter-spacing:0.1em;
-  padding:2px 7px; border-radius:2px; box-shadow:0 0 10px rgba(255,70,0,0.6);
-  animation:pulse-fire 2s infinite alternate;
-}
-@keyframes pulse-fire {
-  from{box-shadow:0 0 5px rgba(255,70,0,0.4)} to{box-shadow:0 0 16px rgba(255,70,0,0.9)}
-}
-.badge-new {
-  background:linear-gradient(135deg,#0e4a1a,#22a050); color:#fff;
-  font-family:'Bebas Neue', sans-serif; font-size:0.68rem; letter-spacing:0.1em;
-  padding:2px 7px; border-radius:2px; box-shadow:0 0 8px rgba(34,160,80,0.5);
-}
-.admin-card-btns {
-  display:none; position:absolute; top:6px; right:6px;
-  flex-direction:column; gap:3px; z-index:5;
-}
-.admin-card-btns button {
-  font-family:'Bebas Neue', sans-serif; font-size:0.65rem; letter-spacing:0.07em;
-  padding:3px 7px; border:none; border-radius:2px; cursor:pointer; transition:0.2s;
-}
-.btn-del  { background:rgba(130,20,20,0.92); color:#ffbbbb; }
-.btn-fire { background:rgba(160,80,0,0.92);  color:#ffd080; }
-.btn-new  { background:rgba(16,80,24,0.92);  color:#aaffaa; }
-.btn-del:hover  { background:#8b1a1a; }
-.btn-fire:hover { background:#b06000; }
-.btn-new:hover  { background:#0e5a1a; }
-#adminPanel {
-  display:none; background:var(--bg2);
-  border-top:2px solid var(--gold-dim); border-bottom:2px solid var(--gold-dim);
-  position:relative; z-index:99;
-}
-.admin-header-row {
-  display:flex; align-items:center; gap:14px; padding:10px 26px;
-  background:rgba(120,20,20,0.12); border-bottom:1px solid rgba(212,175,55,0.2);
-}
-.admin-crown { font-family:'Bebas Neue', sans-serif; letter-spacing:0.16em; color:var(--gold); font-size:0.88rem; }
-.admin-logout {
-  margin-left:auto; background:none; border:1px solid var(--gold-dim); color:var(--cream-dim);
-  font-family:'Bebas Neue', sans-serif; font-size:0.78rem; letter-spacing:0.1em;
-  padding:5px 14px; cursor:pointer; border-radius:2px; transition:0.2s;
-}
-.admin-logout:hover { border-color:#c0392b; color:#c0392b; }
-.admin-tabs {
-  display:flex; background:var(--bg);
-  border-bottom:1px solid var(--gold-dim); padding:0 26px;
-}
-.admin-tab {
-  font-family:'Bebas Neue', sans-serif; letter-spacing:0.12em; font-size:0.88rem;
-  color:var(--cream-dim); padding:11px 18px; background:none; border:none;
-  border-bottom:2px solid transparent; cursor:pointer; transition:0.2s; margin-bottom:-1px;
-}
-.admin-tab.active,.admin-tab:hover { color:var(--gold); border-bottom-color:var(--gold); }
-.admin-section { display:none; padding:22px 26px; }
-.admin-section.active { display:block; }
-.admin-section h3 { font-family:'Playfair Display', serif; font-style:italic; color:var(--gold); font-size:1.15rem; margin-bottom:16px; }
-.add-form { display:grid; grid-template-columns:1fr 1fr; gap:13px; max-width:680px; }
-.add-form .full { grid-column:1/-1; }
-.add-form label {
-  display:block; font-family:'Bebas Neue', sans-serif;
-  font-size:0.72rem; letter-spacing:0.15em; color:var(--gold-dim); margin-bottom:4px;
-}
-.add-form input,.add-form textarea,.add-form select {
-  width:100%; padding:8px 11px; background:var(--bg3); color:var(--cream);
-  border:1px solid var(--gold-dim); border-radius:2px;
-  font-family:'Crimson Text', serif; font-size:0.94rem;
-  box-sizing:border-box; outline:none; transition:border-color 0.2s;
-}
-.add-form input:focus,.add-form textarea:focus { border-color:var(--gold); }
-.add-form textarea { min-height:72px; resize:vertical; }
-.btn-add-film {
-  grid-column:1/-1; padding:11px;
-  background:linear-gradient(135deg,var(--gold-dim),var(--gold));
-  color:var(--bg); font-family:'Bebas Neue', sans-serif;
-  letter-spacing:0.16em; font-size:0.95rem;
-  border:none; border-radius:2px; cursor:pointer; transition:0.3s;
-}
-.btn-add-film:hover { box-shadow:0 0 20px rgba(212,175,55,0.4); }
-.success-msg { grid-column:1/-1; color:#27ae60; font-style:italic; font-size:0.88rem; display:none; margin-top:4px; }
-.stats-table { width:100%; border-collapse:collapse; }
-.stats-table th {
-  font-family:'Bebas Neue', sans-serif; letter-spacing:0.12em; font-size:0.78rem;
-  color:var(--gold); text-align:left; padding:8px 12px; border-bottom:1px solid var(--gold-dim);
-}
-.stats-table td { padding:8px 12px; border-bottom:1px solid rgba(212,175,55,0.07); font-size:0.88rem; }
-.stats-table tr:hover td { background:rgba(212,175,55,0.04); }
-.stats-rank { color:var(--gold); font-family:'Bebas Neue', sans-serif; font-size:1rem; }
-.stats-bar { height:4px; background:var(--bg3); border-radius:2px; margin-top:4px; }
-.stats-bar-fill { height:100%; background:linear-gradient(90deg,var(--gold-dim),var(--gold)); border-radius:2px; transition:width 0.8s; }
-.modal-overlay {
-  display:none; position:fixed; inset:0;
-  background:rgba(0,0,0,0.92); z-index:1000;
-  justify-content:center; align-items:center;
-}
-.modal-overlay.open { display:flex; }
-.modal-box {
-  background:var(--bg2); border:2px solid var(--gold-dim);
-  padding:38px; width:360px; max-width:95vw; position:relative;
-  box-shadow:0 0 70px rgba(0,0,0,0.9), 0 0 24px rgba(212,175,55,0.1);
-}
-.modal-box::before {
-  content:""; position:absolute; top:8px; left:8px; right:8px; bottom:8px;
-  border:1px solid rgba(212,175,55,0.1); pointer-events:none;
-}
-.modal-box h2 {
-  font-family:'Playfair Display', serif; font-style:italic; color:var(--gold);
-  font-size:1.5rem; margin-bottom:22px; text-align:center;
-}
-.modal-close {
-  position:absolute; top:12px; right:14px;
-  background:none; border:none; color:var(--gold-dim); font-size:20px; cursor:pointer;
-}
-.modal-close:hover { color:var(--red-light); }
-#adminLoginModal input {
-  width:100%; padding:10px 12px; margin:6px 0;
-  background:var(--bg3); color:var(--cream);
-  border:1px solid var(--gold-dim); border-radius:2px;
-  font-family:'Crimson Text', serif; font-size:1rem;
-  box-sizing:border-box; outline:none; transition:border-color 0.2s;
-}
-#adminLoginModal input:focus { border-color:var(--gold); }
-#adminLoginModal .submit {
-  width:100%; padding:12px; margin-top:12px;
-  background:linear-gradient(135deg,var(--gold-dim),var(--gold));
-  color:var(--bg); font-family:'Bebas Neue', sans-serif;
-  letter-spacing:0.16em; font-size:1rem;
-  border:none; border-radius:2px; cursor:pointer; transition:0.3s;
-}
-#adminLoginModal .submit:hover { box-shadow:0 0 18px rgba(212,175,55,0.4); }
-#adminLoginError { color:#c0392b; font-size:0.85rem; margin-top:8px; text-align:center; }
-.collections-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(250px,1fr)); gap:22px; }
-.collection-card {
-  position:relative; overflow:hidden;
-  border:2px solid var(--gold-dim); cursor:pointer; transition:0.3s;
-}
-.collection-card:hover { border-color:var(--gold); transform:translateY(-5px); box-shadow:0 0 22px rgba(212,175,55,0.2); }
-.collection-card img { width:100%; height:175px; object-fit:cover; filter:sepia(30%) brightness(0.65); transition:0.3s; }
-.collection-card:hover img { filter:sepia(10%) brightness(0.82); }
-.collection-label {
-  position:absolute; inset:0; display:flex; align-items:flex-end;
-  background:linear-gradient(transparent 35%, rgba(0,0,0,0.88)); padding:14px;
-}
-.collection-label h3 { font-family:'Playfair Display', serif; font-style:italic; color:var(--gold); font-size:1.15rem; }
+  <style>
+    :root {
+      --bg: #0f1117;
+      --card-bg: #181b23;
+      --card-bg-hover: #212530;
+      --accent: #e50914;
+      --accent-hover: #ff1e27;
+      --text: #ffffff;
+      --text-muted: #8c919e;
+      --border: #282c37;
+      --gold: #ffc107;
+    }
 
-#actorsList { overflow-y:visible; }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: var(--bg); color: var(--text); line-height: 1.5; min-height: 100vh; display: flex; flex-direction: column; }
+    a { color: inherit; text-decoration: none; }
 
-::-webkit-scrollbar { width:5px; }
-::-webkit-scrollbar-track { background:var(--bg); }
-::-webkit-scrollbar-thumb { background:var(--gold-dim); border-radius:3px; }
-@media(max-width:680px){
-  .sidebar{display:none;}
-  .catalog{padding:18px;}
-  .movies-grid{grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:14px;}
-}
+    header { background: rgba(15, 17, 23, 0.95); backdrop-filter: blur(10px); position: sticky; top: 0; z-index: 100; border-bottom: 1px solid var(--border); }
+    .header-container { max-width: 1400px; margin: 0 auto; padding: 15px 20px; display: flex; align-items: center; justify-content: space-between; gap: 20px; }
+    .logo { font-size: 24px; font-weight: 800; color: var(--accent); display: flex; align-items: center; gap: 8px; }
+    .logo span { color: var(--text); }
 
-/* GOLD UNDERLINES ON HOVER */
-.meta-tag {
-  position:relative;
-}
-.meta-tag::after {
-  content:"";
-  position:absolute;
-  bottom:0; left:10%; right:10%;
-  height:1px;
-  background:var(--gold);
-  transform:scaleX(0);
-  transition:transform 0.25s ease;
-}
-.meta-tag:hover::after { transform:scaleX(1); }
+    .search-box { flex: 1; max-width: 500px; position: relative; }
+    .search-input { width: 100%; padding: 10px 16px 10px 40px; background: var(--card-bg); border: 1px solid var(--border); border-radius: 20px; color: var(--text); font-size: 14px; outline: none; transition: 0.2s; }
+    .search-input:focus { border-color: var(--accent); }
+    .search-icon { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); color: var(--text-muted); width: 16px; height: 16px; }
 
-.rating-badge {
-  position:relative; overflow:hidden;
-}
-.rating-badge::after {
-  content:"";
-  position:absolute;
-  bottom:0; left:10%; right:10%;
-  height:1px;
-  background:linear-gradient(90deg, transparent, var(--gold), transparent);
-  transform:scaleX(0);
-  transition:transform 0.3s ease;
-}
-.rating-badge:hover::after { transform:scaleX(1); }
-.rating-badge .label { transition:color 0.2s; }
-.rating-badge:hover .label { color:var(--gold); }
-.rating-badge .value { transition:color 0.2s, text-shadow 0.2s; }
-.rating-badge:hover .value {
-  color:var(--gold-light);
-  text-shadow:0 0 18px rgba(201,168,76,0.5);
-}
+    main { max-width: 1400px; margin: 0 auto; padding: 20px; flex: 1; width: 100%; }
 
-.detail-value {
-  position:relative;
-}
-.detail-value::after {
-  content:"";
-  position:absolute;
-  bottom:-2px; left:0; right:0;
-  height:1px;
-  background:linear-gradient(90deg, var(--gold-dim), var(--gold), var(--gold-dim));
-  transform:scaleX(0);
-  transform-origin:left;
-  transition:transform 0.3s ease;
-}
-.detail-item:hover .detail-value::after { transform:scaleX(1); }
-.detail-item:hover .detail-value { color:var(--gold-light); }
+    .filters-section { background: var(--card-bg); padding: 15px 20px; border-radius: 12px; margin-bottom: 25px; border: 1px solid var(--border); display: flex; flex-wrap: wrap; gap: 15px; align-items: center; }
+    .filter-group { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+    .filter-label { font-size: 13px; color: var(--text-muted); font-weight: 600; text-transform: uppercase; }
+    .filter-btn { padding: 6px 14px; background: var(--bg); border: 1px solid var(--border); border-radius: 15px; color: var(--text-muted); font-size: 13px; cursor: pointer; transition: 0.2s; }
+    .filter-btn:hover, .filter-btn.active { background: var(--accent); color: #fff; border-color: var(--accent); }
 
-.detail-value a { color:var(--gold); text-decoration:none; position:relative; transition:color 0.2s; }
-.detail-value a::after {
-  content:""; position:absolute;
-  bottom:-1px; left:0; right:0; height:1px;
-  background:var(--gold); transform:scaleX(0); transform-origin:left; transition:transform 0.25s ease;
-}
-.detail-value a:hover { color:var(--gold-light); }
-.detail-value a:hover::after { transform:scaleX(1); }
+    .movies-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 20px; }
+    
+    .movie-card { background: var(--card-bg); border-radius: 10px; overflow: hidden; border: 1px solid var(--border); transition: transform 0.2s, background 0.2s; display: flex; flex-direction: column; position: relative; }
+    .movie-card:hover { transform: translateY(-5px); background: var(--card-bg-hover); border-color: #383d4d; }
+    
+    .poster-wrapper { position: relative; aspect-ratio: 2/3; background: #202430; overflow: hidden; }
+    .poster-img { width: 100%; height: 100%; object-fit: cover; }
+    
+    .badge { position: absolute; top: 8px; padding: 3px 8px; border-radius: 4px; font-size: 11px; font-weight: 700; text-transform: uppercase; }
+    .badge-hot { left: 8px; background: var(--accent); color: #fff; }
+    .badge-new { right: 8px; background: #2e7d32; color: #fff; }
 
-.random-btn {
-  font-family:'Bebas Neue', sans-serif !important; letter-spacing:0.1em !important;
-  background:linear-gradient(135deg, #1a4a10, #2e7d1a) !important;
-  color:var(--gold-light) !important; border:1px solid #4a9a30 !important;
-  padding:7px 16px !important; border-radius:2px !important;
-  margin:6px 6px !important; font-size:0.85rem !important; transition:0.3s !important;
-  cursor:pointer !important;
-}
-.random-btn:hover { box-shadow:0 0 14px rgba(46,125,26,0.6) !important; }
-.random-btn::after { display:none !important; }
+    .movie-info { padding: 12px; display: flex; flex-direction: column; flex: 1; justify-content: space-between; }
+    .movie-title { font-size: 14px; font-weight: 600; margin-bottom: 6px; line-height: 1.3; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+    .movie-meta { font-size: 12px; color: var(--text-muted); display: flex; justify-content: space-between; align-items: center; }
 
-/* Random Modal */
-#randomModal .modal-box {
-  width:440px; max-width:95vw;
-}
-.random-movie-card {
-  display:flex; gap:18px; align-items:flex-start; margin-bottom:22px;
-}
-.random-movie-poster {
-  width:120px; flex-shrink:0;
-  border:2px solid var(--gold-dim);
-}
-.random-movie-poster img {
-  width:100%; aspect-ratio:2/3; object-fit:cover;
-  display:block; filter:sepia(12%) contrast(1.04);
-}
-.random-movie-info { flex:1; }
-.random-movie-title {
-  font-family:'Playfair Display', serif; font-style:italic;
-  color:var(--gold); font-size:1.2rem; line-height:1.25; margin-bottom:8px;
-}
-.random-movie-meta {
-  font-family:'Bebas Neue', sans-serif; letter-spacing:0.1em;
-  color:var(--cream-dim); font-size:0.78rem; margin-bottom:10px;
-}
-.random-movie-desc {
-  font-style:italic; color:var(--cream-dim); font-size:0.88rem; line-height:1.5;
-}
-.random-btns {
-  display:flex; gap:12px; margin-top:4px;
-}
-.btn-watch-now {
-  flex:1; padding:12px; text-align:center; text-decoration:none;
-  background:linear-gradient(135deg,var(--gold-dim),var(--gold));
-  color:var(--bg); font-family:'Bebas Neue', sans-serif;
-  letter-spacing:0.16em; font-size:0.95rem;
-  border:none; border-radius:2px; cursor:pointer; transition:0.3s; display:block;
-}
-.btn-watch-now:hover { box-shadow:0 0 20px rgba(212,175,55,0.4); }
-.btn-another {
-  padding:12px 16px;
-  background:none; border:1px solid var(--gold-dim); color:var(--cream-dim);
-  font-family:'Bebas Neue', sans-serif; letter-spacing:0.12em; font-size:0.85rem;
-  border-radius:2px; cursor:pointer; transition:0.2s; white-space:nowrap;
-}
-.btn-another:hover { border-color:var(--gold); color:var(--gold); }
+    footer { background: var(--card-bg); border-top: 1px solid var(--border); padding: 20px; text-align: center; color: var(--text-muted); font-size: 13px; margin-top: 40px; }
 
-.user-rating-wrap label {
-  display:inline-block; cursor:default;
-  position:relative; transition:color 0.2s;
-}
-.user-rating-wrap label::after {
-  content:"";
-  position:absolute;
-  bottom:-2px; left:0; right:0;
-  height:1px;
-  background:var(--gold);
-  transform:scaleX(0);
-  transform-origin:left;
-  transition:transform 0.25s ease;
-}
-.user-rating-wrap label:hover { color:var(--gold-light); }
-.user-rating-wrap label:hover::after { transform:scaleX(1); }
-
-
-/* ===== HEADER STARS (справа и слева от Fish Cinema) ===== */
-.header-star-field {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  overflow: hidden;
-}
-
-/* Отдельные звёзды вокруг заголовка */
-.hstar {
-  position: absolute;
-  color: var(--gold-dim);
-  font-style: normal;
-  line-height: 1;
-  animation: hstar-twinkle var(--dur, 3s) var(--delay, 0s) ease-in-out infinite alternate;
-  text-shadow: 0 0 6px var(--gold), 0 0 14px rgba(212,175,55,0.4);
-}
-@keyframes hstar-twinkle {
-  from { opacity: 0.15; transform: scale(0.8); }
-  to   { opacity: 0.95; transform: scale(1.15); }
-}
-
-/* ===== ПОРТРЕТ СЛЕВА — ASCII/текстовая графика ===== */
-.ascii-portrait {
-  position: fixed;
-  left: 0;
-  top: 49px; /* под меню */
-  width: 200px;
-  height: calc(100vh - 49px);
-  pointer-events: none;
-  z-index: 1;
-  overflow: hidden;
-  display: flex;
-  align-items: flex-start;
-  justify-content: center;
-  padding-top: 20px;
-}
-.ascii-portrait pre {
-  font-family: 'Courier New', monospace;
-  font-size: 5.2px;
-  line-height: 1.15;
-  color: var(--gold-dim);
-  opacity: 0.38;
-  text-shadow: 0 0 4px rgba(212,175,55,0.3);
-  white-space: pre;
-  user-select: none;
-  letter-spacing: 0.5px;
-  filter: blur(0.2px);
-  animation: ascii-fade 6s ease-in-out infinite alternate;
-}
-@keyframes ascii-fade {
-  from { opacity: 0.28; }
-  to   { opacity: 0.48; }
-}
-/* fade right edge */
-.ascii-portrait::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(90deg, transparent 55%, var(--bg) 100%),
-              linear-gradient(180deg, var(--bg) 0%, transparent 5%, transparent 95%, var(--bg) 100%);
-}
-</style>
+    @media (max-width: 600px) {
+      .movies-grid { grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 12px; }
+      .header-container { flex-direction: column; align-items: stretch; }
+      .movie-title { font-size: 13px; }
+    }
+  </style>
 </head>
 <body>
-<div class="ascii-portrait">
-  <pre>                    ▄▄█████▄▄              
-                 ▄█████████████▄           
-               ▄███████████████████▄       
-             ▄███▀▀         ▀▀█████        
-            ████               █████       
-           █████  ▄██▄   ▄██▄  █████       
-           █████  ████   ████  █████       
-           █████  ████   ████  █████       
-           ██████  ▀▀     ▀▀  ██████       
-           ████████           ████████     
-            ██████   ▄████▄   ██████       
-            █████    █████    █████        
-            ██████         ████████        
-             ████████████████████          
-              ██████████████████           
-               ████████████████            
-          ▄████████████████████████▄       
-        ▄████████████████████████████▄     
-       ██████▀▀              ▀▀██████      
-      ██████                    ██████     
-     ██████    ████      ████    ██████    
-     █████    ██████    ██████    █████    
-     █████    ██████    ██████    █████    
-     ██████    ████      ████    ██████    
-      ██████                    ██████     
-       ███████▄              ▄███████      
-        ████████████████████████████       
-          ████████████████████████         
-            ██████████████████             
-              ██████████████               
-                ████████████               
-          ╔═══════════════════╗            
-          ║   F i s h  C i n  ║            
-          ║   ★  ★  ★  ★  ★   ║            
-          ╚═══════════════════╝            </pre>
-</div>
 
-<div class="projector-beam"></div>
-<div class="filmstrip"><div class="filmstrip-holes" id="filmstripTop"></div></div>
-
-<header class="site-header">
-<a href="https://t.me/MisterFishCinema" target="_blank" class="telegram-header-link" title="Наш Telegram чат">
-  <img src="https://upload.wikimedia.org/wikipedia/commons/8/82/Telegram_logo.svg" alt="Telegram">
-  <span>Telegram</span>
-</a>
-<div class="header-star-field">
-  <span class="hstar" style="top:10%;left:67%;font-size:1.1rem;--dur:2.3s;--delay:0s">✦</span>
-  <span class="hstar" style="top:8%;left:72%;font-size:0.8rem;--dur:3.1s;--delay:0.4s">★</span>
-  <span class="hstar" style="top:22%;left:70%;font-size:1.4rem;--dur:2.7s;--delay:0.2s">✦</span>
-  <span class="hstar" style="top:30%;left:75%;font-size:0.7rem;--dur:3.5s;--delay:0.7s">✧</span>
-  <span class="hstar" style="top:15%;left:78%;font-size:1.0rem;--dur:2.1s;--delay:0.9s">★</span>
-  <span class="hstar" style="top:38%;left:68%;font-size:0.9rem;--dur:4.0s;--delay:0.3s">✦</span>
-  <span class="hstar" style="top:5%;left:81%;font-size:0.6rem;--dur:2.8s;--delay:1.1s">✧</span>
-  <span class="hstar" style="top:45%;left:73%;font-size:1.2rem;--dur:3.3s;--delay:0.6s">★</span>
-  <span class="hstar" style="top:25%;left:83%;font-size:0.75rem;--dur:2.5s;--delay:0.8s">✦</span>
-  <span class="hstar" style="top:50%;left:79%;font-size:0.65rem;--dur:3.8s;--delay:0.1s">✧</span>
-  <span class="hstar" style="top:10%;left:18%;font-size:1.0rem;--dur:3.0s;--delay:0.5s">✦</span>
-  <span class="hstar" style="top:5%;left:13%;font-size:0.8rem;--dur:2.4s;--delay:0.2s">★</span>
-  <span class="hstar" style="top:22%;left:15%;font-size:1.3rem;--dur:3.6s;--delay:0.9s">✦</span>
-  <span class="hstar" style="top:30%;left:10%;font-size:0.7rem;--dur:2.9s;--delay:0.4s">✧</span>
-  <span class="hstar" style="top:18%;left:8%;font-size:1.1rem;--dur:3.2s;--delay:0.7s">★</span>
-  <span class="hstar" style="top:38%;left:20%;font-size:0.85rem;--dur:2.6s;--delay:1.0s">✦</span>
-  <span class="hstar" style="top:45%;left:12%;font-size:0.9rem;--dur:3.9s;--delay:0.3s">✧</span>
-  <span class="hstar" style="top:50%;left:17%;font-size:0.7rem;--dur:2.2s;--delay:0.6s">★</span>
-</div>
-
-  <span class="header-ornament">✦ &nbsp; ДОБРО ПОЖАЛОВАТЬ &nbsp; ✦</span>
-  <h1 class="site-title">Fish Cinema</h1>
-  <p class="site-tagline">Без рекламы. Без казино. Только кино.</p>
-  <span class="header-stars">★ &nbsp; ★ &nbsp; ★ &nbsp; ★ &nbsp; ★</span>
-</header>
-
-<nav class="top-menu">
-  <a href="#" onclick="showAll(); return false">Все фильмы</a>
-  <span class="menu-divider">◆</span>
-  <a href="#" onclick="showNewFilms(); return false">Новинки</a>
-  <span class="menu-divider">◆</span>
-  <a href="#" onclick="showCollections(); return false">Подборки</a>
-  <span class="menu-divider">◆</span>
-  <div class="search-wrap">
-    <input type="text" id="searchInput" placeholder="🔍 Поиск..." oninput="searchMovie()">
-  </div>
-  <button class="random-btn" onclick="showRandomMovie()">🎲 Рандом</button>
-  <button class="admin-btn" onclick="document.getElementById('adminLoginModal').classList.add('open')" id="adminOpenBtn">🎬 Админ</button>
-</nav>
-
-<!-- Random Movie Modal -->
-<div class="modal-overlay" id="randomModal">
-  <div class="modal-box">
-    <button class="modal-close" onclick="document.getElementById('randomModal').classList.remove('open')">✕</button>
-    <h2>🎲 Случайный фильм</h2>
-    <div class="random-movie-card">
-      <div class="random-movie-poster">
-        <img id="randomImg" src="" alt="">
-      </div>
-      <div class="random-movie-info">
-        <div class="random-movie-title" id="randomTitle"></div>
-        <div class="random-movie-meta" id="randomMeta"></div>
-        <div class="random-movie-desc" id="randomDesc"></div>
+  <header>
+    <div class="header-container">
+      <a href="/" class="logo">🎬 <span>KinoHD</span></a>
+      <div class="search-box">
+        <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <input type="text" id="searchInput" class="search-input" placeholder="Поиск фильма или актера...">
       </div>
     </div>
-    <div class="random-btns">
-      <a class="btn-watch-now" id="randomLink" href="#">▶ Смотреть</a>
-      <button class="btn-another" onclick="showRandomMovie()">🎲 Другой</button>
-    </div>
-  </div>
-</div>
+  </header>
 
-<div class="modal-overlay" id="adminLoginModal">
-  <div class="modal-box">
-    <button class="modal-close" onclick="closeAdminLogin()">✖</button>
-    <h2>Вход администратора</h2>
-    <input id="adminNickInput" placeholder="Ваш ник">
-    <input id="adminPassInput" type="password" placeholder="Пароль">
-    <button class="submit" onclick="adminLogin()">Войти</button>
-    <div id="adminLoginError"></div>
-  </div>
-</div>
+  <main>
+    <section class="filters-section">
+      <div class="filter-group">
+        <span class="filter-label">Категории:</span>
+        <button class="filter-btn active" data-filter="all">Все</button>
+        <button class="filter-btn" data-filter="hot">🔥 Популярное</button>
+        <button class="filter-btn" data-filter="new">✨ Новинки</button>
+      </div>
+    </section>
 
-<div id="adminPanel">
-  <div class="admin-header-row">
-    <span class="admin-crown">👑 &nbsp; РЕЖИМ АДМИНИСТРАТОРА</span>
-    <button class="admin-logout" onclick="adminLogout()">Выйти</button>
-  </div>
-  <div class="admin-tabs">
-    <button class="admin-tab active" onclick="switchAdminTab('add',this)">➕ Добавить фильм</button>
-    <button class="admin-tab" onclick="switchAdminTab('stats',this)">📊 Статистика</button>
-  </div>
-  <div class="admin-section active" id="adminTab-add">
-    <h3>Добавить фильм в каталог</h3>
-    <div class="add-form">
-      <div><label>Название</label><input id="af-title" placeholder="Название"></div>
-      <div><label>Файл (.html)</label><input id="af-file" placeholder="film.html"></div>
-      <div class="full"><label>Movie Key</label><input id="af-moviekey" placeholder="Fight Club"></div>
-      <div><label>Год</label><input id="af-year" type="number" placeholder="2024"></div>
-      <div><label>Страна</label><input id="af-country" placeholder="США"></div>
-      <div class="full"><label>URL постера</label><input id="af-img" placeholder="https://..."></div>
-      <div class="full"><label>Описание</label><textarea id="af-desc" placeholder="Краткое описание..."></textarea></div>
-      <div><label>🔥 Популярный?</label><select id="af-hot"><option value="0">Нет</option><option value="1">Да</option></select></div>
-      <div><label>🆕 Новинка?</label><select id="af-new"><option value="0">Нет</option><option value="1">Да</option></select></div>
-      <button class="btn-add-film" onclick="addFilm()">✦ Добавить в каталог</button>
-      <div class="success-msg" id="addSuccessMsg">✅ Фильм добавлен!</div>
-    </div>
-  </div>
-  <div class="admin-section" id="adminTab-stats">
-    <h3>Статистика просмотров</h3>
-    <table class="stats-table">
-      <thead><tr><th>#</th><th>Фильм</th><th>Год</th><th>Страна</th><th>Просмотры</th><th>Метки</th></tr></thead>
-      <tbody id="statsBody"></tbody>
-    </table>
-  </div>
-</div>
-
-<div class="main">
-  <aside class="sidebar">
-    <div class="sidebar-section">
-      <div class="sidebar-title">◆ Года</div>
-      <div id="years"></div>
-    </div>
-    <div class="sidebar-section">
-      <div class="sidebar-title">◆ Страны</div>
-      <a href="#" onclick="filterCountry('США'); return false">США</a>
-      <a href="#" onclick="filterCountry('Испания'); return false">Испания</a>
-      <a href="#" onclick="filterCountry('Великобритания'); return false">Великобритания</a>
-      <a href="#" onclick="filterCountry('Италия'); return false">Италия</a>
-      <a href="#" onclick="filterCountry('Германия'); return false">Германия</a>
-      <a href="#" onclick="filterCountry('Франция'); return false">Франция</a>
-      <a href="#" onclick="filterCountry('Канада'); return false">Канада</a>
-      <a href="#" onclick="filterCountry('Мексика'); return false">Мексика</a>
-      <a href="#" onclick="filterCountry('Южная Корея'); return false">Южная Корея</a>
-    </div>
-
-    <div class="sidebar-section">
-      <div class="sidebar-title">◆ Актёры</div>
-      <input type="text" id="actorSearch" placeholder="🔍 Найти актёра..." oninput="filterActorsList()" style="width:100%;padding:6px 9px;background:rgba(255,255,255,0.04);border:1px solid var(--gold-dim);border-radius:2px;color:var(--cream);font-family:'Crimson Text',serif;font-size:0.88rem;outline:none;margin-bottom:7px;box-sizing:border-box;">
-      <div id="actorsList"></div>
-    </div>
-  </aside>
-
-  <main class="catalog">
-    <div class="catalog-header">
-      <span class="catalog-title" id="catalogTitle">Все фильмы</span>
-      <span class="catalog-count" id="catalogCount"></span>
-    </div>
-    <div class="movies-grid" id="catalog"></div>
+    <div class="movies-grid" id="moviesGrid"></div>
   </main>
-</div>
 
-<div class="filmstrip" style="margin-top:50px;border-top:2px solid #1a1208;border-bottom:none">
-  <div class="filmstrip-holes" id="filmstripBottom"></div>
-</div>
+  <footer>
+    <p>&copy; 2026 KinoHD. Все права защищены. Смотрите кино онлайн бесплатно.</p>
+  </footer>
 
-<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
-<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
-<script>
-function buildStrip(id){
-  const el=document.getElementById(id);
-  let h="";
-  for(let i=0;i<80;i++) h+=`<div class="filmstrip-hole"></div>`;
-  el.innerHTML=h+h;
-}
-buildStrip("filmstripTop");
-buildStrip("filmstripBottom");
+  <script>
+    const movies = [
+      {
+        title: "Соник 3 в кино",
+        file: "sonic_3.html",
+        movieKey: "Sonic the Hedgehog 3 2024",
+        year: 2024,
+        country: "США",
+        hot: true,
+        isNew: true,
+        desc: "Соник, Тейлз и Наклз сталкиваются с новым могущественным противником — Ежом Шедоу.",
+        img: "https://static.hdrezka.ac/i/2024/12/20/d1e289c09c952vd78e36q.jpg",
+        actors: ["Бен Шварц", "Идрис Эльба", "Киану Ривз", "Джим Керри"]
+      },
+      {
+        title: "Приключения Паддингтона 3",
+        file: "paddington_3.html",
+        movieKey: "Paddington in Peru 2024",
+        year: 2024,
+        country: "Великобритания",
+        hot: false,
+        isNew: true,
+        desc: "Паддингтон отправляется в Перу, чтобы навестить своей любимой тетушку Люси.",
+        img: "https://static.hdrezka.ac/i/2024/11/11/f70cf1ee2ea43bd44s79q.jpg",
+        actors: ["Бен Уишоу", "Хью Бонневилль", "Антонио Бандерас", "Оливия Колман"]
+      },
+      {
+        title: "Гладиатор 2",
+        file: "gladiator_2.html",
+        movieKey: "Gladiator II 2024",
+        year: 2024,
+        country: "США",
+        hot: true,
+        isNew: true,
+        desc: "Продолжение эпической истории о борьбе за свободу и честь в древнем Риме.",
+        img: "https://static.hdrezka.ac/i/2024/11/14/y0f225d31ca23or49f24q.jpg",
+        actors: ["Пол Мескал", "Педро Паскаль", "Дензель Вашингтон"]
+      },
+      {
+        title: "Веном: Последний танец",
+        file: "venom_3.html",
+        movieKey: "Venom The Last Dance 2024",
+        year: 2024,
+        country: "США",
+        hot: true,
+        isNew: false,
+        desc: "Эдди и Веном в бегах. Преследуемые обоими своими мирами, они вынуждены принять разрушительное решение.",
+        img: "https://static.hdrezka.ac/i/2024/10/23/e9a0815be5761ud36r11e.jpg",
+        actors: ["Том Харди", "Чиветел Эджиофор", "Джуно Темпл"]
+      },
+      {
+        title: "Субстанция",
+        file: "the_substance.html",
+        movieKey: "The Substance 2024",
+        year: 2024,
+        country: "Великобритания",
+        hot: true,
+        isNew: false,
+        desc: "Угасающая звезда принимает инновационный препарат, создающий ее более молодую и идеальную версию.",
+        img: "https://static.hdrezka.ac/i/2024/9/19/lbf2b6b026be1ye94v37v.jpg",
+        actors: ["Деми Мур", "Маргарет Куолли", " Деннис Куэйд"]
+      },
+      {
+        title: "Аватар 3: Огонь и пепел",
+        file: "avatar_3.html",
+        movieKey: "Avatar Fire and Ash 2025",
+        year: 2025,
+        country: "США",
+        hot: true,
+        isNew: true,
+        desc: "Продолжение истории Пандоры, где Джейк Салли и Нейтири сталкиваются с агрессивным кланом Пепла.",
+        img: "https://static.hdrezka.ac/i/2025/12/18/avatar3_poster.jpg",
+        actors: ["Сэм Уортингтон", "Зои Салдана", "Сигурни Уивер"]
+      },
+      {
+        title: "Микки 17",
+        file: "mickey_17.html",
+        movieKey: "Mickey 17 2025",
+        year: 2025,
+        country: "США",
+        hot: false,
+        isNew: true,
+        desc: "Одноразовый сотрудник отправляется на ледяную планету, погибая и возрождаясь вновь.",
+        img: "https://static.hdrezka.ac/i/2025/1/15/mickey17_poster.jpg",
+        actors: ["Роберт Паттинсон", "Стивен Ён", "Марк Руффало"]
+      },
+      {
+        title: "Человек-паук: Новый день",
+        file: "spider_man.html",
+        movieKey: "Spider-Man Brand New Day 2026",
+        year: 2026,
+        country: "США",
+        hot: true,
+        isNew: true,
+        desc: "Питер Паркер начинает новую главу жизни, сталкиваясь с новыми вызовами и врагами в Нью-Йорке.",
+        img: "https://static.hdrezka.ac/i/2026/5/27/i055dc6db901dgd21d31c.jpg",
+        actors: ["Том Холланд"]
+      }
+    ];
 
-firebase.initializeApp({
-  apiKey:"AIzaSyCTr1vgcuSEn_2Ebh2vC3k7sNYzvMoYlBo",
-  authDomain:"kino-project-bf21c.firebaseapp.com",
-  projectId:"kino-project-bf21c"
-});
-const db = firebase.firestore();
+    const moviesGrid = document.getElementById('moviesGrid');
+    const searchInput = document.getElementById('searchInput');
+    const filterBtns = document.querySelectorAll('.filter-btn');
 
-const ADMIN_NICKS=["Mister_fish","Mister_fish606","fish606"];
-const ADMIN_PASS="xhidid";
-let isAdmin=false;
+    let currentFilter = 'all';
+    let searchQuery = '';
 
-function escapeHtml(text){
-  const div=document.createElement('div');
-  div.textContent=text;
-  return div.innerHTML;
-}
+    function renderMovies() {
+      moviesGrid.innerHTML = '';
+      
+      const filtered = movies.filter(movie => {
+        const matchesSearch = movie.title.toLowerCase().includes(searchQuery) || 
+                              movie.actors.some(actor => actor.toLowerCase().includes(searchQuery));
+        
+        let matchesFilter = true;
+        if (currentFilter === 'hot') matchesFilter = movie.hot;
+        if (currentFilter === 'new') matchesFilter = movie.isNew;
 
-function adminLogin(){
-  const nick=document.getElementById("adminNickInput")?document.getElementById("adminNickInput").value.trim():"";
-  const pass=document.getElementById("adminPassInput")?document.getElementById("adminPassInput").value.trim():"";
-  const err=document.getElementById("adminLoginError");
-  if(!ADMIN_NICKS.includes(nick)){if(err)err.innerText="Неверный ник!";return;}
-  if(pass!==ADMIN_PASS){if(err)err.innerText="Неверный пароль!";return;}
-  isAdmin=true;
-  localStorage.setItem("adminNick",nick);
-  document.getElementById("adminLoginModal").classList.remove("open");
-  document.getElementById("adminPanel").style.display="block";
-  render(movies);
-}
-function adminLogout(){
-  isAdmin=false;
-  localStorage.removeItem("adminNick");
-  document.getElementById("adminPanel").style.display="none";
-  render(movies);
-}
-window.addEventListener("load",()=>{
-  const saved=localStorage.getItem("adminNick");
-  if(saved&&ADMIN_NICKS.includes(saved)){
-    isAdmin=true;
-    document.getElementById("adminPanel").style.display="block";
-  }
-});
-function closeAdminLogin(){
-  document.getElementById("adminLoginModal").classList.remove("open");
-  document.getElementById("adminLoginError").innerText="";
-}
-function switchAdminTab(tab,btn){
-  document.querySelectorAll(".admin-tab").forEach(b=>b.classList.remove("active"));
-  document.querySelectorAll(".admin-section").forEach(s=>s.classList.remove("active"));
-  btn.classList.add("active");
-  document.getElementById("adminTab-"+tab).classList.add("active");
-  if(tab==="stats") loadStats();
-}
+        return matchesSearch && matchesFilter;
+      });
 
-const movies=[
-  {title:"Апокалипсис по-голливудски",        file:"This_is_the_end.html",                       movieKey:"This Is the End 2013",                  year:2013, country:"США",             hot:false, isNew:false, desc:"Голливудские звёзды застревают на вечеринке во время настоящего апокалипсиса.",        img:"https://play-lh.googleusercontent.com/AoLjRe-KKJqd8ogN33AhIdbpQTOQFvaUDZjIkuf5v0LaPGdKv4N--FX97XkDpuWA4i9V", actors:["Сет Роген","Джеймс Франко","Джона Хилл","Майкл Сера"]},
-  {title:"Зелёная книга",                    file:"Green_book.html",                            movieKey:"Green Book",                            year:2018, country:"США",             hot:false, isNew:false, desc:"Белый водитель и чернокожий пианист — путешествие через расистский Юг США.",           img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQI5QERhSPMDnPNfpBOB72YniinqM49JGChNA&s", actors:["Вигго Мортенсен","Махершала Али"]},
-  {title:"Первый мститель",                  file:"Captain_america.html",                       movieKey:"Captain America The First Avenger",     year:2011, country:"США",             hot:false, isNew:false, desc:"Слабый парень становится Капитаном Америкой и противостоит ГИДРЕ.",                    img:"https://kinogo.online/uploads/posts/2021-02/1614451243-2137657427.jpg", actors:["Крис Эванс","Томми Ли Джонс","Хьюго Уивинг"]},
-  {title:"Элизиум: Рай не на Земле",         file:"Elysium.html",                               movieKey:"Elysium",                               year:2013, country:"США",             hot:false, isNew:false, desc:"В будущем богачи живут на орбите, а бедные гниют на умирающей Земле.",                 img:"https://svit.tartugi.net/uploads/posts/2024-02/1707064518-elizium-ray-ne-na-zemle.jpg", actors:["Мэтт Дэймон","Джоди Фостер","Шарлто Копли"]},
-  {title:"Я, снова я и Ирэн",                file:"Me_myself_irene_2.html",                     movieKey:"Me Myself and Irene",                   year:2000, country:"США",             hot:false, isNew:false, desc:"Джим Керри в роли копа с раздвоением личности, влюблённого в одну женщину.",           img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSgaGCcpsdKcQLyjRLWW9ZOGmQOU9JyuLV2zQ&s", actors:["Джим Керри","Рене Зеллвегер"]},
-  {title:"Тупой и ещё тупее",                file:"Dumb_and_dumber.html",                       movieKey:"Dumb and Dumber To",                    year:2014, country:"США",             hot:false, isNew:false, desc:"Лойд и Гарри снова вместе — в поисках дочери, которую Гарри никогда не знал.",         img:"https://kinogo.ec/uploads/posts/2020-03/1585492576-2107348175.jpg", actors:["Джим Керри","Джефф Дэниелс"]},
-  {title:"Звёздный путь",                    file:"Star_trek.html",                             movieKey:"Star Trek 2009",                        year:2009, country:"США",             hot:false, isNew:false, desc:"Молодой Кирк и Спок объединяются чтобы остановить мстительного ромуланца.",            img:"https://upload.wikimedia.org/wikipedia/ru/2/29/Startrekposter.jpg", actors:["Крис Пайн","Закари Куинто","Карл Урбан"]},
-  {title:"Хороший, Плохой, Злой",            file:"good-bad-ugly.html",                         movieKey:"good-bad-ugly",                         year:1966, country:"Испания",         hot:true,  isNew:false, desc:"История трёх стрелков, охотящихся за золотом во времена Гражданской войны.",           img:"https://kinogo.online/uploads/mini/shortstory-mob/ed1/1614517323-1826304193.jpg", actors:["Клинт Иствуд","Эли Уоллак","Ли Ван Клиф"]},
-  {title:"Бойцовский клуб",                  file:"fight_club.html",                            movieKey:"Fight Club",                            year:1999, country:"США",             hot:true,  isNew:false, desc:"Офисный работник создаёт альтер эго и начинает разрушать систему.",                    img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTHFS7WEw3dSnvD-pu6GKh0CDhf5g6uXC6vow&s", actors:["Брэд Питт","Эдвард Нортон","Хелена Бонэм Картер"]},
-  {title:"Таксист",                          file:"taxi_driver_1976.html",                      movieKey:"taxi_driver_1976",                      year:1976, country:"США",             hot:false, isNew:false, desc:"Одинокий ветеран становится свидетелем упадка Нью-Йорка.",                            img:"https://preview.redd.it/taxi-driver-1976-v0-2vafsern2tnf1.jpg?width=640&crop=smart&auto=webp&s=c0319ef604e7680dd8c420851d775d7fe9d2f549", actors:["Роберт Де Ниро","Джоди Фостер","Харви Кейтель"]},
-  {title:"За пригоршню долларов",            file:"per_un_pugno_di_dollari.html",               movieKey:"Per un pugno di dollari",               year:1964, country:"Италия",          hot:false, isNew:false, desc:"Таинственный стрелок сталкивает две банды.",                                          img:"https://kinogo.media/uploads/posts/2021-10/1634995966_iphone360_8455.jpg", actors:["Клинт Иствуд","Джан Мария Волонте"]},
-  {title:"На несколько долларов больше",     file:"for-a-few-dollars-more.html",                movieKey:"For a Few Dollars More",                year:1965, country:"Испания",         hot:false, isNew:false, desc:"Два охотника за головами преследуют преступника.",                                    img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTCxtEljwymUbifbP48s0ryFIgLy1OYI-j4mQ&s", actors:["Клинт Иствуд","Ли Ван Клиф","Джан Мария Волонте"]},
-  {title:"Хулиганы Зеленой улицы",          file:"Green_Street_hooligans.html",                movieKey:"Green_Street_hooligans",                year:2005, country:"Великобритания",  hot:false, isNew:false, desc:"История студента среди футбольных фанатов.",                                           img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQxHJV4wLnEGE55pI8bIKVStLfKanT8O9gYXQ&s", actors:["Элайджа Вуд","Чарли Ханнэм"]},
-  {title:"Великий уравнитель",               file:"The_Equalizer.html",                         movieKey:"The Equalizer",                         year:2014, country:"США",             hot:false, isNew:false, desc:"Маккол становится защитником всех нуждающихся.",                                      img:"https://play-lh.googleusercontent.com/cPOXviPYVOmOzboUz-znW7peG9EL-DPnz2DUgAaHbwPN9jOMT12FQIlzncQqbVoYtksg", actors:["Дензел Вашингтон","Хлоя Морец"]},
-  {title:"Старикам тут не место",            file:"No_Country_for_Old_Men.html",                movieKey:"No Country for Old Men",                year:2007, country:"США",             hot:true,  isNew:false, desc:"Ветеран находит деньги и становится мишенью безжалостного убийцы.",                   img:"https://kinogo.online/uploads/posts/2021-02/1614528496-1821078516.jpg", actors:["Хавьер Бардем","Томми Ли Джонс","Джош Бролин"]},
-  {title:"Гарольд и Кумар уходят в отрыв",  file:"Harold_&_Kumar_Go_to_White_Castle.html",     movieKey:"Harold & Kumar Go to White Castle",     year:2004, country:"США",             hot:false, isNew:false, desc:"Два друга в безумном ночном приключении ради бургеров.",                               img:"https://upload.wikimedia.org/wikipedia/ru/9/9f/Harold_%26_Kumar_Go_to_White_Castle.jpg", actors:["Джон Чо","Кал Пенн"]},
-  {title:"Скауты против зомби",             file:"Scouts_Guide_to_the_Zombie_Apocalypse.html", movieKey:"Scouts Guide to the Zombie Apocalypse", year:2015, country:"США",             hot:false, isNew:false, desc:"Три бойскаута против армии живых мертвецов.",                                          img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSNnvbVtGJ_vWshr3Rlh7_FVI0gUw2-lovnZg&s", actors:["Тай Шеридан","Логан Миллер"]},
-  {title:"Поезд в Пусан",                   file:"Busanhaeng.html",                            movieKey:"Busanhaeng",                            year:2016, country:"Южная Корея",     hot:true,  isNew:false, desc:"Отец и дочь застряли в поезде посреди зомби-апокалипсиса.",                            img:"https://thumbs.dfs.ivi.ru/storage0/contents/7/8/4b95783a0147f383c9f0b0bb1bc691.jpg", actors:["Кон Ю","Чон Ю-ми","Ма Дон-сок"]},
-  {title:"Добро пожаловать в Зомбилэнд",    file:"Zombieland.html",                            movieKey:"Zombieland",                            year:2009, country:"США",             hot:false, isNew:false, desc:"Выжившие ищут безопасное место в мире зомби.",                                         img:"https://kinogo.online/uploads/posts/2021-02/1614519780-1944811101.jpg", actors:["Джесси Айзенберг","Вуди Харрельсон","Эмма Стоун"]},
-  {title:"Отряд самоубийц",                 file:"Suicide_squad.html",                         movieKey:"Suicide Squad",                         year:2016, country:"США",             hot:false, isNew:false, desc:"Правительство собирает команду суперзлодеев для тайной миссии.",                       img:"https://upload.wikimedia.org/wikipedia/ru/4/4d/Suicide_Squad.jpeg", actors:["Уилл Смит","Марго Робби","Джаред Лето"]},
-  {title:"Хан Соло",                        file:"Solo_star_wars.html",                        movieKey:"Solo A Star Wars Story",                year:2018, country:"США",             hot:false, isNew:false, desc:"История молодого Хана Соло и его пути к звёздам.",                                     img:"https://kinogo.media/uploads/posts/2021-10/1634804136_iphone360_841277.jpg", actors:["Олден Эренрайк","Эмилия Кларк","Дональд Гловер"]},
-  {title:"Плохие парни",                    file:"Bad_boys.html",                              movieKey:"Bad Boys",                              year:1995, country:"США",             hot:false, isNew:false, desc:"Два детектива против наркоторговцев Майами.",                                          img:"https://play-lh.googleusercontent.com/JZn-yp1_a7RD8Wwk9-CgL-B-Fa51RaGt8rNITKLFddwYhtCLQ1fKd9MlY1OegXRkx1HS", actors:["Уилл Смит","Мартин Лоуренс"]},
-  {title:"Троя",                            file:"Troy.html",                                  movieKey:"Troy",                                  year:2004, country:"США",             hot:false, isNew:false, desc:"Эпическая битва за Трою с Ахиллом во главе.",                                          img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR6AYSreX3Su4053G7CrN0k9kwwTNwa34F75w&s", actors:["Брэд Питт","Эрик Бана","Орландо Блум"]},
-  {title:"Блэйд",                           file:"Blade.html",                                 movieKey:"Blade",                                 year:1998, country:"США",             hot:false, isNew:false, desc:"Охотник на вампиров, сам наполовину вампир.",                                          img:"https://upload.wikimedia.org/wikipedia/ru/e/e5/Blade_2_plakat_gross.jpg", actors:["Уэсли Снайпс","Стивен Дорф"]},
-  {title:"Голодные игры",                   file:"Hunger_games.html",                          movieKey:"The Hunger Games",                      year:2012, country:"США",             hot:false, isNew:false, desc:"Девушка-доброволец на смертельном телешоу становится символом восстания.",             img:"https://kinogo.online/uploads/mini/shortstory-mob/84f/1614468212-1246767137.jpg", actors:["Дженнифер Лоуренс","Джош Хатчерсон","Лиам Хемсворт"]},
-  {title:"Пункт назначения",                file:"Final_destination.html",                     movieKey:"Final Destination",                     year:2000, country:"США",             hot:false, isNew:false, desc:"Смерть преследует тех, кто сбежал от неё.",                                            img:"https://kinogo.online/uploads/posts/2021-02/1614472317-1321259434.jpg", actors:["Девон Сава","Али Ларте"]},
-  {title:"Полтора шпиона",                  file:"Spies.html",                                 movieKey:"Spies 2015",                            year:2015, country:"США",             hot:false, isNew:false, desc:"Аналитик ЦРУ впервые выходит в поле и оказывается самым опасным шпионом в мире.",      img:"https://www.palladium-cinema.com.ua/storage/upload/film/poltora-shpiona/spp-1.jpg", actors:["Мелисса МакКарти","Джейсон Стэйтем","Джуд Лоу"]},
-  {title:"Полицейская академия",            file:"Police_academy.html",                        movieKey:"Police Academy 1984",                   year:1984, country:"США",             hot:false, isNew:false, desc:"Самая нелепая команда курсантов в истории полицейской академии.",                      img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTvEIwhv3Ckww8VTUJpnjBaYVSC6YcVJl0Lhg&s", actors:["Стив Гуттенберг","Ким Кэтролл"]},
-  {title:"Очень страшное кино",             file:"Scary_movie.html",                           movieKey:"Scary Movie 2000",                      year:2000, country:"США",             hot:false, isNew:false, desc:"Безумная пародия на хоррор-хиты 90-х — один из самых смешных фильмов своего времени.", img:"https://kinogo.online/uploads/posts/2021-02/1614431711-60734677.jpg", actors:["Шон Уэйанс","Марлон Уэйанс","Анна Фэрис"]},
-  {title:"Майор Пейн",                      file:"Major_payne.html",                           movieKey:"Major Payne 1995",                      year:1995, country:"США",             hot:false, isNew:false, desc:"Жёсткий военный становится командиром школьного отряда и получает урок человечности.", img:"https://kinogo.online/uploads/mini/shortstory-mob/81e/1614363946-1621052681.jpg", actors:["Дэймон Уэйанс"]},
-  {title:"Без чувств",                      file:"Bez_chuvstv.html",                      movieKey:"Bez chuvstv 1998",                      year:1998, country:"Украина",         hot:false, isNew:false, desc:"История о людях, которые разучились чувствовать, и о важности оставаться живым внутри.",img:"https://mobb.kinovasek.men/uploads/posts/2025-03/67dafbd41d177.webp", actors:["Богдан Ступка","Ада Роговцева"]},
-  {title:"Робот по имени Чаппи",            file:"Chappie.html",                               movieKey:"Chappie 2015",                          year:2015, country:"ЮАР / США",      hot:false, isNew:false, desc:"Робот получает сознание и учится жить, чувствовать и мечтать.",                         img:"https://www.hdclub.ua/files/film_release/big/bigi55759efdc9425.jpg", actors:["Дев Патель","Хью Джекман","Шарлто Копли"]},
-  {title:"Рокки",                           file:"Rocky.html",                                 movieKey:"Rocky 1976",                            year:1976, country:"США",             hot:true,  isNew:false, desc:"Второразрядный боксёр получает шанс жизни — бой с чемпионом мира. Оскар.",             img:"https://kinogo.online/uploads/posts/2021-02/1614398240-303155765.jpg", actors:["Сильвестр Сталлоне","Тэлия Шайр","Берт Янг"]},
-  {title:"Да здравствует Франция!",         file:"Vive_la_France.html",                        movieKey:"Vive la France 2013",                   year:2013, country:"Франция",         hot:false, isNew:false, desc:"Два террориста приезжают в Париж и влюбляются во французский образ жизни.",            img:"https://play-lh.googleusercontent.com/whxZ9r9DvZKBef7_ZorHAtbD5MINTF9xVk_pTcOvhwVCRYMfnOszsqAAoKkb4fvnON8aag", actors:["Жозе Гарсия","Мед Хондо"]},
-  {title:"Джентльмены",                     file:"Gentlemen.html",                             movieKey:"The Gentlemen 2019",                    year:2019, country:"Великобритания",  hot:true,  isNew:false, desc:"Наркобарон продаёт империю — и всё идёт не по плану. Гай Ричи в лучшем виде.",         img:"https://upload.wikimedia.org/wikipedia/ru/c/c1/%D0%94%D0%B6%D0%B5%D0%BD%D1%82%D0%BB%D1%8C%D0%BC%D0%B5%D0%BD%D1%8B.jpg", actors:["Мэттью МакКонахи","Чарли Ханнэм","Хью Грант"]},
-  {title:"Форрест Гамп",                    file:"Forrest_gump.html",                          movieKey:"Forrest Gump 1994",                     year:1994, country:"США",             hot:true,  isNew:false, desc:"Простой человек оказывается в центре ключевых событий американской истории.",          img:"https://kinogo.online/uploads/posts/2021-02/1614404652-1341878282.jpg", actors:["Том Хэнкс","Робин Райт","Гэри Синис"]},
-  {title:"Рэмбо",                           file:"Rambo.html",                                 movieKey:"Rambo First Blood 1982",                year:1982, country:"США",             hot:false, isNew:false, desc:"Ветеран Вьетнама против целого полицейского департамента.",                            img:"https://kinogo.ec/uploads/posts/2020-03/1585442933-1829798561.jpg", actors:["Сильвестр Сталлоне","Брайан Деннехи"]},
-  {title:"Выживший",                        file:"The_revenant.html",                          movieKey:"The Revenant 2015",                     year:2015, country:"США",             hot:true,  isNew:false, desc:"Охотник выживает после предательства и ползёт сквозь тайгу ради мести. Оскар ДиКаприо.",img:"https://kinogo.online/uploads/posts/2021-02/1614528568-1065569495.jpg", actors:["Леонардо ДиКаприо","Том Харди"]},
-  {title:"Мост в Терабитию",                file:"Bridge_to_terabithia.html",                  movieKey:"Bridge to Terabithia 2007",             year:2007, country:"США",             hot:false, isNew:false, desc:"Два подростка создают волшебное королевство в лесу. Трогательная история о дружбе.",   img:"https://mobb.kinovasek.men/uploads/posts/2025-03/67db17498a418.webp", actors:["Джош Хатчерсон","АннаСофия Робб"]},
-  {title:"Банда Келли",                     file:"Ned_Kelly.html",                             movieKey:"ned_kelly_2003",                        year:2003, country:"Австралия",       hot:false, isNew:false, desc:"Хит Леджер в роли легендарного австралийского бандита и народного героя.",             img:"https://kinogo.media/uploads/posts/2021-10/1634994106_iphone360_5572.jpg", actors:["Хит Леджер","Орландо Блум","Наоми Уоттс"]},
-  {title:"Хоббит: Нежданное путешествие",   file:"Hobbit.html",                                movieKey:"The Hobbit 2012",                       year:2012, country:"Новая Зеландия",  hot:false, isNew:false, desc:"Хоббит Бильбо отправляется с гномами вернуть королевство от дракона Смауга.",          img:"https://kinogo.online/uploads/posts/2021-02/1614408723-1574705447.jpg", actors:["Мартин Фриман","Иэн МакКеллен","Ричард Армитидж"]},
-  {title:"Ущелье",                          file:"The_Gorge.html",                                 movieKey:"The Gorge 2025",                        year:2025, country:"США",             hot:true,  isNew:false, desc:"Два снайпера по разные стороны ущелья влюбляются и спускаются внутрь.",                img:"https://kinogo.online/uploads/posts/2025-02/1741618926-95a5cfd520_124112.jpg", actors:["Майлз Теллер","Аня Тейлор-Джой"]},
-  {title:"Криминальное чтиво",              file:"Pulp_fiction.html",                          movieKey:"Pulp Fiction 1994",                     year:1994, country:"США",             hot:true,  isNew:false, desc:"Несколько криминальных историй переплетаются в нелинейном шедевре Тарантино.",         img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQFOc_nYJ6EvcrCVy6WQ-t5tTCtRvw12buu9Q&s", actors:["Джон Траволта","Сэмюэл Л. Джексон","Ума Турман","Брюс Уиллис"]},
-  {title:"Где моя тачка, чувак?",           file:"Dude_Wheres_My_Car.html",                    movieKey:"Dude Wheres My Car 2000",               year:2000, country:"США",             hot:false, isNew:false, desc:"Двое друзей ищут машину после вечеринки и встречают инопланетян.",                     img:"https://upload.wikimedia.org/wikipedia/ru/f/fe/Dude%2C_Where%27s_My_Car.jpg", actors:["Эштон Катчер","Шон Уильям Скотт"]},
-  {title:"Джанго освобождённый",            file:"Django.html",                                movieKey:"Django Unchained 2012",                 year:2012, country:"США",             hot:true,  isNew:false, desc:"Бывший раб и охотник за головами едут освобождать жену. Тарантино переосмысляет вестерн.",img:"https://kinogo.online/uploads/posts/2021-02/1614410299-1099694772.jpg", actors:["Джейми Фокс","Кристоф Вальц","Леонардо ДиКаприо"]},
-  {title:"Карате-пацан",                    file:"Karate_kid.html",                            movieKey:"The Karate Kid 2010",                   year:2010, country:"США / Китай",     hot:false, isNew:false, desc:"Мальчик переезжает в Китай и учится кунг-фу у мастера Джеки Чана.",                    img:"https://kinogo.online/uploads/mini/shortstory-mob/492/1614458213-830135586.jpg", actors:["Джейден Смит","Джеки Чан"]},
-  {title:"Муви 43",                         file:"Movie_43.html",                              movieKey:"Movie 43 2013",                         year:2013, country:"США",             hot:false, isNew:false, desc:"Сборник безумных скетчей со звёздами первой величины. Самый эпатажный альманах.",      img:"https://mobb.kinovasek.men/uploads/posts/2025-03/67daf54f2f903.webp", actors:["Хью Джекман","Кейт Уинслет","Хэлли Берри"]},
-  {title:"Последний киногерой",             file:"Last_action_hero.html",                      movieKey:"Last Action Hero 1993",                 year:1993, country:"США",             hot:false, isNew:false, desc:"Мальчик попадает внутрь боевика и встречает Шварценеггера. Пародия на боевики.",       img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTBfk4tF6aFJqECfEdOpwUNDpd6RrSXLp9f1g&s", actors:["Арнольд Шварценеггер","Остин О'Брайен"]},
-  {title:"Пол: Секретный материальчик",     file:"Paul.html",                                  movieKey:"Paul 2011",                             year:2011, country:"Великобритания",  hot:false, isNew:false, desc:"Два британских фаната встречают настоящего инопланетянина и помогают ему сбежать.",    img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTdZzyUs7VZPIKv66use17mojiKWYc6-SH98w&s", actors:["Саймон Пегг","Ник Фрост","Сет Роген"]},
-  {title:"Хэнкок",                          file:"Hancock.html",                               movieKey:"Hancock 2008",                          year:2008, country:"США",             hot:false, isNew:false, desc:"Супергерой-алкоголик с плохой репутацией пытается измениться с помощью пиарщика.",     img:"https://thumbs.dfs.ivi.ru/storage0/contents/8/a/258202ade4421cb49872c11405e7d2.jpg", actors:["Уилл Смит","Шарлиз Терон","Джейсон Бейтман"]},
-  {title:"Время",                           file:"In_Time.html",                               movieKey:"in_time_2011",                          year:2011, country:"США",             hot:false, isNew:true,  desc:"В будущем время — это деньги. Буквально.",                                            img:"https://upload.wikimedia.org/wikipedia/ru/thumb/e/e0/Intimefairuse.jpg/250px-Intimefairuse.jpg", actors:["Джастин Тимберлейк","Аманда Сейфрид","Киллиан Мёрфи"]},
-  {title:"Белые цыпочки",                   file:"White_Chicks.html",                          movieKey:"white_chicks_2004",                     year:2004, country:"США",             hot:false, isNew:true,  desc:"Два агента ФБР переодеваются в белых девушек.",                                       img:"https://static.hdrezka.ac/i/2021/5/27/h86cbc39ec567gg51g43a.jpeg", actors:["Шон Уэйанс","Марлон Уэйанс","Терри Крюс"]},
-  {title:"Бегущий в лабиринте",             file:"Maze_Runner.html",                           movieKey:"maze_runner_2014",                      year:2014, country:"США",             hot:false, isNew:true,  desc:"Подростки заперты в лабиринте без воспоминаний.",                                     img:"https://kinogo.online/uploads/mini/shortstory-mob/2cc/1614378493-1708974349.jpg", actors:["Дилан О'Брайен","Кая Скоделарио","Томас Броди-Сангстер"]},
-  {title:"Гладиатор",                       file:"Gladiator.html",                             movieKey:"gladiator_2000",                        year:2000, country:"США",             hot:true,  isNew:true,  desc:"Генерал стал рабом. Раб стал гладиатором. Оскар.",                                    img:"https://kinogo.online/uploads/posts/2021-02/1614441975-2608244.jpg", actors:["Рассел Кроу","Хоакин Феникс","Конни Нильсен"]},
-  {title:"Миллион способов потерять голову",file:"Million_Ways.html",                          movieKey:"million_ways_2014",                     year:2014, country:"США",             hot:false, isNew:true,  desc:"Пародийный вестерн от создателя Теда.",                                               img:"https://mobb.kinovasek.men/uploads/posts/2025-03/67db0c4a21aaf.webp", actors:["Сет МакФарлейн","Шарлиз Терон","Лиам Нисон","Аманда Сейфрид"]},
-  {title:"50 первых поцелуев",              file:"50_First_Dates.html",                        movieKey:"50_first_dates_2004",                   year:2004, country:"США",             hot:false, isNew:true,  desc:"Она забывает его каждое утро. Он влюбляется снова.",                                  img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSgrfdBD64cLsCL0WjhfifszIXmkjJabf-Itg&s", actors:["Адам Сэндлер","Дрю Бэрримор","Роб Шнайдер"]},
-  {title:"Семь",                            file:"Seven.html",                                 movieKey:"seven_1995",                            year:1995, country:"США",             hot:true,  isNew:true,  desc:"7 грехов. 7 убийств. Финчер.",                                                        img:"https://kinogo.org/uploads/posts/2021-09/1694491844-sem.jpg", actors:["Брэд Питт","Морган Фриман","Кевин Спейси"]},
-  {title:"Матрица",                         file:"Matrix.html",                                movieKey:"matrix_1999",                           year:1999, country:"США",             hot:true,  isNew:true,  desc:"Реальность — симуляция. Нео должен её сломать.",                                      img:"https://kinogo.online/uploads/mini/shortstory-mob/b55/1614449224-1298697377.jpg", actors:["Киану Ривз","Лоренс Фишбёрн","Кэрри-Энн Мосс","Хьюго Уивинг"]},
-  {title:"Смешанные",                       file:"Blended.html",                               movieKey:"blended_2014",                          year:2014, country:"США",             hot:false, isNew:true,  desc:"Два одиноких родителя застряли вместе в Африке.",                                     img:"https://kinogo.online/uploads/mini/shortstory-mob/251/1614419138-421243459.jpg", actors:["Адам Сэндлер","Дрю Бэрримор","Белла Торн"]},
-  {title:"Папе снова 17",                   file:"17_Again.html",                              movieKey:"17_again_2009",                         year:2009, country:"США",             hot:false, isNew:true,  desc:"Взрослый мужик снова стал подростком.",                                               img:"https://kinogo.media/uploads/posts/2021-10/1634994993_iphone360_395066.jpg", actors:["Зак Эфрон","Мэттью Перри","Лесли Манн"]},
-  {title:"Супер перцы",                     file:"Superbad.html",                              movieKey:"superbad_2007",                         year:2007, country:"США",             hot:false, isNew:true,  desc:"Культовая молодёжная комедия.",                                                       img:"https://upload.wikimedia.org/wikipedia/uk/0/0b/%D0%A1%D1%83%D0%BF%D0%B5%D1%80_%D0%BF%D0%B5%D1%80%D1%86%D1%96.png", actors:["Джона Хилл","Майкл Сера","Кристофер Минц-Пласс"]},
-  {title:"Поймай меня если сможешь",        file:"Catch_Me_If_You_Can.html",                   movieKey:"catch_me_if_you_can_2002",              year:2002, country:"США",             hot:true,  isNew:true,  desc:"Мошенник против ФБР. ДиКаприо и Хэнкс.",                                             img:"https://kinogo.online/uploads/posts/2021-02/1614436139-727571647.jpg", actors:["Леонардо ДиКаприо","Том Хэнкс","Кристофер Уокен"]},
-  {title:"Солдаты неудачи",                 file:"Tropic_Thunder.html",                        movieKey:"tropic_thunder_2008",                   year:2008, country:"США",             hot:false, isNew:true,  desc:"Голливудские актёры попали в настоящую войну.",                                       img:"https://ag.gidonline.fun/img/d68b8bc96_200x300.jpg", actors:["Бен Стиллер","Джек Блэк","Роберт Дауни Мл."]},
-  {title:"Зелёная миля",                    file:"Green_Mile.html",                            movieKey:"green_mile_1999",                       year:1999, country:"США",             hot:true,  isNew:true,  desc:"Осуждённый с даром. Стивен Кинг. 189 минут шедевра.",                                 img:"https://kinogo.ec/uploads/posts/2020-03/1585530011-1127491609.jpg", actors:["Том Хэнкс","Майкл Кларк Дункан","Дэвид Морс"]},
-  {title:"Шоу Трумана",                     file:"The_Truman_Show.html",                       movieKey:"The Truman Show 1998",                   year:1998, country:"США",             hot:true,  isNew:true,  desc:"Весь его мир — реалити-шоу. Он просто об этом не знает.",                             img:"https://kinoukr.tv/uploads/mini/short/1/e3fa5719d987fd66b6dbcb5f911ec1.jpg", actors:["Джим Керри","Эд Харрис","Лора Линни"]},
-  {title:"Ричи Богач",                      file:"Richie_Rich.html",                           movieKey:"Richie Rich 1994",                       year:1994, country:"США",             hot:false, isNew:true,  desc:"Самый богатый мальчик в мире хочет только одного — настоящих друзей.",                img:"https://thumbs.dfs.ivi.ru/storage0/contents/5/8/feb78eed0742ec870cc274cee4e4ad.jpg", actors:["Маколей Калкин","Джон Лэрокетт"]},
-  {title:"Проект Х",                        file:"Project_X.html",                             movieKey:"Project X 2012",                         year:2012, country:"США",             hot:false, isNew:true,  desc:"Три школьника устроили вечеринку. Всё пошло не по плану.",                            img:"https://mobb.kinovasek.men/uploads/posts/2025-03/67db03d891f3e.webp", actors:["Томас Манн","Оливер Купер","Джонатан Дэниэл Браун"]},
-  {title:"Послезавтра",                     file:"The_Day_After_Tomorrow.html",                movieKey:"The Day After Tomorrow 2004",            year:2004, country:"США",             hot:false, isNew:true,  desc:"Новый ледниковый период наступает за несколько дней. Эммерих рвёт шаблон.",           img:"https://mobb.kinovasek.men/uploads/posts/2025-03/67db18afa5ae7.webp", actors:["Деннис Куэйд","Джейк Джилленхол","Эмми Россам"]},
-  {title:"Парни со стволами",               file:"The_Nice_Guys.html",                         movieKey:"The Nice Guys 2016",                     year:2016, country:"США",             hot:true,  isNew:true,  desc:"Детектив-неудачник и громила раскрывают дело в 70-х Лос-Анджелесе.",                  img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR0RJU19KeaXxn9tOkV3FpHVBOWwHA20YYGlw&s", actors:["Расселл Кроу","Райан Гослинг"]},
-  {title:"Няньки",                          file:"The_Babysitters_Club.html",                  movieKey:"The Babysitters Club 1995",              year:1995, country:"США",             hot:false, isNew:true,  desc:"Группа подруг открывает агентство нянь и находит дружбу, любовь и приключения.",     img:"https://kinogo.ec/uploads/posts/2020-03/1585518054-286193035.jpg", actors:["Шайенн Эзиас","Рэйчел Лей Кук"]},
-  {title:"Мистер и Миссис Смит",            file:"Mr_And_Mrs_Smith.html",                      movieKey:"Mr and Mrs Smith 2005",                  year:2005, country:"США",             hot:true,  isNew:true,  desc:"Муж и жена — оба тайные киллеры. Задание: убить друг друга.",                        img:"https://kinogo.online/uploads/mini/shortstory-mob/b1b/1614529671-1982373166.jpg", actors:["Брэд Питт","Анджелина Джоли"]},
-  {title:"Мачо и Ботан",                    file:"21_Jump_Street.html",                        movieKey:"21 Jump Street 2012",                    year:2012, country:"США",             hot:true,  isNew:true,  desc:"Два полицейских под прикрытием идут в школу. Оказывается, они там не крутые.",       img:"https://kinogo.online/uploads/posts/2021-02/1614392403-1074198682.jpg", actors:["Джона Хилл","Ченнинг Татум"]},
-  {title:"Мачо и Ботан 2",                  file:"22_Jump_Street.html",                        movieKey:"22 Jump Street 2014",                    year:2014, country:"США",             hot:false, isNew:true,  desc:"Шмидт и Джанко снова под прикрытием — теперь в колледже. Ещё больше хаоса.",        img:"https://mobb.kinovasek.men/uploads/posts/2025-03/67db0b4fd96df.webp", actors:["Джона Хилл","Ченнинг Татум"]},
-  {title:"Главный герой",                   file:"Free_Guy.html",                              movieKey:"Free Guy 2021",                          year:2021, country:"США",             hot:true,  isNew:true,  desc:"NPC в видеоигре осознаёт себя и решает стать героем. Райан Рейнольдс в ударе.",      img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTVfAfG1cFMsOVAAJR5R6sqGRt78apqhvqKKA&s", actors:["Райан Рейнольдс","Джоди Комер","Тайка Вайтити"]},
-  {title:"Омерзительная восьмёрка",         file:"Hateful_eight.html",                         movieKey:"The Hateful Eight 2015",                 year:2015, country:"США",             hot:true,  isNew:true,  desc:"8 незнакомцев в таверне. Вьюга. Никто не тот, за кого себя выдаёт. Тарантино.",     img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQwjB4dLskqcqNRow4nfBfc-CogtLc5UNH69A&s", actors:["Сэмюэл Л. Джексон","Курт Рассел","Дженнифер Джейсон Ли"]},
-  {title:"1+1",                             file:"Intouchables.html",                          movieKey:"Intouchables 2011",                      year:2011, country:"Франция",         hot:true,  isNew:true,  desc:"Богач-инвалид и парень из трущоб. Невероятная дружба, которая меняет обоих.",        img:"https://kinogo.net/uploads/posts/2024-11/11-poster.webp", actors:["Франсуа Клюзе","Омар Си"]},
-  {title:"Шалун",                        file:"Little_Man.html",                       movieKey:"little_man_2006",               year:2006, country:"США",             hot:false, isNew:false, desc:"Миниатюрный вор притворяется брошенным малышом и попадает в приёмную семью в поисках бриллианта.",      img:"https://kinogo.online/uploads/posts/2021-02/1614476880-191880576.jpg",            actors:["Марлон Уэйанс","Шон Уэйанс"]},
-  {title:"Лысый нянька: Спецзадание",    file:"The_Pacifier.html",                     movieKey:"the_pacifier_2005",             year:2005, country:"США",             hot:false, isNew:false, desc:"Суровый морской пехотинец получает задание охранять пятерых детей — и это оказывается труднее войны.",  img:"https://kinogo.online/uploads/posts/2021-02/1614535094-400198581.jpg",            actors:["Вин Дизель","Лорен Грэм"]},
-  {title:"Папа-досвидос",                file:"Thats_My_Boy.html",                     movieKey:"thats_my_boy_2012",             year:2012, country:"США",             hot:false, isNew:false, desc:"Безответственный отец врывается в жизнь своего успешного сына накануне его свадьбы.",                   img:"https://kinogo.online/uploads/posts/2021-02/1614421443-1809227836.jpg",            actors:["Адам Сэндлер","Энди Сэмберг"]},
-  {title:"Тронутые",                     file:"Road_Within.html",                      movieKey:"road_within_2014",              year:2014, country:"США",             hot:false, isNew:false, desc:"Трое пациентов психиатрической клиники сбегают и находят себя в дороге.",                               img:"https://kinogo.online/uploads/posts/2021-02/1614382790-514900871.jpg",            actors:["Роберт Шиэн","Дев Патель","Зои Кравиц"]},
-  {title:"На Западном фронте без перемен",file:"All_Quiet_on_the_Western_Front.html",  movieKey:"all_quiet_2022",                year:2022, country:"Германия",        hot:true,  isNew:false, desc:"Молодой немецкий солдат уходит на Первую мировую полный патриотизма — и теряет всё.",                   img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSz43LMQB8u0JUO7FGkOOE9LJgzGp3JGBNZyA&s",            actors:["Феликс Каммерер","Альбрехт Шух","Даниэль Брюль"]},
-  {title:"Мальчишник в Вегасе",          file:"The_Hangover.html",                     movieKey:"hangover_2009",                 year:2009, country:"США",             hot:true,  isNew:false, desc:"Трое друзей просыпаются в номере люкс после мальчишника — и не помнят ничего. Жениха нет.",             img:"https://kinogo.online/uploads/posts/2021-02/1614515173-533779420.jpg",            actors:["Брэдли Купер","Зак Галифианакис","Эд Хелмс"]},
-  {title:"Любовь зла",                   file:"Love_Is_Evil.html",                     movieKey:"love_is_evil_1999",             year:1999, country:"США",             hot:false, isNew:false, desc:"Сценарист попадает в ловушку между любовью и войной, когда его девушка мечтает о свадьбе, а он — нет.", img:"https://play-lh.googleusercontent.com/jAnkBGEyWRaf857Quc1khyhX-JTu_0CkQMPbQspn4dCLQvsziVxA1kHpLdH-9pIF4PHe",            actors:["Фрэнч Стюарт","Бриджит Уилсон"]},
-  {title:"Кровавый алмаз",               file:"Blood_Diamond.html",                    movieKey:"blood_diamond_2006",            year:2006, country:"США",             hot:true,  isNew:false, desc:"Рыбак находит редкий розовый алмаз в охваченной войной Сьерра-Леоне. Путь к нему обнажает жестокость.", img:"https://kinogo.online/uploads/posts/2021-02/1614482565-370525134.jpg",            actors:["Леонардо ДиКаприо","Дживон Хоузу","Дженнифер Коннелли"]},
-  {title:"Притворись моей женой",        file:"Just_Go_With_It.html",                  movieKey:"just_go_with_it_2011",          year:2011, country:"США",             hot:false, isNew:false, desc:"Хирург просит ассистентку притвориться бывшей женой, чтобы произвести впечатление на новую девушку.",   img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRtKV8uokB6zfZJcQNow1xeKU4BAmbqJ-ic-w&s",            actors:["Адам Сэндлер","Дженнифер Энистон","Бруклин Декер"]},
-  {title:"Впритык",                      file:"Due_Date.html",                         movieKey:"due_date_2010",                 year:2010, country:"США",             hot:false, isNew:false, desc:"Будущий отец и странный попутчик едут через всю страну — времени до родов почти не осталось.",          img:"https://kinogo.online/uploads/posts/2021-02/1614414051-2016840482.jpg",            actors:["Роберт Дауни-мл.","Зак Галифианакис"]},
-  {title:"Телохранитель киллера",        file:"Hitmans_Bodyguard.html",                movieKey:"hitmans_bodyguard_2017",        year:2017, country:"США",             hot:true,  isNew:false, desc:"Телохранитель и матёрый киллер, которые терпеть не могут друг друга, вынуждены выжить вместе.",          img:"https://kinogo.my/uploads/posts/2017-08/1502811918-1723111373-telohranitel-killera.jpg",            actors:["Райан Рейнольдс","Сэмюэл Л. Джексон","Салма Хайек"]},
-  {title:"Типа крутые легавые",          file:"Hot_Fuzz.html",                         movieKey:"hot_fuzz_2007",                 year:2007, country:"Великобритания",  hot:true,  isNew:false, desc:"Образцовый лондонский полицейский переведён в мирную деревушку — за её идиллией скрываются тёмные тайны.",img:"https://kinogo.online/uploads/posts/2021-02/1614512909-730146865.jpg",            actors:["Саймон Пегг","Ник Фрост","Тимоти Далтон"]},
-  {title:"Типа копы",                    file:"Lets_Be_Cops.html",                     movieKey:"lets_be_cops_2014",             year:2014, country:"США",             hot:false, isNew:false, desc:"Двое неудачников надевают полицейскую форму и решают, что это отличная идея. Спойлер: нет.",             img:"https://upload.wikimedia.org/wikipedia/ru/9/9c/%D0%A2%D0%B8%D0%BF%D0%B0_%D0%BA%D0%BE%D0%BF%D1%8B.jpg",            actors:["Дэймон Уэйанс-мл.","Джейк Джонсон"]},
-  {title:"Третий лишний",                file:"Ted.html",                              movieKey:"ted_2012",                      year:2012, country:"США",             hot:true,  isNew:false, desc:"Плюшевый медведь ожил и вырос вместе с хозяином — теперь они оба взрослые балбесы с пивом.",            img:"https://kinogo.org/uploads/mini/shortm/e47/b53677a8e3993947dd652b95df7fb.jpg",            actors:["Марк Уолберг","Мила Кунис","Сет Макфарлейн"]},
-  {title:"Ночь в музее",                 file:"Night_At_The_Museum.html",              movieKey:"night_at_museum_2006",          year:2006, country:"США",             hot:false, isNew:false, desc:"Ночной охранник музея обнаруживает, что все экспонаты оживают с наступлением темноты.",                  img:"https://play-lh.googleusercontent.com/m1DATAml2bUrbza4pQmOBmAIgFhFVLa9kygNcN-EIJg-dHDPiFYpED2GwEAX3XfugL2i",            actors:["Бен Стиллер","Карла Гуджино","Дик Ван Дайк"]},
-  {title:"Эйс Вентура",                  file:"Ace_Ventura.html",                      movieKey:"ace_ventura_1994",              year:1994, country:"США",             hot:false, isNew:false, desc:"Самый эксцентричный детектив Майами ищет похищенного дельфина — талисмана команды перед Суперкубком.",  img:"https://kinogo.online/uploads/posts/2021-02/1614477480-634145477.jpg",            actors:["Джим Керри","Кортни Кокс","Шон Янг"]},
-  {title:"Американский пирог",           file:"American_Pie.html",                     movieKey:"american_pie_1999",             year:1999, country:"США",             hot:true,  isNew:false, desc:"Четверо друзей-старшеклассников заключают пари: потерять невинность до выпускного бала. Культ.",       img:"https://kinogo.online/uploads/posts/2021-02/1614435361-343685995.jpg",            actors:["Джейсон Биггс","Шон Уильям Скотт","Алисон Ханниган"]},
-  {title:"Брюс всемогущий",              file:"Bruce_Almighty.html",                   movieKey:"bruce_almighty_2003",           year:2003, country:"США",             hot:false, isNew:false, desc:"Репортёр злится на Бога — и получает все его силы на неделю. Управлять вселенной сложнее, чем кажется.",img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTq_zoDXTXPlXi4M74ADFBCzJkHiy-ca59hDQ&s",            actors:["Джим Керри","Морган Фримен","Дженнифер Энистон"]},
-  {title:"Большой Стэн",                 file:"Big_Stan.html",                         movieKey:"big_stan_2007",                 year:2007, country:"США",             hot:false, isNew:false, desc:"Мошенник, которому грозит тюрьма, нанимает мастера боевых искусств и превращается в грозного бойца.",  img:"https://kinogo.media/uploads/posts/2021-10/1634995784_iphone360_231150.jpg",            actors:["Роб Шнайдер","Дэвид Кэррэдайн"]},
-  {title:"Поймай толстуху, если сможешь",file:"Identity_Thief.html",                   movieKey:"identity_thief_2013",           year:2013, country:"США",             hot:false, isNew:false, desc:"Бухгалтер едет через всю страну, чтобы поймать мошенницу, укравшую его личность.",                     img:"https://upload.wikimedia.org/wikipedia/ru/a/a7/Identity_Thief_Poster.jpg",            actors:["Джейсон Бейтман","Мелисса Маккарти"]},
-  {title:"Каникулы",                     file:"Vacation.html",                         movieKey:"vacation_2015",                 year:2015, country:"США",             hot:false, isNew:false, desc:"Расти Гризвольд решает повторить легендарные каникулы своего детства с семьёй. Всё идёт не по плану.",  img:"https://kinogo.media/uploads/posts/2021-09/1632938097_iphone360_484426.jpg",            actors:["Эд Хелмс","Кристина Эпплгейт","Крис Хемсворт"]},
-  {title:"2012",                         file:"2012.html",                             movieKey:"movie_2012",                    year:2009, country:"США",             hot:false, isNew:false, desc:"Земля на пороге катастрофы. Писатель пытается спасти семью пока континенты уходят под воду.",            img:"https://upload.wikimedia.org/wikipedia/ru/d/dd/2012_Poster.jpg",            actors:["Джон Кьюсак","Аманда Пит","Чиветель Эджиофор"]},
-  {title:"План побега",                  file:"Escape_Plan.html",                      movieKey:"escape_plan_2013",              year:2013, country:"США",             hot:true,  isNew:false, desc:"Эксперт по безопасности тюрем сам оказывается заперт в засекреченном учреждении без права на побег.",   img:"https://kinogo.online/uploads/posts/2021-02/1614521619-1674280347.jpg",            actors:["Сильвестр Сталлоне","Арнольд Шварценеггер"]},
-  {title:"Джуманджи: Зов джунглей",     file:"Jumanji_2017.html",                     movieKey:"jumanji_2017",                  year:2017, country:"США",             hot:true,  isNew:false, desc:"Четверо школьников затягиваются в видеоигру и оказываются в телах персонажей Джуманджи.",               img:"https://kinogo.ec/uploads/posts/2020-03/1585501618-456930113.jpg",            actors:["Двейн Джонсон","Джек Блэк","Кевин Харт","Карен Гиллан"]},
-  {title:"Начало",                       file:"Inception.html",                        movieKey:"inception_2010",                year:2010, country:"США",             hot:true,  isNew:false, desc:"Кобб крадёт секреты из подсознания людей. Его новое задание — внедрить идею. Нолан меняет кино.",        img:"https://upload.wikimedia.org/wikipedia/ru/b/bc/Poster_Inception_film_2010.jpg",            actors:["Леонардо ДиКаприо","Джозеф Гордон-Левитт","Эллиот Пейдж"]},
-  {title:"Волк с Уолл-стрит",           file:"Wolf_of_Wall_Street.html",              movieKey:"wolf_of_wall_street_2013",      year:2013, country:"США",             hot:true,  isNew:false, desc:"Реальная история брокера Белфорта: мошенничество, наркотики, деньги и полный крах. Скорсезе.",          img:"https://kinogo.my/uploads/posts/2017-04/1493391575-310257099-volk-s-uoll-strit.jpg",            actors:["Леонардо ДиКаприо","Джона Хилл","Марго Робби"]},
-  {title:"Однажды в… Голливуде",        file:"Once_Upon_Time_in_Hollywood.html",       movieKey:"once_upon_time_hollywood_2019", year:2019, country:"США",             hot:true,  isNew:false, desc:"Голливуд 1969 года, угасающая звезда вестернов и его верный дублёр. Тарантино.",                        img:"https://kinogo.online/uploads/mini/shortstory-mob/9ff/1614459939-1211379778.jpg",            actors:["Леонардо ДиКаприо","Брэд Питт","Марго Робби"]},
-  {title:"Один дома",                   file:"Home_Alone.html",                        movieKey:"home_alone_1990",               year:1990, country:"США",             hot:true,  isNew:false, desc:"Восьмилетний Кевин остаётся дома один на Рождество и устраивает ловушки для незадачливых воров.",       img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSbDV2Jm_8Vxc8THjjtuQHGPSaPY76fq_GaNg&s",            actors:["Маколей Калкин","Джо Пеши","Дэниел Стерн"]},
-  {title:"Дивергент",                   file:"Divergent.html",                         movieKey:"divergent_2014",                year:2014, country:"США",             hot:false, isNew:false, desc:"В постапокалиптическом Чикаго Трис узнаёт, что она дивергент — и это делает её мишенью системы.",      img:"https://kinogo.online/uploads/mini/shortstory-mob/b04/1614407017-1811290746.jpg",            actors:["Шейлин Вудли","Тео Джеймс","Кейт Уинслет"]},
-  {title:"Человек дождя",               file:"Rain_Man.html",                          movieKey:"rain_man_1988",                 year:1988, country:"США",             hot:true,  isNew:false, desc:"Циничный делец похищает брата-аутиста и везёт его через всю Америку. Оскар.",                          img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRK-MBvn1kd0Ny8m1hCwLHyQgarFs5GU9bD6yPFCtfi4Q&s=10",            actors:["Дастин Хоффман","Том Круз","Валерия Голино"]},
-  {title:"Терминал",                    file:"The_Terminal.html",                      movieKey:"the_terminal_2004",             year:2004, country:"США",             hot:false, isNew:false, desc:"Виктор Наворски застрял в аэропорту JFK — его страна перестала существовать. Спилберг.",               img:"https://kinogo.online/uploads/posts/2021-02/1614402651-1617596396.jpg",            actors:["Том Хэнкс","Кэтрин Зета-Джонс","Стэнли Туччи"]},
-  {title:"Диктатор",                    file:"The_Dictator.html",                      movieKey:"the_dictator_2012",             year:2012, country:"США",             hot:false, isNew:false, desc:"Всесильный диктатор приезжает в Нью-Йорк и лишается власти и личности. Саша Барон Коэн.",            img:"https://ru-images.kinorium.com/movie/1080/530997.jpg?1726583595",            actors:["Саша Барон Коэн","Анна Фарис","Бен Кингсли"]},
-  {title:"Всегда говори «Да»",          file:"Yes_Man.html",                           movieKey:"yes_man_2008",                  year:2008, country:"США",             hot:false, isNew:false, desc:"Пессимист Карл даёт клятву говорить «да» на всё. Джим Керри в ударе.",                               img:"https://kinogo.online/uploads/posts/2021-02/1614363151-1254087138.jpg",            actors:["Джим Керри","Зои Дешанель","Брэдли Купер"]},
-  {title:"Пипец",                       file:"Kick_Ass.html",                          movieKey:"kickass_2010",                  year:2010, country:"США",             hot:true,  isNew:false, desc:"Обычный подросток надевает костюм и выходит на улицы. Реальность — не комикс. Мэттью Вон.",           img:"https://upload.wikimedia.org/wikipedia/ru/f/f8/%D0%9F%D0%BE%D1%81%D1%82%D0%B5%D1%80_%D1%84%D0%B8%D0%BB%D1%8C%D0%BC%D0%B0_%D0%9F%D0%B8%D0%BF%D0%B5%D1%86.jpg",            actors:["Аарон Тейлор-Джонсон","Хлоя Грейс Морец","Николас Кейдж"]},
-  {title:"Копы в глубоком запасе",      file:"Other_Guys.html",                        movieKey:"other_guys_2010",               year:2010, country:"США",             hot:false, isNew:false, desc:"Два скромных полицейских с бумажной работы получают шанс стать настоящими героями.",                  img:"https://kinogo.media/uploads/posts/2021-09/1632938080_iphone360_462466.jpg",            actors:["Уилл Феррелл","Марк Уолберг","Ева Мендес"]},
-  {title:"Агент Джонни Инглиш",         file:"Johnny_English.html",                    movieKey:"johnny_english_2003",           year:2003, country:"Великобритания",  hot:false, isNew:false, desc:"Самый некомпетентный агент MI7 расследует кражу британских королевских регалий. Роуэн Аткинсон.",     img:"https://upload.wikimedia.org/wikipedia/ru/thumb/4/49/Johnny_English_poster.jpg/250px-Johnny_English_poster.jpg",            actors:["Роуэн Аткинсон","Натали Имбрулья","Бен Миллер"]},
-  {title:"Человек-паук: Нуар",       file:"Spider_Man_Noir.html",            movieKey:"spider_man_noir",            year:2025, country:"США",             hot:true,  isNew:true,  desc:"Питер Паркер в Нью-Йорке 1930-х годов. Детектив в маске борется с гангстерами эпохи Великой депрессии.",  img:"https://static.hdrezka.ac/i/2026/5/27/i055dc6db901dgd21d31c.jpg", actors:["Николас Кейдж"]},
-  {title:"Человек-паук: Новый день",    file:"spider_man.html",                   movieKey:"Spider-Man Brand New Day 2026",  year:2026, country:"США",             hot:true,  isNew:true,  desc:"Питер Паркер начинает жизнь с чистого листа — никто не помнит Человека-паука.",      img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRHittsftUahgGoqi0EKhqmX--rGAOMBBIqdsWyYJ9Z-g&s=10", actors:["Том Холланд","Зендея","Джейкоб Баталон"]},
-  {title:"Большая мамочка",             file:"Big_Mommas_House.html",                  movieKey:"big_mommas_house_2000",         year:2000, country:"США",             hot:false, isNew:false, desc:"Агент ФБР переодевается в огромную пожилую женщину для операции прикрытия. Мартин Лоуренс.",           img:"https://kinogo.media/uploads/posts/2021-10/1634995274_iphone360_4537.jpg",            actors:["Мартин Лоуренс","Нии Лонг","Пол Джиамати"]},
-];
+      if (filtered.length === 0) {
+        moviesGrid.innerHTML = `<div style="grid-column: 1/-1; text-align: center; padding: 40px; color: var(--text-muted);">Ничего не найдено</div>`;
+        return;
+      }
 
-function render(list,title="Все фильмы"){
-  const catalog=document.getElementById("catalog");
-  document.getElementById("catalogTitle").innerText=title;
-  document.getElementById("catalogCount").innerText=list.length+" фильмов";
-  catalog.innerHTML="";
-  list.forEach((m,i)=>{
-    const ri=movies.indexOf(m);
-    const adminBtns=isAdmin?`
-      <div class="admin-card-btns" style="display:flex">
-        <button class="btn-del"  onclick="deleteFilm(${ri},event)">✕ Удалить</button>
-        <button class="btn-fire" onclick="toggleFire(${ri},event)">${m.hot?"Снять 🔥":"🔥"}</button>
-        <button class="btn-new"  onclick="toggleNew(${ri},event)">${m.isNew?"Снять 🆕":"🆕"}</button>
-      </div>`:"";
-    const card=document.createElement("div");
-    card.className="movie-card";
-    card.style.animationDelay=(i*0.04)+"s";
-    const safeTitle=escapeHtml(m.title);
-    const safeCountry=escapeHtml(m.country);
-    card.innerHTML=`
-      <div class="badge-wrap">
-        ${m.hot ?`<span class="badge-fire">🔥 Хит</span>`:""}
-        ${m.isNew?`<span class="badge-new">🆕 Новинка</span>`:""}
-      </div>
-      ${adminBtns}
-      <a href="${m.file}" style="text-decoration:none;color:inherit">
-        <div class="movie-card-inner">
-          <img src="${m.img}" alt="${safeTitle}" loading="lazy">
-          <div class="card-overlay">
-            <div class="card-overlay-title">${safeTitle}</div>
-            <div class="card-overlay-meta">${safeCountry} · ${m.year}</div>
+      filtered.forEach(movie => {
+        const card = document.createElement('a');
+        card.href = movie.file;
+        card.className = 'movie-card';
+        
+        card.innerHTML = `
+          <div class="poster-wrapper">
+            <img class="poster-img" src="${movie.img}" alt="${movie.title}" loading="lazy" onerror="this.src='https://via.placeholder.com/300x450?text=Нет+обложки'">
+            ${movie.hot ? '<span class="badge badge-hot">TOP</span>' : ''}
+            ${movie.isNew ? '<span class="badge badge-new">NEW</span>' : ''}
           </div>
-        </div>
-        <div class="card-title">${safeTitle}</div>
-        <div class="card-year">${m.year}</div>
-      </a>`;
-    catalog.appendChild(card);
-  });
-}
+          <div class="movie-info">
+            <div class="movie-title">${movie.title}</div>
+            <div class="movie-meta">
+              <span>${movie.year}</span>
+              <span>${movie.country}</span>
+            </div>
+          </div>
+        `;
+        moviesGrid.appendChild(card);
+      });
+    }
 
-function deleteFilm(idx,e){e.preventDefault();if(!confirm(`Удалить "${movies[idx].title}"?`))return;movies.splice(idx,1);render(movies);}
-function toggleFire(idx,e){e.preventDefault();movies[idx].hot=!movies[idx].hot;render(movies);}
-function toggleNew(idx,e){e.preventDefault();movies[idx].isNew=!movies[idx].isNew;render(movies);}
-function addFilm(){
-  const t=document.getElementById("af-title").value.trim();
-  const f=document.getElementById("af-file").value.trim();
-  if(!t||!f){alert("Заполни название и файл!");return;}
-  movies.unshift({
-    title:t,file:f,
-    movieKey:document.getElementById("af-moviekey").value.trim()||t,
-    year:parseInt(document.getElementById("af-year").value)||0,
-    country:document.getElementById("af-country").value.trim(),
-    img:document.getElementById("af-img").value.trim(),
-    desc:document.getElementById("af-desc").value.trim(),
-    hot:document.getElementById("af-hot").value==="1",
-    isNew:document.getElementById("af-new").value==="1"
-  });
-  render(movies);
-  ["af-title","af-file","af-moviekey","af-year","af-country","af-img","af-desc"].forEach(id=>document.getElementById(id).value="");
-  document.getElementById("af-hot").value="0";
-  document.getElementById("af-new").value="0";
-  const msg=document.getElementById("addSuccessMsg");
-  msg.style.display="block";
-  setTimeout(()=>msg.style.display="none",3000);
-}
+    searchInput.addEventListener('input', (e) => {
+      searchQuery = e.target.value.toLowerCase().trim();
+      renderMovies();
+    });
 
-async function loadStats(){
-  const body=document.getElementById("statsBody");
-  body.innerHTML=`<tr><td colspan="6" style="color:var(--gold-dim);text-align:center;padding:20px;font-style:italic">Загрузка...</td></tr>`;
-  const viewsData=await Promise.all(movies.map(async m=>{
-    try{const snap=await db.collection("movies").doc(m.movieKey).collection("stats").doc("views").get();return{...m,views:snap.exists?(snap.data().count||0):0};}
-    catch(e){return{...m,views:0};}
-  }));
-  const sorted=viewsData.sort((a,b)=>b.views-a.views);
-  const max=Math.max(1,...sorted.map(m=>m.views));
-  body.innerHTML=sorted.map((m,i)=>`
-    <tr>
-      <td class="stats-rank">${i+1}</td>
-      <td><a href="${m.file}" style="color:var(--gold);text-decoration:none">${escapeHtml(m.title)}</a>
-      <div class="stats-bar"><div class="stats-bar-fill" style="width:${Math.round(m.views/max*100)}%"></div></div></td>
-      <td>${m.year}</td><td>${escapeHtml(m.country)}</td>
-      <td style="color:var(--gold)">👁 ${m.views}</td>
-      <td>${m.hot?"🔥":""} ${m.isNew?"🆕":""}</td>
-    </tr>`).join("");
-}
+    filterBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        filterBtns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        currentFilter = btn.dataset.filter;
+        renderMovies();
+      });
+    });
 
-function filterYear(y){render(movies.filter(m=>m.year==y),y+" год");}
-function filterCountry(c){render(movies.filter(m=>m.country==c),c);}
-function showAll(){render(movies);}
-function showNewFilms(){render(movies.filter(m=>m.isNew),"Новинки");}
-
-function showCollections(){
-  document.getElementById("catalogTitle").innerText="Подборки";
-  document.getElementById("catalogCount").innerText="";
-  document.getElementById("catalog").innerHTML=`
-    <div style="grid-column:1/-1">
-      <div class="collections-grid">
-        <div class="collection-card" onclick="showCowboys()">
-          <img src="https://1rus.ru/content/d3/2e/d32e9c78d4734317b3d1aa6682d7_854x480.webp">
-          <div class="collection-label"><h3>🤠 Ковбои и вестерны</h3></div>
-        </div>
-        <div class="collection-card" onclick="render(movies.filter(m=>m.country==='США'&&m.year<1990),'Классика США')">
-          <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQBXlhXamFnFAPgPXJCtYt8FjX0-YS_CdSsAQ&s">
-          <div class="collection-label"><h3>🎞 Классика США</h3></div>
-        </div>
-        <div class="collection-card" onclick="render(movies.filter(m=>m.hot),'Хиты')">
-          <img src="https://i.redd.it/unolqsq59xue1.jpeg">
-          <div class="collection-label"><h3>🔥 Хиты сайта</h3></div>
-        </div>
-        <div class="collection-card" onclick="showZombies()">
-          <img src="https://play-lh.googleusercontent.com/proxy/bisU6N6J4pAlCvsCy0fJwPYmjCBRVldgmjftK9KZ2D2sh_Zq6o4uNv5gQKbSBKf6MsrqhLb4uDr3a2a4w-NoIB-pMFQsLd86D2wlw9-xZUt0BdY9ecsgzpC0yA=s1920-w1920-h1080">
-          <div class="collection-label"><h3>🧟 Зомби апокалипсис</h3></div>
-        </div>
-        <div class="collection-card" onclick="showAction()">
-          <img src="https://www.film.ru/sites/default/files/styles/thumb_1024x450/public/filefield_paths/stallone-rambo-1-3.jpg">
-          <div class="collection-label"><h3>💥 Боевики</h3></div>
-        </div>
-        <div class="collection-card" onclick="showComedy()">
-          <img src="https://www.film.ru/sites/default/files/styles/thumb_1024x450/public/trailers_frame/s7dcallzevsrvivmuvaumwaxfmn.jpg">
-          <div class="collection-label"><h3>😂 Комедии</h3></div>
-        </div>
-        <div class="collection-card" onclick="showCrime()">
-          <img src="https://static.kion.ru/content/mts/movie/70008788/posters/HORIZONTAL_8934796daed69d1c7d2cc2851d06faaf.webp?x=1200&y=10&ar=keep">
-          <div class="collection-label"><h3>🕵️ Криминал и триллеры</h3></div>
-        </div>
-        <div class="collection-card" onclick="showSuperheroes()">
-          <img src="https://i.ytimg.com/vi/I_NVnxCDF90/maxresdefault.jpg">
-          <div class="collection-label"><h3>🦸 Супергерои</h3></div>
-        </div>
-        <div class="collection-card" onclick="showAdventure()">
-          <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRqFrNzW4BbE3kO-Hes305y7N1q2CXfZ0Zifg&s">
-          <div class="collection-label"><h3>⚔️ Приключения и эпос</h3></div>
-        </div>
-        <div class="collection-card" onclick="showBromance()">
-          <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQiafqPZv3N0P4JT_IoQrzoCPwpkm-Ogn0g2A&s">
-          <div class="collection-label"><h3>👬 Дружба и бромансы</h3></div>
-        </div>
-        <div class="collection-card" onclick="showSurvival()">
-          <img src="https://preview.redd.it/the-maze-runner-kept-me-on-edge-v0-idi93xtfl7uf1.jpeg?width=640&crop=smart&auto=webp&s=273ae257ac741f9ed39d90784d4d117024006eea">
-          <div class="collection-label"><h3>🌲 Выживание</h3></div>
-        </div>
-        <div class="collection-card" onclick="showNewFilms()">
-          <img src="https://img.ixbt.site/live/topics/preview/00/09/98/22/e22992cfe9.jpg">
-          <div class="collection-label"><h3>🆕 Новинки</h3></div>
-        </div>
-      </div>
-    </div>`;
-}
-function showCowboys(){render(movies.filter(m=>["good-bad-ugly.html","per_un_pugno_di_dollari.html","for-a-few-dollars-more.html"].includes(m.file)),"Ковбои и вестерны");}
-function showZombies(){render(movies.filter(m=>["Zombieland.html","Busanhaeng.html","Scouts_Guide_to_the_Zombie_Apocalypse.html"].includes(m.file)),"🧟 Зомби апокалипсис");}
-function showAction(){render(movies.filter(m=>["Rambo.html","Gladiator.html","The_Equalizer.html","Bad_boys.html","Escape_Plan.html","Troy.html","Rocky.html","Blood_Diamond.html","The_Revenant.html","Elysium.html","Chappie.html","Blade.html","Captain_america.html"].includes(m.file)),"💥 Боевики");}
-function showComedy(){render(movies.filter(m=>["Dumb_and_dumber.html","Ace_Ventura.html","American_Pie.html","Bruce_Almighty.html","Yes_Man.html","Ted.html","Superbad.html","The_Hangover.html","Police_academy.html","Scary_movie.html","Major_payne.html","White_Chicks.html","Little_Man.html","Johnny_English.html","Vive_la_France.html","Due_Date.html","Movie_43.html","Paul.html","Tropic_Thunder.html","Identity_Thief.html","Vacation.html","50_First_Dates.html","Blended.html","Just_Go_With_It.html","Thats_My_Boy.html","Lets_Be_Cops.html","Million_Ways.html","Big_Stan.html","Big_Mommas_House.html","Me_myself_irene_2.html","Harold_&_Kumar_Go_to_White_Castle.html","Dude_wheres_my_car.html","17_Again.html","Night_at_the_Museum.html","Other_Guys.html"].includes(m.file)),"😂 Комедии");}
-function showCrime(){render(movies.filter(m=>["Pulp_fiction.html","No_Country_for_Old_Men.html","Django.html","Seven.html","fight_club.html","taxi_driver_1976.html","Gentlemen.html","Green_Street_hooligans.html","Ned_Kelly.html","Hitmans_Bodyguard.html"].includes(m.file)),"🕵️ Криминал и триллеры");}
-function showSuperheroes(){render(movies.filter(m=>["Spider_Man_Noir.html","Suicide_squad.html","Kick_Ass.html","Blade.html","Captain_america.html","Hancock.html"].includes(m.file)),"🦸 Супергерои");}
-function showAdventure(){render(movies.filter(m=>["Troy.html","Gladiator.html","Hobbit.html","Matrix.html","Star_trek.html","Solo_star_wars.html","Hunger_games.html","Maze_Runner.html","Divergent.html","Karate_kid.html"].includes(m.file)),"⚔️ Приключения и эпос");}
-function showBromance(){render(movies.filter(m=>["Bad_boys.html","Hot_Fuzz.html","Hitmans_Bodyguard.html","Paul.html","Due_Date.html","Lets_Be_Cops.html","This_is_the_End.html","Spies.html","Harold_&_Kumar_Go_to_White_Castle.html"].includes(m.file)),"👬 Дружба и бромансы");}
-function showSurvival(){render(movies.filter(m=>["The_Revenant.html","Blood_Diamond.html","Elysium.html","Maze_Runner.html","Hunger_games.html","2012.html","All_Quiet_on_the_Western_Front.html"].includes(m.file)),"🌲 Выживание");}
-
-function levenshtein(a,b){
-  const m=[];
-  for(let i=0;i<=b.length;i++) m[i]=[i];
-  for(let j=0;j<=a.length;j++) m[0][j]=j;
-  for(let i=1;i<=b.length;i++)
-    for(let j=1;j<=a.length;j++)
-      m[i][j]=b[i-1]===a[j-1]?m[i-1][j-1]:Math.min(m[i-1][j-1]+1,m[i][j-1]+1,m[i-1][j]+1);
-  return m[b.length][a.length];
-}
-function searchMovie(){
-  const val=document.getElementById("searchInput").value.toLowerCase();
-  if(!val){render(movies);return;}
-  let res=movies.filter(m=>m.title.toLowerCase().includes(val));
-  if(!res.length)res=movies.filter(m=>m.title.split(" ").some(w=>levenshtein(w.toLowerCase(),val)<3));
-  render(res,`Поиск: "${val}"`);
-}
-
-const yc=document.getElementById("years");
-for(let y=2026;y>=1964;y--) yc.innerHTML+=`<a href="#" onclick="filterYear(${y}); return false">${y}</a>`;
-
-
-function filterActor(a){render(movies.filter(m=>m.actors&&m.actors.includes(a)),a);}
-
-// Build actors list
-let allActors = {};
-(function(){
-  movies.forEach(m=>{ if(m.actors) m.actors.forEach(a=>{ allActors[a]=(allActors[a]||0)+1; }); });
-  renderActorsList('');
-})();
-
-function renderActorsList(query){
-  const el=document.getElementById("actorsList");
-  const q=query.toLowerCase().trim();
-  const sorted=Object.keys(allActors).sort((a,b)=>a.localeCompare(b,'ru'));
-  const filtered = q
-    ? sorted.filter(a => a.toLowerCase().includes(q) || levenshtein(a.toLowerCase().split(' ').find(w=>w.startsWith(q[0]))||'', q) < 3)
-    : sorted;
-  if(filtered.length===0){
-    el.innerHTML=`<span style="color:var(--gold-dim);font-size:0.83rem;font-style:italic;padding:4px 0;display:block">Не найдено</span>`;
-    return;
-  }
-  el.innerHTML='';
-  filtered.forEach(a=>{
-    el.innerHTML+=`<a href="#" onclick="filterActor('${a.replace(/'/g,"\\'")}'); return false">${a} <span style="color:var(--gold-dim);font-size:0.78rem">(${allActors[a]})</span></a>`;
-  });
-}
-
-function filterActorsList(){
-  const val=document.getElementById("actorSearch").value;
-  renderActorsList(val);
-}
-render(movies);
-
-function showRandomMovie() {
-  const m = movies[Math.floor(Math.random() * movies.length)];
-  document.getElementById('randomTitle').textContent = m.title;
-  document.getElementById('randomMeta').textContent = m.country + ' · ' + m.year;
-  document.getElementById('randomDesc').textContent = m.desc || '';
-  document.getElementById('randomImg').src = m.img;
-  document.getElementById('randomImg').alt = m.title;
-  document.getElementById('randomLink').href = m.file;
-  document.getElementById('randomModal').classList.add('open');
-}
-</script>
+    renderMovies();
+  </script>
 </body>
 </html>
