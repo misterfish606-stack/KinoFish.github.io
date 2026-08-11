@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="icon" type="image/png" href="favicon.png">
-<title>Человек-паук: Нуар — Fish Cinema</title>
+<title>Игра престолов — Fish Cinema</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Crimson+Text:ital,wght@0,400;0,600;1,400&family=Bebas+Neue&display=swap" rel="stylesheet">
 <style>
 :root{--gold:#c9a84c;--gold-light:#e8cc80;--gold-dim:#8a7040;--cream:#e8dcc8;--cream-dim:#c4aa88;--bg:#16120c;--bg2:#1e1810;--bg3:#262014;--red:#7a2020;}
@@ -26,7 +26,7 @@ body{font-family:'Crimson Text',Georgia,serif;background:var(--bg);color:var(--c
 .report-btn{font-family:'Bebas Neue',sans-serif;font-size:0.78rem;letter-spacing:0.14em;color:var(--cream-dim);background:rgba(122,32,32,0.18);border:1px solid rgba(122,32,32,0.5);border-radius:2px;padding:8px 16px;margin-right:16px;cursor:pointer;transition:0.25s;display:flex;align-items:center;gap:7px;}
 .report-btn:hover{background:rgba(122,32,32,0.38);border-color:var(--red);color:var(--gold-light);}
 .hero{position:relative;min-height:520px;display:flex;align-items:flex-end;overflow:hidden;z-index:1;}
-.hero-bg{position:absolute;inset:0;background-size:cover;background-position:center top;filter:sepia(40%) brightness(0.35) contrast(1.1);transform:scale(1.04);animation:hero-zoom 20s ease-in-out infinite alternate;}
+.hero-bg{position:absolute;inset:0;background-size:cover;background-position:center top;filter:sepia(30%) brightness(0.35) contrast(1.1);transform:scale(1.04);animation:hero-zoom 20s ease-in-out infinite alternate;}
 @keyframes hero-zoom{from{transform:scale(1.04)}to{transform:scale(1.1)}}
 .hero-gradient{position:absolute;inset:0;background:linear-gradient(180deg,rgba(10,7,5,0.2) 0%,rgba(10,7,5,0.1) 30%,rgba(10,7,5,0.7) 65%,rgba(10,7,5,0.98) 100%);}
 .hero-gradient-left{position:absolute;inset:0;background:linear-gradient(90deg,rgba(10,7,5,0.85) 0%,transparent 50%);}
@@ -77,18 +77,15 @@ body{font-family:'Crimson Text',Georgia,serif;background:var(--bg);color:var(--c
 .trailer-wrap{position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border:2px solid var(--gold-dim);}
 .trailer-wrap iframe{position:absolute;top:0;left:0;width:100%;height:100%;border:none;}
 
-/* ПЛЕЕР СЕРИАЛА */
-.player-controls{background:rgba(20,16,8,0.9);border:1px solid rgba(180,150,80,0.2);border-bottom:none;padding:16px 20px;display:flex;flex-wrap:wrap;gap:16px;align-items:center;}
+/* ПЛЕЕР СЕРИАЛА И ПЕРЕКЛЮЧАТЕЛИ */
+.player-controls{background:rgba(20,16,8,0.9);border:1px solid rgba(180,150,80,0.2);border-bottom:none;padding:16px 20px;display:flex;flex-direction:column;gap:16px;}
 .control-group{display:flex;flex-direction:column;gap:6px;}
-.control-label{font-family:'Bebas Neue',sans-serif;font-size:0.65rem;letter-spacing:0.25em;color:var(--gold-dim);}
+.control-label{font-family:'Bebas Neue',sans-serif;font-size:0.75rem;letter-spacing:0.25em;color:var(--gold);}
 .control-buttons{display:flex;flex-wrap:wrap;gap:6px;}
-.ep-btn{font-family:'Bebas Neue',sans-serif;font-size:0.8rem;letter-spacing:0.1em;padding:6px 14px;border:1px solid var(--gold-dim);background:rgba(201,168,76,0.05);color:var(--cream-dim);cursor:pointer;border-radius:2px;transition:0.2s;}
-.ep-btn:hover{border-color:var(--gold);color:var(--gold);background:rgba(201,168,76,0.12);}
-.ep-btn.active{border-color:var(--gold);background:rgba(201,168,76,0.2);color:var(--gold-light);}
-.dub-btn{font-family:'Bebas Neue',sans-serif;font-size:0.78rem;letter-spacing:0.12em;padding:6px 16px;border:1px solid var(--gold-dim);background:rgba(201,168,76,0.05);color:var(--cream-dim);cursor:pointer;border-radius:2px;transition:0.2s;}
-.dub-btn:hover{border-color:var(--gold);color:var(--gold);background:rgba(201,168,76,0.12);}
-.dub-btn.active{border-color:var(--gold);background:rgba(201,168,76,0.2);color:var(--gold-light);}
-.now-playing{font-family:'Crimson Text',serif;font-style:italic;color:var(--cream-dim);font-size:0.95rem;margin-left:auto;padding-top:16px;}
+.season-btn, .ep-btn{font-family:'Bebas Neue',sans-serif;font-size:0.85rem;letter-spacing:0.1em;padding:6px 14px;border:1px solid var(--gold-dim);background:rgba(201,168,76,0.05);color:var(--cream-dim);cursor:pointer;border-radius:2px;transition:0.2s;}
+.season-btn:hover, .ep-btn:hover{border-color:var(--gold);color:var(--gold);background:rgba(201,168,76,0.12);}
+.season-btn.active, .ep-btn.active{border-color:var(--gold);background:rgba(201,168,76,0.25);color:var(--gold-light);box-shadow:0 0 10px rgba(201,168,76,0.2);}
+.now-playing{font-family:'Crimson Text',serif;font-style:italic;color:var(--gold-light);font-size:1.05rem;margin-top:4px;}
 
 .rec-category-label{font-family:'Bebas Neue',sans-serif;font-size:0.72rem;letter-spacing:0.28em;color:var(--gold-dim);margin-bottom:16px;display:flex;align-items:center;gap:10px;}
 .rec-category-label::after{content:"";flex:1;height:1px;background:linear-gradient(90deg,rgba(138,112,64,0.4),transparent);}
@@ -151,31 +148,31 @@ body{font-family:'Crimson Text',Georgia,serif;background:var(--bg);color:var(--c
   <span class="nav-title">Fish Cinema</span>
   <span class="nav-spacer"></span>
   <button class="report-btn" onclick="openReport()"><span>⚠</span> Проблемы с сайтом? Пиши сюда</button>
-  <span class="nav-meta">◆ &nbsp; Фэнтези · Боевик · 2025 &nbsp; ◆</span>
+  <span class="nav-meta">◆ &nbsp; Фэнтези · Драма · 2011–2019 &nbsp; ◆</span>
 </nav>
 <section class="hero">
-  <div class="hero-bg" style="background-image:url('https://static.hdrezka.ac/i/2026/5/27/i055dc6db901dgd21d31c.jpg')"></div>
+  <div class="hero-bg" style="background-image:url('https://m.media-amazon.com/images/M/MVBMTNhMGY2NWQtY2E4OS00Y2E4LWE3OWUtMGI4Y2I5OWY5YTFmWDhkGl5BmXkFtZTgwMTI3ODEyNTM@._V1_.jpg')"></div>
   <div class="hero-gradient"></div>
   <div class="hero-gradient-left"></div>
   <div class="hero-content">
     <div class="poster-wrap">
-      <img src="https://static.hdrezka.ac/i/2026/5/27/i055dc6db901dgd21d31c.jpg" alt="Человек-паук: Нуар">
+      <img src="https://m.media-amazon.com/images/M/MVBMGVmMWNiMDktM2UxOC00MDFlLWE4MGItMGZhZDYxN2I0M2ZhWDhkGl5BmXkFtZTgwMDg4MDY2NzM@._V1_.jpg" alt="Игра престолов">
       <div class="poster-corner tl"></div><div class="poster-corner tr"></div>
       <div class="poster-corner bl"></div><div class="poster-corner br"></div>
     </div>
     <div class="hero-info">
-      <div class="hero-genre">◆ &nbsp; ФЭНТЕЗИ · БОЕВИК · СЕРИАЛ &nbsp; ◆</div>
-      <h1 class="hero-title">Человек-паук: Нуар</h1>
-      <div class="hero-orig">Spider-Man Noir &nbsp;·&nbsp; 2025</div>
+      <div class="hero-genre">◆ &nbsp; ФЭНТЕЗИ · ДРАМА · СЕРИАЛ &nbsp; ◆</div>
+      <h1 class="hero-title">Игра престолов</h1>
+      <div class="hero-orig">Game of Thrones &nbsp;·&nbsp; 2011–2019</div>
       <div class="hero-meta">
-        <span class="meta-tag">2025</span>
-        <span class="meta-tag">США</span>
-        <span class="meta-tag">1 сезон · 8 серий</span>
+        <span class="meta-tag">2011–2019</span>
+        <span class="meta-tag">США, Великобритания</span>
+        <span class="meta-tag">8 сезонов · 73 серии</span>
         <span class="meta-tag">👁 <span id="views">0</span> просмотров</span>
       </div>
       <div class="ratings">
-        <div class="rating-badge"><span class="label">IMDb</span><span class="value">7.4</span></div>
-        <div class="rating-badge"><span class="label">Кинопоиск</span><span class="value">7.2</span></div>
+        <div class="rating-badge"><span class="label">IMDb</span><span class="value">9.2</span></div>
+        <div class="rating-badge"><span class="label">Кинопоиск</span><span class="value">9.0</span></div>
         <div class="rating-badge"><span class="label">Fish Cinema</span><span class="value" id="avgRating">—</span><span class="label"><span id="votesCount">0</span> голосов</span></div>
       </div>
       <div class="user-rating-wrap">
@@ -193,51 +190,42 @@ body{font-family:'Crimson Text',Georgia,serif;background:var(--bg);color:var(--c
 
 <div class="page-content">
   <div class="section-divider"><span class="section-label">✦ Описание сериала ✦</span></div>
-  <div class="description-block">Нью-Йорк, 1930-е годы. Питер Паркер — фотограф в газете, укушенный радиоактивным пауком. В маске и чёрном плаще он борется с преступностью эпохи Великой депрессии, сталкиваясь с гангстерами, коррупцией и тёмными силами, угрожающими городу.</div>
+  <div class="description-block">К концу подходит время благоденствия, и лето, длившееся почти десятилетие, уступает место зиме. Вокруг Железного трона Вестероса зреет заговор, и в это непростое время король решает искать поддержки у своего друга детства Эддарда Старка. В мире, где все — от королей до наймитов — жаждут власти, плетут интриги и готовы вонзить нож в спину, есть место и благородству, и состраданию. Между тем, никто не замечает пробуждения тьмы на далеком Севере, и лишь Стена защищает живых...</div>
 
   <div class="section-divider"><span class="section-label">✦ О сериале ✦</span></div>
   <div class="details-grid">
-    <div class="detail-item"><span class="detail-label">Оригинальное название</span><span class="detail-value">Spider-Man Noir</span></div>
-    <div class="detail-item"><span class="detail-label">Студия</span><span class="detail-value">Amazon MGM Studios</span></div>
-    <div class="detail-item"><span class="detail-label">В главных ролях</span><span class="detail-value">Николас Кейдж</span></div>
-    <div class="detail-item"><span class="detail-label">Страна</span><span class="detail-value">США</span></div>
-    <div class="detail-item"><span class="detail-label">Год выпуска</span><span class="detail-value">2025</span></div>
-    <div class="detail-item"><span class="detail-label">Жанр</span><span class="detail-value">Фэнтези / Боевик / Криминал</span></div>
-    <div class="detail-item"><span class="detail-label">Сезонов</span><span class="detail-value">1</span></div>
-    <div class="detail-item"><span class="detail-label">Серий</span><span class="detail-value">8</span></div>
+    <div class="detail-item"><span class="detail-label">Оригинальное название</span><span class="detail-value">Game of Thrones</span></div>
+    <div class="detail-item"><span class="detail-label">Телеканал / Студия</span><span class="detail-value">HBO</span></div>
+    <div class="detail-item"><span class="detail-label">В главных ролях</span><span class="detail-value">Питер Динклэйдж, Лина Хиди, Эмилия Кларк, Кит Харингтон</span></div>
+    <div class="detail-item"><span class="detail-label">Страна</span><span class="detail-value">США, Великобритания</span></div>
+    <div class="detail-item"><span class="detail-label">Годы выпуска</span><span class="detail-value">2011 – 2019</span></div>
+    <div class="detail-item"><span class="detail-label">Жанр</span><span class="detail-value">Фэнтези / Драма / Приключения</span></div>
+    <div class="detail-item"><span class="detail-label">Сезонов</span><span class="detail-value">8</span></div>
+    <div class="detail-item"><span class="detail-label">Всего серий</span><span class="detail-value">73</span></div>
   </div>
 
   <div class="section-divider"><span class="section-label">✦ Смотреть сериал ✦</span></div>
 
   <!-- УПРАВЛЕНИЕ ПЛЕЕРОМ -->
   <div class="player-controls">
+    <!-- Сезоны -->
     <div class="control-group">
-      <span class="control-label">ОЗВУЧКА</span>
-      <div class="control-buttons">
-        <button class="dub-btn active" onclick="setDub('dub')">Дубляж</button>
-      </div>
+      <span class="control-label">ВЫБОР СЕЗОНА</span>
+      <div class="control-buttons" id="seasonButtons"></div>
     </div>
+    <!-- Серии -->
     <div class="control-group">
-      <span class="control-label">СЕРИЯ</span>
-      <div class="control-buttons" id="episodeButtons">
-        <button class="ep-btn active" onclick="setEpisode(1)">1</button>
-        <button class="ep-btn" onclick="setEpisode(2)">2</button>
-        <button class="ep-btn" onclick="setEpisode(3)">3</button>
-        <button class="ep-btn" onclick="setEpisode(4)">4</button>
-        <button class="ep-btn" onclick="setEpisode(5)">5</button>
-        <button class="ep-btn" onclick="setEpisode(6)">6</button>
-        <button class="ep-btn" onclick="setEpisode(7)">7</button>
-        <button class="ep-btn" onclick="setEpisode(8)">8</button>
-      </div>
+      <span class="control-label">ВЫБОР СЕРИИ</span>
+      <div class="control-buttons" id="episodeButtons"></div>
     </div>
-    <div class="now-playing" id="nowPlaying">▶ Серия 1 — Дубляж</div>
+    <div class="now-playing" id="nowPlaying">▶ Сезон 1, Серия 1</div>
   </div>
 
-  <!-- ПЛЕЕР С РАЗРЕШЕНИЯМИ ДЛЯ МЕГА -->
+  <!-- ПЛЕЕР -->
   <div class="trailer-wrap">
     <iframe 
       id="playerFrame" 
-      src="https://mega.nz/embed/NzAzBIgR#9SSEwDT_BfZ9dSvGU-GG3wczEZAaA6vHuumOhRG34zQ" 
+      src="" 
       allowfullscreen 
       allow="autoplay; encrypted-media; picture-in-picture"
       sandbox="allow-same-origin allow-scripts allow-popups allow-forms">
@@ -245,7 +233,7 @@ body{font-family:'Crimson Text',Georgia,serif;background:var(--bg);color:var(--c
   </div>
 
   <div class="section-divider"><span class="section-label">✦ Смотрите также ✦</span></div>
-  <div class="rec-category-label">◆ &nbsp; Похожие фильмы</div>
+  <div class="rec-category-label">◆ &nbsp; Похожие сериалы и фильмы</div>
   <div class="rec-grid" id="smartRecs"></div>
 
   <div class="section-divider"><span class="section-label">✦ Вход ✦</span></div>
@@ -287,46 +275,89 @@ body{font-family:'Crimson Text',Georgia,serif;background:var(--bg);color:var(--c
 <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
 <script>
-// ===== ДАННЫЕ СЕРИЙ =====
-const episodes = {
-  dub: [
-    "https://mega.nz/embed/NzAzBIgR#9SSEwDT_BfZ9dSvGU-GG3wczEZAaA6vHuumOhRG34zQ", // Серия 1
-    "https://mega.nz/embed/UvY1BLwY#JBR1lqZu7eKAaeRoXz8aOFYKPnO1kYsp5ONn0Dh10fA",  // Серия 2
-    "https://mega.nz/embed/gupzRSyJ#84ZVy8yE5Thf-CKisgoiZIBRbX85OL12JxsWRSTYf78", // Серия 3
-    "https://mega.nz/embed/ZiJkyIpB#BgH_6Nm45be65n1EiUbj8MdWyIglYYJbNO_lQT0XAo8",  // Серия 4
-    "https://mega.nz/embed/B2pGmJLK#ACRcro8H6stGD1Uh2N4iYZlXSg4TUP1ZB6G5gXj3evY",  // Серия 5
-    "https://mega.nz/embed/8qw23IbK#KuGa1rkq-K-CgxqKOn_QxDREvsG571azEgFCGHbA3Dc",  // Серия 6
-    "https://mega.nz/embed/53ACRDyQ#vNc_P-C3k-IW-OE77HG0TNjjCrj_a8dgvDyg0a_oocE",  // Серия 7
-    "https://mega.nz/embed/Ay5yyQRI#2680v2A1wX34SIEboLAdGlK_PYQ0a-qrlrKWFh1vHYs"   // Серия 8
-  ]
-};
-
-const dubNames = { dub: "Дубляж" };
-let currentDub = "dub";
-let currentEp = 1;
-
-// Преобразование любых ссылок Mega в формат встраивания
-function makeEmbedUrl(url) {
+// Исправленный преобразователь ссылок Mega.nz в embed
+function makeEmbed(url) {
   if (!url) return "";
   if (url.includes("mega.nz/embed/")) return url;
   return url.replace("mega.nz/file/", "mega.nz/embed/");
 }
 
-function setEpisode(n) {
-  currentEp = n;
+// ===== ДАННЫЕ СЕЗОНОВ И СЕРИЙ =====
+const seasonsData = {
+  1: [
+    makeEmbed("https://mega.nz/file/qwY1ULRB#RlFCeneCLwECs5ENxjzhqJcbA__S3aBm148G-Wv_HWk"),
+    makeEmbed("https://mega.nz/file/PkBlWSxQ#831VY8OPoQ0HxzfVeptTFTSbwj7JGJyBqUV9Q9LJq8c"),
+    makeEmbed("https://mega.nz/file/jwgwUAzQ#umy5yiIp3Qf8wumRQkXfW_oqEGJU7nf9eq8ZrPoyP-w"),
+    makeEmbed("https://mega.nz/file/ygQjlBAT#Zg2WvXaOVmgB0zx2TMg3D0mbMI_C3Cil9lncpJPxhws"),
+    makeEmbed("https://mega.nz/file/qx4lmKgI#GA-FWvnoCgtcgFCW_M9FHCkfrGK07gFjdpeW0uxugFw"),
+    makeEmbed("https://mega.nz/file/r05QgLbS#-XLZtvC5tDhPiPllFVu9g3_0dzWrd7ndc1LMuG1IlD0"),
+    makeEmbed("https://mega.nz/file/71YSQLAL#V7RUYCOxys_moryLsYvBWzmHxR24-_bQOv5fyoXyRSs"),
+    makeEmbed("https://mega.nz/file/blgyBDzJ#M2nKg86pZ9yHubZvT28KnlSjPyIoDCnJWZM_pTSReO4"),
+    makeEmbed("https://mega.nz/file/ThICBBzB#5QAh2EZtYCX_wWOmrAPe6LVnsnGna1RbI4resrxsvho"),
+    makeEmbed("https://mega.nz/file/T8ADwZ5C#NIGL3LqWXCoRCl6YM845HBVa1Aewim5JY4lTmNOreAE")
+  ],
+  // Заглушки для сезонов 2-8 с рабочей ссылкой и решёткой
+  2: Array(10).fill("https://mega.nz/embed/NzAzBIgR#9SSEwDT_BfZ9dSvGU-GG3wczEZAaA6vHuumOhRG34zQ"),
+  3: Array(10).fill("https://mega.nz/embed/NzAzBIgR#9SSEwDT_BfZ9dSvGU-GG3wczEZAaA6vHuumOhRG34zQ"),
+  4: Array(10).fill("https://mega.nz/embed/NzAzBIgR#9SSEwDT_BfZ9dSvGU-GG3wczEZAaA6vHuumOhRG34zQ"),
+  5: Array(10).fill("https://mega.nz/embed/NzAzBIgR#9SSEwDT_BfZ9dSvGU-GG3wczEZAaA6vHuumOhRG34zQ"),
+  6: Array(10).fill("https://mega.nz/embed/NzAzBIgR#9SSEwDT_BfZ9dSvGU-GG3wczEZAaA6vHuumOhRG34zQ"),
+  7: Array(7).fill("https://mega.nz/embed/NzAzBIgR#9SSEwDT_BfZ9dSvGU-GG3wczEZAaA6vHuumOhRG34zQ"),
+  8: Array(6).fill("https://mega.nz/embed/NzAzBIgR#9SSEwDT_BfZ9dSvGU-GG3wczEZAaA6vHuumOhRG34zQ")
+};
+
+let currentSeason = 1;
+let currentEp = 1;
+
+function initPlayerControls() {
+  const seasonContainer = document.getElementById("seasonButtons");
+  seasonContainer.innerHTML = "";
+  
+  for (let s = 1; s <= 8; s++) {
+    const btn = document.createElement("button");
+    btn.className = "season-btn" + (s === currentSeason ? " active" : "");
+    btn.innerText = "Сезон " + s;
+    btn.onclick = () => setSeason(s);
+    seasonContainer.appendChild(btn);
+  }
+  
+  renderEpisodes();
   updatePlayer();
-  document.querySelectorAll(".ep-btn").forEach((b,i) => b.classList.toggle("active", i+1===n));
 }
-function setDub(d) {
-  currentDub = d;
+
+function renderEpisodes() {
+  const epContainer = document.getElementById("episodeButtons");
+  epContainer.innerHTML = "";
+  
+  const episodesList = seasonsData[currentSeason] || [];
+  episodesList.forEach((_, idx) => {
+    const epNum = idx + 1;
+    const btn = document.createElement("button");
+    btn.className = "ep-btn" + (epNum === currentEp ? " active" : "");
+    btn.innerText = epNum;
+    btn.onclick = () => setEpisode(epNum);
+    epContainer.appendChild(btn);
+  });
+}
+
+function setSeason(s) {
+  currentSeason = s;
+  currentEp = 1; // при смене сезона переключаем на 1 серию
+  document.querySelectorAll(".season-btn").forEach((b, i) => b.classList.toggle("active", i + 1 === s));
+  renderEpisodes();
   updatePlayer();
-  document.querySelectorAll(".dub-btn").forEach(b => b.classList.toggle("active", b.onclick.toString().includes(d)));
 }
+
+function setEpisode(e) {
+  currentEp = e;
+  document.querySelectorAll(".ep-btn").forEach((b, i) => b.classList.toggle("active", i + 1 === e));
+  updatePlayer();
+}
+
 function updatePlayer() {
-  const rawUrl = episodes[currentDub][currentEp-1];
-  const url = makeEmbedUrl(rawUrl);
+  const url = seasonsData[currentSeason][currentEp - 1];
   document.getElementById("playerFrame").src = url;
-  document.getElementById("nowPlaying").innerText = "▶ Серия " + currentEp + " — " + dubNames[currentDub];
+  document.getElementById("nowPlaying").innerText = "▶ Сезон " + currentSeason + ", Серия " + currentEp;
 }
 
 // ===== FILMSTRIP =====
@@ -336,7 +367,7 @@ buildStrip("filmstripTop");buildStrip("filmstripBottom");
 // ===== FIREBASE =====
 firebase.initializeApp({apiKey:"AIzaSyCTr1vgcuSEn_2Ebh2vC3k7sNYzvMoYlBo",authDomain:"kino-project-bf21c.firebaseapp.com",projectId:"kino-project-bf21c"});
 const db=firebase.firestore();
-const movieKey="spider_man_noir";
+const movieKey="game_of_thrones";
 const movieRef=db.collection("movies").doc(movieKey);
 const commentsRef=movieRef.collection("comments");
 const votesRef=movieRef.collection("votes");
@@ -364,7 +395,7 @@ function closeModal(){document.getElementById("replyModal").classList.remove("op
 async function saveReply(){const t=document.getElementById("modalText").value.trim();if(t)await addComment(replyTo,t);document.getElementById("modalText").value="";closeModal();}
 function openReport(){document.getElementById("reportModal").classList.add("open");}
 function closeReport(){document.getElementById("reportModal").classList.remove("open");document.getElementById("reportSentMsg").style.display="none";document.getElementById("reportText").value="";document.getElementById("reportName").value="";}
-async function sendReport(){const name=document.getElementById("reportName").value.trim()||"Аноним";const text=document.getElementById("reportText").value.trim();if(!text)return alert("Опиши проблему!");const sendBtn=document.querySelector("#reportModal .btn-red");sendBtn.innerText="Отправка...";sendBtn.disabled=true;try{await emailjs.send("service_m2itd3q","template_jvqfkhr",{from_name:name,message:text,page:"Человек-паук: Нуар"});document.getElementById("reportSentMsg").style.display="block";sendBtn.innerText="✅ Отправлено!";}catch(err){alert("Ошибка: "+JSON.stringify(err));sendBtn.innerText="📨 Отправить сообщение";sendBtn.disabled=false;}}
+async function sendReport(){const name=document.getElementById("reportName").value.trim()||"Аноним";const text=document.getElementById("reportText").value.trim();if(!text)return alert("Опиши проблему!");const sendBtn=document.querySelector("#reportModal .btn-red");sendBtn.innerText="Отправка...";sendBtn.disabled=true;try{await emailjs.send("service_m2itd3q","template_jvqfkhr",{from_name:name,message:text,page:"Игра престолов"});document.getElementById("reportSentMsg").style.display="block";sendBtn.innerText="✅ Отправлено!";}catch(err){alert("Ошибка: "+JSON.stringify(err));sendBtn.innerText="📨 Отправить сообщение";sendBtn.disabled=false;}}
 
 // Рекомендации
 function renderSmartRecs(key, containerId) {
@@ -384,9 +415,10 @@ function renderSmartRecs(key, containerId) {
 window.onload=async()=>{
   const saved=localStorage.getItem("nickname");
   if(saved){currentUser=saved;document.getElementById("loginStatus").innerText="✓ Вы вошли как "+currentUser;}
+  initPlayerControls();
   loadRating();
   initViews();
-  renderSmartRecs("spider_man_noir","smartRecs");
+  renderSmartRecs("game_of_thrones","smartRecs");
 };
 </script>
 </body>
