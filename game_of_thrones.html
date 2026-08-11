@@ -269,14 +269,13 @@ body{font-family:'Crimson Text',Georgia,serif;background:var(--bg);color:var(--c
 <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
 <script>
-// Преобразователь прямых ссылок Mega.nz в embed
+// Исправленный преобразователь ссылок Mega.nz в embed
 function makeEmbed(url) {
   if (!url) return "";
-  return url.replace("mega.nz/file/", "mega.nz/embed/");
+  return url.replace("mega.nz/file/", "mega.nz/embed/").replace("#", "!");
 }
 
 // ===== ДАННЫЕ СЕЗОНОВ И СЕРИЙ =====
-// Сезон 1 содержит ваши 10 предоставленных ссылок!
 const seasonsData = {
   1: [
     makeEmbed("https://mega.nz/file/qwY1ULRB#RlFCeneCLwECs5ENxjzhqJcbA__S3aBm148G-Wv_HWk"),
@@ -290,14 +289,14 @@ const seasonsData = {
     makeEmbed("https://mega.nz/file/ThICBBzB#5QAh2EZtYCX_wWOmrAPe6LVnsnGna1RbI4resrxsvho"),
     makeEmbed("https://mega.nz/file/T8ADwZ5C#NIGL3LqWXCoRCl6YM845HBVa1Aewim5JY4lTmNOreAE")
   ],
-  // Шаблоны для сезонов 2-8 (добавьте свои ссылки сюда при необходимости)
-  2: Array(10).fill("https://mega.nz/embed/NzAzBIgR#9SSEwDT_BfZ9dSvGU-GG3wczEZAaA6vHuumOhRG34zQ"),
-  3: Array(10).fill("https://mega.nz/embed/NzAzBIgR#9SSEwDT_BfZ9dSvGU-GG3wczEZAaA6vHuumOhRG34zQ"),
-  4: Array(10).fill("https://mega.nz/embed/NzAzBIgR#9SSEwDT_BfZ9dSvGU-GG3wczEZAaA6vHuumOhRG34zQ"),
-  5: Array(10).fill("https://mega.nz/embed/NzAzBIgR#9SSEwDT_BfZ9dSvGU-GG3wczEZAaA6vHuumOhRG34zQ"),
-  6: Array(10).fill("https://mega.nz/embed/NzAzBIgR#9SSEwDT_BfZ9dSvGU-GG3wczEZAaA6vHuumOhRG34zQ"),
-  7: Array(7).fill("https://mega.nz/embed/NzAzBIgR#9SSEwDT_BfZ9dSvGU-GG3wczEZAaA6vHuumOhRG34zQ"),
-  8: Array(6).fill("https://mega.nz/embed/NzAzBIgR#9SSEwDT_BfZ9dSvGU-GG3wczEZAaA6vHuumOhRG34zQ")
+  // Шаблоны для сезонов 2-8
+  2: Array(10).fill("https://mega.nz/embed/NzAzBIgR!9SSEwDT_BfZ9dSvGU-GG3wczEZAaA6vHuumOhRG34zQ"),
+  3: Array(10).fill("https://mega.nz/embed/NzAzBIgR!9SSEwDT_BfZ9dSvGU-GG3wczEZAaA6vHuumOhRG34zQ"),
+  4: Array(10).fill("https://mega.nz/embed/NzAzBIgR!9SSEwDT_BfZ9dSvGU-GG3wczEZAaA6vHuumOhRG34zQ"),
+  5: Array(10).fill("https://mega.nz/embed/NzAzBIgR!9SSEwDT_BfZ9dSvGU-GG3wczEZAaA6vHuumOhRG34zQ"),
+  6: Array(10).fill("https://mega.nz/embed/NzAzBIgR!9SSEwDT_BfZ9dSvGU-GG3wczEZAaA6vHuumOhRG34zQ"),
+  7: Array(7).fill("https://mega.nz/embed/NzAzBIgR!9SSEwDT_BfZ9dSvGU-GG3wczEZAaA6vHuumOhRG34zQ"),
+  8: Array(6).fill("https://mega.nz/embed/NzAzBIgR!9SSEwDT_BfZ9dSvGU-GG3wczEZAaA6vHuumOhRG34zQ")
 };
 
 let currentSeason = 1;
