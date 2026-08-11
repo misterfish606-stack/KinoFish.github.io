@@ -79,6 +79,31 @@ body {
   content:""; position:absolute; bottom:0; left:8%; right:8%; height:1px;
   background:linear-gradient(90deg, transparent, var(--gold), transparent);
 }
+.telegram-header-link {
+  position:absolute; top:16px; left:20px; z-index:5;
+  display:flex; align-items:center; gap:8px;
+  text-decoration:none; padding:6px 12px;
+  border:1px solid var(--gold-dim); border-radius:3px;
+  background:rgba(212,175,55,0.05);
+  transition:border-color 0.25s, background 0.25s, box-shadow 0.25s;
+}
+.telegram-header-link:hover {
+  border-color:var(--gold);
+  background:rgba(212,175,55,0.12);
+  box-shadow:0 0 14px rgba(212,175,55,0.25);
+}
+.telegram-header-link img {
+  width:22px; height:22px; display:block;
+}
+.telegram-header-link span {
+  font-family:'Bebas Neue', sans-serif; letter-spacing:0.1em;
+  font-size:0.78rem; color:var(--cream-dim);
+}
+.telegram-header-link:hover span { color:var(--gold); }
+@media (max-width:600px) {
+  .telegram-header-link span { display:none; }
+  .telegram-header-link { padding:6px; top:10px; left:10px; }
+}
 .header-ornament {
   font-family:'Bebas Neue', sans-serif; font-size:0.72rem;
   letter-spacing:0.55em; color:var(--gold-dim); margin-bottom:10px; display:block;
@@ -620,6 +645,10 @@ body {
 <div class="filmstrip"><div class="filmstrip-holes" id="filmstripTop"></div></div>
 
 <header class="site-header">
+<a href="https://t.me/MisterFishCinema" target="_blank" class="telegram-header-link" title="Наш Telegram чат">
+  <img src="https://upload.wikimedia.org/wikipedia/commons/8/82/Telegram_logo.svg" alt="Telegram">
+  <span>Telegram</span>
+</a>
 <div class="header-star-field">
   <span class="hstar" style="top:10%;left:67%;font-size:1.1rem;--dur:2.3s;--delay:0s">✦</span>
   <span class="hstar" style="top:8%;left:72%;font-size:0.8rem;--dur:3.1s;--delay:0.4s">★</span>
