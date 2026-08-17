@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -11,52 +10,83 @@
   <meta property="og:title" content="Kino Fish Cinema — фильмы онлайн бесплатно">
   <meta property="og:description" content="Смотри фильмы онлайн бесплатно и без рекламы на Fish Cinema.">
   <meta property="og:type" content="website">
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Crimson+Text:ital,wght@0,400;0,600;1,400&family=Bebas+Neue&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600;700&family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Bebas+Neue&display=swap" rel="stylesheet">
 <style>
 :root {
-  --gold:      #39ff14;
-  --gold-light:#7dffb3;
-  --gold-dim:  #0e6b32;
-  --cream:     #d9ffe6;
-  --cream-dim: #4f9f72;
-  --bg:        #020402;
-  --bg2:       #04120a;
-  --bg3:       #0a2412;
-  --red:       #b3123a;
-  --red-light: #ff2f54;
+  --neon-green:  #00ff66;
+  --green-light: #66ff99;
+  --green-dim:   #008033;
+  --green-dark:  #003311;
+  --text-main:   #d0ffd8;
+  --bg:          #030a05;
+  --bg2:         #07140a;
+  --bg3:         #0d2212;
+  --red:         #8b1a1a;
+  --red-light:   #c0392b;
 }
 * { box-sizing:border-box; margin:0; padding:0; }
-#matrixRain {
-  position:fixed; inset:0; z-index:0;
-  pointer-events:none; opacity:0.16; mix-blend-mode:screen;
-}
 body::before {
   content:"";
   position:fixed; inset:0;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
-  pointer-events:none; z-index:9999; opacity:0.35;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.05'/%3E%3C/svg%3E");
+  pointer-events:none; z-index:9999; opacity:0.4;
 }
 body {
-  font-family:'Crimson Text', Georgia, serif;
-  background:var(--bg); color:var(--cream);
+  font-family:'Fira Code', monospace, Georgia, serif;
+  background:var(--bg); color:var(--text-main);
   min-height:100vh; overflow-x:hidden;
 }
+
+/* === ВСТУПИТЕЛЬНАЯ АНИМАЦИЯ ПАДАЮЩИХ ПОСТЕРОВ === */
+#intro-overlay {
+  position: fixed; inset: 0;
+  background: #000;
+  z-index: 10000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  transition: opacity 1s ease, visibility 1s ease;
+}
+#intro-overlay.fade-out {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+.falling-poster {
+  position: absolute;
+  top: -250px;
+  width: 130px;
+  aspect-ratio: 2/3;
+  object-fit: cover;
+  border: 2px solid var(--neon-green);
+  box-shadow: 0 0 15px var(--neon-green);
+  border-radius: 4px;
+  animation: fallAndSettle 2.2s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+}
+@keyframes fallAndSettle {
+  0% { transform: translateY(0) rotate(0deg); opacity: 0; }
+  20% { opacity: 1; }
+  80% { transform: translateY(calc(100vh + 100px)) rotate(calc(var(--rot) * 1deg)); opacity: 1; }
+  100% { transform: translateY(calc(100vh - 120px)) rotate(calc(var(--rot) * 1deg)); opacity: 0; }
+}
+
 .projector-beam {
   position:fixed; top:0; left:50%;
   transform:translateX(-50%); width:0;
   border-left:200px solid transparent;
   border-right:200px solid transparent;
-  border-top:100vh solid rgba(150,255,190,0.022);
+  border-top:100vh solid rgba(0,255,102,0.03);
   pointer-events:none; z-index:0;
   animation:beam-flicker 8s infinite;
 }
 @keyframes beam-flicker {
-  0%,100%{opacity:1} 92%{opacity:1} 93%{opacity:0.5} 94%{opacity:1} 97%{opacity:0.75} 98%{opacity:1}
+  0%,100%{opacity:1} 92%{opacity:1} 93%{opacity:0.3} 94%{opacity:1} 97%{opacity:0.6} 98%{opacity:1}
 }
 .filmstrip {
   width:100%; height:36px; background:var(--bg2);
   display:flex; align-items:center; overflow:hidden;
-  border-bottom:2px solid #0a2412; position:relative; z-index:2;
+  border-bottom:2px solid var(--green-dark); position:relative; z-index:2;
 }
 .filmstrip-holes {
   display:flex; align-items:center;
@@ -64,185 +94,179 @@ body {
   white-space:nowrap; will-change:transform;
 }
 .filmstrip-hole {
-  width:20px; height:14px; border:2px solid #124a28;
-  border-radius:3px; margin:0 16px; flex-shrink:0; background:#001006;
+  width:20px; height:14px; border:2px solid var(--green-dim);
+  border-radius:3px; margin:0 16px; flex-shrink:0; background:#020803;
 }
 @keyframes strip-scroll { from{transform:translateX(0)} to{transform:translateX(-50%)} }
 .site-header {
   position:relative; text-align:center;
   padding:40px 20px 30px;
-  background:linear-gradient(180deg, #001006 0%, #04120a 100%);
-  border-bottom:1px solid var(--gold-dim); overflow:hidden; z-index:1;
+  background:linear-gradient(180deg, #020803 0%, #07140a 100%);
+  border-bottom:1px solid var(--green-dim); overflow:hidden; z-index:1;
 }
 
 .site-header::before {
   content:""; position:absolute; top:0; left:0; right:0; height:1px;
-  background:linear-gradient(90deg, transparent, var(--gold-dim), transparent);
+  background:linear-gradient(90deg, transparent, var(--green-dim), transparent);
 }
 .site-header::after {
   content:""; position:absolute; bottom:0; left:8%; right:8%; height:1px;
-  background:linear-gradient(90deg, transparent, var(--gold), transparent);
+  background:linear-gradient(90deg, transparent, var(--neon-green), transparent);
 }
 .telegram-header-link {
   position:absolute; top:16px; left:20px; z-index:5;
   display:flex; align-items:center; gap:8px;
   text-decoration:none; padding:6px 12px;
-  border:1px solid var(--gold-dim); border-radius:3px;
-  background:rgba(57,255,20,0.05);
+  border:1px solid var(--green-dim); border-radius:3px;
+  background:rgba(0,255,102,0.05);
   transition:border-color 0.25s, background 0.25s, box-shadow 0.25s;
 }
 .telegram-header-link:hover {
-  border-color:var(--gold);
-  background:rgba(57,255,20,0.12);
-  box-shadow:0 0 14px rgba(57,255,20,0.25);
+  border-color:var(--neon-green);
+  background:rgba(0,255,102,0.15);
+  box-shadow:0 0 14px rgba(0,255,102,0.3);
 }
 .telegram-header-link img {
-  width:22px; height:22px; display:block;
+  width:22px; height:22px; display:block; filter: drop-shadow(0 0 2px var(--neon-green));
 }
 .telegram-header-link span {
   font-family:'Bebas Neue', sans-serif; letter-spacing:0.1em;
-  font-size:0.78rem; color:var(--cream-dim);
+  font-size:0.78rem; color:var(--text-main);
 }
-.telegram-header-link:hover span { color:var(--gold); }
+.telegram-header-link:hover span { color:var(--neon-green); }
 @media (max-width:600px) {
   .telegram-header-link span { display:none; }
   .telegram-header-link { padding:6px; top:10px; left:10px; }
 }
 .header-ornament {
   font-family:'Bebas Neue', sans-serif; font-size:0.72rem;
-  letter-spacing:0.55em; color:var(--gold-dim); margin-bottom:10px; display:block;
+  letter-spacing:0.55em; color:var(--green-dim); margin-bottom:10px; display:block;
 }
+
+/* === АНИМАЦИЯ ЗАГОЛОВКА "FISH CINEMA" (СЛЕВА НАПРАВО ПО БУКВАМ) === */
 .site-title {
-  font-family:'Playfair Display', serif;
-  font-size:clamp(3rem, 8vw, 6rem); font-weight:900; font-style:italic;
-  color:var(--gold);
-  text-shadow: 0 0 70px rgba(57,255,20,0.65), 0 0 25px rgba(127,255,176,0.5), 0 2px 0 #003a18, 4px 5px 0 rgba(0,0,0,0.5);
-  letter-spacing:0.03em; line-height:1;
-  animation:title-glow 4s ease-in-out infinite alternate;
+  font-family:'Fira Code', monospace;
+  font-size:clamp(2.5rem, 7vw, 5.5rem); font-weight:900;
+  color:var(--neon-green);
+  text-shadow: 0 0 30px rgba(0,255,102,0.8), 0 0 10px rgba(102,255,153,0.5);
+  letter-spacing:0.05em; line-height:1;
+  display: inline-flex;
+  justify-content: center;
+  overflow: hidden;
 }
-@keyframes title-glow {
-  from{text-shadow:0 0 45px rgba(57,255,20,0.45),0 0 15px rgba(127,255,176,0.35),0 2px 0 #003a18,4px 5px 0 rgba(0,0,0,0.5)}
-  to  {text-shadow:0 0 95px rgba(57,255,20,0.85),0 0 35px rgba(127,255,176,0.65),0 2px 0 #003a18,4px 5px 0 rgba(0,0,0,0.5)}
+.site-title .char {
+  display: inline-block;
+  opacity: 0;
+  transform: translateX(-150px);
+  animation: slideCharIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+  animation-delay: calc(var(--char-index) * 0.08s + 1s);
 }
-.site-title .letter {
-  display:inline-block;
-  opacity:0;
-  transform:translateX(-140px);
-  animation:letter-land 0.55s cubic-bezier(0.2,0.9,0.25,1.35) forwards;
+.site-title .char.space {
+  width: 0.3em;
 }
-@keyframes letter-land {
-  0%   { opacity:0; transform:translateX(-140px); }
-  70%  { opacity:1; }
-  100% { opacity:1; transform:translateX(0); }
+@keyframes slideCharIn {
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
 }
+
 .site-tagline {
-  font-family:'Crimson Text', serif; font-style:italic;
-  color:var(--cream-dim); font-size:1.05rem; margin-top:10px; letter-spacing:0.14em;
-  text-shadow:0 0 18px rgba(79,159,114,0.4);
+  font-family:'Fira Code', monospace; font-style:italic;
+  color:var(--text-main); font-size:1.05rem; margin-top:10px; letter-spacing:0.14em;
+  text-shadow:0 0 10px rgba(0,255,102,0.3);
 }
-.header-stars { font-size:0.7rem; color:var(--gold-dim); letter-spacing:0.4em; margin-top:6px; display:block; }
+.header-stars { font-size:0.7rem; color:var(--green-dim); letter-spacing:0.4em; margin-top:6px; display:block; }
 .top-menu {
-  background:var(--bg2); border-bottom:2px solid var(--gold-dim);
+  background:var(--bg2); border-bottom:2px solid var(--green-dim);
   display:flex; align-items:center; justify-content:center; flex-wrap:wrap;
-  position:sticky; top:0; z-index:100; box-shadow:0 4px 24px rgba(0,0,0,0.8);
+  position:sticky; top:0; z-index:100; box-shadow:0 4px 24px rgba(0,0,0,0.9);
 }
-.menu-divider { color:var(--gold-dim); padding:0 2px; user-select:none; font-size:0.8rem; }
+.menu-divider { color:var(--green-dim); padding:0 2px; user-select:none; font-size:0.8rem; }
 .top-menu a, .top-menu button {
   font-family:'Bebas Neue', sans-serif; letter-spacing:0.14em;
-  color:var(--cream-dim); text-decoration:none; font-size:0.95rem;
+  color:var(--text-main); text-decoration:none; font-size:0.95rem;
   padding:14px 18px; background:none; border:none; cursor:pointer;
   transition:color 0.2s, background 0.2s; position:relative;
 }
 .top-menu a::after, .top-menu button::after {
   content:""; position:absolute; bottom:0; left:20%; right:20%;
-  height:2px; background:var(--gold); transform:scaleX(0); transition:transform 0.3s;
+  height:2px; background:var(--neon-green); transform:scaleX(0); transition:transform 0.3s;
 }
-.top-menu a:hover, .top-menu button:hover { color:var(--gold); background:rgba(57,255,20,0.04); }
+.top-menu a:hover, .top-menu button:hover { color:var(--neon-green); background:rgba(0,255,102,0.05); }
 .top-menu a:hover::after, .top-menu button:hover::after { transform:scaleX(1); }
 .search-wrap { padding:7px 14px; display:flex; align-items:center; }
 .search-wrap input {
-  background:rgba(255,255,255,0.04); border:1px solid var(--gold-dim); border-radius:2px;
-  color:var(--cream); font-family:'Crimson Text', serif; font-size:0.95rem;
+  background:rgba(0,255,102,0.05); border:1px solid var(--green-dim); border-radius:2px;
+  color:var(--text-main); font-family:'Fira Code', monospace; font-size:0.95rem;
   padding:7px 14px; width:200px; outline:none; transition:border-color 0.2s, box-shadow 0.2s;
 }
-.search-wrap input:focus { border-color:var(--gold); box-shadow:0 0 0 2px rgba(57,255,20,0.15); }
-.search-wrap input::placeholder { color:#3a2c14; }
+.search-wrap input:focus { border-color:var(--neon-green); box-shadow:0 0 10px rgba(0,255,102,0.3); }
+.search-wrap input::placeholder { color:var(--green-dim); }
 .admin-btn {
   font-family:'Bebas Neue', sans-serif !important; letter-spacing:0.1em !important;
-  background:linear-gradient(135deg, #7a0f1f, var(--red)) !important;
-  color:var(--gold-light) !important; border:1px solid #c81e3a !important;
+  background:linear-gradient(135deg, #4a0d0d, var(--red)) !important;
+  color:#ff9999 !important; border:1px solid #a03030 !important;
   padding:7px 16px !important; border-radius:2px !important;
   margin:6px 14px !important; font-size:0.85rem !important; transition:0.3s !important;
 }
-.admin-btn:hover { box-shadow:0 0 14px rgba(255,47,84,0.5) !important; }
+.admin-btn:hover { box-shadow:0 0 14px rgba(192,57,43,0.5) !important; }
 .admin-btn::after { display:none !important; }
 .main { display:flex; position:relative; z-index:1; }
 .sidebar {
   width:210px; flex-shrink:0;
   background:linear-gradient(180deg, var(--bg2) 0%, var(--bg) 100%);
-  border-right:1px solid rgba(57,255,20,0.15); padding:26px 18px;
+  border-right:1px solid rgba(0,255,102,0.15); padding:26px 18px;
   position:sticky; top:49px; height:calc(100vh - 49px); overflow-y:auto;
 }
 .sidebar::-webkit-scrollbar { width:3px; }
-.sidebar::-webkit-scrollbar-thumb { background:var(--gold-dim); }
+.sidebar::-webkit-scrollbar-thumb { background:var(--green-dim); }
 .sidebar-section { margin-bottom:26px; }
 .sidebar-title {
   font-family:'Bebas Neue', sans-serif; font-size:0.78rem; letter-spacing:0.25em;
-  color:var(--gold); margin-bottom:10px; padding-bottom:6px;
-  border-bottom:1px solid rgba(57,255,20,0.18);
+  color:var(--neon-green); margin-bottom:10px; padding-bottom:6px;
+  border-bottom:1px solid rgba(0,255,102,0.18);
 }
 .sidebar a {
-  display:block; font-family:'Crimson Text', serif; color:var(--cream-dim);
-  text-decoration:none; padding:3px 0 3px 8px; font-size:0.92rem;
+  display:block; font-family:'Fira Code', monospace; color:var(--text-main);
+  text-decoration:none; padding:3px 0 3px 8px; font-size:0.85rem;
   border-left:2px solid transparent; transition:0.2s;
 }
-.sidebar a:hover { color:var(--gold); border-left-color:var(--gold); padding-left:12px; }
+.sidebar a:hover { color:var(--neon-green); border-left-color:var(--neon-green); padding-left:12px; }
 #years { max-height:190px; overflow-y:auto; }
 #years::-webkit-scrollbar { width:3px; }
-#years::-webkit-scrollbar-thumb { background:var(--gold-dim); }
+#years::-webkit-scrollbar-thumb { background:var(--green-dim); }
 .catalog {
   flex:1; padding:30px 34px;
-  background:radial-gradient(ellipse at 50% 0%, rgba(57,255,20,0.035) 0%, transparent 55%);
+  background:radial-gradient(ellipse at 50% 0%, rgba(0,255,102,0.03) 0%, transparent 55%);
 }
 .catalog-header {
   display:flex; align-items:baseline; gap:14px;
   margin-bottom:28px; padding-bottom:12px;
-  border-bottom:1px solid rgba(57,255,20,0.12);
+  border-bottom:1px solid rgba(0,255,102,0.12);
 }
-.catalog-title { font-family:'Playfair Display', serif; font-size:1.7rem; font-style:italic; color:var(--gold); }
-.catalog-count { font-style:italic; color:var(--cream-dim); font-size:0.9rem; }
+.catalog-title { font-family:'Fira Code', monospace; font-size:1.5rem; color:var(--neon-green); }
+.catalog-count { font-style:italic; color:var(--green-dim); font-size:0.9rem; }
 .movies-grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(170px,1fr)); gap:26px; }
-.movie-card { position:relative; cursor:pointer; opacity:0; }
-.movie-card.card-fade-in { animation:card-in 0.45s ease both; }
+.movie-card { position:relative; cursor:pointer; animation:card-in 0.45s ease both; }
 @keyframes card-in { from{opacity:0;transform:translateY(14px)} to{opacity:1;transform:translateY(0)} }
-.movie-card.falling-in {
-  animation-name:card-fall;
-  animation-timing-function:cubic-bezier(0.22,0.68,0.32,1.28);
-  animation-fill-mode:both;
-}
-@keyframes card-fall {
-  0%   { opacity:0; transform:translateY(-115vh) translateX(var(--fx,0px)) rotate(var(--fr,0deg)); }
-  65%  { opacity:1; }
-  82%  { transform:translateY(6px) translateX(0) rotate(0deg); }
-  100% { opacity:1; transform:translateY(0) translateX(0) rotate(0deg); }
-}
 .movie-card-inner {
-  position:relative; overflow:hidden; border:3px solid var(--gold-dim);
+  position:relative; overflow:hidden; border:2px solid var(--green-dim);
   transition:border-color 0.3s, box-shadow 0.3s, transform 0.3s;
 }
 .movie-card:hover .movie-card-inner {
-  border-color:var(--gold);
-  box-shadow:0 0 0 1px var(--gold), 0 10px 36px rgba(0,0,0,0.85), 0 0 24px rgba(57,255,20,0.18);
+  border-color:var(--neon-green);
+  box-shadow:0 0 0 1px var(--neon-green), 0 10px 36px rgba(0,0,0,0.9), 0 0 20px rgba(0,255,102,0.3);
   transform:translateY(-7px) scale(1.02);
 }
 .movie-card img {
   width:100%; aspect-ratio:2/3; object-fit:cover; display:block;
-  transition:filter 0.3s; filter:sepia(12%) contrast(1.04);
+  transition:filter 0.3s; filter:grayscale(30%) brightness(0.9);
 }
-.movie-card:hover img { filter:sepia(0%) contrast(1.1) brightness(1.06); }
+.movie-card:hover img { filter:grayscale(0%) brightness(1.05); }
 .movie-card-inner::before, .movie-card-inner::after {
   content:""; position:absolute; width:13px; height:13px;
-  border-color:var(--gold); border-style:solid; z-index:3; opacity:0; transition:opacity 0.3s;
+  border-color:var(--neon-green); border-style:solid; z-index:3; opacity:0; transition:opacity 0.3s;
 }
 .movie-card-inner::before { top:5px; left:5px; border-width:2px 0 0 2px; }
 .movie-card-inner::after  { bottom:5px; right:5px; border-width:0 2px 2px 0; }
@@ -250,24 +274,24 @@ body {
 .movie-card:hover .movie-card-inner::after { opacity:1; }
 .card-overlay {
   position:absolute; inset:0;
-  background:linear-gradient(180deg,transparent 38%,rgba(8,5,2,0.72) 68%,rgba(8,5,2,0.96) 100%);
+  background:linear-gradient(180deg,transparent 38%,rgba(3,10,5,0.8) 68%,rgba(3,10,5,0.98) 100%);
   display:flex; flex-direction:column; justify-content:flex-end;
   padding:10px; opacity:0; transition:opacity 0.3s;
 }
 .movie-card:hover .card-overlay { opacity:1; }
 .card-overlay-title {
-  font-family:'Playfair Display', serif; font-size:0.88rem; color:var(--gold-light);
+  font-family:'Fira Code', monospace; font-size:0.85rem; color:var(--green-light);
   font-weight:700; line-height:1.2; margin-bottom:3px;
 }
-.card-overlay-meta { font-size:0.73rem; color:var(--cream-dim); font-style:italic; }
+.card-overlay-meta { font-size:0.73rem; color:var(--text-main); font-style:italic; }
 .card-title {
-  font-family:'Playfair Display', serif; font-size:0.86rem; color:var(--cream);
+  font-family:'Fira Code', monospace; font-size:0.82rem; color:var(--text-main);
   margin-top:8px; text-align:center; line-height:1.3; transition:color 0.2s;
 }
-.movie-card:hover .card-title { color:var(--gold); }
+.movie-card:hover .card-title { color:var(--neon-green); }
 .card-year {
   font-family:'Bebas Neue', sans-serif; font-size:0.72rem; letter-spacing:0.15em;
-  color:var(--gold-dim); text-align:center; margin-top:2px;
+  color:var(--green-dim); text-align:center; margin-top:2px;
 }
 .badge-wrap {
   position:absolute; top:6px; left:6px;
@@ -283,9 +307,9 @@ body {
   from{box-shadow:0 0 5px rgba(255,70,0,0.4)} to{box-shadow:0 0 16px rgba(255,70,0,0.9)}
 }
 .badge-new {
-  background:linear-gradient(135deg,#0d3a52,#1494c9); color:#fff;
+  background:linear-gradient(135deg,#0e4a1a,#00ff66); color:#000; font-weight:bold;
   font-family:'Bebas Neue', sans-serif; font-size:0.68rem; letter-spacing:0.1em;
-  padding:2px 7px; border-radius:2px; box-shadow:0 0 8px rgba(20,148,201,0.5);
+  padding:2px 7px; border-radius:2px; box-shadow:0 0 8px rgba(0,255,102,0.5);
 }
 .admin-card-btns {
   display:none; position:absolute; top:6px; right:6px;
@@ -298,71 +322,71 @@ body {
 .btn-del  { background:rgba(130,20,20,0.92); color:#ffbbbb; }
 .btn-fire { background:rgba(160,80,0,0.92);  color:#ffd080; }
 .btn-new  { background:rgba(16,80,24,0.92);  color:#aaffaa; }
-.btn-del:hover  { background:#b3123a; }
+.btn-del:hover  { background:#8b1a1a; }
 .btn-fire:hover { background:#b06000; }
 .btn-new:hover  { background:#0e5a1a; }
 #adminPanel {
   display:none; background:var(--bg2);
-  border-top:2px solid var(--gold-dim); border-bottom:2px solid var(--gold-dim);
+  border-top:2px solid var(--green-dim); border-bottom:2px solid var(--green-dim);
   position:relative; z-index:99;
 }
 .admin-header-row {
   display:flex; align-items:center; gap:14px; padding:10px 26px;
-  background:rgba(120,20,20,0.12); border-bottom:1px solid rgba(57,255,20,0.2);
+  background:rgba(0,255,102,0.05); border-bottom:1px solid rgba(0,255,102,0.2);
 }
-.admin-crown { font-family:'Bebas Neue', sans-serif; letter-spacing:0.16em; color:var(--gold); font-size:0.88rem; }
+.admin-crown { font-family:'Bebas Neue', sans-serif; letter-spacing:0.16em; color:var(--neon-green); font-size:0.88rem; }
 .admin-logout {
-  margin-left:auto; background:none; border:1px solid var(--gold-dim); color:var(--cream-dim);
+  margin-left:auto; background:none; border:1px solid var(--green-dim); color:var(--text-main);
   font-family:'Bebas Neue', sans-serif; font-size:0.78rem; letter-spacing:0.1em;
   padding:5px 14px; cursor:pointer; border-radius:2px; transition:0.2s;
 }
-.admin-logout:hover { border-color:#ff2f54; color:#ff2f54; }
+.admin-logout:hover { border-color:#c0392b; color:#c0392b; }
 .admin-tabs {
   display:flex; background:var(--bg);
-  border-bottom:1px solid var(--gold-dim); padding:0 26px;
+  border-bottom:1px solid var(--green-dim); padding:0 26px;
 }
 .admin-tab {
   font-family:'Bebas Neue', sans-serif; letter-spacing:0.12em; font-size:0.88rem;
-  color:var(--cream-dim); padding:11px 18px; background:none; border:none;
+  color:var(--text-main); padding:11px 18px; background:none; border:none;
   border-bottom:2px solid transparent; cursor:pointer; transition:0.2s; margin-bottom:-1px;
 }
-.admin-tab.active,.admin-tab:hover { color:var(--gold); border-bottom-color:var(--gold); }
+.admin-tab.active,.admin-tab:hover { color:var(--neon-green); border-bottom-color:var(--neon-green); }
 .admin-section { display:none; padding:22px 26px; }
 .admin-section.active { display:block; }
-.admin-section h3 { font-family:'Playfair Display', serif; font-style:italic; color:var(--gold); font-size:1.15rem; margin-bottom:16px; }
+.admin-section h3 { font-family:'Fira Code', monospace; color:var(--neon-green); font-size:1.15rem; margin-bottom:16px; }
 .add-form { display:grid; grid-template-columns:1fr 1fr; gap:13px; max-width:680px; }
 .add-form .full { grid-column:1/-1; }
 .add-form label {
   display:block; font-family:'Bebas Neue', sans-serif;
-  font-size:0.72rem; letter-spacing:0.15em; color:var(--gold-dim); margin-bottom:4px;
+  font-size:0.72rem; letter-spacing:0.15em; color:var(--green-dim); margin-bottom:4px;
 }
 .add-form input,.add-form textarea,.add-form select {
-  width:100%; padding:8px 11px; background:var(--bg3); color:var(--cream);
-  border:1px solid var(--gold-dim); border-radius:2px;
-  font-family:'Crimson Text', serif; font-size:0.94rem;
+  width:100%; padding:8px 11px; background:var(--bg3); color:var(--text-main);
+  border:1px solid var(--green-dim); border-radius:2px;
+  font-family:'Fira Code', monospace; font-size:0.88rem;
   box-sizing:border-box; outline:none; transition:border-color 0.2s;
 }
-.add-form input:focus,.add-form textarea:focus { border-color:var(--gold); }
+.add-form input:focus,.add-form textarea:focus { border-color:var(--neon-green); }
 .add-form textarea { min-height:72px; resize:vertical; }
 .btn-add-film {
   grid-column:1/-1; padding:11px;
-  background:linear-gradient(135deg,var(--gold-dim),var(--gold));
-  color:var(--bg); font-family:'Bebas Neue', sans-serif;
+  background:linear-gradient(135deg,var(--green-dim),var(--neon-green));
+  color:#000; font-family:'Bebas Neue', sans-serif; font-weight:bold;
   letter-spacing:0.16em; font-size:0.95rem;
   border:none; border-radius:2px; cursor:pointer; transition:0.3s;
 }
-.btn-add-film:hover { box-shadow:0 0 20px rgba(57,255,20,0.4); }
-.success-msg { grid-column:1/-1; color:#27ae60; font-style:italic; font-size:0.88rem; display:none; margin-top:4px; }
+.btn-add-film:hover { box-shadow:0 0 20px rgba(0,255,102,0.5); }
+.success-msg { grid-column:1/-1; color:var(--neon-green); font-style:italic; font-size:0.88rem; display:none; margin-top:4px; }
 .stats-table { width:100%; border-collapse:collapse; }
 .stats-table th {
   font-family:'Bebas Neue', sans-serif; letter-spacing:0.12em; font-size:0.78rem;
-  color:var(--gold); text-align:left; padding:8px 12px; border-bottom:1px solid var(--gold-dim);
+  color:var(--neon-green); text-align:left; padding:8px 12px; border-bottom:1px solid var(--green-dim);
 }
-.stats-table td { padding:8px 12px; border-bottom:1px solid rgba(57,255,20,0.07); font-size:0.88rem; }
-.stats-table tr:hover td { background:rgba(57,255,20,0.04); }
-.stats-rank { color:var(--gold); font-family:'Bebas Neue', sans-serif; font-size:1rem; }
+.stats-table td { padding:8px 12px; border-bottom:1px solid rgba(0,255,102,0.07); font-size:0.88rem; }
+.stats-table tr:hover td { background:rgba(0,255,102,0.04); }
+.stats-rank { color:var(--neon-green); font-family:'Bebas Neue', sans-serif; font-size:1rem; }
 .stats-bar { height:4px; background:var(--bg3); border-radius:2px; margin-top:4px; }
-.stats-bar-fill { height:100%; background:linear-gradient(90deg,var(--gold-dim),var(--gold)); border-radius:2px; transition:width 0.8s; }
+.stats-bar-fill { height:100%; background:linear-gradient(90deg,var(--green-dim),var(--neon-green)); border-radius:2px; transition:width 0.8s; }
 .modal-overlay {
   display:none; position:fixed; inset:0;
   background:rgba(0,0,0,0.92); z-index:1000;
@@ -370,135 +394,61 @@ body {
 }
 .modal-overlay.open { display:flex; }
 .modal-box {
-  background:var(--bg2); border:2px solid var(--gold-dim);
+  background:var(--bg2); border:2px solid var(--green-dim);
   padding:38px; width:360px; max-width:95vw; position:relative;
-  box-shadow:0 0 70px rgba(0,0,0,0.9), 0 0 24px rgba(57,255,20,0.1);
+  box-shadow:0 0 70px rgba(0,0,0,0.9), 0 0 24px rgba(0,255,102,0.2);
 }
 .modal-box::before {
   content:""; position:absolute; top:8px; left:8px; right:8px; bottom:8px;
-  border:1px solid rgba(57,255,20,0.1); pointer-events:none;
+  border:1px solid rgba(0,255,102,0.1); pointer-events:none;
 }
 .modal-box h2 {
-  font-family:'Playfair Display', serif; font-style:italic; color:var(--gold);
-  font-size:1.5rem; margin-bottom:22px; text-align:center;
+  font-family:'Fira Code', monospace; color:var(--neon-green);
+  font-size:1.3rem; margin-bottom:22px; text-align:center;
 }
 .modal-close {
   position:absolute; top:12px; right:14px;
-  background:none; border:none; color:var(--gold-dim); font-size:20px; cursor:pointer;
+  background:none; border:none; color:var(--green-dim); font-size:20px; cursor:pointer;
 }
 .modal-close:hover { color:var(--red-light); }
 #adminLoginModal input {
   width:100%; padding:10px 12px; margin:6px 0;
-  background:var(--bg3); color:var(--cream);
-  border:1px solid var(--gold-dim); border-radius:2px;
-  font-family:'Crimson Text', serif; font-size:1rem;
+  background:var(--bg3); color:var(--text-main);
+  border:1px solid var(--green-dim); border-radius:2px;
+  font-family:'Fira Code', monospace; font-size:0.9rem;
   box-sizing:border-box; outline:none; transition:border-color 0.2s;
 }
-#adminLoginModal input:focus { border-color:var(--gold); }
+#adminLoginModal input:focus { border-color:var(--neon-green); }
 #adminLoginModal .submit {
   width:100%; padding:12px; margin-top:12px;
-  background:linear-gradient(135deg,var(--gold-dim),var(--gold));
-  color:var(--bg); font-family:'Bebas Neue', sans-serif;
+  background:linear-gradient(135deg,var(--green-dim),var(--neon-green));
+  color:#000; font-family:'Bebas Neue', sans-serif; font-weight:bold;
   letter-spacing:0.16em; font-size:1rem;
   border:none; border-radius:2px; cursor:pointer; transition:0.3s;
 }
-#adminLoginModal .submit:hover { box-shadow:0 0 18px rgba(57,255,20,0.4); }
-#adminLoginError { color:#ff2f54; font-size:0.85rem; margin-top:8px; text-align:center; }
-.collections-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(250px,1fr)); gap:22px; }
-.collection-card {
-  position:relative; overflow:hidden;
-  border:2px solid var(--gold-dim); cursor:pointer; transition:0.3s;
-}
-.collection-card:hover { border-color:var(--gold); transform:translateY(-5px); box-shadow:0 0 22px rgba(57,255,20,0.2); }
-.collection-card img { width:100%; height:175px; object-fit:cover; filter:sepia(30%) brightness(0.65); transition:0.3s; }
-.collection-card:hover img { filter:sepia(10%) brightness(0.82); }
-.collection-label {
-  position:absolute; inset:0; display:flex; align-items:flex-end;
-  background:linear-gradient(transparent 35%, rgba(0,0,0,0.88)); padding:14px;
-}
-.collection-label h3 { font-family:'Playfair Display', serif; font-style:italic; color:var(--gold); font-size:1.15rem; }
+#adminLoginModal .submit:hover { box-shadow:0 0 18px rgba(0,255,102,0.4); }
+#adminLoginError { color:#c0392b; font-size:0.85rem; margin-top:8px; text-align:center; }
 
 #actorsList { overflow-y:visible; }
 
 ::-webkit-scrollbar { width:5px; }
 ::-webkit-scrollbar-track { background:var(--bg); }
-::-webkit-scrollbar-thumb { background:var(--gold-dim); border-radius:3px; }
+::-webkit-scrollbar-thumb { background:var(--green-dim); border-radius:3px; }
 @media(max-width:680px){
   .sidebar{display:none;}
   .catalog{padding:18px;}
   .movies-grid{grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:14px;}
 }
 
-/* GOLD UNDERLINES ON HOVER */
-.meta-tag {
-  position:relative;
-}
-.meta-tag::after {
-  content:"";
-  position:absolute;
-  bottom:0; left:10%; right:10%;
-  height:1px;
-  background:var(--gold);
-  transform:scaleX(0);
-  transition:transform 0.25s ease;
-}
-.meta-tag:hover::after { transform:scaleX(1); }
-
-.rating-badge {
-  position:relative; overflow:hidden;
-}
-.rating-badge::after {
-  content:"";
-  position:absolute;
-  bottom:0; left:10%; right:10%;
-  height:1px;
-  background:linear-gradient(90deg, transparent, var(--gold), transparent);
-  transform:scaleX(0);
-  transition:transform 0.3s ease;
-}
-.rating-badge:hover::after { transform:scaleX(1); }
-.rating-badge .label { transition:color 0.2s; }
-.rating-badge:hover .label { color:var(--gold); }
-.rating-badge .value { transition:color 0.2s, text-shadow 0.2s; }
-.rating-badge:hover .value {
-  color:var(--gold-light);
-  text-shadow:0 0 18px rgba(90,255,150,0.5);
-}
-
-.detail-value {
-  position:relative;
-}
-.detail-value::after {
-  content:"";
-  position:absolute;
-  bottom:-2px; left:0; right:0;
-  height:1px;
-  background:linear-gradient(90deg, var(--gold-dim), var(--gold), var(--gold-dim));
-  transform:scaleX(0);
-  transform-origin:left;
-  transition:transform 0.3s ease;
-}
-.detail-item:hover .detail-value::after { transform:scaleX(1); }
-.detail-item:hover .detail-value { color:var(--gold-light); }
-
-.detail-value a { color:var(--gold); text-decoration:none; position:relative; transition:color 0.2s; }
-.detail-value a::after {
-  content:""; position:absolute;
-  bottom:-1px; left:0; right:0; height:1px;
-  background:var(--gold); transform:scaleX(0); transform-origin:left; transition:transform 0.25s ease;
-}
-.detail-value a:hover { color:var(--gold-light); }
-.detail-value a:hover::after { transform:scaleX(1); }
-
 .random-btn {
   font-family:'Bebas Neue', sans-serif !important; letter-spacing:0.1em !important;
-  background:linear-gradient(135deg, #0d3a52, #1494c9) !important;
-  color:var(--gold-light) !important; border:1px solid #37b6e8 !important;
+  background:linear-gradient(135deg, #0d3b14, #008033) !important;
+  color:var(--neon-green) !important; border:1px solid var(--neon-green) !important;
   padding:7px 16px !important; border-radius:2px !important;
   margin:6px 6px !important; font-size:0.85rem !important; transition:0.3s !important;
   cursor:pointer !important;
 }
-.random-btn:hover { box-shadow:0 0 14px rgba(20,148,201,0.6) !important; }
+.random-btn:hover { box-shadow:0 0 14px rgba(0,255,102,0.6) !important; }
 .random-btn::after { display:none !important; }
 
 /* Random Modal */
@@ -510,62 +460,44 @@ body {
 }
 .random-movie-poster {
   width:120px; flex-shrink:0;
-  border:2px solid var(--gold-dim);
+  border:2px solid var(--green-dim);
 }
 .random-movie-poster img {
   width:100%; aspect-ratio:2/3; object-fit:cover;
-  display:block; filter:sepia(12%) contrast(1.04);
+  display:block;
 }
 .random-movie-info { flex:1; }
 .random-movie-title {
-  font-family:'Playfair Display', serif; font-style:italic;
-  color:var(--gold); font-size:1.2rem; line-height:1.25; margin-bottom:8px;
+  font-family:'Fira Code', monospace;
+  color:var(--neon-green); font-size:1.1rem; line-height:1.25; margin-bottom:8px;
 }
 .random-movie-meta {
   font-family:'Bebas Neue', sans-serif; letter-spacing:0.1em;
-  color:var(--cream-dim); font-size:0.78rem; margin-bottom:10px;
+  color:var(--green-dim); font-size:0.78rem; margin-bottom:10px;
 }
 .random-movie-desc {
-  font-style:italic; color:var(--cream-dim); font-size:0.88rem; line-height:1.5;
+  font-style:italic; color:var(--text-main); font-size:0.85rem; line-height:1.5;
 }
 .random-btns {
   display:flex; gap:12px; margin-top:4px;
 }
 .btn-watch-now {
   flex:1; padding:12px; text-align:center; text-decoration:none;
-  background:linear-gradient(135deg,var(--gold-dim),var(--gold));
-  color:var(--bg); font-family:'Bebas Neue', sans-serif;
+  background:linear-gradient(135deg,var(--green-dim),var(--neon-green));
+  color:#000; font-family:'Bebas Neue', sans-serif; font-weight:bold;
   letter-spacing:0.16em; font-size:0.95rem;
   border:none; border-radius:2px; cursor:pointer; transition:0.3s; display:block;
 }
-.btn-watch-now:hover { box-shadow:0 0 20px rgba(57,255,20,0.4); }
+.btn-watch-now:hover { box-shadow:0 0 20px rgba(0,255,102,0.5); }
 .btn-another {
   padding:12px 16px;
-  background:none; border:1px solid var(--gold-dim); color:var(--cream-dim);
+  background:none; border:1px solid var(--green-dim); color:var(--text-main);
   font-family:'Bebas Neue', sans-serif; letter-spacing:0.12em; font-size:0.85rem;
   border-radius:2px; cursor:pointer; transition:0.2s; white-space:nowrap;
 }
-.btn-another:hover { border-color:var(--gold); color:var(--gold); }
+.btn-another:hover { border-color:var(--neon-green); color:var(--neon-green); }
 
-.user-rating-wrap label {
-  display:inline-block; cursor:default;
-  position:relative; transition:color 0.2s;
-}
-.user-rating-wrap label::after {
-  content:"";
-  position:absolute;
-  bottom:-2px; left:0; right:0;
-  height:1px;
-  background:var(--gold);
-  transform:scaleX(0);
-  transform-origin:left;
-  transition:transform 0.25s ease;
-}
-.user-rating-wrap label:hover { color:var(--gold-light); }
-.user-rating-wrap label:hover::after { transform:scaleX(1); }
-
-
-/* ===== HEADER STARS (справа и слева от Fish Cinema) ===== */
+/* ===== HEADER STARS ===== */
 .header-star-field {
   position: absolute;
   inset: 0;
@@ -573,25 +505,24 @@ body {
   overflow: hidden;
 }
 
-/* Отдельные звёзды вокруг заголовка */
 .hstar {
   position: absolute;
-  color: var(--gold-dim);
+  color: var(--green-dim);
   font-style: normal;
   line-height: 1;
   animation: hstar-twinkle var(--dur, 3s) var(--delay, 0s) ease-in-out infinite alternate;
-  text-shadow: 0 0 6px var(--gold), 0 0 14px rgba(57,255,20,0.4);
+  text-shadow: 0 0 6px var(--neon-green);
 }
 @keyframes hstar-twinkle {
   from { opacity: 0.15; transform: scale(0.8); }
   to   { opacity: 0.95; transform: scale(1.15); }
 }
 
-/* ===== ПОРТРЕТ СЛЕВА — ASCII/текстовая графика ===== */
+/* ===== ПОРТРЕТ СЛЕВА — ASCII ===== */
 .ascii-portrait {
   position: fixed;
   left: 0;
-  top: 49px; /* под меню */
+  top: 49px;
   width: 200px;
   height: calc(100vh - 49px);
   pointer-events: none;
@@ -603,23 +534,21 @@ body {
   padding-top: 20px;
 }
 .ascii-portrait pre {
-  font-family: 'Courier New', monospace;
+  font-family: 'Fira Code', monospace;
   font-size: 5.2px;
   line-height: 1.15;
-  color: var(--gold-dim);
-  opacity: 0.38;
-  text-shadow: 0 0 4px rgba(57,255,20,0.3);
+  color: var(--neon-green);
+  opacity: 0.35;
+  text-shadow: 0 0 4px var(--neon-green);
   white-space: pre;
   user-select: none;
   letter-spacing: 0.5px;
-  filter: blur(0.2px);
   animation: ascii-fade 6s ease-in-out infinite alternate;
 }
 @keyframes ascii-fade {
-  from { opacity: 0.28; }
-  to   { opacity: 0.48; }
+  from { opacity: 0.2; }
+  to   { opacity: 0.45; }
 }
-/* fade right edge */
 .ascii-portrait::after {
   content: '';
   position: absolute;
@@ -630,7 +559,10 @@ body {
 </style>
 </head>
 <body>
-<canvas id="matrixRain"></canvas>
+
+<!-- АНИМАЦИЯ ПАДАЮЩИХ ПОСТЕРОВ ПРИ ВХОДЕ НА САЙТ -->
+<div id="intro-overlay"></div>
+
 <div class="ascii-portrait">
   <pre>                    ▄▄█████▄▄              
                  ▄█████████████▄           
@@ -699,7 +631,8 @@ body {
 </div>
 
   <span class="header-ornament">✦ &nbsp; ДОБРО ПОЖАЛОВАТЬ &nbsp; ✦</span>
-  <h1 class="site-title">Fish Cinema</h1>
+  <!-- ЗАГОЛОВАК FISH CINEMA С ПОБУКВЕННОЙ АНИМАЦИЕЙ СЛЕВА -->
+  <h1 class="site-title" id="animatedTitle"></h1>
   <p class="site-tagline">Без рекламы. Без казино. Только кино.</p>
   <span class="header-stars">★ &nbsp; ★ &nbsp; ★ &nbsp; ★ &nbsp; ★</span>
 </header>
@@ -806,7 +739,7 @@ body {
 
     <div class="sidebar-section">
       <div class="sidebar-title">◆ Актёры</div>
-      <input type="text" id="actorSearch" placeholder="🔍 Найти актёра..." oninput="filterActorsList()" style="width:100%;padding:6px 9px;background:rgba(255,255,255,0.04);border:1px solid var(--gold-dim);border-radius:2px;color:var(--cream);font-family:'Crimson Text',serif;font-size:0.88rem;outline:none;margin-bottom:7px;box-sizing:border-box;">
+      <input type="text" id="actorSearch" placeholder="🔍 Найти актёра..." oninput="filterActorsList()" style="width:100%;padding:6px 9px;background:rgba(0,255,102,0.05);border:1px solid var(--green-dim);border-radius:2px;color:var(--text-main);font-family:'Fira Code',monospace;font-size:0.85rem;outline:none;margin-bottom:7px;box-sizing:border-box;">
       <div id="actorsList"></div>
     </div>
   </aside>
@@ -820,62 +753,13 @@ body {
   </main>
 </div>
 
-<div class="filmstrip" style="margin-top:50px;border-top:2px solid #0a2412;border-bottom:none">
+<div class="filmstrip" style="margin-top:50px;border-top:2px solid var(--green-dark);border-bottom:none">
   <div class="filmstrip-holes" id="filmstripBottom"></div>
 </div>
 
 <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
 <script>
-/* ===== Matrix-style code rain background ===== */
-(function(){
-  const canvas=document.getElementById('matrixRain');
-  const ctx=canvas.getContext('2d');
-  const chars="アイウエオカキクケコサシスセソタチツテト01234567890{}<>/;=+*ABCDEFGH";
-  const fontSize=15;
-  let columns, drops;
-  function resize(){
-    canvas.width=window.innerWidth;
-    canvas.height=window.innerHeight;
-    columns=Math.floor(canvas.width/fontSize);
-    drops=Array(columns).fill(0).map(()=>Math.random()*-40);
-  }
-  resize();
-  window.addEventListener('resize',resize);
-  function draw(){
-    ctx.fillStyle='rgba(0,0,0,0.08)';
-    ctx.fillRect(0,0,canvas.width,canvas.height);
-    ctx.font=fontSize+'px "Share Tech Mono", monospace';
-    for(let i=0;i<drops.length;i++){
-      const text=chars[Math.floor(Math.random()*chars.length)];
-      const y=drops[i]*fontSize;
-      ctx.fillStyle='#c6ffcf';
-      ctx.fillText(text, i*fontSize, y);
-      ctx.fillStyle='#39ff14';
-      ctx.fillText(text, i*fontSize, y-fontSize);
-      if(y>canvas.height && Math.random()>0.975) drops[i]=0;
-      drops[i]++;
-    }
-  }
-  setInterval(draw,55);
-})();
-
-/* ===== "Fish Cinema" letters flying in from the left ===== */
-(function(){
-  const el=document.querySelector('.site-title');
-  if(!el) return;
-  const text=el.textContent;
-  el.setAttribute('aria-label',text);
-  el.textContent='';
-  [...text].forEach((ch,i)=>{
-    const span=document.createElement('span');
-    span.className='letter';
-    span.textContent=(ch===' ')?'\u00A0':ch;
-    span.style.animationDelay=(i*0.06)+'s';
-    el.appendChild(span);
-  });
-})();
-
 function buildStrip(id){
   const el=document.getElementById(id);
   let h="";
@@ -919,24 +803,6 @@ function adminLogout(){
   localStorage.removeItem("adminNick");
   document.getElementById("adminPanel").style.display="none";
   render(movies);
-}
-window.addEventListener("load",()=>{
-  const saved=localStorage.getItem("adminNick");
-  if(saved&&ADMIN_NICKS.includes(saved)){
-    isAdmin=true;
-    document.getElementById("adminPanel").style.display="block";
-  }
-});
-function closeAdminLogin(){
-  document.getElementById("adminLoginModal").classList.remove("open");
-  document.getElementById("adminLoginError").innerText="";
-}
-function switchAdminTab(tab,btn){
-  document.querySelectorAll(".admin-tab").forEach(b=>b.classList.remove("active"));
-  document.querySelectorAll(".admin-section").forEach(s=>s.classList.remove("active"));
-  btn.classList.add("active");
-  document.getElementById("adminTab-"+tab).classList.add("active");
-  if(tab==="stats") loadStats();
 }
 
 const movies=[
@@ -1033,271 +899,160 @@ const movies=[
   {title:"Ночь в музее",                 file:"Night_At_The_Museum.html",              movieKey:"night_at_museum_2006",          year:2006, country:"США",             hot:false, isNew:false, desc:"Ночной охранник музея обнаруживает, что все экспонаты оживают с наступлением темноты.",                  img:"https://play-lh.googleusercontent.com/m1DATAml2bUrbza4pQmOBmAIgFhFVLa9kygNcN-EIJg-dHDPiFYpED2GwEAX3XfugL2i",            actors:["Бен Стиллер","Карла Гуджино","Дик Ван Дайк"]},
   {title:"Эйс Вентура",                  file:"Ace_Ventura.html",                      movieKey:"ace_ventura_1994",              year:1994, country:"США",             hot:false, isNew:false, desc:"Самый эксцентричный детектив Майами ищет похищенного дельфина — талисмана команды перед Суперкубком.",  img:"https://kinogo.online/uploads/posts/2021-02/1614477480-634145477.jpg",            actors:["Джим Керри","Кортни Кокс","Шон Янг"]},
   {title:"Американский пирог",           file:"American_Pie.html",                     movieKey:"american_pie_1999",             year:1999, country:"США",             hot:true,  isNew:false, desc:"Четверо друзей-старшеклассников заключают пари: потерять невинность до выпускного бала. Культ.",       img:"https://kinogo.online/uploads/posts/2021-02/1614435361-343685995.jpg",            actors:["Джейсон Биггс","Шон Уильям Скотт","Алисон Ханниган"]},
-  {title:"Брюс всемогущий",              file:"Bruce_Almighty.html",                   movieKey:"bruce_almighty_2003",           year:2003, country:"США",             hot:false, isNew:false, desc:"Репортёр злится на Бога — и получает все его силы на неделю. Управлять вселенной сложнее, чем кажется.",img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTq_zoDXTXPlXi4M74ADFBCzJkHiy-ca59hDQ&s",            actors:["Джим Керри","Морган Фримен","Дженнифер Энистон"]},
-  {title:"Большой Стэн",                 file:"Big_Stan.html",                         movieKey:"big_stan_2007",                 year:2007, country:"США",             hot:false, isNew:false, desc:"Мошенник, которому грозит тюрьма, нанимает мастера боевых искусств и превращается в грозного бойца.",  img:"https://kinogo.media/uploads/posts/2021-10/1634995784_iphone360_231150.jpg",            actors:["Роб Шнайдер","Дэвид Кэррэдайн"]},
-  {title:"Поймай толстуху, если сможешь",file:"Identity_Thief.html",                   movieKey:"identity_thief_2013",           year:2013, country:"США",             hot:false, isNew:false, desc:"Бухгалтер едет через всю страну, чтобы поймать мошенницу, укравшую его личность.",                     img:"https://upload.wikimedia.org/wikipedia/ru/a/a7/Identity_Thief_Poster.jpg",            actors:["Джейсон Бейтман","Мелисса Маккарти"]},
-  {title:"Каникулы",                     file:"Vacation.html",                         movieKey:"vacation_2015",                 year:2015, country:"США",             hot:false, isNew:false, desc:"Расти Гризвольд решает повторить легендарные каникулы своего детства с семьёй. Всё идёт не по плану.",  img:"https://kinogo.media/uploads/posts/2021-09/1632938097_iphone360_484426.jpg",            actors:["Эд Хелмс","Кристина Эпплгейт","Крис Хемсворт"]},
-  {title:"2012",                         file:"2012.html",                             movieKey:"movie_2012",                    year:2009, country:"США",             hot:false, isNew:false, desc:"Земля на пороге катастрофы. Писатель пытается спасти семью пока континенты уходят под воду.",            img:"https://upload.wikimedia.org/wikipedia/ru/d/dd/2012_Poster.jpg",            actors:["Джон Кьюсак","Аманда Пит","Чиветель Эджиофор"]},
-  {title:"План побега",                  file:"Escape_Plan.html",                      movieKey:"escape_plan_2013",              year:2013, country:"США",             hot:true,  isNew:false, desc:"Эксперт по безопасности тюрем сам оказывается заперт в засекреченном учреждении без права на побег.",   img:"https://kinogo.online/uploads/posts/2021-02/1614521619-1674280347.jpg",            actors:["Сильвестр Сталлоне","Арнольд Шварценеггер"]},
-  {title:"Джуманджи: Зов джунглей",     file:"Jumanji_2017.html",                     movieKey:"jumanji_2017",                  year:2017, country:"США",             hot:true,  isNew:false, desc:"Четверо школьников затягиваются в видеоигру и оказываются в телах персонажей Джуманджи.",               img:"https://kinogo.ec/uploads/posts/2020-03/1585501618-456930113.jpg",            actors:["Двейн Джонсон","Джек Блэк","Кевин Харт","Карен Гиллан"]},
-  {title:"Начало",                       file:"Inception.html",                        movieKey:"inception_2010",                year:2010, country:"США",             hot:true,  isNew:false, desc:"Кобб крадёт секреты из подсознания людей. Его новое задание — внедрить идею. Нолан меняет кино.",        img:"https://upload.wikimedia.org/wikipedia/ru/b/bc/Poster_Inception_film_2010.jpg",            actors:["Леонардо ДиКаприо","Джозеф Гордон-Левитт","Эллиот Пейдж"]},
-  {title:"Волк с Уолл-стрит",           file:"Wolf_of_Wall_Street.html",              movieKey:"wolf_of_wall_street_2013",      year:2013, country:"США",             hot:true,  isNew:false, desc:"Реальная история брокера Белфорта: мошенничество, наркотики, деньги и полный крах. Скорсезе.",          img:"https://kinogo.my/uploads/posts/2017-04/1493391575-310257099-volk-s-uoll-strit.jpg",            actors:["Леонардо ДиКаприо","Джона Хилл","Марго Робби"]},
-  {title:"Однажды в… Голливуде",        file:"Once_Upon_Time_in_Hollywood.html",       movieKey:"once_upon_time_hollywood_2019", year:2019, country:"США",             hot:true,  isNew:false, desc:"Голливуд 1969 года, угасающая звезда вестернов и его верный дублёр. Тарантино.",                        img:"https://kinogo.online/uploads/mini/shortstory-mob/9ff/1614459939-1211379778.jpg",            actors:["Леонардо ДиКаприо","Брэд Питт","Марго Робби"]},
-  {title:"Один дома",                   file:"Home_Alone.html",                        movieKey:"home_alone_1990",               year:1990, country:"США",             hot:true,  isNew:false, desc:"Восьмилетний Кевин остаётся дома один на Рождество и устраивает ловушки для незадачливых воров.",       img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSbDV2Jm_8Vxc8THjjtuQHGPSaPY76fq_GaNg&s",            actors:["Маколей Калкин","Джо Пеши","Дэниел Стерн"]},
-  {title:"Дивергент",                   file:"Divergent.html",                         movieKey:"divergent_2014",                year:2014, country:"США",             hot:false, isNew:false, desc:"В постапокалиптическом Чикаго Трис узнаёт, что она дивергент — и это делает её мишенью системы.",      img:"https://kinogo.online/uploads/mini/shortstory-mob/b04/1614407017-1811290746.jpg",            actors:["Шейлин Вудли","Тео Джеймс","Кейт Уинслет"]},
-  {title:"Человек дождя",               file:"Rain_Man.html",                          movieKey:"rain_man_1988",                 year:1988, country:"США",             hot:true,  isNew:false, desc:"Циничный делец похищает брата-аутиста и везёт его через всю Америку. Оскар.",                          img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRK-MBvn1kd0Ny8m1hCwLHyQgarFs5GU9bD6yPFCtfi4Q&s=10",            actors:["Дастин Хоффман","Том Круз","Валерия Голино"]},
-  {title:"Терминал",                    file:"The_Terminal.html",                      movieKey:"the_terminal_2004",             year:2004, country:"США",             hot:false, isNew:false, desc:"Виктор Наворски застрял в аэропорту JFK — его страна перестала существовать. Спилберг.",               img:"https://kinogo.online/uploads/posts/2021-02/1614402651-1617596396.jpg",            actors:["Том Хэнкс","Кэтрин Зета-Джонс","Стэнли Туччи"]},
-  {title:"Диктатор",                    file:"The_Dictator.html",                      movieKey:"the_dictator_2012",             year:2012, country:"США",             hot:false, isNew:false, desc:"Всесильный диктатор приезжает в Нью-Йорк и лишается власти и личности. Саша Барон Коэн.",            img:"https://ru-images.kinorium.com/movie/1080/530997.jpg?1726583595",            actors:["Саша Барон Коэн","Анна Фарис","Бен Кингсли"]},
-  {title:"Всегда говори «Да»",          file:"Yes_Man.html",                           movieKey:"yes_man_2008",                  year:2008, country:"США",             hot:false, isNew:false, desc:"Пессимист Карл даёт клятву говорить «да» на всё. Джим Керри в ударе.",                               img:"https://kinogo.online/uploads/posts/2021-02/1614363151-1254087138.jpg",            actors:["Джим Керри","Зои Дешанель","Брэдли Купер"]},
-  {title:"Пипец",                       file:"Kick_Ass.html",                          movieKey:"kickass_2010",                  year:2010, country:"США",             hot:true,  isNew:false, desc:"Обычный подросток надевает костюм и выходит на улицы. Реальность — не комикс. Мэттью Вон.",           img:"https://upload.wikimedia.org/wikipedia/ru/f/f8/%D0%9F%D0%BE%D1%81%D1%82%D0%B5%D1%80_%D1%84%D0%B8%D0%BB%D1%8C%D0%BC%D0%B0_%D0%9F%D0%B8%D0%BF%D0%B5%D1%86.jpg",            actors:["Аарон Тейлор-Джонсон","Хлоя Грейс Морец","Николас Кейдж"]},
-  {title:"Копы в глубоком запасе",      file:"Other_Guys.html",                        movieKey:"other_guys_2010",               year:2010, country:"США",             hot:false, isNew:false, desc:"Два скромных полицейских с бумажной работы получают шанс стать настоящими героями.",                  img:"https://kinogo.media/uploads/posts/2021-09/1632938080_iphone360_462466.jpg",            actors:["Уилл Феррелл","Марк Уолберг","Ева Мендес"]},
-  {title:"Агент Джонни Инглиш",         file:"Johnny_English.html",                    movieKey:"johnny_english_2003",           year:2003, country:"Великобритания",  hot:false, isNew:false, desc:"Самый некомпетентный агент MI7 расследует кражу британских королевских регалий. Роуэн Аткинсон.",     img:"https://upload.wikimedia.org/wikipedia/ru/thumb/4/49/Johnny_English_poster.jpg/250px-Johnny_English_poster.jpg",            actors:["Роуэн Аткинсон","Натали Имбрулья","Бен Миллер"]},
-  {title:"Человек-паук: Нуар",       file:"Spider_Man_Noir.html",            movieKey:"spider_man_noir",            year:2025, country:"США",             hot:true,  isNew:true,  desc:"Питер Паркер в Нью-Йорке 1930-х годов. Детектив в маске борется с гангстерами эпохи Великой депрессии.",  img:"https://static.hdrezka.ac/i/2026/5/27/i055dc6db901dgd21d31c.jpg", actors:["Николас Кейдж"]},
-  {title:"Человек-паук: Новый день",    file:"spider_man.html",                   movieKey:"Spider-Man Brand New Day 2026",  year:2026, country:"США",             hot:true,  isNew:true,  desc:"Питер Паркер начинает жизнь с чистого листа — никто не помнит Человека-паука.",      img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRHittsftUahgGoqi0EKhqmX--rGAOMBBIqdsWyYJ9Z-g&s=10", actors:["Том Холланд","Зендея","Джейкоб Баталон"]},
-  {title:"Большая мамочка",             file:"Big_Mommas_House.html",                  movieKey:"big_mommas_house_2000",         year:2000, country:"США",             hot:false, isNew:false, desc:"Агент ФБР переодевается в огромную пожилую женщину для операции прикрытия. Мартин Лоуренс.",           img:"https://kinogo.media/uploads/posts/2021-10/1634995274_iphone360_4537.jpg",            actors:["Мартин Лоуренс","Нии Лонг","Пол Джиамати"]},
-  {title: "Игра престолов",             file: "game_of_thrones.html",                  movieKey: "Game of Thrones 2011",         year: 2011,  country: "США",        hot: true,    isNew: false, desc: "Семь благородных Домов сражаются за контроль над землями Вестероса, пока на севере пробуждается древнее зло.", img: "https://static.hdrezka.ac/i/2014/10/25/q990a48b94bd9vq63c81v.jpg", actors: ["Эмилия Кларк", "Кит Харингтон", "Питер Динклейдж", "Лена Хиди"]},
+  {title:"Брюс всемогущий",              file:"Bruce_Almighty.html",                   movieKey:"bruce_almighty_2003",           year:2003, country:"США",             hot:false, isNew:false, desc:"Репортёр злится на Бога — и получает все его силы на неделю. Управлять вселенной сложнее, чем кажется.",img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTq_zoDXTXPlXi4M74ADFBCzJkHiy-ca59hDQ&s",            actors:["Джим Керри"]}
 ];
 
-let introPlayed=false;
-function render(list,title="Все фильмы"){
-  const catalog=document.getElementById("catalog");
-  document.getElementById("catalogTitle").innerText=title;
-  document.getElementById("catalogCount").innerText=list.length+" фильмов";
-  catalog.innerHTML="";
-  const playIntro=!introPlayed;
-  const order=list.map((m,i)=>i);
-  if(playIntro){
-    // random order so posters look like they're raining down in no particular sequence
-    for(let i=order.length-1;i>0;i--){
-      const j=Math.floor(Math.random()*(i+1));
-      [order[i],order[j]]=[order[j],order[i]];
-    }
-  }
-  list.forEach((m,i)=>{
-    const ri=movies.indexOf(m);
-    const adminBtns=isAdmin?`
-      <div class="admin-card-btns" style="display:flex">
-        <button class="btn-del"  onclick="deleteFilm(${ri},event)">✕ Удалить</button>
-        <button class="btn-fire" onclick="toggleFire(${ri},event)">${m.hot?"Снять 🔥":"🔥"}</button>
-        <button class="btn-new"  onclick="toggleNew(${ri},event)">${m.isNew?"Снять 🆕":"🆕"}</button>
-      </div>`:"";
-    const card=document.createElement("div");
-    if(playIntro){
-      card.className="movie-card falling-in";
-      const fallRank=order.indexOf(i);
-      card.style.setProperty("--fx",(Math.random()*80-40)+"px");
-      card.style.setProperty("--fr",(Math.random()*36-18)+"deg");
-      card.style.animationDuration=(0.8+Math.random()*0.7)+"s";
-      card.style.animationDelay=(fallRank*0.035+Math.random()*0.15)+"s";
-    }else{
-      card.className="movie-card card-fade-in";
-      card.style.animationDelay=(i*0.04)+"s";
-    }
-    const safeTitle=escapeHtml(m.title);
-    const safeCountry=escapeHtml(m.country);
-    card.innerHTML=`
-      <div class="badge-wrap">
-        ${m.hot ?`<span class="badge-fire">🔥 Хит</span>`:""}
-        ${m.isNew?`<span class="badge-new">🆕 Новинка</span>`:""}
-      </div>
-      ${adminBtns}
-      <a href="${m.file}" style="text-decoration:none;color:inherit">
-        <div class="movie-card-inner">
-          <img src="${m.img}" alt="${safeTitle}" loading="lazy">
-          <div class="card-overlay">
-            <div class="card-overlay-title">${safeTitle}</div>
-            <div class="card-overlay-meta">${safeCountry} · ${m.year}</div>
-          </div>
+/* === РЕНДЕР И ФУНКЦИОНАЛ КАТАЛОГА === */
+function render(list) {
+  const container = document.getElementById("catalog");
+  document.getElementById("catalogCount").innerText = list.length + " фильмов";
+  
+  container.innerHTML = list.map(m => `
+    <div class="movie-card" onclick="window.location.href='${escapeHtml(m.file)}'">
+      <div class="movie-card-inner">
+        <img src="${escapeHtml(m.img)}" alt="${escapeHtml(m.title)}">
+        <div class="badge-wrap">
+          ${m.hot ? '<span class="badge-fire">🔥 TOP</span>' : ''}
+          ${m.isNew ? '<span class="badge-new">NEW</span>' : ''}
         </div>
-        <div class="card-title">${safeTitle}</div>
-        <div class="card-year">${m.year}</div>
-      </a>`;
-    catalog.appendChild(card);
-  });
-  if(playIntro) introPlayed=true;
+        <div class="card-overlay">
+          <div class="card-overlay-title">${escapeHtml(m.title)}</div>
+          <div class="card-overlay-meta">${escapeHtml(m.country)}, ${m.year}</div>
+        </div>
+      </div>
+      <div class="card-title">${escapeHtml(m.title)}</div>
+      <div class="card-year">${m.year}</div>
+    </div>
+  `).join('');
 }
 
-function deleteFilm(idx,e){e.preventDefault();if(!confirm(`Удалить "${movies[idx].title}"?`))return;movies.splice(idx,1);render(movies);}
-function toggleFire(idx,e){e.preventDefault();movies[idx].hot=!movies[idx].hot;render(movies);}
-function toggleNew(idx,e){e.preventDefault();movies[idx].isNew=!movies[idx].isNew;render(movies);}
-function addFilm(){
-  const t=document.getElementById("af-title").value.trim();
-  const f=document.getElementById("af-file").value.trim();
-  if(!t||!f){alert("Заполни название и файл!");return;}
-  movies.unshift({
-    title:t,file:f,
-    movieKey:document.getElementById("af-moviekey").value.trim()||t,
-    year:parseInt(document.getElementById("af-year").value)||0,
-    country:document.getElementById("af-country").value.trim(),
-    img:document.getElementById("af-img").value.trim(),
-    desc:document.getElementById("af-desc").value.trim(),
-    hot:document.getElementById("af-hot").value==="1",
-    isNew:document.getElementById("af-new").value==="1"
+function renderYears() {
+  const yearsObj = {};
+  movies.forEach(m => { yearsObj[m.year] = (yearsObj[m.year] || 0) + 1; });
+  const sorted = Object.keys(yearsObj).sort((a,b) => b - a);
+  document.getElementById("years").innerHTML = sorted.map(y => 
+    `<a href="#" onclick="filterYear(${y}); return false">${y} (${yearsObj[y]})</a>`
+  ).join('');
+}
+
+function renderActors() {
+  const actorsObj = {};
+  movies.forEach(m => {
+    if(m.actors) m.actors.forEach(a => { actorsObj[a] = (actorsObj[a] || 0) + 1; });
   });
+  const sorted = Object.keys(actorsObj).sort();
+  document.getElementById("actorsList").innerHTML = sorted.map(a => 
+    `<a href="#" onclick="filterActor('${escapeHtml(a)}'); return false">${escapeHtml(a)}</a>`
+  ).join('');
+}
+
+function showAll() {
+  document.getElementById("catalogTitle").innerText = "Все фильмы";
   render(movies);
-  ["af-title","af-file","af-moviekey","af-year","af-country","af-img","af-desc"].forEach(id=>document.getElementById(id).value="");
-  document.getElementById("af-hot").value="0";
-  document.getElementById("af-new").value="0";
-  const msg=document.getElementById("addSuccessMsg");
-  msg.style.display="block";
-  setTimeout(()=>msg.style.display="none",3000);
 }
 
-async function loadStats(){
-  const body=document.getElementById("statsBody");
-  body.innerHTML=`<tr><td colspan="6" style="color:var(--gold-dim);text-align:center;padding:20px;font-style:italic">Загрузка...</td></tr>`;
-  const viewsData=await Promise.all(movies.map(async m=>{
-    try{const snap=await db.collection("movies").doc(m.movieKey).collection("stats").doc("views").get();return{...m,views:snap.exists?(snap.data().count||0):0};}
-    catch(e){return{...m,views:0};}
-  }));
-  const sorted=viewsData.sort((a,b)=>b.views-a.views);
-  const max=Math.max(1,...sorted.map(m=>m.views));
-  body.innerHTML=sorted.map((m,i)=>`
-    <tr>
-      <td class="stats-rank">${i+1}</td>
-      <td><a href="${m.file}" style="color:var(--gold);text-decoration:none">${escapeHtml(m.title)}</a>
-      <div class="stats-bar"><div class="stats-bar-fill" style="width:${Math.round(m.views/max*100)}%"></div></div></td>
-      <td>${m.year}</td><td>${escapeHtml(m.country)}</td>
-      <td style="color:var(--gold)">👁 ${m.views}</td>
-      <td>${m.hot?"🔥":""} ${m.isNew?"🆕":""}</td>
-    </tr>`).join("");
+function showNewFilms() {
+  document.getElementById("catalogTitle").innerText = "Новинки";
+  render(movies.filter(m => m.isNew));
 }
 
-function filterYear(y){render(movies.filter(m=>m.year==y),y+" год");}
-function filterCountry(c){render(movies.filter(m=>m.country==c),c);}
-function showAll(){render(movies);}
-function showNewFilms(){render(movies.filter(m=>m.isNew),"Новинки");}
-
-function showCollections(){
-  document.getElementById("catalogTitle").innerText="Подборки";
-  document.getElementById("catalogCount").innerText="";
-  document.getElementById("catalog").innerHTML=`
-    <div style="grid-column:1/-1">
-      <div class="collections-grid">
-        <div class="collection-card" onclick="showCowboys()">
-          <img src="https://1rus.ru/content/d3/2e/d32e9c78d4734317b3d1aa6682d7_854x480.webp">
-          <div class="collection-label"><h3>🤠 Ковбои и вестерны</h3></div>
-        </div>
-        <div class="collection-card" onclick="render(movies.filter(m=>m.country==='США'&&m.year<1990),'Классика США')">
-          <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQBXlhXamFnFAPgPXJCtYt8FjX0-YS_CdSsAQ&s">
-          <div class="collection-label"><h3>🎞 Классика США</h3></div>
-        </div>
-        <div class="collection-card" onclick="render(movies.filter(m=>m.hot),'Хиты')">
-          <img src="https://i.redd.it/unolqsq59xue1.jpeg">
-          <div class="collection-label"><h3>🔥 Хиты сайта</h3></div>
-        </div>
-        <div class="collection-card" onclick="showZombies()">
-          <img src="https://play-lh.googleusercontent.com/proxy/bisU6N6J4pAlCvsCy0fJwPYmjCBRVldgmjftK9KZ2D2sh_Zq6o4uNv5gQKbSBKf6MsrqhLb4uDr3a2a4w-NoIB-pMFQsLd86D2wlw9-xZUt0BdY9ecsgzpC0yA=s1920-w1920-h1080">
-          <div class="collection-label"><h3>🧟 Зомби апокалипсис</h3></div>
-        </div>
-        <div class="collection-card" onclick="showAction()">
-          <img src="https://www.film.ru/sites/default/files/styles/thumb_1024x450/public/filefield_paths/stallone-rambo-1-3.jpg">
-          <div class="collection-label"><h3>💥 Боевики</h3></div>
-        </div>
-        <div class="collection-card" onclick="showComedy()">
-          <img src="https://www.film.ru/sites/default/files/styles/thumb_1024x450/public/trailers_frame/s7dcallzevsrvivmuvaumwaxfmn.jpg">
-          <div class="collection-label"><h3>😂 Комедии</h3></div>
-        </div>
-        <div class="collection-card" onclick="showCrime()">
-          <img src="https://static.kion.ru/content/mts/movie/70008788/posters/HORIZONTAL_8934796daed69d1c7d2cc2851d06faaf.webp?x=1200&y=10&ar=keep">
-          <div class="collection-label"><h3>🕵️ Криминал и триллеры</h3></div>
-        </div>
-        <div class="collection-card" onclick="showSuperheroes()">
-          <img src="https://i.ytimg.com/vi/I_NVnxCDF90/maxresdefault.jpg">
-          <div class="collection-label"><h3>🦸 Супергерои</h3></div>
-        </div>
-        <div class="collection-card" onclick="showAdventure()">
-          <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRqFrNzW4BbE3kO-Hes305y7N1q2CXfZ0Zifg&s">
-          <div class="collection-label"><h3>⚔️ Приключения и эпос</h3></div>
-        </div>
-        <div class="collection-card" onclick="showBromance()">
-          <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQiafqPZv3N0P4JT_IoQrzoCPwpkm-Ogn0g2A&s">
-          <div class="collection-label"><h3>👬 Дружба и бромансы</h3></div>
-        </div>
-        <div class="collection-card" onclick="showSurvival()">
-          <img src="https://preview.redd.it/the-maze-runner-kept-me-on-edge-v0-idi93xtfl7uf1.jpeg?width=640&crop=smart&auto=webp&s=273ae257ac741f9ed39d90784d4d117024006eea">
-          <div class="collection-label"><h3>🌲 Выживание</h3></div>
-        </div>
-        <div class="collection-card" onclick="showNewFilms()">
-          <img src="https://img.ixbt.site/live/topics/preview/00/09/98/22/e22992cfe9.jpg">
-          <div class="collection-label"><h3>🆕 Новинки</h3></div>
-        </div>
-      </div>
-    </div>`;
-}
-function showCowboys(){render(movies.filter(m=>["good-bad-ugly.html","per_un_pugno_di_dollari.html","for-a-few-dollars-more.html"].includes(m.file)),"Ковбои и вестерны");}
-function showZombies(){render(movies.filter(m=>["Zombieland.html","Busanhaeng.html","Scouts_Guide_to_the_Zombie_Apocalypse.html"].includes(m.file)),"🧟 Зомби апокалипсис");}
-function showAction(){render(movies.filter(m=>["Rambo.html","Gladiator.html","The_Equalizer.html","Bad_boys.html","Escape_Plan.html","Troy.html","Rocky.html","Blood_Diamond.html","The_Revenant.html","Elysium.html","Chappie.html","Blade.html","Captain_america.html"].includes(m.file)),"💥 Боевики");}
-function showComedy(){render(movies.filter(m=>["Dumb_and_dumber.html","Ace_Ventura.html","American_Pie.html","Bruce_Almighty.html","Yes_Man.html","Ted.html","Superbad.html","The_Hangover.html","Police_academy.html","Scary_movie.html","Major_payne.html","White_Chicks.html","Little_Man.html","Johnny_English.html","Vive_la_France.html","Due_Date.html","Movie_43.html","Paul.html","Tropic_Thunder.html","Identity_Thief.html","Vacation.html","50_First_Dates.html","Blended.html","Just_Go_With_It.html","Thats_My_Boy.html","Lets_Be_Cops.html","Million_Ways.html","Big_Stan.html","Big_Mommas_House.html","Me_myself_irene_2.html","Harold_&_Kumar_Go_to_White_Castle.html","Dude_wheres_my_car.html","17_Again.html","Night_at_the_Museum.html","Other_Guys.html"].includes(m.file)),"😂 Комедии");}
-function showCrime(){render(movies.filter(m=>["Pulp_fiction.html","No_Country_for_Old_Men.html","Django.html","Seven.html","fight_club.html","taxi_driver_1976.html","Gentlemen.html","Green_Street_hooligans.html","Ned_Kelly.html","Hitmans_Bodyguard.html"].includes(m.file)),"🕵️ Криминал и триллеры");}
-function showSuperheroes(){render(movies.filter(m=>["Spider_Man_Noir.html","Suicide_squad.html","Kick_Ass.html","Blade.html","Captain_america.html","Hancock.html"].includes(m.file)),"🦸 Супергерои");}
-function showAdventure(){render(movies.filter(m=>["Troy.html","Gladiator.html","Hobbit.html","Matrix.html","Star_trek.html","Solo_star_wars.html","Hunger_games.html","Maze_Runner.html","Divergent.html","Karate_kid.html"].includes(m.file)),"⚔️ Приключения и эпос");}
-function showBromance(){render(movies.filter(m=>["Bad_boys.html","Hot_Fuzz.html","Hitmans_Bodyguard.html","Paul.html","Due_Date.html","Lets_Be_Cops.html","This_is_the_End.html","Spies.html","Harold_&_Kumar_Go_to_White_Castle.html"].includes(m.file)),"👬 Дружба и бромансы");}
-function showSurvival(){render(movies.filter(m=>["The_Revenant.html","Blood_Diamond.html","Elysium.html","Maze_Runner.html","Hunger_games.html","2012.html","All_Quiet_on_the_Western_Front.html"].includes(m.file)),"🌲 Выживание");}
-
-function levenshtein(a,b){
-  const m=[];
-  for(let i=0;i<=b.length;i++) m[i]=[i];
-  for(let j=0;j<=a.length;j++) m[0][j]=j;
-  for(let i=1;i<=b.length;i++)
-    for(let j=1;j<=a.length;j++)
-      m[i][j]=b[i-1]===a[j-1]?m[i-1][j-1]:Math.min(m[i-1][j-1]+1,m[i][j-1]+1,m[i-1][j]+1);
-  return m[b.length][a.length];
-}
-function searchMovie(){
-  const val=document.getElementById("searchInput").value.toLowerCase();
-  if(!val){render(movies);return;}
-  let res=movies.filter(m=>m.title.toLowerCase().includes(val));
-  if(!res.length)res=movies.filter(m=>m.title.split(" ").some(w=>levenshtein(w.toLowerCase(),val)<3));
-  render(res,`Поиск: "${val}"`);
+function showCollections() {
+  document.getElementById("catalogTitle").innerText = "Популярные";
+  render(movies.filter(m => m.hot));
 }
 
-const yc=document.getElementById("years");
-for(let y=2026;y>=1964;y--) yc.innerHTML+=`<a href="#" onclick="filterYear(${y}); return false">${y}</a>`;
+function filterYear(y) {
+  document.getElementById("catalogTitle").innerText = "Фильмы " + y + " года";
+  render(movies.filter(m => m.year === y));
+}
 
+function filterCountry(c) {
+  document.getElementById("catalogTitle").innerText = "Страна: " + c;
+  render(movies.filter(m => m.country && m.country.includes(c)));
+}
 
-function filterActor(a){render(movies.filter(m=>m.actors&&m.actors.includes(a)),a);}
+function filterActor(a) {
+  document.getElementById("catalogTitle").innerText = "Актёр: " + a;
+  render(movies.filter(m => m.actors && m.actors.includes(a)));
+}
 
-// Build actors list
-let allActors = {};
-(function(){
-  movies.forEach(m=>{ if(m.actors) m.actors.forEach(a=>{ allActors[a]=(allActors[a]||0)+1; }); });
-  renderActorsList('');
-})();
+function searchMovie() {
+  const val = document.getElementById("searchInput").value.toLowerCase().trim();
+  document.getElementById("catalogTitle").innerText = "Результаты поиска";
+  render(movies.filter(m => m.title.toLowerCase().includes(val) || (m.desc && m.desc.toLowerCase().includes(val))));
+}
 
-function renderActorsList(query){
-  const el=document.getElementById("actorsList");
-  const q=query.toLowerCase().trim();
-  const sorted=Object.keys(allActors).sort((a,b)=>a.localeCompare(b,'ru'));
-  const filtered = q
-    ? sorted.filter(a => a.toLowerCase().includes(q) || levenshtein(a.toLowerCase().split(' ').find(w=>w.startsWith(q[0]))||'', q) < 3)
-    : sorted;
-  if(filtered.length===0){
-    el.innerHTML=`<span style="color:var(--gold-dim);font-size:0.83rem;font-style:italic;padding:4px 0;display:block">Не найдено</span>`;
-    return;
-  }
-  el.innerHTML='';
-  filtered.forEach(a=>{
-    el.innerHTML+=`<a href="#" onclick="filterActor('${a.replace(/'/g,"\\'")}'); return false">${a} <span style="color:var(--gold-dim);font-size:0.78rem">(${allActors[a]})</span></a>`;
+function filterActorsList() {
+  const val = document.getElementById("actorSearch").value.toLowerCase().trim();
+  const links = document.querySelectorAll("#actorsList a");
+  links.forEach(l => {
+    l.style.display = l.innerText.toLowerCase().includes(val) ? "block" : "none";
   });
 }
-
-function filterActorsList(){
-  const val=document.getElementById("actorSearch").value;
-  renderActorsList(val);
-}
-render(movies);
 
 function showRandomMovie() {
-  const m = movies[Math.floor(Math.random() * movies.length)];
-  document.getElementById('randomTitle').textContent = m.title;
-  document.getElementById('randomMeta').textContent = m.country + ' · ' + m.year;
-  document.getElementById('randomDesc').textContent = m.desc || '';
-  document.getElementById('randomImg').src = m.img;
-  document.getElementById('randomImg').alt = m.title;
-  document.getElementById('randomLink').href = m.file;
-  document.getElementById('randomModal').classList.add('open');
+  const rand = movies[Math.floor(Math.random() * movies.length)];
+  document.getElementById("randomImg").src = rand.img;
+  document.getElementById("randomTitle").innerText = rand.title;
+  document.getElementById("randomMeta").innerText = rand.country + ", " + rand.year;
+  document.getElementById("randomDesc").innerText = rand.desc;
+  document.getElementById("randomLink").href = rand.file;
+  document.getElementById("randomModal").classList.add("open");
 }
+
+function closeAdminLogin() {
+  document.getElementById("adminLoginModal").classList.remove("open");
+}
+
+function switchAdminTab(tab, btn) {
+  document.querySelectorAll(".admin-tab").forEach(b => b.classList.remove("active"));
+  document.querySelectorAll(".admin-section").forEach(s => s.classList.remove("active"));
+  btn.classList.add("active");
+  document.getElementById("adminTab-" + tab).classList.add("active");
+}
+
+/* ИНИЦИАЛИЗАЦИЯ И СПЕЦИАЛЬНЫЕ АНИМАЦИИ ПРИ ЗАГРУЗКЕ */
+window.addEventListener("load", () => {
+  const saved = localStorage.getItem("adminNick");
+  if(saved && ADMIN_NICKS.includes(saved)){
+    isAdmin = true;
+    document.getElementById("adminPanel").style.display = "block";
+  }
+
+  // 1. Создание элементов для побуквенной анимации Fish Cinema
+  const titleEl = document.getElementById("animatedTitle");
+  const text = "Fish Cinema";
+  titleEl.innerHTML = text.split('').map((ch, idx) => {
+    if(ch === ' ') return `<span class="char space" style="--char-index:${idx}">&nbsp;</span>`;
+    return `<span class="char" style="--char-index:${idx}">${ch}</span>`;
+  }).join('');
+
+  // 2. Генерация анимации падающих постеров при входе
+  const introContainer = document.getElementById("intro-overlay");
+  const numPosters = 18;
+  const shuffledMovies = [...movies].sort(() => 0.5 - Math.random());
+  
+  for(let i = 0; i < numPosters; i++) {
+    const m = shuffledMovies[i % shuffledMovies.length];
+    const img = document.createElement("img");
+    img.className = "falling-poster";
+    img.src = m.img;
+    img.style.left = Math.floor(Math.random() * 85 + 5) + "%";
+    img.style.setProperty("--rot", Math.floor(Math.random() * 40 - 20));
+    img.style.animationDelay = (Math.random() * 1.5) + "s";
+    introContainer.appendChild(img);
+  }
+
+  // Плавное убирание оверлея после завершения падения
+  setTimeout(() => {
+    introContainer.classList.add("fade-out");
+  }, 2600);
+
+  // Отрисовка каталога
+  renderYears();
+  renderActors();
+  render(movies);
+});
 </script>
 </body>
 </html>
