@@ -418,6 +418,14 @@ body {
 ::-webkit-scrollbar { width:5px; }
 ::-webkit-scrollbar-track { background:var(--bg); }
 ::-webkit-scrollbar-thumb { background:var(--gold-dim); border-radius:3px; }
+
+/* Убираем стандартное синее выделение текста/картинок и синюю рамку фокуса */
+::selection { background: rgba(201,168,76,0.35); color: var(--gold-light); text-shadow:none; }
+::-moz-selection { background: rgba(201,168,76,0.35); color: var(--gold-light); text-shadow:none; }
+img { -webkit-user-drag: none; -khtml-user-drag: none; -moz-user-drag: none; user-drag: none; -webkit-touch-callout: none; user-select: none; -webkit-user-select: none; -moz-user-select: none; }
+*:focus { outline: none; }
+a, button, input, textarea, select { -webkit-tap-highlight-color: transparent; }
+
 @media(max-width:680px){
   .sidebar{display:none;}
   .catalog{padding:18px;}
